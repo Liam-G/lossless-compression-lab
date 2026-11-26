@@ -1,6 +1,6 @@
 # All large-file measurements
 
-624 verified archives across 49 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
+626 verified archives across 49 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
 
 The charged total includes the raw reference when the decoder requires it. Shared codec software is excluded. The [machine-readable receipts](archives.jsonl) include full input and archive hashes, selected parameters, and peak KiB where collected.
 
@@ -349,6 +349,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 | modular-adaptive-joint | 1,910,515 | 1,910,515 | 0.62940 | 19.069 | 1.406 |
 | modular-direct | 1,910,515 | 1,910,515 | 0.62940 | 2.230 | 1.923 |
 | modular-orbit | 1,910,515 | 1,910,515 | 0.62940 | 18.372 | 2.139 |
+| modular-valuation-joint | 1,910,515 | 1,910,515 | 0.62940 | 8.934 | 0.400 |
 | png1 | 1,996,848 | 1,996,848 | 0.65784 | 10.313 | 4.838 |
 | pilot16-intervals-regions | 2,157,752 | 2,157,752 | 0.71085 | 913.789 | 1.369 |
 | pilot16-single | 2,157,752 | 2,157,752 | 0.71085 | 4.051 | 0.881 |
@@ -583,6 +584,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 | modular-factor | 14,949,292 | 14,949,292 | 4.65407 | 6.033 | 1.608 |
 | modular-joint | 14,949,292 | 14,949,292 | 4.65407 | 20.881 | 0.998 |
 | modular-orbit | 14,949,292 | 14,949,292 | 4.65407 | 16.787 | 1.018 |
+| modular-valuation-joint | 14,949,292 | 14,949,292 | 4.65407 | 11.687 | 0.531 |
 | carry-split | 15,117,918 | 15,117,918 | 4.70656 | 5.278 | 0.415 |
 | zstd3 | 15,163,683 | 15,163,683 | 4.72081 | 0.185 | 0.032 |
 | carry-direct | 15,175,129 | 15,175,129 | 4.72437 | 0.955 | 0.465 |

@@ -35,7 +35,7 @@ On the first seed, factors alone used 25,166,796 bytes and orbit reversal alone 
 
 Removing the planted odd top-left condition exposed a failure in the fixed normalization. The joint codec grew to 20,947,779 bytes. Choosing an odd pivot separately for each panel reduced it to **5,813,021 bytes** on the identical 25,165,824 bytes. The adaptive factor model alone used 25,166,796 bytes and orbit reversal alone used 24,347,838. On the Graphviz library raster and the original whiteboard cost tables, all the tested adaptive profiles tied their direct coding controls.
 
-On the all-even control, orbit reversal alone and the adaptive odd-pivot joint encoder each used 17,965,503 bytes. Valuation-aware fitting alone used 18,871,144. Combining valuation-aware fitting and orbit reversal reduced the archive to **5,067,269 bytes**.
+On the all-even control, orbit reversal alone and the adaptive odd-pivot joint encoder each used 17,965,503 bytes. Valuation-aware fitting alone used 18,871,144. Combining valuation-aware fitting and orbit reversal reduced the archive to **5,067,269 bytes**. The same valuation-aware joint profile matched direct coding exactly on the real numerical stream (14,949,292 bytes) and the Graphviz library raster (1,910,515 bytes).
 
 ## Large-file benchmark
 

@@ -484,6 +484,7 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | [manual-library](by-dataset.md#manual-library) | modular-adaptive-joint | 1,910,515 | 1,910,515 |
 | [manual-library](by-dataset.md#manual-library) | modular-direct | 1,910,515 | 1,910,515 |
 | [manual-library](by-dataset.md#manual-library) | modular-orbit | 1,910,515 | 1,910,515 |
+| [manual-library](by-dataset.md#manual-library) | modular-valuation-joint | 1,910,515 | 1,910,515 |
 | [modular-even](by-dataset.md#modular-even) | modular-adaptive-joint | 17,965,503 | 17,965,503 |
 | [modular-even](by-dataset.md#modular-even) | modular-direct | 18,871,144 | 18,871,144 |
 | [modular-even](by-dataset.md#modular-even) | modular-orbit | 17,965,503 | 17,965,503 |
@@ -506,6 +507,7 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | [numerical](by-dataset.md#numerical) | modular-factor | 14,949,292 | 14,949,292 |
 | [numerical](by-dataset.md#numerical) | modular-joint | 14,949,292 | 14,949,292 |
 | [numerical](by-dataset.md#numerical) | modular-orbit | 14,949,292 | 14,949,292 |
+| [numerical](by-dataset.md#numerical) | modular-valuation-joint | 14,949,292 | 14,949,292 |
 | [uniform](by-dataset.md#uniform) | modular-direct | 25,166,796 | 25,166,796 |
 | [uniform](by-dataset.md#uniform) | modular-joint | 25,166,796 | 25,166,796 |
 | [whiteboard-costs](by-dataset.md#whiteboard-costs) | modular-adaptive | 3,192,497 | 3,192,497 |
