@@ -1,5 +1,8 @@
 # Measurement protocol
 
+Primary benchmark results are in the [large-file suite](research/large-scale/README.md). Every primary row verifies at least 20 MiB of complete raw input. The smaller cases below serve as diagnostic fixtures, compatibility vectors and mechanism tests.
+
+
 ## Archive costs
 
 Experiment 01 reads and writes RPS1. Experiments 02–16 use LCX1. Its fixed prefix contains four magic bytes followed by one byte each for experiment ID and profile index. An unsigned LEB128 field gives the original size, followed by a four-byte big-endian metadata length, the metadata stream and the body. Each experiment defines its records and inverse. Headers, selectors, dictionary definitions, references and literal padding all count toward the measured archive size.
@@ -22,4 +25,4 @@ Archive bytes assume that both parties have the codec. Bundle bytes measure a st
 
 ## Reproduction
 
-From the root, run `python3 suite.py test` to exercise all sixteen codecs, or `python3 suite.py benchmark runs/reproduction` to regenerate their measurements in a fresh directory. Each joint study has its own command. Checked-in benchmark tables remain alongside the relevant implementation, with the exact reference environment and raw trial details. CPU-budgeted searches can vary with machine speed. Any selected archive must still reconstruct its input exactly.
+From the root, run `python3 suite.py test` to exercise all sixteen codecs, or `python3 suite.py benchmark runs/reproduction --group experiments` to replay a primary trial and same-input Zstandard baseline for each numbered codec. Add `--all-profiles` to repeat all published profiles in that group. Use `python3 suite.py diagnostics runs/diagnostics` for the original small control tables. Each joint study has its own command. Checked-in benchmark tables remain alongside the relevant implementation, with the exact reference environment and raw trial details. CPU-budgeted searches can vary with machine speed. Any selected archive must still reconstruct its input exactly.

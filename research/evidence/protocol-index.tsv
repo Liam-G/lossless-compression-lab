@@ -1,0 +1,584 @@
+workspace_directory	recorded_source_or_measurement_files
+lab/alphabet	common.py, make_results.py, meas.py, p1_width.py, p234.py, selftest.py, tf.py
+lab/alphabet/raw	compress_log.jsonl, p1_rows.jsonl, p2_rows.jsonl, p4_rows.jsonl
+lab/arena	archive_repack.py, arena.py, blockgen.cpp, bwtlab.cpp, cm2lab.cpp, cm3-colab-cadenza.ipynb, cm3-colab-fractal-folder.ipynb, cm3-colab-gpu.ipynb, cm3-colab-max.ipynb, cm3-colab-parallelo.ipynb, cm3-colab-patterns.ipynb, cm3-colab-predittori.ipynb, cm3-colab.ipynb, cm3.cpp, cm3_parallel.py, cm3_v1.cpp, cmlab.cpp, coincidence_bench.py, coincidence_bwt.py, coincidence_cuda.cu, coincidence_scan.cu, coincidence_scan.py, digits.py, fractal_archive.py, gen.cpp, hunt.cpp, lstm_bench.cpp, lstm_bench2.cpp, pattern_archive.py, repeats.cpp, s1_cheap.jsonl, tune.py, view.cpp
+lab/arena/work/colab-max-20261125	coincidence-results.json
+lab/arena/work/colab-max-20261125/award	fx2-bwt-local.jsonl, fx2-direct-local.json, whole-bwt-local.json
+lab/baselines/work/p2	mfloor.py, r.json
+lab/ceilings	build_results.py, corpus_check.json, make_tables.py, pagetext.py, refetch_check.json, refetch_check.py, results.json, verify_corpus.py
+lab/controls	make_results.py, part1_runs.jsonl, part1_search.py, part1_selection_dickens_xz.json, part1_stats_dickens_xz.json, part2_perm.py, part3_driver.py, part3_runs.jsonl
+lab/controls/work	calib.py
+lab/controls/work/prev_session	part3_runs.jsonl
+lab/gprobe	gbuild.cpp, grammar_lab.cpp
+lab/hutter/automa-8x8-passo-byte	esperimento.py, scacchiera.cpp, verifica.py
+lab/hutter/automa-8x8-passo-byte/orbite	misure.jsonl, orbite.cpp, prova.py, selettivo.py
+lab/hutter/automa-8x8-passo-byte/risultati	dimensioni.json, entropia.json
+lab/hutter/catalogo-formule	controlli.json, controlli.py, distanze.py, esperimento.py, formule.py, globale.json, globale.py, migliore.json, scan.cpp
+lab/hutter/divisors	esempio_q.py, factor_archive.cpp, log_sqrt_q.py, prime_probe.cpp, qpack.py, split_factor.py
+lab/hutter/divisors/calcolatore	server.py
+lab/hutter/divisors/calcolatore/sessione	stato.json
+lab/hutter/divisors/neif-2-condiviso	avvio.json, confronto.json, diadiche.py, esporta_alberi.py, esporta_formula.py, frazioni.py, indice-txt.json, testo_integrale.py, verifica-avvio.py, verifica-txt.json, verifica_txt.py
+lab/hutter/divisors/neif-2-condiviso/esperimenti/alberi/archive9	livelli-16.tsv, livelli-2.tsv, livelli-8.tsv
+lab/hutter/divisors/neif-2-condiviso/esperimenti/alberi/payload	livelli-16.tsv, livelli-2.tsv, livelli-8.tsv
+lab/hutter/divisors/neif-2-condiviso/esperimenti/frazioni/archive9	cf.json
+lab/hutter/divisors/neif-2-condiviso/esperimenti/frazioni/payload	cf.json
+lab/hutter/divisors/neif-2-condiviso/esperimenti/generatore55/archive9	55.json
+lab/hutter/divisors/neif-2-condiviso/esperimenti/generatore55/payload	55.json
+lab/hutter/divisors/neif-2-condiviso/esperimenti/lavagna/archive9	lavagna.json
+lab/hutter/divisors/neif-2-condiviso/esperimenti/lavagna/payload	lavagna.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi	formula.py, piccoli.cpp
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/alberi/16	risultati.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/alberi/2	risultati.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/alberi/8	risultati.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/analisi-codec	baseline.json, baseline.py, catalogo.cpp, codec.py, colonne.py, foglie.cpp, gen55.cpp, misure.json, nqr.py, prova-bordi-automi.py, schema_cf.py, sottoalberi.cpp, verifica-elf.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/analisi-codec/misure-finali	alberi-16.json, alberi-2.json, alberi-8.json, fattori-adattivi-completa.json, frazione-schema.json, frazioni-cf.json, frazioni-diadiche.json, generatore55-residuo.json, lavagna-semi.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/analisi-codec/risultati	alberi-16.json, alberi-2.json, alberi-8.json, fattori-adattivi-completa.json, frazioni-cf.json, frazioni-diadiche.json, generatore55-residuo.json, lavagna-semi.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura	basi.json, basi.py, binari.py, bordi.py, cofattori.py, collezione.json, collezione.py, comp9.json, compagno.py, contesti.py, elf64.json, elf64.py, fattori-implicita.json, frazione-implicita.json, implicita.py, individuali.py, misure.json, nodi.py, pesi.json, pesi.py, predittori.py, quartica.json, quartica.py, radix240.cpp, rapporto.py, regions.py, ricette.py, scale.json, scale.py, standard.json, standard.py
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/binari	ELF-55.json, ELF-albero-16.json, ELF-albero-2.json, ELF-albero-8.json, ELF-cf.json, ELF-diadiche.json, ELF-lavagna.json, payload-55.json, payload-albero-16.json, payload-albero-2.json, payload-albero-8.json, payload-cf.json, payload-diadiche.json, payload-lavagna.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/contesti	alberi-16.json, alberi-2.json, alberi-8.json, fattori-adattivi-completa.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/controllo-q	formula.json, standard.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/gerarchico-gf2	benchmark.py, gerarchico.py, misure.json, orbita.cpp
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/individuali	alberi-16.json, alberi-2.json, alberi-8.json, fattori-adattivi-completa.json, frazione-schema.json, frazioni-diadiche.json, generatore55-residuo.json, lavagna-semi.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/margolus	blocchi.py, misure.json, prova.py
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/verifiche	archive9-alberi.json, archive9-fattori-adattivi.json, archive9-frazioni.json, archive9-generatore55.json, archive9-lavagna.json, archive9-quartiche.json, payload-alberi.json, payload-frazioni.json, payload-generatore55.json, payload-lavagna.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/fattori-adattivi	cerca.py
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/fattori-adattivi/completa	risultati.json, verifica-j16.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/frazioni/cf	risultati.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/frazioni/diadiche	risultati.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/generatore55/residuo	risultati.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/lavagna/semi	risultati.json
+lab/hutter/divisors/neif-2-condiviso/ricorsivi/lavagna-quartiche	quartiche.py, risultati.json
+lab/hutter/divisors/neif-2-condiviso/storico	confronto.json, generatore-originario.py, indice-txt.json, lavagna.json, livelli-16.tsv, livelli-2.tsv, livelli-8.tsv, verifica-txt.json
+lab/hutter/divisors/neif-2-condiviso/storico/divisione-3072	confronto.json
+lab/hutter/divisors/neif-2-condiviso/storico/divisione-3072/archive9	div.json, verifica-div.json
+lab/hutter/divisors/neif-2-condiviso/storico/divisione-3072/payload	div.json
+lab/hutter/divisors/neif-2-condiviso/storico/frazioni-payload	55.json, cf.json, div.json
+lab/hutter/divisors/neif-2-condiviso/storico/intero	55.json, cf.json, div.json, lavagna.json, livelli-16.tsv, livelli-2.tsv, livelli-8.tsv
+lab/hutter/divisors/q-blocchi-fattori	blocchi.cpp, blocchi.tsv
+lab/hutter/divisors/q-coda-ricerca	weight_recode.cpp
+lab/hutter/divisors/q-coda-ricerca/correlazioni	bridge_frame.py, bridge_pack.cpp, build.py, misure.json, native_bridge.py
+lab/hutter/divisors/q-coda-ricerca/pesi-condivisi	confronta.py, dump-fx2.cpp, misure.json, np2.json
+lab/hutter/divisors/q-coda-ricerca/qwx7	build.py, misure.json, probe.py, reassemble.py, sonda.json
+lab/hutter/divisors/q-coda-ricerca/qwx8	build.py, misure.json, reassemble.py
+lab/hutter/divisors/q-coda-ricerca/qwx9	misure.json, riordina.cpp, sonda.py
+lab/hutter/divisors/q-correzioni-fattori	crea.py, formula_codec.py, misure.json, ricerca.py, sonda-intermedia.json, testo.py, valutatore.py, verifica_testo.py
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori	encode.py, misure.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0	affine240.py, binary.json, measure.py, misure.json, multi.json, restore.py, sparse.json, sparse.py, sparse_decode.py, summary.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/autoestraente	verifica.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/catena-intera	divisioni.cpp, esatti.tsv, estratto.tsv, leggi.py, prefisso.tsv, soli_esatti.cpp, sorgente.tsv, termine.tsv, verifica.cpp, verifica.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/catena-intera/analisi-encoding	campioni.json, campioni.py, catena.py, confronto-zstd.json, confronto_zstd.py, firmata-lunghezze.tsv, firmata-resti.tsv, firmata-simboli.tsv, firmata-transizioni.tsv, firmata.cpp, frequenze.json, frequenze.py, frequenze.tsv, originale-lunghezze.tsv, originale-resti.tsv, originale-simboli.tsv, originale-transizioni.tsv, predizione.cpp, ricca-128.tsv, ricca-2048.tsv, ricca-512.tsv, ricca-campioni.json, ricca.cpp, traccia.cpp, uniforme-lunghezze.tsv, uniforme-resti.tsv, uniforme-simboli.tsv, uniforme-transizioni.tsv, uniforme.cpp, verifica_uniforme.cpp, verifiche.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/catena-intera/analisi-encoding/pattern	catena_completa.py, completa-verifica.json, correzioni.cpp, dati.json, dati_ricchi.py, figura.py, finestra-a.tsv, finestra-b.tsv, fourier-residui.json, fourier.json, fourier_residui.py, frequenze-ricche.json, frequenze-ricche.tsv, frequenze_ricche.py, quoziente.tsv, residuo.cpp, ricca-encoding.json, ricodifica.py, secondo-stadio.json, secondo_stadio.py, spettro.py, standard-campioni.json, standard-completa.json, standard.py
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/catena-intera/analisi-encoding/pattern/matrici	esempio.json, gruppi.cpp, probabilita.json, probabilita.py, prodotti.json, prodotti.py, ranghi-esponenti.json, ranghi.py, verifica-completa.json, verifica-gruppi.json, verifica_gruppi.py
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/fattori-mdl	cf-control.json, cf.json, congruence.py, control.json, freeze.py, giant-control.json, giant.json, giant.py, global.json, global_search.py, local.json, recipe2.json, recipe2.py, ring.cpp, scan.cpp, tiles.py, verifica.json, verify_launch.py, verify_tiles.py
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/griglie-intere	bitops.cpp, campioni.json, completo.json, esperimento.py, gf2.py, interi.py, ordinario.json, ranghi.tsv, rango-codec.tsv, rango.cpp, sistematico.json, sistematico.py, verifica.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/griglie-intere/automi	automa.py, campioni.json, campioni.py, completo.json, completo.py, controlli.json, evoluzione.cpp, scelte.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/griglie-intere/automi/inverso	archive9.json, blocchi.cpp, passi.cpp, reversibile.py, salti.json, stati.json, wolfram-margolus.json, wolfram.py
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/griglie-intere/automi/regola-condivisa	condivisa.py, controlli.json, risultati.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/griglie-intere/encoding-matrici	baseline-binario.json, baseline-originale.json, baseline-testo.json, compatto-bz2.json, compatto-selettivo.json, compatto-xz.json, compatto-zstd.json, confronto.py, matrici-zstd.json, matrici.py, pieno-bz2.json, pieno-xz.json, prova.py, selettivo.json, selettivo.py, verifica-compatta.json, verifica.json, verifica_compatta.py
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/shared	misure.json, prova-breve.json, startup.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/condiviso	misure.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/ex-girlfriend-v2	affine240.py, binary.json, measure.py, misure.json, multi.json, restore.py, sparse.json, sparse.py, sparse_decode.py, summary.json
+lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/verifica-gara	focal.json, native-exit.json, native.json, verifica-prefisso.py
+lab/hutter/divisors/q-elf-arithmetic	schema_predict.py
+lab/hutter/divisors/q-fattori-ricorsivi	albero.cpp, confronto-offset.tsv, confronto-rami-misti.tsv, confronto-rami-seme.tsv, confronto-rami.tsv, indici.cpp, livelli-rami-16.tsv, livelli-rami-misti.tsv, livelli.tsv, misure-indici.json, nodi.tsv
+lab/hutter/divisors/q-formula-intera	composta.py, formula.py, misure.json, quadrato_modulare.py, semi_brevi.py, valuta_Q.py
+lab/hutter/divisors/q-ibrido	basi-coda.json, contesti-coda.json, contesti-coda.tsv, contesti_coda.cpp, correlazioni-coda.json, correlazioni-coda.tsv, correlazioni_coda.py, ibrido.py, metadati-pesi-xz.json, misure-portatile-v2.json, misure-portatile.json, misure-v2.json, misure-v3.json, misure-v4.json, misure-v5.json, misure-v6.json, misure-v7.json, misure.json, pacchetto_portatile.py, scansione.json, scansione_basi.py
+lab/hutter/divisors/q-portatile-v10	build.py, confronto-rami.json, misure.json, unpack.py
+lab/hutter/divisors/q-portatile-v11	misure.json
+lab/hutter/divisors/q-portatile-v12	compila.py, misure.json, prova-divisione.json
+lab/hutter/divisors/q-portatile-v13	build.py, misure.json
+lab/hutter/divisors/q-portatile-v8	build.py, misure.json, unpack.py
+lab/hutter/divisors/q-portatile-v9	build.py, misure.json, prepare.py
+lab/hutter/divisors/q-prefisso-nrv	contesti.json, descrittori.json, nrv_lanes.py, risultati.json
+lab/hutter/divisors/q-prefisso-ricerca	article_order.py, article_order2.py, article_order3.py, dictionary_rank.py, dictionary_select.py, elf_repack.py, fixed_encoder.py, nrv_history.py, portable_nrv.py, portable_weights.py, risultati-compressore.json, risultati-dizionario-ranghi.json, risultati-dizionario-selezione.json, risultati-opcode.json, risultati-ordine-aor2.json, risultati-ordine-aor3.json, risultati-ordine.json, risultati-portabile-filtrato.json, risultati-portabile.json, risultati-ricetta.json, risultati-tabelle.json, risultati.json
+lab/hutter/divisors/q-prefisso-ricerca/aog1	article_order6.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/aor4	article_order2.py, article_order4.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/aor5	article_order5.py
+lab/hutter/divisors/q-prefisso-ricerca/aor5/ordine-neif	correzioni.cpp, misure.json, ordine.cpp
+lab/hutter/divisors/q-prefisso-ricerca/aor6	article_order6.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/aor7	article_order2.py, article_order6.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/aor7/ordine-ibrido	article_order_hybrid.py, decode.cpp, direct.cpp, misure.json, prepara.py
+lab/hutter/divisors/q-prefisso-ricerca/dcr3	dictionary_neif.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/dcr4	build.py, dictionary_corpus.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/dcr5	build.py, dictionary_corpus.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/dcr6	build.py, dictionary_corpus.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/dcr7	build.py, dictionary_neif.py, misure.json
+lab/hutter/divisors/q-prefisso-ricerca/pnr3	build.py, misure.json, prefix.py
+lab/hutter/divisors/q-prefisso-ricerca/pnr4	build.py, misure.json, prefix.py, prova_velocita.py
+lab/hutter/divisors/q-prefisso-ricerca/pnr5	build.py, misure.json, prefix.py
+lab/hutter/divisors/q-prefisso-ricerca/pnr6	funzioni.json, funzioni.py, sonda.json, sonda.py
+lab/hutter/divisors/q-prefisso-ricerca/pnr7	build.py, capture.py, misure-neif.json, prefix.py
+lab/hutter/divisors/q-prefisso-ricerca/replay-pnr3-qwx6	build.py, misure.json, verify_cached.py, weights.py
+lab/hutter/divisors/q-riferimento-ricerca	corrispondenze.tsv, delta.py, offsets.cpp, risultati.json
+lab/hutter/divisors/q-riproduzione	avvia.py, avvia_ordine.py, confronta_ambienti.py, costo_prefisso.py, crea_pacchetto.py, crea_pacchetto_ordine.py, lettori_pacchetto.py, misure-autonoma.json, misure-compatta.json, misure-corpus-v2.json, misure-corpus.json, misure-ordine.json, preflight_aritmetico.py, preflight_fx2.py, preflight_inverso.py, prova_libm.py, riproduci.py, stato.py, verifica-aog1-exgf-dcr3.json, verifica-aog1-exgf-dcr7.json, verifica-aoh1-dcr5.json, verifica-aoh1-dcr6-pnr7-neif.json, verifica-aoh1-dcr6.json, verifica-aor3-exgf.json, verifica-aor3-riuso.json, verifica-aor4-lme.json, verifica-libm-exgf.json, verifica-libm-neif.json, verifica-pnr4-aor4-lme.json, verifica-pnr5-aor5-dcr3-math7.json, verifica-pnr5-aor5-dcr4-math7.json, verifica-pnr5-aor5-lme.json, verifica-pnr5-aor5-math7.json, verifica-pnr5-qwx7-aor6-dcr3-math7.json, verifica-pnr5-qwx7-aor6-dcr5-math7.json, verifica-pnr5-qwx8-aor6-exgf-dcr3-math7.json, verifica-pnr5-qwx8-aor6-exgf-dcr5-math7.json
+lab/hutter/divisors/q-riproduzione/riuso-ausiliari	misure-libreria-inclusa.json, misure.json, prova.py, prova_nastro.py
+lab/hutter/divisors/q-runtime-matematico	misure-host.json, prova_dizionario.py
+lab/hutter/divisors/q-runtime-matematico/compat-7	misure.json
+lab/hutter/divisors/q-runtime-matematico/exgf-fronte	cattura.py, extract.cpp, order_exgf.py, slot.cpp
+lab/hutter/divisors/q-runtime-matematico/exgf-fronte/order-groups	confronta.py, order_groups.py, prova.py, risultati.json
+lab/hutter/divisors/q-runtime-matematico/exgf-fronte/repacking	prova.py, risultati.json
+lab/hutter/divisors/q-runtime-matematico/libm-elf	blocchi.py, libm_elf.py, prova.py
+lab/hutter/divisors/q-somma-generatori	decoder.py, encode.py, misure.json
+lab/hutter/divisors/q-tetrazione	albero_prodotti.py, albero_sparso.py, misure-albero.json, misure-prodotti.json, misure.json, prodotti.py, torri.py
+lab/hutter/divisors/q-torri-quoziente	affina_55.py, cerca.py, costruisci.py, misure.json
+lab/hutter/divisors/q-torri-quoziente/ricorsiva	formula.py, leggi.py, misure.json, quartiche.cpp
+lab/hutter/divisors/q-transformer-ricerca/certificato-freddo	certifica.py, decodifica.cpp, misure.json, traccia.py
+lab/hutter/divisors/q-transformer-ricerca/diagnosi-prefisso	analizza-mixer.py, misure-caldo-mixer17.json, mixer.cpp, prova-caldo-mixer17.py
+lab/hutter/divisors/q-transformer-ricerca/fxcm-sparse	misure.json, prova.cpp
+lab/hutter/divisors/q-transformer-ricerca/parallelismo	misure.json, prova.cpp
+lab/hutter/divisors/q-transformer-ricerca/predittore-parallelo	campione.py, inietta.py, misure.json, predittore.cpp
+lab/hutter/divisors/q-transformer-ricerca/predittore-parallelo/memoria-caldo	misure.json, pagine_hash.py, pagine_sse.py, riduci_hash.py
+lab/hutter/divisors/q-transformer-ricerca/predittore-parallelo/memoria-caldo/disco-predittore	misure.json, prepara.py
+lab/hutter/divisors/q-transformer-ricerca/predittore-parallelo/memoria-caldo/fxcm-campione	apm.py, misure.json, mixer.py, prova.cpp, prova_tabelle.cpp
+lab/hutter/divisors/q-transformer-ricerca/predittore-parallelo/memoria-caldo/profilo-fxcm	misura.cpp, misure.json
+lab/hutter/divisors/q-transformer-ricerca/predittore-parallelo/memoria-caldo/tabelle-compatte	hash-sparsi.py, misure.json, prepara.py, separa.py, usa-righe.py
+lab/hutter/divisors/q-transformer-ricerca/predittore-parallelo/micro	lazy.py, misure-caldo-9865.json, misure.json
+lab/hutter/divisors/q-transformer-ricerca/prior-ppmd	misure.json, prova.cpp
+lab/hutter/divisors/q-transformer-ricerca/rami-flusso	misure.json, rami.cpp
+lab/hutter/divisors/q-transformer-ricerca/verifica-aritmetica	controllo.py, prova.cpp
+lab/hutter/divisors/q-zip-256	backends.tsv, base256-level9.jsonl, dispatch.py, finalize.jsonl, finalize.py, flint-pilot.jsonl, half-pilot.jsonl, measure.py, radix.cpp, sweep.jsonl
+lab/hutter/divisors/q-zip-256/results	settings.json, sizes.csv, summary.json
+lab/hutter/divisors/work	Q-base64.json, Q-compression-results.json, Q-final-pack.jsonl, Q-generators-7.json, Q-generators-full.json, Q-gmp-local.jsonl, Q-multiplier-search.json, Q-pack-report.jsonl, Q-portable-decimal.json, Q-portable-independent.json, Q-power-divisor-report.json, Q-prefix-codecs.json, Q-projective-ecm.jsonl, Q-radix-report.json, Q-split-complete16.jsonl, Q-split-local.jsonl, Q-split-prefix.json, Q-x12-pack.jsonl
+lab/hutter/divisors/work/qwx9-contesti	scelte.tsv, weight_recode.cpp
+lab/hutter/divisors/work/qwx9-estremi	scelte.tsv, weight_recode.cpp
+lab/hutter/divisors/work/qwx9-etichette	scelte.tsv, weight_recode.cpp
+lab/hutter/divisors/work/qwx9-locale	scelte.tsv, weight_recode.cpp
+lab/hutter/divisors/work/qwx9-offset	scelte.tsv, weight_recode.cpp
+lab/hutter/divisors/work/qwx9-sonda	scelte.tsv, weight_recode.cpp
+lab/hutter/divisors/work/riproduzione-integrale	costo-prefisso.json, divisione-stream.json, fx2-archivi-confronto.json, native-libm-dictionary.json, native-libm-sample.json, neif-affinity-benchmark.json, reused-preproc.json
+lab/hutter/divisors/work/riproduzione-integrale/aog1-exgf-dcr3-qwx8	pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/aoh1-dcr5-qwx8	pacchetto-autonomo.json, pacchetto-condiviso.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/aoh1-dcr5-qwx8/finale	checkpoint-sola-lettura.json, equivalenza-pacchetti.json, pacchetto-autonomo.json, pacchetto-condiviso.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/aoh1-dcr6-qwx8	pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/aor5-math7	header.json, pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/aor5-replay-package	pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/dcr3-aor5-math7	capture.json, pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/dcr3-aor6-exgf-qwx8-math7	pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/dcr3-aor6-qwx7-math7	pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/dcr4-aor5-math7	pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/dcr5-aor6-exgf-qwx8-math7	pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/dcr5-aor6-qwx7-math7	pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/focal-rootfs/usr/share/apport/package-hooks	source_shadow.py
+lab/hutter/divisors/work/riproduzione-integrale/focal-rootfs/usr/share/gcc/python/libstdcxx	__init__.py
+lab/hutter/divisors/work/riproduzione-integrale/focal-rootfs/usr/share/gcc/python/libstdcxx/v6	__init__.py, printers.py, xmethods.py
+lab/hutter/divisors/work/riproduzione-integrale/focal-rootfs/usr/share/gdb/auto-load/usr/lib/x86_64-linux-gnu	libstdc++.so.6.0.28-gdb.py
+lab/hutter/divisors/work/riproduzione-integrale/fx2-arithmetic-growth	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-arithmetic-prefix	affinity-test.json, comparison.json, io-scheduling.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-dictionary-forward	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-inverse-	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-inverse-alternate	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-inverse-corrected/focal	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-inverse-corrected/sfx	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-inverse-libm	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-inverse-prefix	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-live-snapshot	fx2-body-1048576.json, fx2-body-262144.json, fx2-body-524288.json, fx2-body-65536.json, fx2-body-8192.json, fx2-tape-checkpoint.json, live-aux-phases.json, live-tape-preflight.json, order-65536.json, snapshot_fx2.py
+lab/hutter/divisors/work/riproduzione-integrale/fx2-preflight	inputs-observed.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-prepared	preprocessed.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-runtime-matrix	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-runtime-matrix/bookworm	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-runtime-matrix/focal-sfx	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/fx2-runtime-matrix/noble	comparison.json
+lab/hutter/divisors/work/riproduzione-integrale/libm-elf	misure.json
+lab/hutter/divisors/work/riproduzione-integrale/libm-elf-blocchi	misure.json, pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/libm-elf-rip	misure.json, pacchetto.json, verify-cached.json
+lab/hutter/divisors/work/riproduzione-integrale/ordine-exgf	prova-cattura-proxy.json, prova-cattura-proxy.py
+lab/hutter/divisors/work/riproduzione-integrale/pnr7-neif	baseline-members.json, pnr7-members.json
+lab/hutter/divisors/work/riproduzione-integrale/prefix-native-final	prefix.py, verifica-nrv.json
+lab/hutter/divisors/work/riproduzione-integrale/prefix-native-frame	prefix.py, reader-options.json
+lab/hutter/divisors/work/riproduzione-integrale/prefix-native-pnr4	prefix.py
+lab/hutter/divisors/work/riproduzione-integrale/prefix-native-pnr5	prefix.py
+lab/hutter/divisors/work/riproduzione-integrale/replay-corpus-v2	verified-fx2.json
+lab/hutter/leader_trial	exgf-2-audit.json, inspect_submission.py, int4.cpp, quantization-budget.json, quantization_budget.py, submission-audit.json, trial.py, weight-results.tsv
+lab/hutter/leader_trial/full_mixer_slice	article-io-samples.jsonl, bench.py, compact-transformer-article.jsonl, compact-transformer-prefix.jsonl, full-transformer-prefix.jsonl, transformer-only-article.jsonl, transformer-only-prefix.jsonl
+lab/hutter/leader_trial/native_slice	bench.py, blend-article.jsonl, blend-prefix.jsonl, compatibility-after-tight.json, guard-grid.jsonl, native-fp16-article.jsonl, native-fp16-metadata.jsonl, ppmd-article.jsonl, ppmd-prefix.jsonl, temperature-grid.jsonl, temperature-near-one.jsonl, temperature.py, transformer-only-article.jsonl, transformer-only-prefix.jsonl, transformer-prefix.jsonl, transformer-tight-article.jsonl, transformer-tight-prefix.jsonl
+lab/hutter/leader_trial/native_splice	audit.py, budget.py, command_gaps.py, omission.cpp, omission_holdout.py
+lab/hutter/leader_trial/native_splice/article_mixer	build.py, calibrate.py, compare_continuation.py, head_compare.py, probe.py, rate_breakdown.py
+lab/hutter/leader_trial/native_splice/article_mixer/work	calibration-16k.jsonl, calibration-detail.json, calibration-first.jsonl, calibration-grid-dev.jsonl, correct-holdout-base.jsonl, correct-holdout-replay.jsonl, far-rich-native.jsonl, holdout-rate-breakdown.json, holdout-rate-detail.json, live-dev.jsonl, live-holdout-base.jsonl, metadata-head-comparison.jsonl, native-16k.jsonl, rank-live16.jsonl, rank-stream-compare.json, rank-stream-only.jsonl, rank-warm-compare.json, rank-warm-history.jsonl, rank-warm-native.jsonl, slot-dev-base.jsonl, slot-dev-calibrated.jsonl, slot-first-field.jsonl, slot-first-grid.jsonl, slot-grid-dev.jsonl, slot-head-comparison.jsonl, slot-holdout-base.jsonl, slot-second-field.jsonl, slot2-dev.jsonl, wrt-comparison.json, wrt-conditioned.jsonl, wrt-native-rate-detail.json, wrt-native.jsonl
+lab/hutter/leader_trial/native_splice/article_mixer/work/correct-holdout-base/237000000	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/correct-holdout-base/367000000	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/correct-holdout-base/437000000	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/correct-holdout-base/73000000	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/far-rich-native/120979456	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/far-rich-native/300318720	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/live-dev/146061538	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/live-dev/188415384	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/native-16k/146061538	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/native-16k/188415384	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/rank-live16/146061538	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/rank-live16/188415384	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/rank-stream-only/236983616	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/rank-warm-history/236983616	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/rank-warm-native/236983616	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/slot-dev-base/146061538	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/slot-dev-base/188415384	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/slot-dev-calibrated/146061538	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/slot-dev-calibrated/188415384	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/slot2-dev/146061538	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/slot2-dev/188415384	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/wrt-conditioned/146061538	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/wrt-conditioned/188415384	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/wrt-native/146061538	result.json
+lab/hutter/leader_trial/native_splice/article_mixer/work/wrt-native/188415384	result.json
+lab/hutter/leader_trial/native_splice/work	command-gaps.jsonl, holdout-4m.jsonl, holdout.jsonl, noble-262144.jsonl, noble-release-replay.jsonl, omission-edit.jsonl, omission.jsonl, pgo-check-32768.jsonl, prefix-32768.jsonl, published-bounds.json
+lab/hutter/leader_trial/native_splice/work/noble	result.json
+lab/hutter/leader_trial/native_splice/work/prefix-32768	verified.json
+lab/hutter/leader_trial/native_splice/wrt_grammar	build.py, ppmd.cpp, ppmd_bench.py, price.py, scan.cpp
+lab/hutter/leader_trial/native_splice/wrt_grammar/work	complete-scan.json, exact-boundary-scan.json, initial-pricing.jsonl, ppmd-run.jsonl, ppmd-summary.json
+lab/hutter/leader_trial/neif_native	bench.py, compatibility.json, metrics-exact-rss.jsonl, metrics.jsonl, neif_slice.cpp, pairs.py, ppmd_archive.py, retrieval-metrics.jsonl
+lab/hutter/leader_trial/neif_native/build.slice	gate_probe.cpp, inverse_tape.cpp, live_gate.cpp, patch_unsigned.py, prepared-corrected.json, prepared.json, recover_census.cpp, replay-prefix-comparison.json, run.py, run_inverse.py
+lab/hutter/leader_trial/neif_native/build.slice/census-recovered	result.json
+lab/hutter/leader_trial/neif_native/build.slice/gate-prepared-corrected-native-prior-65536	result.json
+lab/hutter/leader_trial/neif_native/build.slice/gate-prepared-corrected-structural-13024000	result.json
+lab/hutter/leader_trial/neif_native/build.slice/gate-replay-corpus-5bpsper5-native-prior-65536	result.json
+lab/hutter/leader_trial/neif_native/build.slice/gate-replay-corpus-5bpsper5-structural-13024000	result.json
+lab/hutter/leader_trial/neif_native/build.slice/gate-replay-corpus-5bpsper5-structural-65536	result.json
+lab/hutter/leader_trial/neif_native/build.slice/inverse.9n4v7m1e	result.json
+lab/hutter/leader_trial/neif_native/build.slice/live-pair-2048	result.json
+lab/hutter/leader_trial/neif_native/long_rank	augmentation.json, experiment.py, results.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr	build.json, driver.cpp
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/146061538-contiguous-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/146061538-filtered-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/188415384-contiguous-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/188415384-filtered-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/236983616-contiguous-0-16384	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/236983616-contiguous-16777216-16384	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/236983616-filtered-0-16384	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/236983616-filtered-16777216-16384	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/237000000-contiguous-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/237000000-filtered-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/367000000-contiguous-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/367000000-filtered-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/437000000-contiguous-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/437000000-filtered-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/73000000-contiguous-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.djioltrr/73000000-filtered-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6	build.json, driver.cpp
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/146061538-combined-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/146061538-short-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/188415384-combined-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/236983616-combined-0-16384	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/236983616-combined-16777216-16384	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/236983616-short-0-16384	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/236983616-short-16777216-16384	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/237000000-combined-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/367000000-combined-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/437000000-combined-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.w94de2s6/73000000-combined-16777216-0	result.json
+lab/hutter/leader_trial/neif_native/long_rank/work.y5dv4e_3	driver.cpp
+lab/hutter/leader_trial/neif_native/ppmd-work	trial.jsonl
+lab/hutter/leader_trial/neif_native/rank_url	adaptive.jsonl, calibrated.jsonl, compact.jsonl, primed.jsonl, replay.cpp, run.py, url-scan.json, url_scan.cpp, with-links-adaptive.jsonl, with-links.jsonl
+lab/hutter/leader_trial/neif_native/rate_lens	field_replay.cpp, field_replay_results.json, measure.py, result.json, switch_analysis.py, switch_results.jsonl, verify_replay.py, whole_word.py, whole_word_results.jsonl
+lab/hutter/leader_trial/neif_native/rate_lens/replay.17dj0h1x	native_result.json
+lab/hutter/leader_trial/neif_native/rate_lens/replay.wqwb4jye	native_result.json
+lab/hutter/leader_trial/neif_native/rate_lens/replay.xr6c5zz6	native_result.json
+lab/hutter/leader_trial/neif_native/rate_lens/replay.yrumntc1	native_result.json
+lab/hutter/leader_trial/neif_native/shared	packed.json, patch_rank.py, patch_shared.py, patch_target.py, patch_url.py, preflight_target.py, probe_target.py, probe_url.py, production_rank_url_target.cpp, run_shared.py, scan_rank.cpp, target-preflight.json, target_preflight.cpp, unpacked-rank-url.json, unpacked-rank.json, unpacked-url.json, unpacked.json
+lab/hutter/leader_trial/neif_native/shared/rank-url-compact-proof	result.json
+lab/hutter/leader_trial/neif_native/shared/rank-url-target-compact-proof	encode.json, prepared.json, result.json
+lab/hutter/leader_trial/neif_native/shared/target-preflight.gxvmlb08/source-check	result.json
+lab/hutter/leader_trial/neif_native/shared/target-preflight.lu60ge_t/source-check	result.json
+lab/hutter/leader_trial/neif_native/shared/url-compact-proof	result.json
+lab/hutter/leader_trial/neif_native/two_pass	rank_lanes.py
+lab/hutter/leader_trial/neif_native/two_pass/results	results.json
+lab/hutter/leader_trial/neif_native/two_pass/verified	results.json
+lab/hutter/leader_trial/neif_native/url_expert	live.py, p32_port.cpp, url_expert.cpp, url_expert.py
+lab/hutter/leader_trial/neif_native/url_expert/adaptive	results.json
+lab/hutter/leader_trial/neif_native/url_expert/cold	results.json
+lab/hutter/leader_trial/neif_native/url_expert/live-138346496	result.json
+lab/hutter/leader_trial/neif_native/url_expert/recent	results.json
+lab/hutter/leader_trial/neif_native/url_expert/stream	expert.cpp, proof.cpp, verify.py
+lab/hutter/leader_trial/neif_native/url_expert/stream/minimal-prefix	results.json
+lab/hutter/leader_trial/neif_native/url_expert/stream/verified	results.json
+lab/hutter/leader_trial/neif_native/url_expert/verified	results.json
+lab/hutter/leader_trial/neif_weight_choices	trial.py
+lab/hutter/leader_trial/neif_weight_choices/work	exact.jsonl, weights.cpp
+lab/hutter/leader_trial/token_model	bench.py, copy-metrics.jsonl, metrics.jsonl, token_ppm.cpp
+lab/hutter/lineage	gg2txt.py, json2txt.py, queue.py
+lab/hutter/lineage/work	queue_out.json
+lab/hutter/model	results.json
+lab/hutter/model/article_neighbors	archive.py, native-price-367.jsonl, native-price.jsonl, neighbor.cpp, price.py, results.jsonl, scan.jsonl
+lab/hutter/model/article_neighbors/fragments	native-price-367.jsonl, native-price-far-120979456.jsonl, native-price-far-300318720.jsonl, native-price.jsonl, near-verified.json, results.jsonl, scan.jsonl
+lab/hutter/model/article_neighbors/work	native-price-far-120979456.jsonl, native-price-far-300318720.jsonl
+lab/hutter/model/article_structure_trial	bench.py, ppmd.jsonl, route.cpp, standalone.json, zstd.jsonl
+lab/hutter/model/article_topic_order	bench.py, full.jsonl, order.cpp, order.json, ppmd-bytes.jsonl, ppmd.jsonl
+lab/hutter/model/article_topic_order/work	tiles.tsv
+lab/hutter/model/expert_trial	cm3_continuations.cpp, metrics.jsonl, run.py, semcache_layout.cpp
+lab/hutter/model/incoming_link_rank	conditional.jsonl, recheck.jsonl, replay.cpp, results.jsonl, run.py
+lab/hutter/model/incoming_link_rank/conditional	decode.jsonl, encode.jsonl
+lab/hutter/model/incoming_link_rank/replay-recheck	decode.jsonl, encode.jsonl
+lab/hutter/model/incoming_link_rank/work	decode.jsonl, encode.jsonl
+lab/hutter/model/native_expert_followup	metrics.jsonl, replay.cpp, run.py
+lab/hutter/model/native_expert_followup/native_coder	decoder.cpp, encoder.cpp
+lab/hutter/model/neif_entity_mentions	run.py, warm.jsonl
+lab/hutter/model/neif_entity_mentions/warm	replay.cpp
+lab/hutter/model/neif_entity_mentions/warm/120979456	result.json
+lab/hutter/model/neif_entity_mentions/warm/138346496	result.json
+lab/hutter/model/neif_entity_mentions/warm/146061538	result.json
+lab/hutter/model/neif_entity_mentions/warm/188415384	result.json
+lab/hutter/model/neif_entity_mentions/warm/237000000	result.json
+lab/hutter/model/neif_entity_mentions/warm/300318720	result.json
+lab/hutter/model/neif_entity_mentions/warm/367000000	result.json
+lab/hutter/model/neif_entity_mentions/warm/437000000	result.json
+lab/hutter/model/neif_entity_mentions/warm/490143744	result.json
+lab/hutter/model/neif_entity_mentions/warm/73000000	result.json
+lab/hutter/model/neif_metadata_lanes	l19.jsonl, lanes.py, permutation.py
+lab/hutter/model/neif_native_metadata_trial	native_ppmd.cpp, result.jsonl, run.py
+lab/hutter/model/neif_target_titles	identity.jsonl, native.jsonl, native.py, price.py, results.jsonl, scan.jsonl, side.jsonl, side.py, targets.cpp
+lab/hutter/model/neif_target_titles/work	native-ranges.tsv, native-spans.tsv
+lab/hutter/model/neif_target_trie	cold.jsonl, eight-mib.jsonl, run.py, sixteen-mib.jsonl, wrapper-smoke.jsonl
+lab/hutter/model/neif_target_trie/cold/120979456	result.json
+lab/hutter/model/neif_target_trie/cold/138346496	result.json
+lab/hutter/model/neif_target_trie/cold/146061538	result.json
+lab/hutter/model/neif_target_trie/cold/188415384	result.json
+lab/hutter/model/neif_target_trie/cold/237000000	result.json
+lab/hutter/model/neif_target_trie/cold/300318720	result.json
+lab/hutter/model/neif_target_trie/cold/367000000	result.json
+lab/hutter/model/neif_target_trie/cold/437000000	result.json
+lab/hutter/model/neif_target_trie/cold/490143744	result.json
+lab/hutter/model/neif_target_trie/cold/73000000	result.json
+lab/hutter/model/neif_target_trie/eight-mib	native_replay.cpp
+lab/hutter/model/neif_target_trie/eight-mib/120979456	result.json
+lab/hutter/model/neif_target_trie/eight-mib/138346496	result.json
+lab/hutter/model/neif_target_trie/eight-mib/146061538	result.json
+lab/hutter/model/neif_target_trie/eight-mib/188415384	result.json
+lab/hutter/model/neif_target_trie/eight-mib/237000000	result.json
+lab/hutter/model/neif_target_trie/eight-mib/300318720	result.json
+lab/hutter/model/neif_target_trie/eight-mib/367000000	result.json
+lab/hutter/model/neif_target_trie/eight-mib/437000000	result.json
+lab/hutter/model/neif_target_trie/eight-mib/490143744	result.json
+lab/hutter/model/neif_target_trie/eight-mib/73000000	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/120979456	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/138346496	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/146061538	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/188415384	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/237000000	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/300318720	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/367000000	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/437000000	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/490143744	result.json
+lab/hutter/model/neif_target_trie/sixteen-mib/73000000	result.json
+lab/hutter/model/neif_target_trie/wrapper-smoke	native_replay.cpp
+lab/hutter/model/neif_target_trie/wrapper-smoke/73000000	result.json
+lab/hutter/model/neif_target_trie_capacity	article-line-geometry.json, build.py, checkpoint-control.jsonl, checkpoint.jsonl, checkpoint.py, epoch.jsonl, fixed.jsonl, line-geometry.json, scan.cpp, smoke.cpp, summary.json, summary.py
+lab/hutter/model/neif_target_trie_capacity/checkpoint	checkpoint_driver.cpp
+lab/hutter/model/neif_target_trie_capacity/checkpoint/138346496	result.json
+lab/hutter/model/neif_target_trie_capacity/checkpoint/188415384	result.json
+lab/hutter/model/neif_target_trie_capacity/checkpoint/300318720	result.json
+lab/hutter/model/neif_target_trie_capacity/checkpoint/367000000	result.json
+lab/hutter/model/neif_target_trie_capacity/checkpoint/437000000	result.json
+lab/hutter/model/neif_target_trie_capacity/checkpoint/73000000	result.json
+lab/hutter/model/neif_target_trie_capacity/checkpoint-control/437000000	result.json
+lab/hutter/model/retrieval_followup	chain.jsonl, chain.py, decoder-proof.jsonl, gather.py, history-1.jsonl, history-4.jsonl, holdout-16.final.jsonl, holdout-16.jsonl, holdout-4.final.jsonl, holdout-4.jsonl, live.jsonl, live.py, metrics.jsonl, native-holdout.jsonl, retrieval.cpp, run.py, structure.jsonl, structure.py, verify_decode.py
+lab/hutter/model/retrieval_followup/native_coder	decoder.cpp, encoder.cpp
+lab/hutter/model/wrt_class_trial	adaptive.jsonl, fixed.jsonl, run.py, screen.jsonl
+lab/hutter/model/wrt_class_trial/adaptive/146061538/random-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/146061538/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/188415384/random-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/188415384/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/237000000/random-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/237000000/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/367000000/random-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/367000000/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/437000000/random-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/437000000/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/73000000/random-odds	result.json
+lab/hutter/model/wrt_class_trial/adaptive/73000000/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed	class_replay.cpp
+lab/hutter/model/wrt_class_trial/fixed/146061538/global	result.json
+lab/hutter/model/wrt_class_trial/fixed/146061538/random	result.json
+lab/hutter/model/wrt_class_trial/fixed/146061538/random-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/146061538/sketch	result.json
+lab/hutter/model/wrt_class_trial/fixed/146061538/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/188415384/global	result.json
+lab/hutter/model/wrt_class_trial/fixed/188415384/random	result.json
+lab/hutter/model/wrt_class_trial/fixed/188415384/random-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/188415384/sketch	result.json
+lab/hutter/model/wrt_class_trial/fixed/188415384/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/237000000/global	result.json
+lab/hutter/model/wrt_class_trial/fixed/237000000/random	result.json
+lab/hutter/model/wrt_class_trial/fixed/237000000/random-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/237000000/sketch	result.json
+lab/hutter/model/wrt_class_trial/fixed/237000000/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/367000000/global	result.json
+lab/hutter/model/wrt_class_trial/fixed/367000000/random	result.json
+lab/hutter/model/wrt_class_trial/fixed/367000000/random-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/367000000/sketch	result.json
+lab/hutter/model/wrt_class_trial/fixed/367000000/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/437000000/global	result.json
+lab/hutter/model/wrt_class_trial/fixed/437000000/random	result.json
+lab/hutter/model/wrt_class_trial/fixed/437000000/random-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/437000000/sketch	result.json
+lab/hutter/model/wrt_class_trial/fixed/437000000/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/73000000/global	result.json
+lab/hutter/model/wrt_class_trial/fixed/73000000/random	result.json
+lab/hutter/model/wrt_class_trial/fixed/73000000/random-odds	result.json
+lab/hutter/model/wrt_class_trial/fixed/73000000/sketch	result.json
+lab/hutter/model/wrt_class_trial/fixed/73000000/sketch-odds	result.json
+lab/hutter/model/wrt_class_trial/work	class_replay.cpp
+lab/hutter/model/wrt_class_trial/work/146061538/global	result.json
+lab/hutter/model/wrt_class_trial/work/146061538/random	result.json
+lab/hutter/model/wrt_class_trial/work/146061538/sketch	result.json
+lab/hutter/model/wrt_class_trial/work/188415384/global	result.json
+lab/hutter/model/wrt_class_trial/work/188415384/random	result.json
+lab/hutter/model/wrt_class_trial/work/188415384/sketch	result.json
+lab/hutter/model/wrt_class_trial/work/237000000/global	result.json
+lab/hutter/model/wrt_class_trial/work/237000000/random	result.json
+lab/hutter/model/wrt_class_trial/work/237000000/sketch	result.json
+lab/hutter/model/wrt_class_trial/work/367000000/global	result.json
+lab/hutter/model/wrt_class_trial/work/367000000/random	result.json
+lab/hutter/model/wrt_class_trial/work/367000000/sketch	result.json
+lab/hutter/model/wrt_class_trial/work/437000000/global	result.json
+lab/hutter/model/wrt_class_trial/work/437000000/random	result.json
+lab/hutter/model/wrt_class_trial/work/437000000/sketch	result.json
+lab/hutter/model/wrt_class_trial/work/73000000/global	result.json
+lab/hutter/model/wrt_class_trial/work/73000000/random	result.json
+lab/hutter/model/wrt_class_trial/work/73000000/sketch	result.json
+lab/hutter/model/wrt_rank_residual_trial	frozen.jsonl, results.jsonl, run.py
+lab/hutter/model/wrt_rank_residual_trial/frozen	replay.cpp
+lab/hutter/model/wrt_rank_residual_trial/frozen/236983616-0-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/frozen/236983616-16777216-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/work	replay.cpp
+lab/hutter/model/wrt_rank_residual_trial/work/146061538-16777216-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/188415384-16777216-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/236983616-0-0	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/236983616-0-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/236983616-16777216-0	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/236983616-16777216-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/237000000-16777216-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/367000000-16777216-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/437000000-16777216-1	result.json
+lab/hutter/model/wrt_rank_residual_trial/work/73000000-16777216-1	result.json
+lab/hutter/model/wrt_urls	price.py, trial.py
+lab/hutter/model/wrt_urls/work	fresh-ppmd.json, native.jsonl, planted.json, ppmd.jsonl, price-138346496.jsonl, price-490143744.jsonl, price-control.jsonl, scan-1m.json, scan-32k.json, zstd.jsonl
+lab/hutter/model/wrt_urls/work/native/138346496	result.json
+lab/hutter/model/wrt_urls/work/native/490143744	result.json
+lab/hutter/model/wrt_urls_grouped	results.jsonl, sparse.jsonl, trial.py
+lab/hutter/model/wrt_urls_grouped/work/133169152	paths-first.json, paths-lexical.json, whole-first.json, whole-repeated.json
+lab/hutter/model/wrt_urls_grouped/work/237000000	paths-first.json, paths-lexical.json, whole-first.json, whole-repeated.json
+lab/hutter/model/wrt_urls_grouped/work/316669952	paths-first.json, paths-lexical.json, whole-first.json, whole-repeated.json
+lab/hutter/model/wrt_urls_grouped/work/367000000	paths-first.json, paths-lexical.json, whole-first.json, whole-repeated.json
+lab/hutter/model/wrt_urls_grouped/work/437000000	paths-first.json, paths-lexical.json, whole-first.json, whole-repeated.json
+lab/hutter/model/wrt_urls_grouped/work/489684992	paths-first.json, paths-lexical.json, whole-first.json, whole-repeated.json
+lab/hutter/model/wrt_urls_grouped/work/73000000	paths-first.json, paths-lexical.json, whole-first.json, whole-repeated.json
+lab/hutter/prep	fix_results.py, measure_side_info.py, results.json
+lab/hutter/prep/work	gh_cmix-neif-1.0.json, gh_cmix-neif-beehive.json, gh_fx2-cmix-transformer-v1.json, gh_neif2.json, measure_side_info.json
+lab/hutter/ragc	bench.py, bpe_projection.py, pair_merge_trial.py, permutation.py, ppmd_tokens.py, ppmd_trial.py, ragc.py, sequence_bank.cpp, sequence_bank.py, time_order_trial.py, token_fields.cpp, token_predict_trial.py, token_restore.cpp, token_split_trial.py, wiki_sorted.py, word_ppmd.py, word_projection.py, xml_numbers.py
+lab/hutter/ragc/algebra_followup	archive.json, contributor.py, contributor_archive.py, metrics.jsonl, restore-memory.json, restore.json
+lab/hutter/ragc/backend_trial	metrics.jsonl, run.py, summary.json
+lab/hutter/ragc/calendar_anchor_followup	calendar.py, memory.json, release-budget.json, results.json
+lab/hutter/ragc/census_formula_followup	census_columns.py, independent.json, memory.json, metrics.json
+lab/hutter/ragc/cm3_link_body_followup	cm3-side-whole.jsonl, cm3-side.jsonl, cm3_body_links.py, cm3_side.py, queue-selected.jsonl, queue.jsonl, queue_wfl2.py, repack-smoke.json, smoke_repack.py, verify_cm3_side.py
+lab/hutter/ragc/cm3_link_body_followup/cm3-side	result.json
+lab/hutter/ragc/cm3_link_body_followup/cm3-side-whole/plan	plan.json
+lab/hutter/ragc/cm3_link_body_followup/preflight	plan.json
+lab/hutter/ragc/cm3_link_body_followup/preflight-mode10	plan.json
+lab/hutter/ragc/cm3_link_followup	cm3_links.py, queue_wfl1.py, smoke.json, smoke.py
+lab/hutter/ragc/cm3_link_followup/candidate	result.json
+lab/hutter/ragc/cm3_link_followup/preflight	plan.json
+lab/hutter/ragc/conditional_fields_followup	enwik9.json, positive-control.json, positive_control.py, wikitables.py
+lab/hutter/ragc/delta_lines	delta.cpp, fx_cover_price.py, native.py, pack.py
+lab/hutter/ragc/delta_lines/work	archive-comparison.json, cm3_delta.cpp, cm3_delta_scored.cpp, coverage.json, fx2-coverage.json, fx2-model-cost.jsonl, native-independent.json, native-scored.jsonl, native.jsonl, w0-plain.json, w0-words.json, w256k-plain.json, w8m-plain.json, w8m-words.json
+lab/hutter/ragc/entropy_base_tree	big_tree.py, enwik-neighbors.json, enwik_neighbors.py, product_scan.cpp, quotient_trial.py, results.jsonl, trial.py
+lab/hutter/ragc/entropy_base_tree/quotient-run	big-results.json, quotient-results.json
+lab/hutter/ragc/enwik_affine_generator	bundle_decoder.py, gen.cpp, halves.json, halves.py, numeric.py, trial.py
+lab/hutter/ragc/enwik_affine_generator/run	generatore.py, numeric.json, pilot.json, results.json, ripristina_numero.py
+lab/hutter/ragc/enwik_neighbor_chain	affine.cpp, recipe.py, scout.cpp, trial.py, twos.cpp
+lab/hutter/ragc/enwik_neighbor_chain/run	direct.json, enwik9.json, rows.tsv, summary.json
+lab/hutter/ragc/enwik_neighbor_chain/run/prefix	demo.json, summary.json
+lab/hutter/ragc/fuzzy_match_trial	cm3_case.cpp, metrics.jsonl, run.py
+lab/hutter/ragc/fx2_bridge	backend_trial.py, bridge.cpp, cm3_metadata.py, codec.py, link_wrt_trial.py, metadata_trial.py, native_metadata.py, rank_trial.py, revision_curve.py, wrt_block.cpp, wrt_metadata.py
+lab/hutter/ragc/fx2_bridge/work	backend-fast.jsonl, backend.jsonl, cm3-full.json, cm3-meta-full.jsonl, cm3-meta-member.jsonl, cm3-meta-preflight-cmp.json, cm3-meta-preflight.json, cm3-meta-smoke.jsonl, forward-wrap.json, forward.json, inverse.json, metadata-anchor.jsonl, metadata.jsonl, native-metadata.jsonl, ppmd.json, ranks.jsonl, revision-curve.jsonl, wrt-link-combined.jsonl, wrt-link-inband.jsonl, wrt-link-independent.json, wrt-link-span.json, wrt-metadata.jsonl
+lab/hutter/ragc/fx2_bridge/work/cm3-formula-member	member.json
+lab/hutter/ragc/fx2_link_affine_anchor	results.jsonl, trial.py
+lab/hutter/ragc/fx2_link_affine_anchor/work	affixes-and-forms.json, affixes.json, memory.json, projection.json
+lab/hutter/ragc/fx2_link_body_anchor	align.cpp, align.json, anchors.tsv, audit.json, audit.py, body_prefix.py, decode_prefix.cpp, ppmd.json, ppmd_side.py
+lab/hutter/ragc/fx2_link_body_anchor/work	anchors-from-wrt.json, anchors-from-wrt.tsv
+lab/hutter/ragc/fx2_link_body_anchor/work/ppmd	body-only-align.json, body-only-anchors.tsv, memory.json
+lab/hutter/ragc/learned_recurrence_followup	memory.json, recurrence.py, results.jsonl
+lab/hutter/ragc/link_formula_followup	independent.json, link_formula.py, memory.json, neif-samples-memory.json, neif-samples.json, neif-wrt-audit.json, neif_links.cpp, neif_trial.py, ppmd.json, zstd-template.json, zstd.json
+lab/hutter/ragc/modular_difference_followup	modular_tiles.py
+lab/hutter/ragc/modular_difference_followup/run	results.jsonl
+lab/hutter/ragc/periodic_edits_followup	edit_support.py, scalar-results.jsonl, scalar_gate.py
+lab/hutter/ragc/periodic_edits_followup/run	results.jsonl
+lab/hutter/ragc/prime_index_tree_followup	prime_tree.py
+lab/hutter/ragc/prime_index_tree_followup/run	fresh-decode.json, report.json
+lab/hutter/ragc/probability_cache	alphabet_rans.py, gather.py, live.py, measure.py
+lab/hutter/ragc/probability_cache/work	development.jsonl, native-bias.jsonl, probability-traces.jsonl, rans.jsonl, validation-last.jsonl, validation-ready.jsonl
+lab/hutter/ragc/prose_analogy_followup	analogy.py, memory.json, results.json
+lab/hutter/ragc/quotient_towers	prefix_formula.py, search.cpp, towers.py
+lab/hutter/ragc/quotient_towers/run	prefix-results.json, results.json
+lab/hutter/ragc/repdigit_split	benchmark.py, codec.py, results-controls.jsonl, results.jsonl, scan.cpp
+lab/hutter/ragc/rfce_check	repdigits.json, repdigits.py, zero-gap.json, zero_gap.py
+lab/hutter/ragc/structured_q_followup	build.py, linker-memory.json, linker-trials.json, linker-verified.json, linker.py, memory.json, probe.json, probe.py, unwind_inverse.py, v10-groups.json, v10-persistent-branches.json, v10_groups.py, verified.json
+lab/hutter/ragc/title_trial	cm3_title.cpp, metrics.jsonl, run.py
+lab/hutter/ragc/token_trial	combined-metrics.jsonl, metrics.jsonl, ppmd-metrics.jsonl, scale-metrics.jsonl, token_trial.py, trained-metrics.jsonl
+lab/hutter/ragc/work	Q-whole.json, bank-Q-locations.json, bank-Q.jsonl, bank-positive.jsonl, bank-random.jsonl, benchmark.jsonl, enwik9-bpe-independent.json, enwik9-bpe.json, enwik9-factoradic.json, enwik9-final.json, enwik9-long-baseline.json, enwik9-numeric.json, enwik9-ppmd.json, enwik9-sorted-chrono.json, enwik9-sorted-long.json, enwik9-sorted.json, enwik9-word-ppmd.json, link-lanes.jsonl, pair-merges.jsonl, rank-columns.json, rank-prediction.jsonl, revision-rate.json, scale-ppmd.json, scale-word-2048.json, scale-word-24576.json, scale-word-8192.json, scale-word-combined.json, scale-word-length.json, scale-word-prefix.json, scale-word-wide.json, sequence-trial.json, time-order.jsonl, word-validation.json
+lab/hutter/ragc/wrt_morphology_followup	morphology.py, results.json
+lab/hutter/ragc/wrt_rank_history	rank_history.cpp, run.py
+lab/hutter/ragc/wrt_rank_history/work	adaptive16.jsonl, age-compact.jsonl, cells18.jsonl, continuous-cold.jsonl, extra16.jsonl, production-scan.json, screen.jsonl
+lab/hutter/ragc/wrt_rank_history/work/adaptive16/146061538-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/adaptive16/188415384-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/adaptive16/237000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/adaptive16/367000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/adaptive16/437000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/adaptive16/73000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/age-compact/146061538-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/age-compact/146061538-501062281	result.json
+lab/hutter/ragc/wrt_rank_history/work/age-compact/236983616-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/age-compact/236983616-501062281	result.json
+lab/hutter/ragc/wrt_rank_history/work/age-compact/73000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/age-compact/73000000-501062281	result.json
+lab/hutter/ragc/wrt_rank_history/work/cells18/146061538-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/cells18/188415384-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/cells18/237000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/cells18/367000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/cells18/437000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/cells18/73000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/continuous-cold/236983616-0	result.json
+lab/hutter/ragc/wrt_rank_history/work/extra16/120979456-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/extra16/300318720-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/memory-check	18.json, 20.json
+lab/hutter/ragc/wrt_rank_history/work/screen/146061538-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/146061538-262144	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/146061538-501062281	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/188415384-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/188415384-262144	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/188415384-501062281	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/237000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/237000000-262144	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/237000000-501062281	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/367000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/367000000-262144	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/367000000-501062281	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/437000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/437000000-262144	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/437000000-501062281	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/73000000-16777216	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/73000000-262144	result.json
+lab/hutter/ragc/wrt_rank_history/work/screen/73000000-501062281	result.json
+lab/hutter/ragc/wrt_rank_suffix	expert.py, grammar.json, results.json
+lab/hutter/shapes9	bench_templates.py, s00_bytehist.py, s01_pass1.py, s02_census.py, s03_families.py, wiki_archive.py, wiki_order.py, wiki_templates.py
+lab/hutter/shapes9/work	bytehist.json, census_enwik8.json, census_enwik9.json, families_enwik8.json, families_enwik9.json, families_enwik9_loose.json, skeleton-colab-lstm.json, skeleton-screen-local.json, skeleton-variable-width.json, wiki-order-colab.json, wiki-templates-colab.json
+lab/hutter/shapes9/work/p1_enwik8	pass1_meta.json
+lab/hutter/shapes9/work/p1_enwik9	pass1_meta.json
+lab/hutter/sources	html2txt.py
+lab/m3probe	probe.cpp
+lab/mine	cashin.py, order_compress.py, order_results.json, reorder.py, run_wb.py, shape_as_context.py, stride_scan.py, wb_free_N12.json, wb_free_N16.json, wb_gamma_N16.json, wb_gamma_N20.json, wb_gamma_N24.json, wb_gamma_N28.json, wb_naive.py, wb_naive_N12.json, whiteboard_count.py
+lab/mine/cash	dickens.json, kennedy.json, mr.json, nci.json, ptt5.json, random.json, sao.json, x-ray.json
+lab/mine/curves	dickens.json, kennedy.xls.json, mr.json, nci.json, osdb.json, ptt5.json, random8M.bin.json, sao.json, x-ray.json
+lab/priorart	build_results.py, fetch_pages.py, results.json, urls1.tsv, urls2.tsv, urls3.tsv, urls4.tsv, urls5.tsv, urls6.tsv, urls7.tsv
+lab/priorart/work	build_results.before_session2.py, urls_refetch.tsv, urls_session2.tsv
+lab/priorart/work/pages2	fetch_log.tsv
+lab/shape	headers.py, longlag.py, mkrandom.py, nested.py, rank.py, ref_check.py, run_bits.py, run_part1.py, run_ragged.py, shufctl.py, tlvcols.py, triangle.py
+lab/shape/raw	bits_kennedy.xls_lsb.tsv, bits_kennedy.xls_msb.tsv, bits_ptt5_lsb.tsv, bits_ptt5_msb.tsv, bits_random8M_lsb.tsv, bits_random8M_msb.tsv, bits_sao_lsb.tsv, bits_sao_msb.tsv, bits_summary.json, header_kennedy.xls.json, header_mr.json, header_ptt5.json, header_sao.json, header_x-ray.json, nested_kennedy.xls.json, nested_ptt5.json, ragged_lcet10.txt.json, ragged_xml.json, scan_kennedy.xls.meta.json, scan_kennedy.xls.tsv, scan_mr.meta.json, scan_mr.tsv, scan_ooffice.meta.json, scan_ooffice.tsv, scan_osdb.meta.json, scan_osdb.tsv, scan_ptt5.meta.json, scan_ptt5.tsv, scan_random8M.meta.json, scan_random8M.tsv, scan_samba.meta.json, scan_samba.tsv, scan_sao.meta.json, scan_sao.tsv, scan_x-ray.meta.json, scan_x-ray.tsv, scan_xml.meta.json, scan_xml.tsv, tlvcols_kennedy.xls.json
+lab/shape/work/prev/curves	kennedy.xls.json, mr.json, nci.json, ooffice.json, osdb.json, ptt5.json, random8M.json, reymont.json, samba.json, sao.json, x-ray.json, xml.json
+lab/shape/work/prev/raw	ragged_lcet10.txt.json, rank_kennedy.xls.json, rank_mr.json, rank_nci.json, rank_ooffice.json, rank_osdb.json, rank_ptt5.json, rank_random8M.json, rank_reymont.json, rank_samba.json, rank_sao.json, rank_x-ray.json, rank_xml.json, scan_dickens.meta.json, scan_dickens.tsv, scan_enwik8.meta.json, scan_enwik8.tsv, scan_kennedy.xls.meta.json, scan_kennedy.xls.tsv, scan_mozilla.meta.json, scan_mozilla.tsv, scan_mr.meta.json, scan_mr.tsv, scan_nci.meta.json, scan_nci.tsv, scan_ooffice.meta.json, scan_ooffice.tsv, scan_osdb.meta.json, scan_osdb.tsv, scan_ptt5.meta.json, scan_ptt5.tsv, scan_random8M.meta.json, scan_random8M.tsv, scan_reymont.meta.json, scan_reymont.tsv, scan_samba.meta.json, scan_samba.tsv, scan_sao.meta.json, scan_sao.tsv, scan_webster.meta.json, scan_webster.tsv, scan_x-ray.meta.json, scan_x-ray.tsv, scan_xml.meta.json, scan_xml.tsv
+lab/shapes2	cmp1m.json, cmp1m.py, irrational_digits.py, make_comparison.py, noise_rules.py, planted.py, run_all.py, run_fix.py, shape_before_known.py, shapesearch.py, summarize.py
+lab/shapes2/runs	alice29.txt.json, circles_noisy.bin.json, dickens.json, enwik8.json, kennedy.xls.json, lfsr31.bin.json, mr.json, nci.json, ooffice.json, osdb.json, ptt5.json, rule110_random.bin.json, rule30_seed.bin.json, sao.json, sum.json, x-ray.json, xor_image.bin.json
+lab/shapes2/runs2	circles_noisy.bin.json, ptt5.json, rule110_random.bin.json, rule30_seed.bin.json, xor_image.bin.json
+lab/textfront	bench.py, results_10m.json, results_enwik8.json, textfront.py
+lab/whiteboard	naive_check.py, q1_analyze.py, run_meas.py
+lab/whiteboard/raw	q1_n12k14_rep_fast.json, q1_n12k14_rep_fast_sb0.json, q1_n12k14_rep_fast_sb8.json, q1_n16.meas.json, q1_n18.meas.json, q1_n20.meas.json, q1_n24.meas.json, q1_n24_analysis.json, q1_n26.meas.json, q1_n26_analysis.json, q1_n28.meas.json, q1_naive_n12k14.json, q1_naive_n20k19.json
+lab/whiteboard/work/q1	n24_analysis_v1.json
+statico/bench	bench.py
+statico/bench/results	m1_silesia.json

@@ -43,3 +43,7 @@ On the fax the eight-tap model chose width 1,729. Its complete archive is 11,823
 For a fax-specific comparison, Pillow encoded the same bits as a 1,728 × 2,376 monochrome image. A CCITT Group 4 TIFF with a single white-is-zero strip used 32,344 bytes, a default Group 4 TIFF used 33,316, and a 1-bit PNG used 53,277. All decoded to the original packed bytes. SCX1 saved 4,307 bytes over the smaller TIFF. Its selected 1,729-bit predictor stride differs from the actual image width by one bit. Pillow with libtiff support is optional and used only by this baseline script. [Image-container results](results/fax-containers.csv)
 
 After fixing the codec, a separate check took every matching gzip-compressed PSF font in the local Linux console-font directory, decompressed each in full and eliminated byte-identical duplicates by SHA-256. The 134 distinct files include headers, glyphs and Unicode tables. Each file was encoded and decoded separately. Combined input was 748,915 bytes. Summed archive sizes were 362,124 with SCX1, 324,801 with Zstandard and 267,744 with XZ. SCX1 beat Zstandard on five fonts and XZ on zero. The fax result does not generalize across this collection. [Font-by-font results](results/fonts/trials.csv)
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../large-scale/results/by-experiment.md#shape-context) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

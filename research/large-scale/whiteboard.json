@@ -1,0 +1,34 @@
+{
+  "whiteboard-costs": {
+    "bytes": 33554432,
+    "sha256": "dc6c430b3df341d198356bf9096e3ec51e0fcf080229a6ff1008c9d515e0a196",
+    "members": [
+      {
+        "path": "n24.f3.u8",
+        "bytes": 16777216,
+        "sha256": "a3dcc42893172bddb8a7751932c6b22b76c74d88a0029569494c85296112a5c1"
+      },
+      {
+        "path": "n24.f6.u8",
+        "bytes": 16777216,
+        "sha256": "5294318f611da7eb0e01798b20fb0b5804b99345d6472bfc0b5fd2a2af028ffa"
+      }
+    ]
+  },
+  "whiteboard-witnesses": {
+    "bytes": 22630320,
+    "sha256": "ce3653e6eb03db3e45b6aff74ed75e138bf19a94a5eb2efcf72f7c7c1d131edc",
+    "members": [
+      {
+        "path": "n26.rec3.bin",
+        "bytes": 5861040,
+        "sha256": "9d54a57ef671946ad0f51576d60484cb5028f4bf0377f3e575f682374a6b376a"
+      },
+      {
+        "path": "n26.rec6.bin",
+        "bytes": 16769268,
+        "sha256": "f9d20b057d55a0836543bf8843c7d65e47331c86ff626f706d554b55c3ef4d5f"
+      }
+    ]
+  }
+}

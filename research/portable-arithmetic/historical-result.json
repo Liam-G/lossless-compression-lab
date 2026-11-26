@@ -1,0 +1,13 @@
+{
+  "package_bytes": 96920967,
+  "package_sha256": "b75a7dd33d17ce6004fdb98173e928f244fd155812e8fc9f2b8f9461c0729351",
+  "input_bytes": 96994187,
+  "input_sha256": "5f7921346a0b045f6196be84b1c794344455a47eaf84bf9ef81b8707559ca547",
+  "previous_weight_sha256": "e92143388a86d39ad669cb19a81c2830677eb91e2ee56398bba1181747d380c0",
+  "recreated_weight_bytes": 2888252,
+  "recreated_weight_sha256": "f635a7b23a91cdf7c7b10414cddc5b2c31f4124e17553e1fe6ae991eb7fcfffa",
+  "old_directory_bytes": 90,
+  "new_directory_bytes": 37,
+  "decode_seconds": 8.894,
+  "byte_equal": true
+}

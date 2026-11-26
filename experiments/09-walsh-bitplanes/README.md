@@ -55,6 +55,11 @@ On the noiseless periodic control, plane separation reduced 284 bytes to 220. Ad
 
 All 32 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#09-walsh-bitplanes) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 08 offers a low-rank predictor. Experiment 14 compares the residuals obtained from both predictors.

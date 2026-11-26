@@ -63,6 +63,11 @@ All 144 profile archives decoded byte for byte. The [trial measurements](results
 | 36-4-signed-whole | 156 | 16 | 0 | 0 |
 | 36-4-signed-checkpoints | 108 | 48 | 48 | 192 |
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#04-irrational-checkpoints) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 01 also chooses interval boundaries. Experiment 11 can share recurring coefficient lists.

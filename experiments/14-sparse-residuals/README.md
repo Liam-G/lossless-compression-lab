@@ -68,6 +68,11 @@ All 44 profile archives decoded byte for byte. The [trial measurements](results/
 | clustered | 141 | 143 | 119 | 120 |
 | row-pattern | 156 | 156 | 156 | 172 |
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#14-sparse-residuals) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiments 08, 09 and 12 directly generate the benchmark inputs.

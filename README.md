@@ -1,22 +1,31 @@
 # Lossless Compression Lab
 
-This repository contains the original compression engines and a set of 16 smaller experiments that isolate their component ideas. The [research index](research/README.md) links nine project folders, benchmark commands, archive formats and measurements. The [field notes](research/evidence/README.md) connect them to 149 original reports.
+This English research repository contains 16 thesis experiments, three cross-experiment studies and 27 research projects recovered or extended from the original compression lab. The [large-file benchmark](research/large-scale/README.md) requires at least **20 MiB of raw input per trial** and checks exact reconstruction. The [idea atlas](research/evidence/idea-atlas.md) connects the local project conversations, the 51-topic dossier, and the original whiteboard formula to measured experiments and open proposals.
 
-Three experiments illustrate the range. A [raster shape coder](research/shape-context/README.md) compresses the 513,216-byte Canterbury fax to 28,037 bytes. A [whiteboard quotient tree](research/whiteboard-trees/README.md) reconstructs a 1.5 MiB planted file from two formulas and one split. A [3D cellular automaton with binary matrix factors](research/tensor-orbits/README.md) shows a large joint gain on a planted volume and a 47-byte gain over matrix coding alone on a real MR slice. The [mixed-arity factor-tree replay](research/factor-trees/README.md) and [adaptive formula scanner](research/repdigit-intervals/README.md) run on the full 96,994,187-byte cofactor Q.
-
-The [experiment template](templates/experiment/README.md) defines the common questions about source, archive cost, reconstruction and controls. For a compact first example, see [repdigit ratios and adaptive segmentation](experiments/01-repdigit-segmentation/README.md).
+| Start with | What you can reproduce |
+|---|---|
+| [The original whiteboard census and witnesses](research/whiteboard-census/README.md) | Rebuild the 32 MiB cost table and use the recorded equations to compress a separate 22,630,320-byte witness file to 1,082,142 bytes. |
+| [The whiteboard formula inside a factor tree](research/shared-factor-forest/README.md) | Divide, split a cofactor, encode one child as a quotient of repdigits, and share its recipe. |
+| [Four-dimensional cellular automata and matrix factors](research/four-dimensional-factors/README.md) | Search backward, change the factor basis and store the exact XOR correction. |
+| [Learn the cellular rule and its residual matrix together](research/learned-cellular-rules/README.md) | A 29,491,200-byte planted field drops from 25,054,265 to 11,051,733 bytes when the rule learns from correlations across error planes. |
+| [Glyphs, baselines and exact residuals](research/glyph-residuals/README.md) | On 64 Valgrind manual pages, shared bitmaps and character positions use 394,104 bytes. Wide-strip lossless DjVu uses 828,622. |
+| [Triangular distance matrices](research/distance-geometry/README.md) | Restore a 21,155,400-byte geographic distance table from four landmark columns and a residual in 3,850,014 bytes. |
+| [Whole-file formulas and sparse arithmetic regions](research/carry-trees/README.md) | Compare multiplication before and after a split on the complete 96,994,187-byte cofactor Q. |
+| [All implementations](research/README.md) · [Measurements by experiment](research/large-scale/results/by-experiment.md) | Browse runnable projects, exact sizes, conditional-reference charges and per-file timings. |
+| [Historical reports](research/evidence/report-index.tsv) · [Protocol inventory](research/evidence/protocol-index.tsv) | Search 149 English report abstracts and the 583 original source/measurement directories. |
 
 ## Run from a clean checkout
 
-The 16 compact experiments use Python 3.10 or newer, the standard library, the Zstd CLI and the included inputs. For the native projects, follow the [research build and replay instructions](research/README.md#build-and-reproduce).
+The 16 compact diagnostic suites use Python 3.10 or newer, the standard library, the Zstd CLI and the included fixtures. Primary benchmark commands use at least 20 MiB per input. Set up the [large-file inputs and dependencies](research/large-scale/README.md#reproduce-a-result) for the projects you select. For the native projects, follow the [research build and replay instructions](research/README.md#build-and-reproduce).
 
 ```sh
 python3 suite.py test
+python3 suite.py benchmark --list
 python3 lab.py 07 benchmark runs/recursive-gf2
-python3 suite.py benchmark runs/all-experiments
+python3 suite.py benchmark runs/all-experiments --group experiments
 ```
 
-Each benchmark command creates a new output directory. For individual encode/decode examples, profiles and results, open the experiment below. The [measurement protocol](PROTOCOL.md) explains metadata, decoder delivery and the difference between an update patch and a full archive.
+Each benchmark command creates a new output directory. The suite accepts an individual project, one group, or all projects by default. For the original small comparison tables, use `python3 suite.py diagnostics runs/diagnostics`. For individual encode/decode examples, profiles and results, open the experiment below. The [measurement protocol](PROTOCOL.md) explains metadata, decoder delivery and the difference between an update patch and a full archive.
 
 ## Experiment index
 

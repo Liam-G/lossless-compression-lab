@@ -216,6 +216,9 @@ def check(number, codec):
 
 
 def main():
+    if len(sys.argv)>2 and sys.argv[2]=="benchmark":
+        subprocess.run([sys.executable,ROOT/"research/large-scale/primary.py","--project",sys.argv[1],*sys.argv[3:]],check=True)
+        return
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("experiment", type=int, choices=range(2, 17))
     sub = parser.add_subparsers(dest="command", required=True)
@@ -226,11 +229,12 @@ def main():
         cmd.add_argument("--reference", type=Path)
         if action == "encode":
             cmd.add_argument("--profile")
-    sub.add_parser("benchmark").add_argument("output", type=Path)
+    sub.add_parser("benchmark",help="Primary experiment benchmark, 20 MiB minimum")
+    sub.add_parser("diagnostics").add_argument("output", type=Path)
     sub.add_parser("test")
     args = parser.parse_args()
     codec = load(args.experiment, "codec")
-    if args.command == "benchmark":
+    if args.command == "diagnostics":
         bench(args.experiment, codec, args.output)
     elif args.command == "test":
         check(args.experiment, codec)

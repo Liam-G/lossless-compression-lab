@@ -37,3 +37,7 @@ FWF1 starts from 64-byte words, permits three levels and up to two factor nodes 
 | Zstandard level 3 | 18,723 |
 
 The fixture embeds a cross-base quotient in one half of a cofactor, then applies a small prime and a possible one-unit correction. Decoding counted 507 quotient leaves below factors and 457 splits below factors. The nested method saved 7,837 bytes over restricting factors to leaves. Zstandard compressed this same control further. On the real MR, X-ray and spreadsheet slices all five profiles tied. This bounded search establishes where operator order matters and gives its cost on data without the plant. [Every profile, input hash and decoded node count](results/forest/trials.csv)
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../large-scale/results/by-experiment.md#whiteboard-trees) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

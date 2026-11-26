@@ -46,3 +46,7 @@ With enumeration fixed, the orbit reduced the evolved control from 475 bytes to 
 | medical.bin | orbit-adaptive | 512 | 433 | 433 | 137 |
 
 All 20 study archives reconstructed their original bytes. The [trial table](results/reference/trials.csv) includes input hashes, side-stream byte counts and single-run timings. [Study implementation](benchmark.py).
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#automaton-factor-residual) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

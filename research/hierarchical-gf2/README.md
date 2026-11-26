@@ -22,3 +22,7 @@ The six profiles measure direct coding, automaton alone, a single factorization,
 ## Inputs, results and interpretation
 
 Each input is 8,192 bytes. On the evolved rank-four fixture, all restricted profiles gave 8,205 bytes. The full profile gave 4,492. On the hierarchical fixture, single-level factorization gave 6,471 and recursive factorization gave 5,514. Plain rank-four matrices already reached 4,267 bytes with one factorization. The uniform and Neif payload fixtures selected literal files. All 60 trials matched the original measured sizes, and all ten full-profile encodes reproduced the historical archive bytes exactly. [Replay with decoded node counts](results/replay/trials.csv)
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../large-scale/results/by-experiment.md#hierarchical-gf2) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

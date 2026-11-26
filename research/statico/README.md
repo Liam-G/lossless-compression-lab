@@ -22,3 +22,7 @@ M1 constructs repeated substrings as grammar productions, emits their definition
 ## Inputs, results and interpretation
 
 Silesia osdb (10,085,684 bytes) encoded to 2,723,344. Silesia dickens (10,192,446 bytes) encoded to 2,780,136. Both full reconstructions matched their input hashes and the original archive lengths. The historical enwik8 result was 26,346,968 bytes. Its grammar contained 553,204 rules. The full Silesia table shows where this approach lost ground, including mozilla and x-ray. [Fresh full-file results](bench/results/replay.json) · [Historical benchmark and XZ settings](bench/results/README.md)
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../large-scale/results/by-experiment.md#statico) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

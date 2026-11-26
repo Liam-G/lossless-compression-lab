@@ -53,6 +53,11 @@ Across the two real executables, the combined profile used 18,900 archive bytes.
 
 All 16 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json). [Collection delivery costs](results/reference/collection.csv).
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#15-binary-regions) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 01 supplies arithmetic regions, experiment 12 supplies reference copies and experiment 16 compares competing intervals.

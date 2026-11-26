@@ -1,3 +1,4 @@
+from functools import lru_cache
 from lab import load
 from wire import blocks, var, encode, decode
 
@@ -18,20 +19,26 @@ def decompose(block):
     return bytes(basis) + mask.to_bytes(2, "little"), errors
 
 
+@lru_cache(maxsize=8192)
+def select_matrix(block,transform):
+    state = int.from_bytes(block, "little")
+    candidates = []
+    for t in range(4 if transform == "orbit" else 1):
+        matrix = state.to_bytes(8, "little")
+        factors, mask = decompose(matrix)
+        exact_rank = factoring.factor(matrix, 8)[0]
+        candidates.append((sum(v.bit_count() for v in mask), exact_rank, t, factors, mask))
+        state = orbit.step(state, "checker", True)
+    _, _, t, factors, mask = min(candidates)
+    return t,factors,mask
+
+
 def pack(data, profile, ref, stats):
     transform, code = profile.split("-")
     meta, errors = bytearray(), bytearray()
     stop = len(data) // 8 * 8
     for block in blocks(data[:stop], 8):
-        state = int.from_bytes(block, "little")
-        candidates = []
-        for t in range(4 if transform == "orbit" else 1):
-            matrix = state.to_bytes(8, "little")
-            factors, mask = decompose(matrix)
-            exact_rank = factoring.factor(matrix, 8)[0]
-            candidates.append((sum(v.bit_count() for v in mask), exact_rank, t, factors, mask))
-            state = orbit.step(state, "checker", True)
-        _, _, t, factors, mask = min(candidates)
+        t,factors,mask=select_matrix(block,transform)
         if transform == "orbit":
             meta.append(t)
         meta.extend(factors)

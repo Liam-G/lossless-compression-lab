@@ -1,0 +1,10 @@
+{
+  "bytes": 32870784,
+  "sha256": "3cc442b258bd0b64f16d55ff3b656eb197008529dedd4bafd2df69f03a68fe09",
+  "bits": 28,
+  "budget": 27,
+  "original_records": 1515430,
+  "selected_records": 913077,
+  "complete_rec6_sha256": "e6c2880c6a2aa9dddfb474e841c38fcaa53f1fb0000ae90640b49ac62f8054c6",
+  "complete_rec3_sha256": "d54b643159f53fc13dba3eaddc620cfc4529c159b8a7ada4167f02cd82734e13"
+}

@@ -57,6 +57,11 @@ One inserted byte produced a 62-byte update for a 513-byte target. Delivering th
 
 All 27 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#12-relative-patches) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 14 tests exceptions from the logo alignment. Experiments 15 and 16 can supply or choose a generated alternative.

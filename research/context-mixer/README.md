@@ -34,3 +34,7 @@ Each predictor supplies a probability for the next bit. The mixer combines them 
 ## Inputs, results and interpretation
 
 On the first 131,072 bytes of enwik8, small context tables produced a 34,010-byte archive. The match and second-layer profile produced 33,759. Adding a 32-cell LSTM reduced that to 33,727. The original full 100,000,000-byte run used larger context tables and a 192-cell LSTM. Its verified archive measured 17,811,463 bytes. The prefix run was repeated here. The full result comes from the retained encode/decode log. [Fresh benchmark](results/enwik8-prefix.csv) · [Historical full-file log](results/original-enwik8.log)
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../large-scale/results/by-experiment.md#context-mixer) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

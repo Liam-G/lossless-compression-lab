@@ -1,6 +1,31 @@
 # Original compression experiments
 
-The lab tried three distinct ways to expose structure inside a file. The arithmetic trees divide a big integer and recurse into its cofactor. The matrix experiments run a reversible system backwards and look for a simpler state. The raster experiment treats previous rows as evidence for the next bit. Each hypothesis can be tested by reconstructing the file and removing a single part of the encoder.
+The original lab explored arithmetic descriptions of large integers, reversible matrix dynamics, file-specific context models, and the cost of delivering the decoder. The projects below restore those implementations and test new combinations on real files and controlled inputs. The [idea atlas](evidence/idea-atlas.md) links the original formulas and project conversations to the implementations and open proposals. The [report index](evidence/report-index.tsv) identifies each retained historical measurement by source and digest.
+
+## Large-file research
+
+The [large benchmark](large-scale/README.md) covers real text, numerical samples, software revisions, documents, images, video, archived formula instructions, full executables, and generated controls. Each result row has at least 20 MiB of verified raw bytes. The [complete trial table](large-scale/results/by-dataset.md) includes losses and literal fallbacks.
+
+| Project | Question |
+|---|---|
+| [Whiteboard census and witnesses](whiteboard-census/README.md) | Are the original formula records predictable from their six arithmetic parameters? |
+| [Python-isolated arithmetic packages](portable-arithmetic/README.md) | Can a complete package with its decoder beat canonical Q? |
+| [Jointly learned cellular rules](learned-cellular-rules/README.md) | Can correlated binary innovations identify an otherwise hidden transition table? |
+| [Wikipedia structures](wiki-structures/README.md) | How do page ordering, arithmetic templates and primed CM3 members interact? |
+| [Shared factor forest](shared-factor-forest/README.md) | Can repdigit formulas become profitable below a factor and be shared between leaves? |
+| [Carry trees and sparse scaling](carry-trees/README.md) | Should a reversible multiply or divide come before or after a split? |
+| [Prime index trees](prime-index-trees/README.md) | Do locally profitable prime ordinals improve the whole archive? |
+| [Whole-integer formulas](integer-formulas/README.md) | How much must the receiver know to evaluate a square, consecutive product or modular-square formula? |
+| [Generator sums](generator-sums/README.md) | What survives the cost of a three-seed search and its signed residual? |
+| [Shared checkerboard clocks](checkerboard-orbits/README.md) | Can sharing the time reduce the cost of choosing among 1,001 predecessors? |
+| [Four-dimensional factors](four-dimensional-factors/README.md) | Can an inverse cellular rule expose noisy low rank and equivalent bases? |
+| [Integer lattice prediction](lattice-prediction/README.md) | Can inferred widths and strides make separated bit planes cheaper? |
+| [Distance geometry](distance-geometry/README.md) | Can distances to a few landmarks predict an entire triangular matrix? |
+| [Reversible image wavelets](reversible-wavelets/README.md) | How do color decorrelation and multi-scale prediction interact? |
+| [Motion residuals](motion-residuals/README.md) | Do temporal changes, motion vectors or spatial predictors explain real grayscale frames? |
+| [Bitmap glyph residuals](glyph-residuals/README.md) | Can a dictionary of connected components and an exact page correction beat an ordinary bitmap coder? |
+| [Text fields and BWT](text-views/README.md) | Does spelling and field normalization before sorting transfer to a separate text window? |
+| [Arithmetic reference patches](arithmetic-references/README.md) | What changes when the reference comes from the same release, another release, or must be delivered? |
 
 ## Where to start
 

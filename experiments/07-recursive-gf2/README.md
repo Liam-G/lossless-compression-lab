@@ -59,6 +59,11 @@ On the matched-rule control, permitting the automaton before the split reduced t
 
 All 40 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json). [Verified archives](results/reference/archives).
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#07-recursive-gf2) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 06 supplies the reversible transformation. Experiment 08 adds a mask for inexact factors.

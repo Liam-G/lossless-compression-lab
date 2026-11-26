@@ -60,6 +60,11 @@ All 15 profile archives decoded byte for byte. The [trial measurements](results/
 | dictionary | 533 | 22.4 | 45.9 |
 | conditional | 347 | 13.9 | 38.3 |
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#10-affine-chains) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 02 yields multiplier–correction pairs and experiment 11 can share their expression structure.

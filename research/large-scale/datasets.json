@@ -1,0 +1,103 @@
+{
+  "wiki-dev": {
+    "bytes": 25165824,
+    "sha256": "35342659f0abe2e03d99ebed4b8a631912aa63bc1da3c978960a781cfea36565",
+    "members": [
+      {
+        "path": "enwik8/enwik8",
+        "offset": 0,
+        "bytes": 25165824,
+        "sha256": "35342659f0abe2e03d99ebed4b8a631912aa63bc1da3c978960a781cfea36565"
+      }
+    ]
+  },
+  "wiki-transfer": {
+    "bytes": 25165824,
+    "sha256": "b02aee606cf8e55e9c23183ba032b23ff59f1382d7a6432ec156b6582d4d6ab8",
+    "members": [
+      {
+        "path": "enwik8/enwik8",
+        "offset": 67108864,
+        "bytes": 25165824,
+        "sha256": "b02aee606cf8e55e9c23183ba032b23ff59f1382d7a6432ec156b6582d4d6ab8"
+      }
+    ]
+  },
+  "numerical": {
+    "bytes": 25696748,
+    "sha256": "7192a79929751ab2e969bfda1bf286d60f309d3eb120c62b7242683416d2513d",
+    "members": [
+      {
+        "path": "silesia/mr",
+        "offset": 0,
+        "bytes": 9970564,
+        "sha256": "68637ed52e3e4860174ed2dc0840ac77d5f1a60abbcb13770d5754e3774d53e6"
+      },
+      {
+        "path": "silesia/x-ray",
+        "offset": 0,
+        "bytes": 8474240,
+        "sha256": "7de9fce1405dc44ae5e6813ed21cd5751e761bd4265655a005d39b9685d1c9ad"
+      },
+      {
+        "path": "silesia/sao",
+        "offset": 0,
+        "bytes": 7251944,
+        "sha256": "c2d0ea2cc59d4c21b7fe43a71499342a00cbe530a1d5548770e91ecd6214adcc"
+      }
+    ]
+  },
+  "nci": {
+    "bytes": 33553445,
+    "sha256": "fc63a31770947b8c2062d3b19ca94c00485a232bb91b502021948fee983e1635",
+    "members": [
+      {
+        "path": "silesia/nci",
+        "offset": 0,
+        "bytes": 33553445,
+        "sha256": "fc63a31770947b8c2062d3b19ca94c00485a232bb91b502021948fee983e1635"
+      }
+    ]
+  },
+  "mozilla": {
+    "bytes": 51220480,
+    "sha256": "657fc3764b0c75ac9de9623125705831ebbfbe08fed248df73bc2dc66e2a963b",
+    "members": [
+      {
+        "path": "silesia/mozilla",
+        "offset": 0,
+        "bytes": 51220480,
+        "sha256": "657fc3764b0c75ac9de9623125705831ebbfbe08fed248df73bc2dc66e2a963b"
+      }
+    ]
+  },
+  "samba": {
+    "bytes": 21606400,
+    "sha256": "93ba07bc44d8267789c1d911992f40b089ffa2140b4a160fac11ccae9a40e7b2",
+    "members": [
+      {
+        "path": "silesia/samba",
+        "offset": 0,
+        "bytes": 21606400,
+        "sha256": "93ba07bc44d8267789c1d911992f40b089ffa2140b4a160fac11ccae9a40e7b2"
+      }
+    ]
+  },
+  "webster": {
+    "bytes": 41458703,
+    "sha256": "6a68f69b26daf09f9dd84f7470368553194a0b294fcfa80f1604efb11143a383",
+    "members": [
+      {
+        "path": "silesia/webster",
+        "offset": 0,
+        "bytes": 41458703,
+        "sha256": "6a68f69b26daf09f9dd84f7470368553194a0b294fcfa80f1604efb11143a383"
+      }
+    ]
+  },
+  "uniform": {
+    "bytes": 25165824,
+    "sha256": "bf7a39e3b24d6bf242381043bd6bff2d70466a6b5ec1f6963612165b562c70ac",
+    "generator": "Python Random(0x5A39C121).randbytes(24 << 20)"
+  }
+}

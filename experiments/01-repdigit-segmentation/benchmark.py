@@ -95,6 +95,10 @@ def write_csv(path, rows):
 
 
 def main():
+    if "--diagnostics" not in sys.argv[1:]:
+        subprocess.run([sys.executable,Path(__file__).resolve().parents[2]/"research/large-scale/primary.py","--project","01",*sys.argv[1:]],check=True)
+        return
+    sys.argv.remove("--diagnostics")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path, help="New directory for this run")
     parser.add_argument("--zoneinfo", type=Path, default=HERE / "fixtures/zoneinfo")

@@ -38,3 +38,7 @@ Sharing alone used 303 bytes on the planted input. Enabling arithmetic leaves as
 | real-cofactor-words | combined | 512 | 697 | 697 | 525 |
 
 All 12 study archives reconstructed their original bytes. The [trial table](results/reference/trials.csv) includes input hashes, side-stream byte counts and single-run timings. [Study implementation](benchmark.py).
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#formula-factor-grammar) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

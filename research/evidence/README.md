@@ -1,6 +1,6 @@
 # Field notes from the original workspace
 
-The long-form technical register, `esperimenti_descrizioni_tecniche.txt`, leads to 149 original reports across the workspace. The [English index](report-index.tsv) gives a stable ID, translated title, original path, size and SHA-256 for each report. Paths are relative to the directory containing the original Italian thesis list. The table below connects the broader work to the implementations in this repository. Historical findings in this table are attributed to their report IDs.
+The long-form technical register, `esperimenti_descrizioni_tecniche.txt`, leads to 149 original reports across the workspace. The [English index](report-index.tsv) gives a stable ID, translated title, original path, size, SHA-256 and a substantive English summary for each report. Paths are relative to the directory containing the original Italian thesis list. The table below connects the broader work to the implementations in this repository. Historical findings in this table are attributed to their report IDs.
 
 | Report IDs | What was tried | What the measurement established |
 |---|---|---|
@@ -14,6 +14,8 @@ The long-form technical register, `esperimenti_descrizioni_tecniche.txt`, leads 
 | 082–118, 120–126, 138–147 | Causal context models, article history, URL and title prediction, token streams and metadata | The relevant common input can be an internal decoder tape or probability trace. A shorter component must pay for integration into the final stream. Use the indexed native and full-corpus reports to identify the actual target of each result. |
 | 119, 127–136 | Generator banks with exact residuals, arithmetic fields, substring transforms and recurrence fits | A generator bank with small corrections produced large savings on its planted sequence. At six correction bytes it found 1,657 matches on Q vs 1,643 on matched random data, and expanded Q by 4,720 bytes after selectors. |
 | 140–141 | Exact cross-base ratios and short arithmetic records | The 117-bit integer (2¹²⁰ − 1)/13 has a 22-bit recipe in the original gamma format. Whether a substring pays for a position and width is a separate question, tested by RPS1 and QFT1. |
+
+The [idea atlas](idea-atlas.md) indexes all 51 dossier topics and all 23 register families. The [protocol inventory](protocol-index.tsv) preserves the 583 recorded source and measurement directories. The [supplementary ledger](supplementary.tsv) identifies 15 standalone result files by path and hash.
 
 ## How to interpret the replays
 

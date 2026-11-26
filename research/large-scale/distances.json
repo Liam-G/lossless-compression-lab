@@ -1,0 +1,29 @@
+{
+  "place-distances": {
+    "sha256": "32ea114e0b7c92a8dd6905211d871918508b2f1214300890da55a037b41f6e03",
+    "bytes": 21155400,
+    "vertices": 4600,
+    "dimensions": 3,
+    "scale": 32767.5
+  },
+  "walk-distances": {
+    "sha256": "2ee1952855169c886d85eaa655671e0ba8fe4afbbdd794cd9cfc6b8a123ecc2f",
+    "bytes": 21155400,
+    "vertices": 4600,
+    "dimensions": 2,
+    "scale": 343.68768798921855
+  },
+  "arc-distances": {
+    "sha256": "cd2b85f06320c1fab535dca8e6fcdbdb0c9652a017644f770777b7de2bf45d7a",
+    "bytes": 21155400,
+    "vertices": 4600,
+    "dimensions": 3,
+    "scale": 20860.438391054722
+  },
+  "random-triangle": {
+    "sha256": "5c8c595a50ab65b21be97920b013a2607fee6ff06a5fcfb02975a42d3c19a821",
+    "bytes": 21155400,
+    "vertices": 4600,
+    "seed": 77091
+  }
+}

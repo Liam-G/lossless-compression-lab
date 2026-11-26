@@ -54,6 +54,11 @@ On the repeated-motif input the complete-file candidate used 191 bytes and varia
 
 All 24 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#16-joint-selection) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 01 motivates arithmetic records, experiment 07 motivates matrix records, and the final profile uses shared region generators from experiment 15.

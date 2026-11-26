@@ -60,6 +60,11 @@ All 16 profile archives decoded byte for byte. The [trial measurements](results/
 | global-bytes | 457 | 33 | 32 |
 | local-bytes | 236 | 32 | 2 |
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#05-local-bases) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 01 represents the no-exception case. Experiment 14 provides competing position codes.

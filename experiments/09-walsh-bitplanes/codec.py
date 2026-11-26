@@ -1,6 +1,7 @@
 """Walsh–Hadamard predictor with exact XOR residuals and optional bit planes."""
 
 import zlib
+from functools import lru_cache
 from wire import blocks, var, zig, signed, xor
 
 ID = 9
@@ -38,23 +39,29 @@ def prediction(length, terms):
     return to_bytes([int(v > 0) for v in fwht(spectrum)[:length]])
 
 
+@lru_cache(maxsize=8192)
+def encode_block(block, profile):
+    bits = layout(block, profile in ("planes", "combined"))
+    raw = to_bytes(bits)
+    options = [(b"\0", zlib.compress(raw))]
+    if profile in ("spectral", "combined"):
+        signs = [2 * b - 1 for b in bits]
+        signs += [0] * ((1 << (len(bits) - 1).bit_length()) - len(bits))
+        coeff = fwht(signs)
+        order = sorted(range(len(coeff)), key=lambda i: -abs(coeff[i]))
+        for k in (1, 2, 4, 8):
+            terms = [(i, coeff[i]) for i in order[:k]]
+            header = bytes([len(terms)]) + b"".join(var(i) + var(zig(a)) for i, a in terms)
+            options.append((header, zlib.compress(xor(raw, prediction(len(bits), terms)))))
+    header, errors = min(options, key=lambda ab: len(ab[0]) + len(ab[1]) + len(var(len(ab[1]))))
+    return header, errors
+
+
 def pack(data, profile, ref, stats):
     meta, body = bytearray(), bytearray()
     histogram = {}
     for block in blocks(data, 32):
-        bits = layout(block, profile in ("planes", "combined"))
-        raw = to_bytes(bits)
-        options = [(b"\0", zlib.compress(raw))]
-        if profile in ("spectral", "combined"):
-            signs = [2 * b - 1 for b in bits]
-            signs += [0] * ((1 << (len(bits) - 1).bit_length()) - len(bits))
-            coeff = fwht(signs)
-            order = sorted(range(len(coeff)), key=lambda i: -abs(coeff[i]))
-            for k in (1, 2, 4, 8):
-                terms = [(i, coeff[i]) for i in order[:k]]
-                header = bytes([len(terms)]) + b"".join(var(i) + var(zig(a)) for i, a in terms)
-                options.append((header, zlib.compress(xor(raw, prediction(len(bits), terms)))))
-        header, errors = min(options, key=lambda ab: len(ab[0]) + len(ab[1]) + len(var(len(ab[1]))))
+        header, errors = encode_block(block, profile)
         histogram[header[0]] = histogram.get(header[0], 0) + 1
         meta.extend(header + var(len(errors)))
         body.extend(errors)

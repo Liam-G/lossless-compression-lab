@@ -1,0 +1,29 @@
+{
+  "luma-kath": {
+    "bytes": 29491200,
+    "sha256": "6b578cd160f38ddc9feaf3c93a8e497238924ca7b8efcae905db7b70197437ca",
+    "source": "sddm-astronaut-theme/Backgrounds/hyprland_kath.mp4",
+    "source_sha256": "1ddffbd4d38bc13e9b9f31446fa4cabf102bca1a48291dd542745539ba3fe8c3",
+    "width": 640,
+    "height": 360,
+    "frames": 128
+  },
+  "luma-jake": {
+    "bytes": 29491200,
+    "sha256": "246708f9a5ee7f0b0f85fda835523e444aa151a57918d774dd644bdc9656bd8f",
+    "source": "sddm-astronaut-theme/Backgrounds/jake_the_dog.mp4",
+    "source_sha256": "0716760a54047cff6992b0b8a05ea93a7bca3b003e3bc15b51383e6897dcf8e3",
+    "width": 640,
+    "height": 360,
+    "frames": 128
+  },
+  "luma-rei": {
+    "bytes": 29491200,
+    "sha256": "e0aa3c8ce4cd7ea6968f27e7060fdb606325cb14afca5ff326f4bfe96705cc26",
+    "source": "silent/backgrounds/rei.mp4",
+    "source_sha256": "af474934a850717f6cf025bd1a4af2796665caee4ba128127a8cc95e3864148a",
+    "width": 640,
+    "height": 360,
+    "frames": 128
+  }
+}

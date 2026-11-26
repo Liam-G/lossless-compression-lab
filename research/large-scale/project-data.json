@@ -1,0 +1,13 @@
+{
+  "formula-text": {
+    "bytes": 25165824,
+    "sha256": "fe4576d01e0b048db618c8d246ac7b3e756b9b40a5f9742252522cf2f9ff987c",
+    "source": "First 24 MiB of the inflated original Q formula listing"
+  },
+  "affine-pairs": {
+    "bytes": 25165824,
+    "sha256": "10eb08fb1d145e9f961923e1d539605a92f02224752e2cb4a99ba135439049d2",
+    "original_bytes_consumed": 6291456,
+    "source": "First 6,291,456 original affine instructions as big-endian signed 16-bit pairs"
+  }
+}

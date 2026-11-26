@@ -51,6 +51,11 @@ def price(pair):
     return sum(map(len, pair))
 
 
+@lru_cache(maxsize=16384)
+def smallest_short_record(block, regions):
+    return min(choices(block, regions), key=price)
+
+
 def pack(data, profile, ref, stats):
     if profile == "single":
         records = [min(choices(data), key=price)] if data else []
@@ -60,17 +65,23 @@ def pack(data, profile, ref, stats):
         expected = sum(map(price, records))
     else:
         size = len(data)
+        use_regions = profile == "intervals-regions"
+        whole = min(choices(data, use_regions), key=price) if size else None
+        # A path of short records pays at least three metadata bytes per 64 raw bytes.
+        # A strictly cheaper whole record is necessarily the original DP winner.
+        whole_wins = size > max(LENGTHS) and price(whole) < 3 * ((size + max(LENGTHS) - 1) // max(LENGTHS))
         best = [0] * (size + 1)
         path = {}
-        for pos in reversed(range(size)):
+        if whole_wins:
+            best[0] = price(whole)
+            path[0] = size, whole
+        for pos in reversed(range(0 if whole_wins else size)):
             best[pos] = float("inf")
             widths = {min(w, size - pos) for w in LENGTHS}
             if pos == 0:
                 widths.add(size)
             for width in sorted(widths):
-                pair = min(
-                    choices(data[pos : pos + width], profile == "intervals-regions"), key=price
-                )
+                pair = whole if width == size else smallest_short_record(data[pos : pos + width], use_regions)
                 cost = price(pair) + best[pos + width]
                 if cost < best[pos]:
                     best[pos] = cost

@@ -6,7 +6,7 @@ import os
 import struct
 import tempfile
 from collections import Counter
-from functools import cache
+from functools import cache, lru_cache
 from math import comb
 from pathlib import Path
 
@@ -121,6 +121,7 @@ def factor(rows, w):
                         (tuple(x >> r for x in selected), w-r))
 
 
+@lru_cache(maxsize=8192)
 def encode_block(original, profile, steps, depth, beam):
     use_factors = profile in ("factor-one", "factors", "post", "full")
     use_ca = profile in ("automaton", "post", "full") and steps > 0

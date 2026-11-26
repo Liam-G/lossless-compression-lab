@@ -1,0 +1,65 @@
+{
+  "shared-orbit-1000": {
+    "seed": 386205,
+    "program": "checkerboard-orbits/control.py",
+    "random_source": "NumPy Generator/PCG64",
+    "bytes": 25165824,
+    "sha256": "5c754fb983a1daf94b18b06ae768f88217ba93fd1de5a47c9da029351f458106"
+  },
+  "mapped-text": {
+    "seed": 65079,
+    "program": "carry-trees/control.py",
+    "random_source": "Python Random, using wiki-dev as input",
+    "bytes": 25165824,
+    "sha256": "417eede890b4b67932adde9db8ca3dd936dc1509da90064bd64e20531519277e"
+  },
+  "noisy-spacetime": {
+    "seed": 572366,
+    "program": "four-dimensional-factors/control.py",
+    "random_source": "NumPy Generator/PCG64",
+    "bytes": 25165824,
+    "sha256": "b08372a53941d0c0e28a8015d0be3db7a4c8ddfd5e7a5f3f8c54aeb9d9052422"
+  },
+  "three-seeds": {
+    "seed": 763721,
+    "program": "generator-sums/control.py",
+    "random_source": "Python Random and SHAKE256",
+    "bytes": 25165824,
+    "sha256": "08800c6c6c29c33bda8e29ef87eb0e587ce14e74de8a03b71b9415c617cb4175"
+  },
+  "learned-field": {
+    "seed": 842105,
+    "program": "learned-cellular-rules/control.py",
+    "random_source": "NumPy Generator/PCG64",
+    "bytes": 29491200,
+    "sha256": "1ac99f418ee7297074341c6892e8340b65e91bbaacbf8865165859809045fb2d"
+  },
+  "field-independent": {
+    "seed": 842105,
+    "program": "learned-cellular-rules/control.py",
+    "random_source": "NumPy PCG64, --kind independent",
+    "bytes": 29491200,
+    "sha256": "8a487b9c17d178970697b60631debdcd46d312c0af000dbe5298590997fb4ad3"
+  },
+  "field-transfer": {
+    "seed": 144211,
+    "program": "learned-cellular-rules/control.py",
+    "random_source": "NumPy PCG64, --seed 144211",
+    "bytes": 29491200,
+    "sha256": "7b61c1f1f8c824f62517abc50da955f1c2ff7780f34979d5b48e35aa8b838b59"
+  },
+  "field-uniform": {
+    "seed": 842105,
+    "program": "learned-cellular-rules/control.py",
+    "random_source": "NumPy PCG64, --kind uniform",
+    "bytes": 29491200,
+    "sha256": "6af36dfab5f2f9c62f74e4216380cbb94a592901e4ee7d2466a07c78ed06bcf5"
+  },
+  "shuffled-witnesses": {
+    "seed": 109973,
+    "program": "whiteboard-census/control.py",
+    "random_source": "NumPy PCG64, source whiteboard-witnesses",
+    "bytes": 22630320,
+    "sha256": "92da517c20b7c7a25ff1ae1299d322963fad2d6774bbe2b5ea9826fd58882d51"
+  }
+}

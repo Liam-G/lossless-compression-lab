@@ -1,0 +1,98 @@
+[
+  {
+    "n": 24,
+    "executable": "whiteboard-census",
+    "member": "rec3.bin",
+    "original_sha256": "c2d227e0eec5051235c0c7ae6f396b6b403d20c3f724bda1c0bfed92ea9d23e2",
+    "recreated_sha256": "c2d227e0eec5051235c0c7ae6f396b6b403d20c3f724bda1c0bfed92ea9d23e2",
+    "equal": true
+  },
+  {
+    "n": 24,
+    "executable": "whiteboard-census",
+    "member": "rec6.bin",
+    "original_sha256": "5914ffd14400e29adc40c7c8ec45a21fe83f4e002ad0a7f4a84b6e95db6cb0b1",
+    "recreated_sha256": "d5f649f041c012a255325056275c5e6f4aea58d5d36a120fb0758cc5a23c8d9e",
+    "equal": false
+  },
+  {
+    "n": 24,
+    "executable": "whiteboard-census",
+    "member": "f3.u8",
+    "original_sha256": "a3dcc42893172bddb8a7751932c6b22b76c74d88a0029569494c85296112a5c1",
+    "recreated_sha256": "a3dcc42893172bddb8a7751932c6b22b76c74d88a0029569494c85296112a5c1",
+    "equal": true
+  },
+  {
+    "n": 24,
+    "executable": "whiteboard-census",
+    "member": "f6.u8",
+    "original_sha256": "5294318f611da7eb0e01798b20fb0b5804b99345d6472bfc0b5fd2a2af028ffa",
+    "recreated_sha256": "5294318f611da7eb0e01798b20fb0b5804b99345d6472bfc0b5fd2a2af028ffa",
+    "equal": true
+  },
+  {
+    "n": 24,
+    "executable": "whiteboard-census-host",
+    "member": "rec3.bin",
+    "original_sha256": "c2d227e0eec5051235c0c7ae6f396b6b403d20c3f724bda1c0bfed92ea9d23e2",
+    "recreated_sha256": "c2d227e0eec5051235c0c7ae6f396b6b403d20c3f724bda1c0bfed92ea9d23e2",
+    "equal": true
+  },
+  {
+    "n": 24,
+    "executable": "whiteboard-census-host",
+    "member": "rec6.bin",
+    "original_sha256": "5914ffd14400e29adc40c7c8ec45a21fe83f4e002ad0a7f4a84b6e95db6cb0b1",
+    "recreated_sha256": "5914ffd14400e29adc40c7c8ec45a21fe83f4e002ad0a7f4a84b6e95db6cb0b1",
+    "equal": true
+  },
+  {
+    "n": 24,
+    "executable": "whiteboard-census-host",
+    "member": "f3.u8",
+    "original_sha256": "a3dcc42893172bddb8a7751932c6b22b76c74d88a0029569494c85296112a5c1",
+    "recreated_sha256": "a3dcc42893172bddb8a7751932c6b22b76c74d88a0029569494c85296112a5c1",
+    "equal": true
+  },
+  {
+    "n": 24,
+    "executable": "whiteboard-census-host",
+    "member": "f6.u8",
+    "original_sha256": "5294318f611da7eb0e01798b20fb0b5804b99345d6472bfc0b5fd2a2af028ffa",
+    "recreated_sha256": "5294318f611da7eb0e01798b20fb0b5804b99345d6472bfc0b5fd2a2af028ffa",
+    "equal": true
+  },
+  {
+    "n": 26,
+    "executable": "whiteboard-census",
+    "member": "rec3.bin",
+    "original_sha256": "9d54a57ef671946ad0f51576d60484cb5028f4bf0377f3e575f682374a6b376a",
+    "recreated_sha256": "9d54a57ef671946ad0f51576d60484cb5028f4bf0377f3e575f682374a6b376a",
+    "equal": true
+  },
+  {
+    "n": 26,
+    "executable": "whiteboard-census",
+    "member": "rec6.bin",
+    "original_sha256": "f9d20b057d55a0836543bf8843c7d65e47331c86ff626f706d554b55c3ef4d5f",
+    "recreated_sha256": "58004511faf5459c743fd14de59df687dcf354d313d799585e8d83aec3402e62",
+    "equal": false
+  },
+  {
+    "n": 26,
+    "executable": "whiteboard-census-host",
+    "member": "rec3.bin",
+    "original_sha256": "9d54a57ef671946ad0f51576d60484cb5028f4bf0377f3e575f682374a6b376a",
+    "recreated_sha256": "9d54a57ef671946ad0f51576d60484cb5028f4bf0377f3e575f682374a6b376a",
+    "equal": true
+  },
+  {
+    "n": 26,
+    "executable": "whiteboard-census-host",
+    "member": "rec6.bin",
+    "original_sha256": "f9d20b057d55a0836543bf8843c7d65e47331c86ff626f706d554b55c3ef4d5f",
+    "recreated_sha256": "f9d20b057d55a0836543bf8843c7d65e47331c86ff626f706d554b55c3ef4d5f",
+    "equal": true
+  }
+]

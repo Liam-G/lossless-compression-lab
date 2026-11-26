@@ -14,21 +14,25 @@ def run(*args, cwd=ROOT):
 
 
 def main():
+    if sys.argv[1:2]==["benchmark"]:
+        run(ROOT/"research/large-scale/primary.py",*sys.argv[2:],cwd=Path.cwd())
+        return
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="action", required=True)
     commands.add_parser("test")
-    commands.add_parser("benchmark").add_argument("output", type=Path)
+    commands.add_parser("benchmark",help="Primary benchmarks of at least 20 MiB")
+    commands.add_parser("diagnostics").add_argument("output", type=Path)
     args = parser.parse_args()
-    if args.action == "benchmark":
+    if args.action == "diagnostics":
         args.output = args.output.resolve()
         args.output.mkdir(parents=True)
     for folder in sorted((ROOT / "experiments").iterdir()):
         number = folder.name[:2]
-        if args.action == "benchmark":
+        if args.action == "diagnostics":
             if number == "01":
-                run("benchmark.py", args.output / folder.name, cwd=folder)
+                run("benchmark.py", "--diagnostics", args.output / folder.name, cwd=folder)
             else:
-                run("lab.py", number, "benchmark", args.output / folder.name)
+                run("lab.py", number, "diagnostics", args.output / folder.name)
             continue
         if number == "01":
             run("-m", "unittest", "-v", cwd=folder)

@@ -64,6 +64,11 @@ All 28 profile archives decoded byte for byte. The [trial measurements](results/
 | xor | 123 | 72 | 70 |
 | search | 121 | 71 | 70 |
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#08-equivalent-factors) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 07 compresses factors recursively. Experiment 14 benchmarks the actual residual masks produced here.

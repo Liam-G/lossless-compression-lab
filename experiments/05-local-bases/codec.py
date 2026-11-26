@@ -2,6 +2,7 @@
 
 from collections import Counter
 from math import log2
+from functools import lru_cache
 from wire import blocks, var
 
 ID = 5
@@ -10,6 +11,7 @@ CONTRASTS = [("combined_gain", "local-entropy", "global-bytes", "local-bytes")]
 BASES = (2, 3, 4, 5, 7, 8, 10, 16, 31, 64, 128, 256, 257)
 
 
+@lru_cache(maxsize=16384)
 def candidate(value, base):
     digits = []
     while value or not digits:

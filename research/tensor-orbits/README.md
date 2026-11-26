@@ -30,3 +30,7 @@ For each candidate state, the panel coder groups a plane into eight 16 × 8 bina
 | Silesia X-ray, first MiB | 788,099 | 787,711 | 627,116 | 627,116 | 536,956 |
 
 The plant uses independent rank-two panel bases and then evolves each slab forward by a search-supported distance. The combined decoder recovers this construction. On MR almost all the gain came from the panel representation, with 47 additional bytes from the orbit search. The same extra step saved five bytes on the fax and zero on X-ray, uniform noise, the spreadsheet and the enwik8 prefix. [All comparisons](results/comparisons.csv) · [Rule and step selections](results/trials.csv)
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../large-scale/results/by-experiment.md#tensor-orbits) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

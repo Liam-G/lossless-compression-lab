@@ -1,0 +1,16 @@
+id	study	workspace_path	bytes	sha256
+S01	GPU coincidence search on transformed archive windows, matched noise and planted controls.	lab/arena/work/colab-max-20261125/coincidence-results.json	5815	528c35840be45e61987a7389a30745aa8ee270c25cacb5da9429de3b06ebc391
+S02	Whole awarded-archive BWT compared with coding the direct stream and charging the primary row.	lab/arena/work/colab-max-20261125/award/whole-bwt-local.json	633	035d9ad02ab1f17dfb04ec681693f421b7dae8d4e4c8b460df8f4d6039f6e19e
+S03	Direct coding and pattern search on the awarded FX2 self-extracting file.	lab/arena/work/colab-max-20261125/award/fx2-direct-local.json	1559	895b7577b821aa279010cd16e5842ca5be9234fa5d6d1d8aa68f6fbe7d15241d
+S04	LSTM predictors applied to the Wikipedia structural skeleton.	lab/hutter/shapes9/work/skeleton-colab-lstm.json	1748	2afde2f859c0e49ee4d3f8240e9e4a57fb0b7d4480f419b9db44d1821c0c2c34
+S05	Variable-width representations of Wikipedia skeleton fields.	lab/hutter/shapes9/work/skeleton-variable-width.json	5144	ad8894a6c0180870be2eac608757345006fa8d39f5bc7fb32613dc5d14d423a1
+S06	Page templates, inserts and corrections in Wikipedia.	lab/hutter/shapes9/work/wiki-templates-colab.json	11561	f989df6a13aa8224c9695974e51e96c0524de6bcdcd08ede4aca9473114cc647
+S07	Page ordering and the price of reversing the permutation.	lab/hutter/shapes9/work/wiki-order-colab.json	11585	e32bde82c1468b7198efd3705e16f617db4e844347e017536708fb88353ef4af
+S08	Cross-family measurements of the canonical FX2 cofactor.	lab/hutter/divisors/work/Q-compression-results.json	14777	275ced4892199fcc0642e3869008a232c875e5d71b40ae0b1a9c885e038c99e9
+S09	Local entropy-base search and splitting by coded cost.	lab/hutter/ragc/entropy_base_tree/results.jsonl	1183	63996314e786a4bdd7a3fd3052d7353610e82cb2319d521e9dbdc407a6f84062
+S10	Near-factor recurrences and corrections on the original Wikipedia integer.	lab/hutter/ragc/entropy_base_tree/enwik-neighbors.json	981	2d37863a2dc58e6238aa6782833efd180eb4eeec589999e2c1505423a858e4b5
+S11	Quotient-tower generator prefix, residual and exact byte cost.	lab/hutter/ragc/quotient_towers/run/prefix-results.json	883	d266dd8cce09df4e3f609be7bfb24ae106203e48651f5e027f24e63c5bddd0b8
+S12	One automaton rule shared across the U/V/E matrix data.	lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/griglie-intere/automi/regola-condivisa/risultati.json	2012	d746691c3caef5dd79aeef7b3cb4a2b0f29fa9143f8d3f6fbb5a34e1cfdaf52a
+S13	The selected interval collection in the Neif byte-generator catalog.	lab/hutter/catalogo-formule/migliore.json	4221	9cb910c9e3bd1c6e61ce9f946366f0788b4e8d3b0aa4282cf28455a34548603e
+S14	Cost of a global generator with its residual.	lab/hutter/catalogo-formule/globale.json	664	5013cf33a40c1bd2d664a2e8ab83014b007f5d6769a6533fdf31d35db877313c
+S15	Closure and recovery checks on the catalog’s constructed examples.	lab/hutter/catalogo-formule/controlli.json	524	685be15dd05894d20599eab2fde705bddf6a6ce6651baab695ccd6cd2684bfb2

@@ -71,6 +71,11 @@ Point labels give the number of seeds tested per word.
 
 ![Measured archive sizes and encoding times at three seed budgets](results/reference/seed-search.png)
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#03-generator-residuals) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 14 can encode the XOR mask and experiment 16 can charge a generator seed when selecting intervals.

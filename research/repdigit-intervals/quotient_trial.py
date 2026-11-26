@@ -177,12 +177,26 @@ if __name__ == '__main__':
     dec = sub.add_parser('decode')
     dec.add_argument('archive', type=Path)
     dec.add_argument('output', type=Path)
+    enc = sub.add_parser('encode')
+    enc.add_argument('source', type=Path)
+    enc.add_argument('output', type=Path)
+    enc.add_argument('--scanner', required=True, type=Path)
     run = sub.add_parser('bench')
     run.add_argument('q', type=Path)
     run.add_argument('scanner', type=Path)
     run.add_argument('output', type=Path)
     args = parser.parse_args()
-    if args.mode == 'bench':
+    if args.mode == 'encode':
+        with TemporaryDirectory(dir=args.output.parent) as temporary:
+            bank=Path(temporary)/'bank'
+            leaves,_,_,_=codec.bank_file(bank,max_width=WIDTH)
+            wires=Wires(leaves)
+            scan=subprocess.check_output([args.scanner,bank,args.source])
+            choices=[(off,width,recipe) for _,off,width,recipe in MATCH.iter_unpack(scan)]
+            choices.extend(codec.zeroes(args.source,args.source.stat().st_size,ZERO_ID,WIDTH))
+            selected,_=codec.select(choices,wires)
+            codec.encode(args.source,args.output,selected,wires,magic=MAGIC)
+    elif args.mode == 'bench':
         bench(args)
     else:
         decode(args.archive, args.output)

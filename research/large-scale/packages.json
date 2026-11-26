@@ -1,0 +1,26 @@
+{
+  "numpy-base": {
+    "bytes": 53719040,
+    "sha256": "f3529c2719143ace706b4dcc14903198c0c1a298b1b9309fe7f76431692ccc2f",
+    "package": "python-numpy-2.5.4-1.1-x86_64_v3.pkg.tar.zst",
+    "package_sha256": "fad84e099d80bb7b147ba418537a384a1ec55775f42e58b587a982d9c9b2af24"
+  },
+  "numpy-update": {
+    "bytes": 53800960,
+    "sha256": "9476515c2f7a54d3f4f0e03f3a7982c8153c9456dab937b721b11b89d0ae5978",
+    "package": "python-numpy-2.5.5-1.1-x86_64_v3.pkg.tar.zst",
+    "package_sha256": "5688ea7fb00078a54e6382b947500d6f6b2d31b2487084cbae15c3e5e6d69690"
+  },
+  "mesa-base": {
+    "bytes": 66160640,
+    "sha256": "7fafc9918734e078891a344c077e8cbbae2fdac2b33d2ea252ae6aca23b20677",
+    "package": "mesa-3:26.2.6-1-x86_64_v3.pkg.tar.zst",
+    "package_sha256": "af17eef825d3596360ae02e2fbf8c6237f7776ca44a160365baef708aee0a5d8"
+  },
+  "mesa-update": {
+    "bytes": 67133440,
+    "sha256": "fa765dfc4c54bd32ea6f12e61a599e7c853079c948181b6cfe175bd969efe09e",
+    "package": "mesa-3:26.3.1-4-x86_64_v3.pkg.tar.zst",
+    "package_sha256": "9f7f03907e6e7ac60d92562929520b0798c4d8655314bfc28497d09447e583b1"
+  }
+}

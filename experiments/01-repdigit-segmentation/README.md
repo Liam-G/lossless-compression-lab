@@ -70,6 +70,11 @@ Paris saved 20 bytes against raw input. In Zurich the combination saved 11 bytes
 
 See the [width and density sweep](results/reference/comparison.csv), [per-profile measurements](results/reference/trials.csv) and [runtime versions](results/reference/environment.json).
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#01-repdigit-segmentation) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 02 can use the arithmetic recipes as leaves in factor trees. Experiments 15 and 16 can consume intervals with their encoded cost and compare regeneration against copying or literal storage.

@@ -25,3 +25,7 @@ RPS1 caps each interval at 32 bytes and enumerates arithmetic descriptions up to
 On full Q, fixed RPS1 blocks occupied 96,994,199 bytes. Moving the boundaries and enabling all families produced 96,994,108 bytes, saving 79 bytes over the input. The selected intervals were six direct repdigits and three zero runs. On the 184,958-byte plant, adding quotients reduced 148,418 bytes to 116,299. The random control paid only the header. [RPS1 replay](results/intervals.jsonl)
 
 QFT1 reached 96,994,101 bytes on Q, saving 86 bytes over the input. The full-width solution used six direct repdigits and two zero runs. Enabling prime-scaled quotients added no savings to that solution. The same implementation selected them on its planted input. All distinct archive selections in the evaluation were reconstructed and compared in a separate process. [QFT1 replay and selected recipe families](results/products.json)
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../large-scale/results/by-experiment.md#repdigit-intervals) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.

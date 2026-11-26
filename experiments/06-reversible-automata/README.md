@@ -55,6 +55,11 @@ On the Checkerboard control the zero-step profile needed 148 bytes. With a 15-st
 
 All 54 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
 
+
+## Large-file benchmark
+
+The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#06-reversible-automata) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+
 ## Connections
 
 Experiment 07 uses the Checkerboard rule in a factorization tree. Experiment 14 can replace the combinadic seed code.

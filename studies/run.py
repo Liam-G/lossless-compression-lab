@@ -63,5 +63,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("study", choices=STUDIES)
     parser.add_argument("output", type=Path)
-    args = parser.parse_args()
-    run(args.study, args.output)
+    parser.add_argument("--diagnostics",action="store_true",help="Run the small mechanism fixtures")
+    args,extra = parser.parse_known_args()
+    if args.diagnostics:
+        if extra:parser.error("Unexpected diagnostic options")
+        run(args.study,args.output)
+    else:
+        subprocess.run([sys.executable,ROOT/"research/large-scale/primary.py","--project",args.study,args.output,*extra],check=True)

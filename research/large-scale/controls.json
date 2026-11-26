@@ -1,0 +1,12 @@
+{
+  "hidden-products": {
+    "bytes": 25165824,
+    "sha256": "09b9252fef684c71d91d1cee1331fd9712f943707a814b576e0f63ba11c66b67",
+    "seed": 128713
+  },
+  "evolved-volume": {
+    "bytes": 25165824,
+    "sha256": "3e8438d9383b3a858a7cf81f72ad7cb071180390a7e39117cb5175cb31481aa0",
+    "seed": 730135
+  }
+}
