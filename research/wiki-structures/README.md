@@ -28,7 +28,7 @@ Two disjoint 24 MiB enwik8 slices are fixed in the input manifest. The second sl
 
 At Zstandard 6 the joint selector used 8,223,663 bytes on the first slice versus 8,267,789 for the matched direct representation. On the second slice it used 8,223,878 versus 8,283,833. Ordering alone used 8,229,885 on that second slice. The standalone link view selected the unmodified representation in every bank of both slices. Whole-file XZ extreme and the tested CM3 models produce smaller text archives. [All profiles by input](../large-scale/results/by-dataset.md#wiki-transfer)
 
-On the disjoint 25,165,824-byte Wikipedia transfer window, four independently decodable CM3 members used 5,345,330 bytes in total. Encoding the first 65,536 source bytes as a primer, then using those decoded bytes to initialize the body members, reduced the complete archive to 5,331,459 bytes. [Measured sizes and profiles](../large-scale/results/by-dataset.md#wiki-transfer)
+On the disjoint 25,165,824-byte Wikipedia transfer window, four independently decodable CM3 members used 5,345,330 bytes in total. Encoding the first 65,536 source bytes as a primer, then using those decoded bytes to initialize the body members, reduced the complete archive to 5,331,459 bytes. Applying the historical page-similarity ordering and arithmetic template transform with the same priming produced 5,312,277 bytes, another 19,182 bytes saved. [Measured sizes and profiles](../large-scale/results/by-dataset.md#wiki-transfer)
 
 ## Large-file benchmark
 
