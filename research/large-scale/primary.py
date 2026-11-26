@@ -44,6 +44,7 @@ CHOICES = {
     "gfh": ("manual-graphs", "gfh-3-1"),
     "tensor": ("evolved-volume", "tensor-combined"),
     "checker": ("shared-orbit-1000", "checker-joint"),
+    "modular": ("modular-panels", "modular-joint"),
     "four": ("noisy-spacetime", "four-joint"),
     "learned": ("learned-field", "learned-coupled"),
     "lattice": ("numerical", "lattice-joint-xz"),

@@ -18,6 +18,7 @@ The [large benchmark](large-scale/README.md) covers real text, numerical samples
 | [Whole-integer formulas](integer-formulas/README.md) | How much must the receiver know to evaluate a square, consecutive product or modular-square formula? |
 | [Generator sums](generator-sums/README.md) | What survives the cost of a three-seed search and its signed residual? |
 | [Shared checkerboard clocks](checkerboard-orbits/README.md) | Can sharing the time reduce the cost of choosing among 1,001 predecessors? |
+| [Byte-valued Kronecker factors](modular-kronecker/README.md) | Does a reversible orbit hide the product of two small matrices modulo 256? |
 | [Four-dimensional factors](four-dimensional-factors/README.md) | Can an inverse cellular rule expose noisy low rank and equivalent bases? |
 | [Integer lattice prediction](lattice-prediction/README.md) | Can inferred widths and strides make separated bit planes cheaper? |
 | [Distance geometry](distance-geometry/README.md) | Can distances to a few landmarks predict an entire triangular matrix? |

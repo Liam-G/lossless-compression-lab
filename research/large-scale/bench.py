@@ -22,6 +22,7 @@ def digest(path):
 
 
 PROFILE_ENGINES = {
+    "modular": "modular-kronecker/codec.py",
     "regenerate": "whiteboard-census/regenerate.py",
     "census": "whiteboard-census/costs.py",
     "witness": "whiteboard-census/witnesses.py",
@@ -363,6 +364,7 @@ def main():
                             "scale-",
                             "glyph-",
                             "portable-",
+                            "modular-",
                             "witnessapp-",
                             "regenerate-",
                             "censusapp-",

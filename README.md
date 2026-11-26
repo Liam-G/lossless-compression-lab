@@ -1,6 +1,6 @@
 # Lossless Compression Lab
 
-This English research repository contains 16 thesis experiments, three cross-experiment studies and 27 research projects recovered or extended from the original compression lab. The [large-file benchmark](research/large-scale/README.md) requires at least **20 MiB of raw input per trial** and checks exact reconstruction. The [idea atlas](research/evidence/idea-atlas.md) connects the local project conversations, the 51-topic dossier, and the original whiteboard formula to measured experiments and open proposals.
+This English research repository contains 16 thesis experiments, three cross-experiment studies and 28 research projects recovered or extended from the original compression lab. The [large-file benchmark](research/large-scale/README.md) requires at least **20 MiB of raw input per trial** and checks exact reconstruction. The [idea atlas](research/evidence/idea-atlas.md) connects the local project conversations, the 51-topic dossier, and the original whiteboard formula to measured experiments and open proposals.
 
 | Start with | What you can reproduce |
 |---|---|
@@ -8,6 +8,7 @@ This English research repository contains 16 thesis experiments, three cross-exp
 | [The whiteboard formula inside a factor tree](research/shared-factor-forest/README.md) | Divide, split a cofactor, encode one child as a quotient of repdigits, and share its recipe. |
 | [Four-dimensional cellular automata and matrix factors](research/four-dimensional-factors/README.md) | Search backward, change the factor basis and store the exact XOR correction. |
 | [Learn the cellular rule and its residual matrix together](research/learned-cellular-rules/README.md) | A 29,491,200-byte planted field drops from 25,054,265 to 11,051,733 bytes when the rule learns from correlations across error planes. |
+| [Byte-valued cellular automata and Kronecker factors](research/modular-kronecker/README.md) | On 24 MiB of evolved, noisy matrix products, reversing the orbit and fitting two 4 × 4 factors reduced the archive from 24,560,134 to 4,471,016 bytes. |
 | [Glyphs, baselines and exact residuals](research/glyph-residuals/README.md) | On 64 Valgrind manual pages, shared bitmaps and character positions use 394,104 bytes. Wide-strip lossless DjVu uses 828,622. |
 | [Triangular distance matrices](research/distance-geometry/README.md) | Restore a 21,155,400-byte geographic distance table from four landmark columns and a residual in 3,850,014 bytes. |
 | [Whole-file formulas and sparse arithmetic regions](research/carry-trees/README.md) | Compare multiplication before and after a split on the complete 96,994,187-byte cofactor Q. |

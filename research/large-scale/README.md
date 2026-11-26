@@ -10,6 +10,7 @@ Every published row contains **at least 20 MiB (20,971,520 raw bytes)**. The run
 | Can the 2019 formula be useful **inside a factor tree**? | 25,165,824 generated product bytes | Factor-only and formula-only each gave 14,336,766 bytes. Nested inline formulas gave 13,286,101. Sharing recipes gave **13,097,327**, below XZ extreme at 13,309,788. The shared recipes gave no additional saving on the real numerical stream. [Experiment](../shared-factor-forest/README.md) |
 | Does a **3D automaton expose matrix rank**? | 25,165,824 generated volume bytes | Rank alone gave 24,837,235, orbit alone 20,763,341, and their combination **9,632,435**. On 25,696,748 real numerical bytes, combining the two saved 153 bytes over rank alone. [Experiment](../tensor-orbits/README.md) |
 | What if the matrix is noisy and has **four axes**? | 25,165,824 generated space-time bytes | Orbit alone gave 19,601,212 bytes. Reversing the orbit and storing two binary factors plus the exact error gave **9,414,787**. The factor stage added no gain on Samba or the real numerical stream. [Experiment](../four-dimensional-factors/README.md) |
+| Can a reversible **byte-valued orbit hide a Kronecker product**? | 25,165,824 generated panel bytes | Orbit alone gave 24,560,134 bytes. Two 4 × 4 factors plus corrections after orbit reversal gave **4,471,016**. All four fixed-pivot profiles tied on the real numerical corpus. [Experiment](../modular-kronecker/README.md) |
 | Can the cellular rule and its residual matrix be **learned together**? | 29,491,200 generated video bytes | Fitting them sequentially gave 25,054,265 bytes. Joint fitting gave **11,051,733**. A second random seed reproduced the gain. Shifting error planes independently reduced it to one byte. On three real clips the two configurations tied. [Experiment](../learned-cellular-rules/README.md) |
 | Can the encoder amortize **1,000-step searches**? | 25,165,824 generated orbit bytes | Storing a time per matrix gave 13,612,025 bytes. Sharing a time across a page gave **12,415,836**. Natural numerical bytes and uniform noise kept the direct representation. [Experiment](../checkerboard-orbits/README.md) |
 | Does a grid reveal structure in **ordinary numerical data**? | 25,696,748 real Silesia bytes | Prediction plus separated integer planes and XZ gave **10,421,725** bytes. XZ extreme on the original stream gave 11,662,476. The matched blocked XZ control gave 11,846,741. [Experiment](../lattice-prediction/README.md) |
@@ -76,6 +77,9 @@ To regenerate the remaining groups, run the applicable commands below against a 
 
 ```sh
 python3 research/large-scale/controls.py runs/large/raw
+python3 research/modular-kronecker/control.py runs/large/raw/modular-panels
+python3 research/modular-kronecker/control.py runs/large/raw/modular-transfer --seed 832181
+python3 research/modular-kronecker/control.py runs/large/raw/modular-free --seed 688271 --free-pivot
 python3 research/large-scale/project_data.py .. runs/large/raw
 python3 research/checkerboard-orbits/control.py runs/large/raw/shared-orbit-1000
 python3 research/carry-trees/control.py runs/large/raw/wiki-dev runs/large/raw/mapped-text
@@ -107,4 +111,4 @@ The replay tool also accepts `--raw DIR`, `--workspace DIR` and `--reference-nam
 
 The reference machine used an Intel Core Ultra 7 165U, x86-64 Linux, GCC 16.2.1, Python 3.14.10, NumPy 2.4.2, SciPy 1.17.1, Pillow 12.1.1 and python-zstandard 0.25.0. External programs included Zstandard 1.5.7, XZ 5.8.4, FFmpeg 9.1, Poppler 26.11.0, DjVuLibre 3.5.30 and JPEG XL 0.13.0. Byte-identical archive replay can depend on these versions. C3P1 also records the hash of the CM3 executable.
 
-Portable application rows include their shipped decoders in the archive size. The 15-byte WCT1 calculation instead assumes the enumerator is installed. Experiment 02 retains the original per-word CPU-time search limit, so a different processor can choose a different correct factor record.
+Portable application rows include their shipped decoders in the archive size. The 15-byte WCT1 cost-table calculation and the 48-byte WRT1 witness calculation assume matching enumerators are installed. The 6,068-byte source package pays for the witness extractor and the enumerator and needs a compatible toolchain and GMP. Experiment 02 retains the original per-word CPU-time search limit, so a different processor can choose a different correct factor record.

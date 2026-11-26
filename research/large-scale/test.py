@@ -508,6 +508,35 @@ class ReversibleModels(unittest.TestCase):
             subprocess.run([sys.executable, "-I", "-S", app, output], check=True)
             self.assertEqual(output.read_bytes(), raw)
 
+    def test_byte_checkerboard_and_kronecker_factors(self):
+        with engine("modular-kronecker") as model, TemporaryDirectory() as tmp:
+            rng = np.random.default_rng(17039)
+            a = rng.integers(0, 256, (15, 16), dtype=np.uint8)
+            b = rng.integers(0, 256, (15, 16), dtype=np.uint8)
+            a[:, 0] &= 254
+            a[:, -1] |= 1
+            b[:, -1] |= 1
+            original = model.factors_to_grid(a, b)
+            self.assertFalse(any(model.split(original, True)[len(a) * 32 :]))
+            for flexible in (False, True):
+                packed = model.split(original, flexible)
+                np.testing.assert_array_equal(model.join(packed, len(a)), original)
+            evolved = original.copy()
+            for _ in range(4):
+                model.step(evolved)
+            for _ in range(4):
+                model.step(evolved, True)
+            np.testing.assert_array_equal(evolved, original)
+            t = Path(tmp)
+            raw = t / "source"
+            for length in (0, 17, 256, 3853):
+                data = (original.tobytes() + bytes(31))[:length]
+                raw.write_bytes(data)
+                archive, back = t / f"arc-{length}", t / f"back-{length}"
+                model.encode(raw, archive, "adaptive-joint")
+                model.decode(archive, back)
+                self.assertEqual(data, back.read_bytes())
+
     def test_census_against_independent_brute_force(self):
         with (
             TemporaryDirectory() as directory,

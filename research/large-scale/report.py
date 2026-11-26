@@ -77,6 +77,7 @@ def experiment_pages():
         "gfh": "hierarchical-gf2",
         "tensor": "tensor-orbits",
         "checker": "checkerboard-orbits",
+        "modular": "modular-kronecker",
         "four": "four-dimensional-factors",
         "learned": "learned-cellular-rules",
         "lattice": "lattice-prediction",

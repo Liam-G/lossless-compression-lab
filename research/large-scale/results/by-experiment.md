@@ -160,6 +160,7 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | Input | Profile | Archive bytes | Delivered bytes |
 |---|---|---:|---:|
 | [manual-library](by-dataset.md#manual-library) | pilot16-fixed | 10,520,316 | 10,520,316 |
+| [manual-library](by-dataset.md#manual-library) | pilot16-intervals-regions | 2,157,752 | 2,157,752 |
 | [manual-library](by-dataset.md#manual-library) | pilot16-single | 2,157,752 | 2,157,752 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | pilot16-fixed | 33,206,752 | 33,206,752 |
 
@@ -365,10 +366,14 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | [whiteboard-costs](by-dataset.md#whiteboard-costs) | censusapp-gmp | 387,915 | 387,915 |
 | [whiteboard-costs](by-dataset.md#whiteboard-costs) | censusapp-source | 5,911 | 5,911 |
 | [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | regenerate-generic | 2,051 | 2,051 |
+| [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | regenerate-native | 48 | 48 |
 | [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | witness-arithmetic | 1,600,689 | 1,600,689 |
 | [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | witness-columns | 2,306,827 | 2,306,827 |
 | [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | witness-direct | 4,289,180 | 4,289,180 |
 | [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | witness-joint | 1,082,142 | 1,082,142 |
+| [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | witnessapp-binary | 11,723 | 11,723 |
+| [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | witnessapp-generic | 29,100 | 29,100 |
+| [whiteboard-witnesses](by-dataset.md#whiteboard-witnesses) | witnessapp-source | 6,068 | 6,068 |
 
 <a id="portable-arithmetic"></a>
 ## Arithmetic packages that include their decoder
@@ -465,6 +470,37 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | [uniform](by-dataset.md#uniform) | checker-individual | 25,166,508 | 25,166,508 |
 | [uniform](by-dataset.md#uniform) | checker-joint | 25,166,508 | 25,166,508 |
 | [uniform](by-dataset.md#uniform) | checker-shared | 25,166,508 | 25,166,508 |
+
+<a id="modular-kronecker"></a>
+## Byte-valued cellular automata and Kronecker factors
+
+[Implementation and protocol](../../modular-kronecker/README.md)
+
+| Input | Profile | Archive bytes | Delivered bytes |
+|---|---|---:|---:|
+| [manual-library](by-dataset.md#manual-library) | modular-adaptive | 1,910,515 | 1,910,515 |
+| [manual-library](by-dataset.md#manual-library) | modular-direct | 1,910,515 | 1,910,515 |
+| [manual-library](by-dataset.md#manual-library) | modular-orbit | 1,910,515 | 1,910,515 |
+| [modular-free](by-dataset.md#modular-free) | modular-adaptive-joint | 5,813,021 | 5,813,021 |
+| [modular-free](by-dataset.md#modular-free) | modular-direct | 25,166,796 | 25,166,796 |
+| [modular-free](by-dataset.md#modular-free) | modular-factor | 25,166,796 | 25,166,796 |
+| [modular-free](by-dataset.md#modular-free) | modular-joint | 20,947,779 | 20,947,779 |
+| [modular-panels](by-dataset.md#modular-panels) | modular-direct | 25,166,796 | 25,166,796 |
+| [modular-panels](by-dataset.md#modular-panels) | modular-factor | 25,166,796 | 25,166,796 |
+| [modular-panels](by-dataset.md#modular-panels) | modular-joint | 4,471,016 | 4,471,016 |
+| [modular-panels](by-dataset.md#modular-panels) | modular-orbit | 24,560,134 | 24,560,134 |
+| [modular-transfer](by-dataset.md#modular-transfer) | modular-factor | 25,166,796 | 25,166,796 |
+| [modular-transfer](by-dataset.md#modular-transfer) | modular-joint | 4,480,896 | 4,480,896 |
+| [modular-transfer](by-dataset.md#modular-transfer) | modular-orbit | 24,560,992 | 24,560,992 |
+| [numerical](by-dataset.md#numerical) | modular-direct | 14,949,292 | 14,949,292 |
+| [numerical](by-dataset.md#numerical) | modular-factor | 14,949,292 | 14,949,292 |
+| [numerical](by-dataset.md#numerical) | modular-joint | 14,949,292 | 14,949,292 |
+| [numerical](by-dataset.md#numerical) | modular-orbit | 14,949,292 | 14,949,292 |
+| [uniform](by-dataset.md#uniform) | modular-direct | 25,166,796 | 25,166,796 |
+| [uniform](by-dataset.md#uniform) | modular-joint | 25,166,796 | 25,166,796 |
+| [whiteboard-costs](by-dataset.md#whiteboard-costs) | modular-adaptive | 3,192,497 | 3,192,497 |
+| [whiteboard-costs](by-dataset.md#whiteboard-costs) | modular-direct | 3,192,497 | 3,192,497 |
+| [whiteboard-costs](by-dataset.md#whiteboard-costs) | modular-orbit | 3,192,497 | 3,192,497 |
 
 <a id="four-dimensional-factors"></a>
 ## Four-dimensional automata with noisy binary matrix factors

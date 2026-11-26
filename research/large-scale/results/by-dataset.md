@@ -1,6 +1,6 @@
 # All large-file measurements
 
-578 verified archives across 45 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
+610 verified archives across 48 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
 
 The charged total includes the raw reference when the decoder requires it. Shared codec software is excluded. The [machine-readable receipts](archives.jsonl) include full input and archive hashes, selected parameters, and peak KiB where collected.
 
@@ -345,7 +345,11 @@ The charged total includes the raw reference when the decoder requires it. Share
 | group4 | 1,678,602 | 1,678,602 | 0.55300 | 183.917 | 5.764 |
 | glyph-direct | 1,705,163 | 1,705,163 | 0.56175 | 1.499 | 1.103 |
 | zstd3 | 1,903,366 | 1,903,366 | 0.62705 | 0.374 | 0.317 |
+| modular-adaptive | 1,910,515 | 1,910,515 | 0.62940 | 6.095 | 1.028 |
+| modular-direct | 1,910,515 | 1,910,515 | 0.62940 | 2.230 | 1.923 |
+| modular-orbit | 1,910,515 | 1,910,515 | 0.62940 | 18.372 | 2.139 |
 | png1 | 1,996,848 | 1,996,848 | 0.65784 | 10.313 | 4.838 |
+| pilot16-intervals-regions | 2,157,752 | 2,157,752 | 0.71085 | 913.789 | 1.369 |
 | pilot16-single | 2,157,752 | 2,157,752 | 0.71085 | 4.051 | 0.881 |
 | pilot16-fixed | 10,520,316 | 10,520,316 | 3.46582 | 56.062 | 19.452 |
 | pilot09-combined | 13,922,627 | 13,922,627 | 4.58668 | 1254.920 | 268.980 |
@@ -414,6 +418,42 @@ The charged total includes the raw reference when the decoder requires it. Share
 | zstd3 | 21,668,962 | 21,668,962 | 2.58220 | 1.618 | 0.560 |
 | relative-joint (base mesa-base) | 13,146,431 | 79,307,071 | 1.56660 | 53.086 | 2.310 |
 | relative-patch (base mesa-base) | 13,146,431 | 79,307,071 | 1.56660 | 19.326 | 3.453 |
+
+## modular-free
+
+25,165,824 raw bytes · SHA-256 `607a48741c86478a59808360bc2ea4c2e7926e1f13216639d0f0d4b57bad03d9`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| modular-adaptive-joint | 5,813,021 | 5,813,021 | 1.84791 | 24.126 | 7.689 |
+| modular-joint | 20,947,779 | 20,947,779 | 6.65912 | 27.005 | 6.588 |
+| modular-direct | 25,166,796 | 25,166,796 | 8.00031 | 2.403 | 1.154 |
+| modular-factor | 25,166,796 | 25,166,796 | 8.00031 | 8.968 | 1.185 |
+
+## modular-panels
+
+25,165,824 raw bytes · SHA-256 `d5fa863569dff9954b54ad48fa3195bda0e71e57d53c3a02046e045a689079d1`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| modular-joint | 4,471,016 | 4,471,016 | 1.42130 | 15.742 | 8.164 |
+| modular-orbit | 24,560,134 | 24,560,134 | 7.80746 | 12.770 | 8.732 |
+| zstd19 | 25,166,414 | 25,166,414 | 8.00019 | 18.535 | 0.298 |
+| zstd3 | 25,166,414 | 25,166,414 | 8.00019 | 0.608 | 0.531 |
+| modular-direct | 25,166,796 | 25,166,796 | 8.00031 | 1.573 | 1.192 |
+| modular-factor | 25,166,796 | 25,166,796 | 8.00031 | 4.084 | 0.930 |
+| xz9e | 25,167,132 | 25,167,132 | 8.00042 | 29.771 | 0.439 |
+
+## modular-transfer
+
+25,165,824 raw bytes · SHA-256 `3b932ad1a5d931773d5db59510ec4b193884ca0a65e4ef3a80a45aaf20d20463`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| modular-joint | 4,480,896 | 4,480,896 | 1.42444 | 21.046 | 8.150 |
+| modular-orbit | 24,560,992 | 24,560,992 | 7.80773 | 9.043 | 8.517 |
+| zstd3 | 25,166,414 | 25,166,414 | 8.00019 | 0.783 | 0.300 |
+| modular-factor | 25,166,796 | 25,166,796 | 8.00031 | 5.346 | 1.726 |
 
 ## mozilla
 
@@ -521,6 +561,10 @@ The charged total includes the raw reference when the decoder requires it. Share
 | statico | 14,428,360 | 14,428,360 | 4.49189 | 826.119 | 3.637 |
 | tensor-combined | 14,514,489 | 14,514,489 | 4.51870 | 17.698 | 0.821 |
 | tensor-rank | 14,514,642 | 14,514,642 | 4.51875 | 1.429 | 0.517 |
+| modular-direct | 14,949,292 | 14,949,292 | 4.65407 | 4.457 | 1.416 |
+| modular-factor | 14,949,292 | 14,949,292 | 4.65407 | 6.033 | 1.608 |
+| modular-joint | 14,949,292 | 14,949,292 | 4.65407 | 20.881 | 0.998 |
+| modular-orbit | 14,949,292 | 14,949,292 | 4.65407 | 16.787 | 1.018 |
 | carry-split | 15,117,918 | 15,117,918 | 4.70656 | 5.278 | 0.415 |
 | zstd3 | 15,163,683 | 15,163,683 | 4.72081 | 0.185 | 0.032 |
 | carry-direct | 15,175,129 | 15,175,129 | 4.72437 | 0.955 | 0.465 |
@@ -696,6 +740,8 @@ The charged total includes the raw reference when the decoder requires it. Share
 | shared-formula | 25,166,508 | 25,166,508 | 8.00022 | 51.896 | 0.356 |
 | shared-inline | 25,166,508 | 25,166,508 | 8.00022 | 97.905 | 0.982 |
 | shared-shared | 25,166,508 | 25,166,508 | 8.00022 | 172.823 | 1.231 |
+| modular-direct | 25,166,796 | 25,166,796 | 8.00031 | 2.137 | 1.515 |
+| modular-joint | 25,166,796 | 25,166,796 | 8.00031 | 26.702 | 1.771 |
 | xz9e | 25,167,136 | 25,167,136 | 8.00042 | 11.410 | 0.034 |
 | four-direct | 25,168,140 | 25,168,140 | 8.00074 | 0.882 | 0.824 |
 | four-equivalent | 25,168,140 | 25,168,140 | 8.00074 | 7.082 | 1.470 |
@@ -799,6 +845,9 @@ The charged total includes the raw reference when the decoder requires it. Share
 | tensor-direct | 3,090,273 | 3,090,273 | 0.73678 | 5.638 | 1.369 |
 | tensor-orbit | 3,090,273 | 3,090,273 | 0.73678 | 32.159 | 2.256 |
 | tensor-rank | 3,090,273 | 3,090,273 | 0.73678 | 10.319 | 0.757 |
+| modular-adaptive | 3,192,497 | 3,192,497 | 0.76115 | 9.046 | 1.192 |
+| modular-direct | 3,192,497 | 3,192,497 | 0.76115 | 3.273 | 2.701 |
+| modular-orbit | 3,192,497 | 3,192,497 | 0.76115 | 22.578 | 1.187 |
 | zstd3 | 3,513,689 | 3,513,689 | 0.83773 | 1.308 | 0.734 |
 | pilot05-local-bytes | 17,808,940 | 17,808,940 | 4.24598 | 819.370 | 67.864 |
 
@@ -808,7 +857,11 @@ The charged total includes the raw reference when the decoder requires it. Share
 
 | Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
 |---|---:|---:|---:|---:|---:|
+| regenerate-native | 48 | 48 | 0.00002 | 40.396 | 38.186 |
 | regenerate-generic | 2,051 | 2,051 | 0.00073 | 34.105 | 35.762 |
+| witnessapp-source | 6,068 | 6,068 | 0.00215 | 38.704 | 42.680 |
+| witnessapp-binary | 11,723 | 11,723 | 0.00414 | 42.400 | 42.596 |
+| witnessapp-generic | 29,100 | 29,100 | 0.01029 | 32.989 | 58.207 |
 | witness-joint | 1,082,142 | 1,082,142 | 0.38255 | 37.870 | 22.854 |
 | witness-arithmetic | 1,600,689 | 1,600,689 | 0.56586 | 15.036 | 17.481 |
 | witness-columns | 2,306,827 | 2,306,827 | 0.81548 | 6.560 | 1.381 |

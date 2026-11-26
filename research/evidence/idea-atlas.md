@@ -58,11 +58,11 @@ Numbers match the user-supplied appendix. Experiment numbers refer to the number
 | 31 | Apply an 8×8 binary automaton independently to words | CBO1 tests all times through 1,000 for individual matrices and compares a shared time per page. Reports 004–005. |
 | 32 | Compare checkerboard, XOR, second-order and Margolus rules | Experiment 06 and the historical Wolfram-rule and block-permutation runs specify phases, boundaries and inverses. |
 | 33 | Investigate why a lower seed entropy can still lose | The seed and its time are dependent. Compare their joint serialized cost with raw storage on the original Neif target. |
-| 34 | Observe the checkerboard interactively | The workspace visualizer `gioca_automa.py` explores trajectories. CBO1 makes the per-matrix and shared-clock hypotheses reproducible. |
-| 35 | Extend reversible automata to larger alphabets | Proposal for families of modular rules. Byte-level arithmetic and sparse corrections already have archive tests in experiments 03 and 14. |
+| 34 | Observe the checkerboard interactively | The original workspace visualizer `gioca_automa.py` has an [English trajectory explorer](../checkerboard-orbits/explore.py). CBO1 makes the per-matrix and shared-clock hypotheses reproducible. |
+| 35 | Extend reversible automata to larger alphabets | The [byte-valued checkerboard experiment](../modular-kronecker/README.md) adds and subtracts modulo 256 on two colors and tests the inverse on full archives. |
 | 36 | Add spatial axes and a time axis | TGF1 runs six parity half-steps in three dimensions. F4D1 separately varies four axes and tests a noisy matrix model. |
 | 37 | Approximate a large binary matrix by smaller factors | Recover X as UV XOR E. Store both factors and the error map, including literal and sparse alternatives. Experiment 08 and reports 028–031. |
-| 38 | Introduce three factors, Kronecker products and tensor layouts | The dossier proposes richer factorizations. The measured panel implementations and historical U/V/E layout specify which products were actually tested. |
+| 38 | Introduce three factors, Kronecker products and tensor layouts | The [Kronecker implementation](../modular-kronecker/README.md) fits two 4 × 4 byte factors after reversing an orbit. Three unconstrained factors remain a separate proposal. |
 | 39 | Place the reversible rule before or after factorization | Experiment 07 compares orderings. TGF1 tests rank after reversing 3D evolution and GFH1 recurses into factor data. |
 | 40 | Choose equivalent factor bases by coded cost | For invertible S, (US)(S⁻¹V) gives the same product. Experiment 08 and F4D1 test swaps and basis additions, paying for transmitted factors. |
 | 41 | Share repeated arithmetic subexpressions | Store one definition and price every later reference. Compare inline and shared encodings on exactly the same products. Experiment 11 and SFF1. |

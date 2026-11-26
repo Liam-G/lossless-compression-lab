@@ -61,5 +61,29 @@
     "random_source": "NumPy PCG64, source whiteboard-witnesses",
     "bytes": 22630320,
     "sha256": "92da517c20b7c7a25ff1ae1299d322963fad2d6774bbe2b5ea9826fd58882d51"
+  },
+  "modular-panels": {
+    "seed": 971827,
+    "program": "modular-kronecker/control.py",
+    "random_source": "NumPy Generator/PCG64",
+    "free_pivot": false,
+    "bytes": 25165824,
+    "sha256": "d5fa863569dff9954b54ad48fa3195bda0e71e57d53c3a02046e045a689079d1"
+  },
+  "modular-transfer": {
+    "seed": 832181,
+    "program": "modular-kronecker/control.py",
+    "random_source": "NumPy Generator/PCG64",
+    "free_pivot": false,
+    "bytes": 25165824,
+    "sha256": "3b932ad1a5d931773d5db59510ec4b193884ca0a65e4ef3a80a45aaf20d20463"
+  },
+  "modular-free": {
+    "seed": 688271,
+    "program": "modular-kronecker/control.py",
+    "random_source": "NumPy Generator/PCG64",
+    "free_pivot": true,
+    "bytes": 25165824,
+    "sha256": "607a48741c86478a59808360bc2ea4c2e7926e1f13216639d0f0d4b57bad03d9"
   }
 }
