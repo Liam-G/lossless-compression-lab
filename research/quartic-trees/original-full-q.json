@@ -1,0 +1,46 @@
+{
+  "root_operator": "F(k,a,d) = floor((a^4 + d^4) / 2^k)",
+  "root_k": 997655088,
+  "input_bytes": 96994187,
+  "formula_bytes": 247891597,
+  "difference_bytes": 150897410,
+  "shared_expression_references": 146574550,
+  "explicit_quotients": 146574549,
+  "shared_quotient_occurrences": 810315580,
+  "fully_expanded_quotients": 956890129,
+  "max_quotient_depth": 39,
+  "operand_literals": "0..15",
+  "index_width_bits": "up to 16",
+  "branch_stats": [
+    {
+      "references": 49115629,
+      "dictionary_op_occurrences": 271565214,
+      "explicit_ops": 49115628,
+      "max_depth": 37
+    },
+    {
+      "references": 35717557,
+      "dictionary_op_occurrences": 197474507,
+      "explicit_ops": 35717556,
+      "max_depth": 36
+    },
+    {
+      "references": 35717557,
+      "dictionary_op_occurrences": 197448722,
+      "explicit_ops": 35717556,
+      "max_depth": 36
+    },
+    {
+      "references": 26023807,
+      "dictionary_op_occurrences": 143827137,
+      "explicit_ops": 26023806,
+      "max_depth": 36
+    }
+  ],
+  "source_sha256": "5f7921346a0b045f6196be84b1c794344455a47eaf84bf9ef81b8707559ca547",
+  "formula_sha256": "20eca47b792d6a501ecc9a0b2b6a52e7aeb43f6739c4e439c74f371e3163cdf3",
+  "reconstructed_sha256": "5f7921346a0b045f6196be84b1c794344455a47eaf84bf9ef81b8707559ca547",
+  "byte_for_byte_equal": true,
+  "decode_seconds": 162.98,
+  "first_shared_expression": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa = F(20, F(20, F(12, F(12, F(8, 8, 5), 9), 12), F(4, 5, 3)), F(12, F(4, 4, 2), F(4, 4, 3)))"
+}

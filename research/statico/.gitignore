@@ -1,0 +1,7 @@
+work/
+.superpowers/
+*.o
+statico
+unstatico
+unit_tests
+unit_tests_asan

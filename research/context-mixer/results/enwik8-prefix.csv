@@ -1,0 +1,4 @@
+profile,input_bytes,archive_bytes,encode_s,decode_s,sha256,verified
+context,131072,34010,0.4879,0.5155,e1caf642275159b230fe13d6c799cebdfb0f21eea2f7ef976eb4d2e911c196d1,True
+two-layers,131072,33759,0.5854,0.5805,e1caf642275159b230fe13d6c799cebdfb0f21eea2f7ef976eb4d2e911c196d1,True
+two-layers-lstm,131072,33727,1.102,1.114,e1caf642275159b230fe13d6c799cebdfb0f21eea2f7ef976eb4d2e911c196d1,True

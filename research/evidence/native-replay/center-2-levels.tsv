@@ -1,0 +1,9 @@
+level	nodes	split_nodes	leaves	nodes_with_factors
+0	1	1	0	0
+1	2	2	0	1
+2	4	4	0	3
+3	8	8	0	7
+4	16	16	0	12
+5	32	32	0	22
+6	64	64	0	42
+7	128	0	128	92

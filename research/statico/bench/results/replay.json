@@ -1,0 +1,35 @@
+{
+ "args": [],
+ "rows": [
+  {
+   "file": "osdb",
+   "bytes": 10085684,
+   "statico": 2723344,
+   "roundtrip": true,
+   "xz_ref": null,
+   "c_wall": 11.3,
+   "c_rss_mb": 284,
+   "d_wall": 0.1,
+   "d_rss_mb": 17,
+   "d_MBps": 100.9,
+   "err": ""
+  },
+  {
+   "file": "dickens",
+   "bytes": 10192446,
+   "statico": 2780136,
+   "roundtrip": true,
+   "xz_ref": 2831212,
+   "c_wall": 16.56,
+   "c_rss_mb": 311,
+   "d_wall": 0.122,
+   "d_rss_mb": 20,
+   "d_MBps": 83.5,
+   "err": ""
+  }
+ ],
+ "ref_enwik8": {
+  "xz (LTCB best)": 24703772,
+  "GLZA 0.12": 20068917
+ }
+}

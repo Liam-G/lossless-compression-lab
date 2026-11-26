@@ -1,0 +1,201 @@
+{
+  "Q": {
+    "source_bytes": 96994187,
+    "archive_bytes": 96994200,
+    "selected_tags": {
+      "0": 1
+    },
+    "top_nodes": [
+      {
+        "depth": 0,
+        "start": 0,
+        "width": 96994187,
+        "exact_formula": false,
+        "even_family_excluded": true
+      },
+      {
+        "depth": 1,
+        "start": 0,
+        "width": 48497093,
+        "exact_formula": false,
+        "even_family_excluded": true
+      },
+      {
+        "depth": 1,
+        "start": 48497093,
+        "width": 48497094,
+        "exact_formula": false,
+        "even_family_excluded": true
+      }
+    ],
+    "alternate_cuts": [
+      {
+        "offset": 12124273,
+        "fraction": [
+          1,
+          8
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 96994206
+      },
+      {
+        "offset": 24248546,
+        "fraction": [
+          1,
+          4
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 96994206
+      },
+      {
+        "offset": 32331395,
+        "fraction": [
+          1,
+          3
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 96994206
+      },
+      {
+        "offset": 64662791,
+        "fraction": [
+          2,
+          3
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 96994206
+      },
+      {
+        "offset": 72745640,
+        "fraction": [
+          3,
+          4
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 96994206
+      },
+      {
+        "offset": 84869913,
+        "fraction": [
+          7,
+          8
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 96994206
+      }
+    ],
+    "stats": {
+      "nodes": 113,
+      "even_family_excluded": 113,
+      "numerator_exponents_tested": 3559497
+    },
+    "sha256": "5f7921346a0b045f6196be84b1c794344455a47eaf84bf9ef81b8707559ca547"
+  },
+  "planted": {
+    "source_bytes": 1572864,
+    "archive_bytes": 33,
+    "selected_tags": {
+      "1": 1,
+      "2": 2
+    },
+    "top_nodes": [
+      {
+        "depth": 0,
+        "start": 0,
+        "width": 1572864,
+        "exact_formula": false,
+        "even_family_excluded": true
+      },
+      {
+        "depth": 1,
+        "start": 0,
+        "width": 786432,
+        "exact_formula": true,
+        "even_family_excluded": true
+      },
+      {
+        "depth": 1,
+        "start": 786432,
+        "width": 786432,
+        "exact_formula": true,
+        "even_family_excluded": true
+      }
+    ],
+    "alternate_cuts": [
+      {
+        "offset": 196608,
+        "fraction": [
+          1,
+          8
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 1572882
+      },
+      {
+        "offset": 393216,
+        "fraction": [
+          1,
+          4
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 1572882
+      },
+      {
+        "offset": 524288,
+        "fraction": [
+          1,
+          3
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 1572882
+      },
+      {
+        "offset": 1048576,
+        "fraction": [
+          2,
+          3
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 1572882
+      },
+      {
+        "offset": 1179648,
+        "fraction": [
+          3,
+          4
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 1572882
+      },
+      {
+        "offset": 1376256,
+        "fraction": [
+          7,
+          8
+        ],
+        "left_match": false,
+        "right_match": false,
+        "archive_bytes": 1572882
+      }
+    ],
+    "stats": {
+      "nodes": 77,
+      "even_family_excluded": 77,
+      "numerator_exponents_tested": 2426586,
+      "exact_candidate_checks": 117,
+      "exact_formula_nodes": 13
+    },
+    "sha256": "bad606ca440dbf05adf65b2ee810664b824b2cc4d633cf9da8e67062caca9075"
+  }
+}

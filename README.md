@@ -1,12 +1,14 @@
 # Lossless Compression Lab
 
-Sixteen experiments ask the same question. How much space do two methods save together once the archive pays for everything the decoder needs?
+This repository contains the original compression engines and a set of 16 smaller experiments that isolate their component ideas. The [research index](research/README.md) links nine project folders, benchmark commands, archive formats and measurements. The [field notes](research/evidence/README.md) connect them to 149 original reports.
 
-Start with [repdigit ratios and adaptive segmentation](experiments/01-repdigit-segmentation/README.md). It includes the codec, tests, benchmark driver and a measured run. All 16 experiment folders follow the [experiment template](templates/experiment/README.md).
+Three experiments illustrate the range. A [raster shape coder](research/shape-context/README.md) compresses the 513,216-byte Canterbury fax to 28,037 bytes. A [whiteboard quotient tree](research/whiteboard-trees/README.md) reconstructs a 1.5 MiB planted file from two formulas and one split. A [3D cellular automaton with binary matrix factors](research/tensor-orbits/README.md) shows a large joint gain on a planted volume and a 47-byte gain over matrix coding alone on a real MR slice. The [mixed-arity factor-tree replay](research/factor-trees/README.md) and [adaptive formula scanner](research/repdigit-intervals/README.md) run on the full 96,994,187-byte cofactor Q.
+
+The [experiment template](templates/experiment/README.md) defines the common questions about source, archive cost, reconstruction and controls. For a compact first example, see [repdigit ratios and adaptive segmentation](experiments/01-repdigit-segmentation/README.md).
 
 ## Run from a clean checkout
 
-Use Python 3.10 or newer on Linux and the Zstd CLI. The repository includes the benchmark inputs and uses the Python standard library.
+The 16 compact experiments use Python 3.10 or newer, the standard library, the Zstd CLI and the included inputs. For the native projects, follow the [research build and replay instructions](research/README.md#build-and-reproduce).
 
 ```sh
 python3 suite.py test

@@ -1,0 +1,82 @@
+{
+  "uniform": {
+    "direct": 8205,
+    "automaton": 8205,
+    "factor-one": 8205,
+    "factors": 8205,
+    "post": 8205,
+    "full": 8205
+  },
+  "rank-up-to-12": {
+    "direct": 8205,
+    "automaton": 8205,
+    "factor-one": 8205,
+    "factors": 8205,
+    "post": 8205,
+    "full": 8205
+  },
+  "rank-8": {
+    "direct": 8205,
+    "automaton": 8205,
+    "factor-one": 6925,
+    "factors": 6925,
+    "post": 6925,
+    "full": 6925
+  },
+  "rank-4": {
+    "direct": 8205,
+    "automaton": 8205,
+    "factor-one": 4267,
+    "factors": 4267,
+    "post": 4267,
+    "full": 4267
+  },
+  "rank-4-evolved": {
+    "direct": 8205,
+    "automaton": 8205,
+    "factor-one": 8205,
+    "factors": 8205,
+    "post": 8205,
+    "full": 4492
+  },
+  "hierarchical": {
+    "direct": 7457,
+    "automaton": 7457,
+    "factor-one": 6471,
+    "factors": 5514,
+    "post": 5514,
+    "full": 5514
+  },
+  "neif-payload": {
+    "direct": 8205,
+    "automaton": 8205,
+    "factor-one": 8205,
+    "factors": 8205,
+    "post": 8205,
+    "full": 8205
+  },
+  "j16-descriptor": {
+    "direct": 8205,
+    "automaton": 8205,
+    "factor-one": 8205,
+    "factors": 8205,
+    "post": 8205,
+    "full": 8205
+  },
+  "formula-text": {
+    "direct": 8190,
+    "automaton": 8186,
+    "factor-one": 7882,
+    "factors": 7871,
+    "post": 7855,
+    "full": 7852
+  },
+  "list-edges": {
+    "direct": 8146,
+    "automaton": 8146,
+    "factor-one": 8146,
+    "factors": 8145,
+    "post": 8145,
+    "full": 8145
+  }
+}

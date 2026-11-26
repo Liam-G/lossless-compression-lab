@@ -1,0 +1,8 @@
+{
+  "package_bytes": 96920967,
+  "package_sha256": "b75a7dd33d17ce6004fdb98173e928f244fd155812e8fc9f2b8f9461c0729351",
+  "restored_bytes": 96994187,
+  "restored_sha256": "5f7921346a0b045f6196be84b1c794344455a47eaf84bf9ef81b8707559ca547",
+  "decode_seconds": 1.33,
+  "byte_equal": true
+}

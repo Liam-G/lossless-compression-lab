@@ -1,0 +1,10 @@
+# These fixtures are byte-exact compressor inputs and archive compatibility vectors.
+statico/tests/data/sample.txt binary
+hierarchical-gf2/fixtures/*.bin binary
+hierarchical-gf2/fixtures/*.gfh binary
+whiteboard-trees/**/*.qbt binary
+whiteboard-trees/*.qbt binary
+
+# Preserve formatting of third-party sources and empty final fields in the historical TSV.
+statico/third_party/libsais/* -whitespace
+factor-trees/original-arity-sweep.tsv -whitespace

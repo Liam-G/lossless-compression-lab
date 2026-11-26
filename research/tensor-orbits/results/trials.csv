@@ -1,0 +1,29 @@
+dataset,profile,archive_bytes,encode_s,decode_s,selections,verified
+evolved-rank2,direct,259175,0.0025,0.0008,"{""rule0-step0-raw"": 32}",True
+evolved-rank2,orbit,216650,0.0265,0.003,"{""rule0-step1-raw"": 8, ""rule0-step4-raw"": 8, ""rule1-step2-raw"": 8, ""rule1-step7-raw"": 8}",True
+evolved-rank2,rank,259157,0.0079,0.0015,"{""rule0-step0-rank"": 5, ""rule0-step0-raw"": 27}",True
+evolved-rank2,combined,100339,0.0691,0.004,"{""rule0-step1-rank"": 8, ""rule0-step4-rank"": 8, ""rule1-step2-rank"": 8, ""rule1-step7-rank"": 8}",True
+uniform,direct,262636,0.0041,0.0003,"{""rule0-step0-raw"": 32}",True
+uniform,orbit,262636,0.0244,0.0002,"{""rule0-step0-raw"": 32}",True
+uniform,rank,262636,0.0061,0.0001,"{""rule0-step0-raw"": 32}",True
+uniform,combined,262636,0.0622,0.0001,"{""rule0-step0-raw"": 32}",True
+ptt5,direct,56191,0.0047,0.0012,"{""rule0-step0-raw"": 63}",True
+ptt5,orbit,56186,0.0565,0.0008,"{""rule0-step0-raw"": 61, ""rule1-step1-raw"": 1, ""rule1-step2-raw"": 1}",True
+ptt5,rank,56032,0.0112,0.001,"{""rule0-step0-rank"": 10, ""rule0-step0-raw"": 53}",True
+ptt5,combined,56027,0.1325,0.0011,"{""rule0-step0-rank"": 10, ""rule0-step0-raw"": 51, ""rule1-step1-raw"": 1, ""rule1-step2-raw"": 1}",True
+kennedy.xls,direct,214819,0.0157,0.0023,"{""rule0-step0-raw"": 126}",True
+kennedy.xls,orbit,214819,0.1328,0.0022,"{""rule0-step0-raw"": 126}",True
+kennedy.xls,rank,214819,0.0358,0.0019,"{""rule0-step0-raw"": 126}",True
+kennedy.xls,combined,214819,0.3241,0.002,"{""rule0-step0-raw"": 126}",True
+mr,direct,377578,0.0094,0.0025,"{""rule0-step0-raw"": 128}",True
+mr,orbit,377578,0.1228,0.0025,"{""rule0-step0-raw"": 128}",True
+mr,rank,299013,0.0247,0.0059,"{""rule0-step0-rank"": 124, ""rule0-step0-raw"": 4}",True
+mr,combined,298966,0.2886,0.0059,"{""rule0-step0-rank"": 121, ""rule0-step0-raw"": 4, ""rule1-step1-rank"": 2, ""rule1-step2-rank"": 1}",True
+x-ray,direct,788099,0.01,0.0037,"{""rule0-step0-raw"": 128}",True
+x-ray,orbit,787711,0.118,0.0041,"{""rule0-step0-raw"": 120, ""rule1-step1-raw"": 8}",True
+x-ray,rank,627116,0.0312,0.0076,"{""rule0-step0-rank"": 128}",True
+x-ray,combined,627116,0.2982,0.0075,"{""rule0-step0-rank"": 128}",True
+enwik8,direct,442931,0.0122,0.0027,"{""rule0-step0-raw"": 128}",True
+enwik8,orbit,442931,0.1126,0.0036,"{""rule0-step0-raw"": 128}",True
+enwik8,rank,442931,0.0284,0.0029,"{""rule0-step0-raw"": 128}",True
+enwik8,combined,442931,0.2703,0.0031,"{""rule0-step0-raw"": 128}",True
