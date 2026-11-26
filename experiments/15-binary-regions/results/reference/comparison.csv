@@ -1,0 +1,5 @@
+dataset,input_bytes,sha256,reference_bytes,reference_sha256,zstd_bytes,literal,header,formulas,combined,best,best_vs_raw,best_vs_zstd,delivered_with_base,combined_gain
+generated-header-and-regions,640,567b1e7ee540acc913031aee4f76d435801c2532ca2ec7b0e1e0184f18a2258e,0,,488,652,608,505,461,combined,179,27,461,44
+uniform,640,6133aaf6fdc3160ed1271b17cac960bfdeadfabc579d5db18e757535a5c8a927,0,,653,652,652,652,652,literal,-12,1,652,0
+rusage.elf,16584,1bc95a5fd4a5f330a555a8a52086fc9d127cd3d642275f4cf4b1c1c5a3c7b63b,0,,3294,16597,16552,6029,5984,combined,10600,-2690,5984,45
+scanner.elf,23128,9081528bbc1a4b6ea9b69f22141b7c0ae4446eaa3a8d0764f687dda049fb3bc5,0,,7647,23141,23097,12960,12916,combined,10212,-5269,12916,44

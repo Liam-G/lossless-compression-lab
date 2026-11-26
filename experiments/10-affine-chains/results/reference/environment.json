@@ -1,0 +1,12 @@
+{
+  "python": "3.14.10 (main, Nov 13 2026, 15:10:24) [GCC 16.2.1 20260810]",
+  "platform": "Linux-7.3.4-1-cachyos-x86_64-with-glibc2.44",
+  "zstd": "*** Zstandard CLI (64-bit) v1.5.7, by Yann Collet ***",
+  "seed": 190732,
+  "sources": {
+    "codec.py": "47e4fd3bfaf2c3e11a0b64bf60a6b38eec81132dcc97087e114ec07a8535ba5d",
+    "benchmark.py": "ce317ebd78b7b10894b42cc6bcf7c00812589b308d2da9b401c710ab22f7b31c",
+    "wire.py": "f752413981a218f949efdaa51624e5885fe43104553ee251916557f4abbcaa9f",
+    "lab.py": "99089d2082752c9a3b9c66763578bc50475f749e5cdc0689f08fd74207d13393"
+  }
+}

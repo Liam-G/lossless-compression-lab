@@ -1,0 +1,7 @@
+dataset,input_bytes,sha256,reference_bytes,reference_sha256,zstd_bytes,zero,checker-3-fixed,checker-3-restricted,checker-15-fixed,checker-15-restricted,margolus-3-fixed,margolus-3-restricted,margolus-15-fixed,margolus-15-restricted,best,best_vs_raw,best_vs_zstd,delivered_with_base
+checker-sparse-orbits,192,868136fc2c064942bccb0736e265509ef131732d8860987068fc3dfff4156057,0,,167,148,112,111,97,95,154,154,160,160,checker-15-restricted,97,72,95
+uniform,192,d93dc305f3ed0799fc2eed0d4df152769f1f00eed28d290801b7d3cb21759d75,0,,205,228,228,228,228,228,229,229,229,229,zero,-36,-23,228
+margolus-sparse-orbits,192,0b933ff0574ce41f331afd5488d8597b4724ca375ad116720292f7b7f92c3417,0,,205,226,226,226,227,227,155,155,97,97,margolus-15-fixed,95,108,97
+fax.bin,192,5d89f056865052bcb89c910d2d62872e029fb273c3db03f8968a52a41593c1b5,0,,22,37,43,37,49,37,43,37,49,37,zero,155,-15,37
+fax-mid.bin,192,a79fb0d8b7d3083c66a6af04ddd01387a1c190a3eb86c8250f740e6aafbb9501,0,,61,71,77,74,83,76,77,73,83,75,zero,121,-10,71
+medical.bin,192,d00cf1ee85addf3e9804c8cbbb4b0df117a99423182a9708615fa871eb8a9767,0,,106,145,151,151,154,154,151,151,157,157,zero,47,-39,145

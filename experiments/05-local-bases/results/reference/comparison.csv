@@ -1,0 +1,5 @@
+dataset,input_bytes,sha256,reference_bytes,reference_sha256,zstd_bytes,global-entropy,local-entropy,global-bytes,local-bytes,best,best_vs_raw,best_vs_zstd,delivered_with_base,combined_gain
+mixed-local-bases,512,008f29607f48e1cdb229a21f2a0701220d2183fbf6810300e8488d66da39ec66,0,,288,546,241,457,236,local-bytes,276,52,236,5
+uniform,512,c577769c50cdea14ff28f7e26e2d917c48eb121e33dc41208d6593ac76893066,0,,525,557,556,557,556,local-entropy,-44,-31,556,0
+integer.bin,512,bcff5e146ba2988f3515c0977da03345c0fac8a73badbd858a7b835d71a4849a,0,,525,557,556,557,556,local-entropy,-44,-31,556,0
+medical.bin,512,89d4b71816a683bb6c09dfe1f7b3c7649b5fe4d1677555c4b417ca4cc7311aae,0,,137,349,348,344,343,local-bytes,169,-206,343,1

@@ -1,0 +1,7 @@
+dataset,input_bytes,sha256,reference_bytes,reference_sha256,zstd_bytes,single,fixed,intervals,intervals-regions,best,best_vs_raw,best_vs_zstd,delivered_with_base
+mixed-11-24-16-8,354,3cbba0ddb1bf29386c413ad15092956cf37f8fe1049dbafa059f0534be52dd46,0,,185,191,485,191,191,single,163,-6,191
+uniform,354,b49519b3059365500e7f2dcff0c4de94b871ccb84e2b0d8064b406612692406a,0,,367,382,523,382,382,single,-28,-15,382
+mixed-varying-recipes,1824,63c5e95e5618d098dc24614bd81d3120325693fb085a69fe707b6246895f76de,0,,1384,1369,1753,1158,1020,intervals-regions,804,364,1020
+rusage.elf,512,9a09cb842adb324db8bd49d16799b5a05682191c8bcc2475bbae48a88bccb0d9,0,,173,175,394,175,175,single,337,-2,175
+scanner.elf,512,e1e34b04f85d00e0f87c8915a2a7fe95c918d858e523beaae6fdd05e4184ec98,0,,179,179,407,179,179,single,333,0,179
+medical.bin,512,89d4b71816a683bb6c09dfe1f7b3c7649b5fe4d1677555c4b417ca4cc7311aae,0,,137,141,375,141,141,single,371,-4,141

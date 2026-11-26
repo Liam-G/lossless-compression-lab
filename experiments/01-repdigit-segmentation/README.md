@@ -66,6 +66,8 @@ At each tested density, 10 bytes was the first tested width where the combined a
 
 Paris saved 20 bytes against raw input. In Zurich the combination saved 11 bytes over either component and still finished one byte above raw size. All 72 RPS1 archives round-tripped. The crossover applies to this catalog, seed and placement schedule.
 
+![Net archive savings by planted width and density](results/reference/crossover.png)
+
 See the [width and density sweep](results/reference/comparison.csv), [per-profile measurements](results/reference/trials.csv) and [runtime versions](results/reference/environment.json).
 
 ## Connections

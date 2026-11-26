@@ -1,0 +1,6 @@
+dataset,input_bytes,sha256,reference_bytes,reference_sha256,zstd_bytes,fixed,dictionary,conditional,best,best_vs_raw,best_vs_zstd,delivered_with_base
+frequent-multiplier,640,f151c5139ba9a3b355e8f7e18ced5749fb4e08c7053fbd092d1ecc63a6abbbc9,0,,358,172,335,336,fixed,468,186,172
+uniform,640,6133aaf6fdc3160ed1271b17cac960bfdeadfabc579d5db18e757535a5c8a927,0,,653,1047,1081,1241,fixed,-407,-394,1047
+conditional-offset,640,b99034cdc7c81c308c24f591817f818b331f70551dd51f1f34ded2cb8f481ff6,0,,267,652,533,347,conditional,293,-80,347
+affine-0.bin,512,ef42b409bb05f72e451b15da1cb42d4dc0b89786a82e5a15dd5bbae7375153a2,0,,309,140,333,329,fixed,372,169,140
+affine-1.bin,512,fc562e783a24eac9fc635cf9ffef44a60c8a040a7be0beaab8be3e69d1170f85,0,,300,140,335,343,fixed,372,160,140

@@ -1,0 +1,13 @@
+dataset,profile,raw_bytes,archive_bytes,metadata_bytes,base_plus_archive,zstd_bytes,encode_ms,decode_ms,sha256,verified
+shared-quotient-factors,literal-leaves,1280,1273,12,1273,153,0.354,0.288,ace25c7f3acfb35a80f2e278741c910857c53ac797ded934caa0b5aa595f4ed9,True
+shared-quotient-factors,arithmetic-leaves,1280,492,12,492,153,25.262,0.259,ace25c7f3acfb35a80f2e278741c910857c53ac797ded934caa0b5aa595f4ed9,True
+shared-quotient-factors,shared-leaves,1280,303,12,303,153,0.163,0.051,ace25c7f3acfb35a80f2e278741c910857c53ac797ded934caa0b5aa595f4ed9,True
+shared-quotient-factors,combined,1280,264,12,264,153,0.165,0.051,ace25c7f3acfb35a80f2e278741c910857c53ac797ded934caa0b5aa595f4ed9,True
+uniform,literal-leaves,1280,1726,12,1726,1293,0.492,0.393,d96b0ea0d9bd3e9b69136ac56dbd1665fb876674bd34fa9496c43feba1314bb6,True
+uniform,arithmetic-leaves,1280,1726,12,1726,1293,0.491,0.376,d96b0ea0d9bd3e9b69136ac56dbd1665fb876674bd34fa9496c43feba1314bb6,True
+uniform,shared-leaves,1280,1726,12,1726,1293,0.467,0.357,d96b0ea0d9bd3e9b69136ac56dbd1665fb876674bd34fa9496c43feba1314bb6,True
+uniform,combined,1280,1726,12,1726,1293,0.368,0.253,d96b0ea0d9bd3e9b69136ac56dbd1665fb876674bd34fa9496c43feba1314bb6,True
+real-cofactor-words,literal-leaves,512,697,12,697,525,0.092,0.107,bcff5e146ba2988f3515c0977da03345c0fac8a73badbd858a7b835d71a4849a,True
+real-cofactor-words,arithmetic-leaves,512,697,12,697,525,0.088,0.099,bcff5e146ba2988f3515c0977da03345c0fac8a73badbd858a7b835d71a4849a,True
+real-cofactor-words,shared-leaves,512,697,12,697,525,0.082,0.098,bcff5e146ba2988f3515c0977da03345c0fac8a73badbd858a7b835d71a4849a,True
+real-cofactor-words,combined,512,697,12,697,525,0.084,0.093,bcff5e146ba2988f3515c0977da03345c0fac8a73badbd858a7b835d71a4849a,True
