@@ -1,10 +1,10 @@
 # Reference copies, local formulas and interval selection
 
-## Question
+## Question and prior work
 
 When a target contains both movable reference spans and generated spans, does their joint selection repay its metadata?
 
-## Run the study
+## Run the experiment
 
 Run from the repository root on Linux with Python and the Zstd CLI.
 
@@ -12,13 +12,17 @@ Run from the repository root on Linux with Python and the Zstd CLI.
 python3 studies/run.py reference-formula-intervals runs/reference-formula-intervals
 ```
 
-## Variants and inputs
+## Variants and format
 
 Experiment 12 proposes variable-offset reference copies. Experiment 15 proposes local headers, constants, runs and backward copies. The interval selection from experiment 16 is extended with a state indicating whether the external reference digest has already been paid. Every record includes target offset, width, kind, recipe size and recipe. Untouched bytes remain literal. The decoder checks the reference SHA-256 whenever an external copy was selected.
+
+## Inputs and measurement
 
 Inputs include a planted copy/run mixture, a matched-size random control, two actual Statico source revisions and two packaged versions of the same PNG. The new-recipient figure includes the complete raw base only when a selected record requires it.
 
 ## Results
+
+The following table records the original small diagnostic. The primary benchmark follows it.
 
 The mixed archive needed 66 bytes on the planted update and 1,090 bytes when delivering the base as well. The formulas-only archive required 1,042 bytes and was independently decodable.
 
@@ -41,4 +45,8 @@ All 12 study archives reconstructed their original bytes. The [trial table](resu
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#reference-formula-intervals) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `numpy-update` (53,800,960 raw bytes), `study19-mixed` produced 18,553,077 archive bytes. Delivering the required reference as well costs 72,272,117 bytes. Zstandard level 3 used 11,502,762 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#numpy-update) · [All project measurements](../../research/large-scale/results/by-experiment.md#reference-formula-intervals)
+
+## Connections
+
+[Conditional patches after arithmetic alignment](../../research/arithmetic-references/README.md) · [Adaptive repdigit intervals](../../research/repdigit-intervals/README.md)

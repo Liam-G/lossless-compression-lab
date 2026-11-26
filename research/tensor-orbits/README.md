@@ -20,7 +20,11 @@ Each full 8 KiB slab is a volume of 64 planes, each 16 rows by 64 bits. A step u
 
 For each candidate state, the panel coder groups a plane into eight 16 × 8 binary matrices. Rank zero needs only a tag. Rank one or two carries basis rows and binary coordinates. Higher rank escapes to literal row bytes. Tags, bases, coordinates and literal panels form separate lanes. Direct, orbit-only, rank-only and combined profiles all use DEFLATE level 6 on the candidate payload. The four-byte slab record pays for method, rule, step and compressed length. All four share a 12-byte file header. A partial slab can enter the geometry search if it contains whole planes.
 
-## Inputs, results and interpretation
+## Inputs and measurement
+
+The primary trial measures `tensor-combined` on the complete `evolved-volume` input (25,165,824 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+## Results
 
 | Input | Direct | Orbit only | Rank only | Both | XZ extreme |
 |---|---:|---:|---:|---:|---:|
@@ -33,4 +37,8 @@ The plant uses independent rank-two panel bases and then evolves each slab forwa
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#tensor-orbits) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `evolved-volume` (25,165,824 raw bytes), `tensor-combined` produced 9,632,435 archive bytes. Zstandard level 3 used 25,166,414 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#evolved-volume) · [All project measurements](../large-scale/results/by-experiment.md#tensor-orbits)
+
+## Connections
+
+[Four-dimensional automata with noisy binary matrix factors](../four-dimensional-factors/README.md) · [Byte-valued cellular automata and Kronecker factors](../modular-kronecker/README.md)

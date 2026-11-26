@@ -521,6 +521,11 @@ class ReversibleModels(unittest.TestCase):
             for flexible in (False, True):
                 packed = model.split(original, flexible)
                 np.testing.assert_array_equal(model.join(packed, len(a)), original)
+            for shift in range(1, 9):
+                shifted = original << np.uint8(shift)
+                packed = model.split(shifted, valuation=True)
+                self.assertFalse(any(packed[len(a) * 32 :]))
+                np.testing.assert_array_equal(model.join(packed, len(a)), shifted)
             evolved = original.copy()
             for _ in range(4):
                 model.step(evolved)

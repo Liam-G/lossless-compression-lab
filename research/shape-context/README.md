@@ -29,7 +29,11 @@ The history baseline sees the previous two bits. The original stencil uses the p
 
 The encoder tries widths 1,728 and 1,729 and up to three additional widths selected by sample conditional entropy from widths up to 2,048. It writes the smallest actual payload among these models, the history baseline and literal bytes. Its 15-byte header records magic, length, row width and model. A selected width is a predictor parameter and can span a record or part of a row.
 
-## Inputs, results and interpretation
+## Inputs and measurement
+
+The primary trial measures `shape` on the complete `manual-graphs` input (24,642,792 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+## Results
 
 | Input | History only | Shape search | Zstandard 3 | XZ extreme |
 |---|---:|---:|---:|---:|
@@ -46,4 +50,8 @@ After fixing the codec, a separate check took every matching gzip-compressed PSF
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#shape-context) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `manual-graphs` (24,642,792 raw bytes), `shape` produced 901,604 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../large-scale/results/by-experiment.md#shape-context)
+
+## Connections
+
+[Repeated glyphs and an exact bitmap residual](../glyph-residuals/README.md) · [Integer lifting and color differences](../reversible-wavelets/README.md)

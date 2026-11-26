@@ -116,6 +116,8 @@ def project_index(records, output):
         "",
     ]
     for folder, rows in projects.items():
+        if not rows:
+            continue
         slug = folder.name
         title = (folder / "README.md").read_text().splitlines()[0].removeprefix("# ")
         link = relpath(folder / "README.md", output.resolve())
@@ -128,14 +130,6 @@ def project_index(records, output):
                 "",
             ]
         )
-        if not rows:
-            lines.extend(
-                [
-                    "The linked project includes its diagnostic measurements. A primary receipt has yet to be recorded.",
-                    "",
-                ]
-            )
-            continue
         lines.extend(
             [
                 "| Input | Profile | Archive bytes | Delivered bytes |",

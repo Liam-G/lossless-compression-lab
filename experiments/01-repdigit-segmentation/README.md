@@ -73,7 +73,7 @@ See the [width and density sweep](results/reference/comparison.csv), [per-profil
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#01-repdigit-segmentation) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `wiki-transfer` (25,165,824 raw bytes), `pilot01-adaptive-ratios` produced 25,178,126 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../../research/large-scale/results/by-experiment.md#01-repdigit-segmentation)
 
 ## Connections
 

@@ -19,10 +19,18 @@ python3 research/hierarchical-gf2/benchmark.py runs/gf2-replay
 
 The six profiles measure direct coding, automaton alone, a single factorization, recursive factorization, automata at leaves, and the full ordering with predecessor search before factorization. A factor node transmits a rank, a subset of independent row positions and recursively coded factor data. A predecessor carries the forward step count needed for reconstruction. GFH1 can fall back to the original file plus its 13-byte header. The benchmark uses up to 100 steps, depth 3 and a beam of 2 candidates. The previously published pilot explores a smaller search.
 
-## Inputs, results and interpretation
+## Inputs and measurement
+
+The primary trial measures `gfh-3-1` on the complete `manual-graphs` input (24,642,792 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+## Results
 
 Each input is 8,192 bytes. On the evolved rank-four fixture, all restricted profiles gave 8,205 bytes. The full profile gave 4,492. On the hierarchical fixture, single-level factorization gave 6,471 and recursive factorization gave 5,514. Plain rank-four matrices already reached 4,267 bytes with one factorization. The uniform and Neif payload fixtures selected literal files. All 60 trials matched the original measured sizes, and all ten full-profile encodes reproduced the historical archive bytes exactly. [Replay with decoded node counts](results/replay/trials.csv)
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#hierarchical-gf2) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `manual-graphs` (24,642,792 raw bytes), `gfh-3-1` produced 3,098,408 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../large-scale/results/by-experiment.md#hierarchical-gf2)
+
+## Connections
+
+[Reversible 3D automata before GF(2) panel coding](../tensor-orbits/README.md) · [Four-dimensional automata with noisy binary matrix factors](../four-dimensional-factors/README.md)

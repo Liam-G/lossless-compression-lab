@@ -20,10 +20,13 @@ def audit(raw=None, workspace=None):
         family = row["codec"].partition("-")[0]
         if family in groups:
             projects.add(groups[family])
-        files[row["dataset"]] = row["input_sha256"]
+        pins = [(row["dataset"], row["input_sha256"])]
         knobs = row["knobs"]
         if "reference" in knobs:
-            files[knobs["reference"]] = knobs["reference_sha256"]
+            pins.append((knobs["reference"], knobs["reference_sha256"]))
+        for name, sha in pins:
+            if files.setdefault(name, sha) != sha:
+                raise ValueError(f"Conflicting input or reference hash for {name}")
     missing = set(groups.values()) - projects
     if missing:
         raise ValueError(
@@ -33,6 +36,19 @@ def audit(raw=None, workspace=None):
     print(
         f"{len(receipts)} verified receipt identities, {len(projects)} projects, {len({r['dataset'] for r in receipts})} targets"
     )
+    template = (
+        (HERE.parents[1] / "templates/experiment/README.md").read_text().splitlines()
+    )
+    required = [line for line in template if line.startswith("## ")]
+    for project in projects:
+        sections = [
+            line
+            for line in (project / "README.md").read_text().splitlines()
+            if line in required
+        ]
+        if sections != required:
+            raise ValueError(f"Experiment template mismatch in {project.name}")
+    print(f"{len(projects)} project folders match the shared experiment template")
     if raw:
         for name, sha in sorted(files.items()):
             resolve(name, sha, raw, workspace or Path(".."))

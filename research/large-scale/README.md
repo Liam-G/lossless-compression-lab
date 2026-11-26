@@ -80,6 +80,7 @@ python3 research/large-scale/controls.py runs/large/raw
 python3 research/modular-kronecker/control.py runs/large/raw/modular-panels
 python3 research/modular-kronecker/control.py runs/large/raw/modular-transfer --seed 832181
 python3 research/modular-kronecker/control.py runs/large/raw/modular-free --seed 688271 --free-pivot
+python3 research/modular-kronecker/control.py runs/large/raw/modular-even --seed 779451 --free-pivot --even
 python3 research/large-scale/project_data.py .. runs/large/raw
 python3 research/checkerboard-orbits/control.py runs/large/raw/shared-orbit-1000
 python3 research/carry-trees/control.py runs/large/raw/wiki-dev runs/large/raw/mapped-text

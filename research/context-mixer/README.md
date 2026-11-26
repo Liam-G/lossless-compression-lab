@@ -31,10 +31,18 @@ The benchmark clears inherited CM3 settings and supplies the same explicit profi
 
 Each predictor supplies a probability for the next bit. The mixer combines them before arithmetic coding. Both processors update from the same decoded prefix. The profile and floating-point implementation are part of the shared decoder configuration. Use the same binary and CPU for encoding and decoding. The file carries its length and range-coded data. The benchmark directly compares restored contents and hashes the source.
 
-## Inputs, results and interpretation
+## Inputs and measurement
+
+The primary trial measures `cm3-mix` on the complete `wiki-dev` input (25,165,824 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+## Results
 
 On the first 131,072 bytes of enwik8, small context tables produced a 34,010-byte archive. The match and second-layer profile produced 33,759. Adding a 32-cell LSTM reduced that to 33,727. The original full 100,000,000-byte run used larger context tables and a 192-cell LSTM. Its verified archive measured 17,811,463 bytes. The prefix run was repeated here. The full result comes from the retained encode/decode log. [Fresh benchmark](results/enwik8-prefix.csv) · [Historical full-file log](results/original-enwik8.log)
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#context-mixer) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `wiki-dev` (25,165,824 raw bytes), `cm3-mix` produced 5,017,931 archive bytes. Zstandard level 3 used 8,951,574 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wiki-dev) · [All project measurements](../large-scale/results/by-experiment.md#context-mixer)
+
+## Connections
+
+[Wikipedia page order, algebraic templates and primed context mixing](../wiki-structures/README.md) · [Text fields, BWT and move-to-front](../text-views/README.md)

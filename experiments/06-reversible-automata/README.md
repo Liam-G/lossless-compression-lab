@@ -58,7 +58,7 @@ All 54 profile archives decoded byte for byte. The [trial measurements](results/
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#06-reversible-automata) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `shared-orbit-1000` (25,165,824 raw bytes), `pilot06-checker-3-fixed` produced 22,274,238 archive bytes. [Input and timing](../../research/large-scale/results/by-dataset.md#shared-orbit-1000) · [All project measurements](../../research/large-scale/results/by-experiment.md#06-reversible-automata)
 
 ## Connections
 

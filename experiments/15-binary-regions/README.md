@@ -56,7 +56,7 @@ All 16 profile archives decoded byte for byte. The [trial measurements](results/
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#15-binary-regions) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `mozilla` (51,220,480 raw bytes), `pilot15-combined` produced 35,313,184 archive bytes. Zstandard level 3 used 18,281,292 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#mozilla) · [All project measurements](../../research/large-scale/results/by-experiment.md#15-binary-regions)
 
 ## Connections
 

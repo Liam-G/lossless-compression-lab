@@ -29,7 +29,7 @@ On the 29,491,200-byte generated field, fixed-order training followed by a basis
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#learned-cellular-rules) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `learned-field` (29,491,200 raw bytes), `learned-coupled` produced 11,051,733 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#learned-field) · [All project measurements](../large-scale/results/by-experiment.md#learned-cellular-rules)
 
 ## Connections
 

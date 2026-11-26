@@ -36,7 +36,7 @@ The two newly built arithmetic packages charged 2,088 bytes beyond their SCL1 pa
 
 ## Large-file benchmark
 
-[All primary trials for this project](../large-scale/results/by-experiment.md#portable-arithmetic)
+On `cofattore-Q.base256` (96,994,187 raw bytes), `portable-informed` produced 96,992,503 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#portable-arithmetic)
 
 ## Connections
 

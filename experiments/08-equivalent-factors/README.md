@@ -67,7 +67,7 @@ All 28 profile archives decoded byte for byte. The [trial measurements](results/
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#08-equivalent-factors) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `numerical` (25,696,748 raw bytes), `pilot08-search` produced 24,565,555 archive bytes. Zstandard level 3 used 15,163,683 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#numerical) · [All project measurements](../../research/large-scale/results/by-experiment.md#08-equivalent-factors)
 
 ## Connections
 

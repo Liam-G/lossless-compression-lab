@@ -34,7 +34,7 @@ On the real-place chord table, row prediction gave 14,052,449 bytes, three landm
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#distance-geometry) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `place-distances` (21,155,400 raw bytes), `distance-three` produced 3,850,014 archive bytes. Zstandard level 3 used 20,188,613 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#place-distances) · [All project measurements](../large-scale/results/by-experiment.md#distance-geometry)
 
 ## Connections
 

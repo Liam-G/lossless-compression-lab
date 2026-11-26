@@ -36,7 +36,7 @@ Learning positions saved bytes on all four inputs. The wider-strip DjVu archive 
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#glyph-residuals) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `manual-valgrind` (30,924,288 raw bytes), `glyph-position` produced 394,104 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#manual-valgrind) · [All project measurements](../large-scale/results/by-experiment.md#glyph-residuals)
 
 ## Connections
 

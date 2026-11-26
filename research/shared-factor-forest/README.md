@@ -34,7 +34,7 @@ Direct, factor-only and formula-only all gave 14,336,766 bytes on the plant. Inl
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#shared-factor-forest) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `hidden-products` (25,165,824 raw bytes), `shared-shared` produced 13,097,327 archive bytes. Zstandard level 3 used 14,343,987 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#hidden-products) · [All project measurements](../large-scale/results/by-experiment.md#shared-factor-forest)
 
 ## Connections
 

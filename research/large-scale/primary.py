@@ -30,7 +30,7 @@ CHOICES = {
     "pilot15": ("mozilla", "pilot15-combined"),
     "pilot16": ("manual-library", "pilot16-intervals-regions"),
     "study17": ("hidden-products", "study17-combined"),
-    "study18": ("noisy-spacetime", "study18-orbit-enumerative"),
+    "study18": ("manual-graphs", "study18-orbit-enumerative"),
     "study19": ("numpy-update", "study19-mixed"),
     "qrt": ("cofattore-Q.base256", "qrt-seeded"),
     "whiteboard": ("cofattore-Q.base256", "whiteboard"),
@@ -166,18 +166,19 @@ def main():
             parser.error(f"No published primary trial for {folder.name}")
         if not a.all_profiles:
             dataset, method = preferred[folder]
-            candidates = [
-                next(
-                    (
-                        r
-                        for r in candidates
-                        if (r["dataset"], r["codec"]) == (dataset, method)
-                    ),
-                    next(
-                        (r for r in candidates if r["codec"] == method), candidates[0]
-                    ),
+            matched = next(
+                (
+                    r
+                    for r in candidates
+                    if (r["dataset"], r["codec"]) == (dataset, method)
+                ),
+                None,
+            )
+            if matched is None:
+                parser.error(
+                    f"Selected primary receipt missing for {folder.name}: {dataset} / {method}"
                 )
-            ]
+            candidates = [matched]
         for r in candidates:
             plan.append((folder.name, r))
     if a.list:

@@ -34,7 +34,7 @@ The four whole-Q archives were 97,005,287 (fixed), 97,006,292 (tree), 98,625,024
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#prime-index-trees) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `cofattore-Q.base256` (96,994,187 raw bytes), `prime-tree` produced 97,006,292 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#prime-index-trees)
 
 ## Connections
 

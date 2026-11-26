@@ -35,7 +35,7 @@ The planted block archive was 36,872 bytes. Zstd-19 and XZ extreme both grew the
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#generator-sums) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `three-seeds` (25,165,824 raw bytes), `sum-4096` produced 36,872 archive bytes. Zstandard level 3 used 25,166,414 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#three-seeds) · [All project measurements](../large-scale/results/by-experiment.md#generator-sums)
 
 ## Connections
 

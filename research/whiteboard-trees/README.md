@@ -25,7 +25,11 @@ QBT1 stores the byte length in a 12-byte header. Each node selects a literal, a 
 
 FWF1 starts from 64-byte words, permits three levels and up to two factor nodes on a path. The encoder can apply `n = p × child − δ`, with δ in {0, +1, −1}, then split the child's bits. It tries up to two exact divisors per correction from ten small primes. Literal and leading-zero-trimmed leaves, bisecting splits and a common width rule are shared across profiles. The encoder chooses by the byte length of the actual tagged records.
 
-## Inputs, results and interpretation
+## Inputs and measurement
+
+The primary trial measures `whiteboard` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+## Results
 
 | 32 KiB hidden-product control | Archive bytes |
 |---|---:|
@@ -40,4 +44,8 @@ The fixture embeds a cross-base quotient in one half of a cofactor, then applies
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#whiteboard-trees) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `cofattore-Q.base256` (96,994,187 raw bytes), `whiteboard` produced 96,994,200 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#whiteboard-trees)
+
+## Connections
+
+[The whiteboard census and its formula witnesses](../whiteboard-census/README.md) · [Shared formulas inside a factor tree](../shared-factor-forest/README.md)

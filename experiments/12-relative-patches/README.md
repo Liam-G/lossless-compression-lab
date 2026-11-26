@@ -60,7 +60,7 @@ All 27 profile archives decoded byte for byte. The [trial measurements](results/
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#12-relative-patches) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `wiki-transfer` (25,165,824 raw bytes), `pilot12-copies` produced 15,112,062 archive bytes. Delivering the required reference as well costs 40,277,886 bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../../research/large-scale/results/by-experiment.md#12-relative-patches)
 
 ## Connections
 

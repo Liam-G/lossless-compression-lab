@@ -34,7 +34,7 @@ On Jake, spatial-only used 7,865,422 bytes, previous-frame prediction 1,201,348,
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#motion-residuals) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `luma-rei` (29,491,200 raw bytes), `motion-joint` produced 3,882,245 archive bytes. Zstandard level 3 used 5,307,286 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#luma-rei) · [All project measurements](../large-scale/results/by-experiment.md#motion-residuals)
 
 ## Connections
 

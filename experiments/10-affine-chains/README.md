@@ -63,7 +63,7 @@ All 15 profile archives decoded byte for byte. The [trial measurements](results/
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#10-affine-chains) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `affine-pairs` (25,165,824 raw bytes), `pilot10-fixed` produced 6,304,526 archive bytes. Zstandard level 3 used 9,297,292 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#affine-pairs) · [All project measurements](../../research/large-scale/results/by-experiment.md#10-affine-chains)
 
 ## Connections
 

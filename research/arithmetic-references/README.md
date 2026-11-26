@@ -35,7 +35,7 @@ The matching 96,994,188-byte numerator and a 46-byte formula recover all of Q; d
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#arithmetic-references) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `numpy-update` (53,800,960 raw bytes), `relative-joint` produced 1,347,467 archive bytes. Delivering the required reference as well costs 55,066,507 bytes. Zstandard level 3 used 11,502,762 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#numpy-update) · [All project measurements](../large-scale/results/by-experiment.md#arithmetic-references)
 
 ## Connections
 

@@ -34,7 +34,7 @@ On wall2, 96,560,657 raw bytes, direct coding gave 37,922,336, color 37,365,473,
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#reversible-wavelets) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `wall2.ppm` (96,560,657 raw bytes), `wavelet-joint` produced 32,392,630 archive bytes. Zstandard level 3 used 47,585,586 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wall2ppm) · [All project measurements](../large-scale/results/by-experiment.md#reversible-wavelets)
 
 ## Connections
 

@@ -48,13 +48,13 @@ An independent exhaustive Python check agreed on all 4,095 positive integers for
 
 ### Shipping the witness computation
 
-A further comparison regenerates the **sequence of records**, including their original order. WRT1 infers the bit width, budget and denominator filter, runs the same enumerator, and stores a SHA-256 digest of its prediction. It also sends the exact remaining differences. On the original N=26 witnesses, the generic build differed at 739 byte positions and used a **2,051-byte archive**. On this host the CPU-native build matched every position and used **48 bytes** with that enumerator installed. Shuffling the values and costs increased the generic archive to 3,589,802 bytes.
+A further comparison regenerates the **sequence of records**, including their original order. WRT1 infers the bit width, budget and denominator filter, runs the same enumerator, and stores a SHA-256 digest of its prediction. It also sends the exact remaining differences. On the original N=26 witnesses, the generic build differed at 739 byte positions and used a **2,051-byte archive**. On this host the CPU-native build matched every position and used **48 bytes** with that enumerator installed. Shuffling the values and costs increased the generic archive to 3,589,802 bytes. The newly generated N=28 non-unit subset also regenerated from a 48-byte descriptor with its matching generic enumerator.
 
 WRP1 delivers a Python extractor and the enumerator inside the archive. The source package used **6,068 bytes** including the 48-byte model and decoded the historical 22,630,320-byte stream in 42.7 seconds in this run. It requires Python, a compatible C compiler and GMP headers. The package carrying the CPU-native executable used 11,723 bytes and requires a compatible CPU, Linux ABI and GMP runtime. The generic source package with a DEFLATE correction cost 29,100 bytes. Each extractor checks the predicted sequence before applying corrections. These savings exploit a known computation that generated the target. [Complete delivery and timing receipts](../large-scale/results/by-dataset.md#whiteboard-witnesses)
 
 ## Large-file benchmark
 
-[All primary trials for this project](../large-scale/results/by-experiment.md#whiteboard-census)
+On `whiteboard-witnesses` (22,630,320 raw bytes), `witness-joint` produced 1,082,142 archive bytes. Zstandard level 3 used 4,602,358 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#whiteboard-witnesses) · [All project measurements](../large-scale/results/by-experiment.md#whiteboard-census)
 
 ## Connections
 

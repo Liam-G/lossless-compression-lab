@@ -85,5 +85,14 @@
     "free_pivot": true,
     "bytes": 25165824,
     "sha256": "607a48741c86478a59808360bc2ea4c2e7926e1f13216639d0f0d4b57bad03d9"
+  },
+  "modular-even": {
+    "seed": 779451,
+    "program": "modular-kronecker/control.py",
+    "random_source": "NumPy Generator/PCG64",
+    "free_pivot": true,
+    "even": true,
+    "bytes": 25165824,
+    "sha256": "4481a8bb273b700f0e8a875006e35c48ac34d13cdd03abfbe259806fdedbbae3"
   }
 }

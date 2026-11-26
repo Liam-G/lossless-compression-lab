@@ -132,6 +132,7 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | [wiki-dev](by-dataset.md#wiki-dev) | pilot13-combined-64 | 27,942,709 | 27,942,709 |
 | [wiki-dev](by-dataset.md#wiki-dev) | pilot13-direct-64 | 26,350,492 | 26,350,492 |
 | [wiki-dev](by-dataset.md#wiki-dev) | pilot13-predict-64 | 26,743,690 | 26,743,690 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | pilot13-combined-64 | 27,922,396 | 27,922,396 |
 
 <a id="14-sparse-residuals"></a>
 ## Experiment 14 · Sparse residual coding
@@ -348,6 +349,7 @@ Each entry links the implementation, its verified profiles and same-input baseli
 
 | Input | Profile | Archive bytes | Delivered bytes |
 |---|---|---:|---:|
+| [nonunit-witnesses](by-dataset.md#nonunit-witnesses) | regenerate-generic | 48 | 48 |
 | [nonunit-witnesses](by-dataset.md#nonunit-witnesses) | witness-arithmetic | 2,937,903 | 2,937,903 |
 | [nonunit-witnesses](by-dataset.md#nonunit-witnesses) | witness-columns | 5,053,332 | 5,053,332 |
 | [nonunit-witnesses](by-dataset.md#nonunit-witnesses) | witness-joint | 2,378,373 | 2,378,373 |
@@ -479,12 +481,20 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | Input | Profile | Archive bytes | Delivered bytes |
 |---|---|---:|---:|
 | [manual-library](by-dataset.md#manual-library) | modular-adaptive | 1,910,515 | 1,910,515 |
+| [manual-library](by-dataset.md#manual-library) | modular-adaptive-joint | 1,910,515 | 1,910,515 |
 | [manual-library](by-dataset.md#manual-library) | modular-direct | 1,910,515 | 1,910,515 |
 | [manual-library](by-dataset.md#manual-library) | modular-orbit | 1,910,515 | 1,910,515 |
+| [modular-even](by-dataset.md#modular-even) | modular-adaptive-joint | 17,965,503 | 17,965,503 |
+| [modular-even](by-dataset.md#modular-even) | modular-direct | 18,871,144 | 18,871,144 |
+| [modular-even](by-dataset.md#modular-even) | modular-orbit | 17,965,503 | 17,965,503 |
+| [modular-even](by-dataset.md#modular-even) | modular-valuation | 18,871,144 | 18,871,144 |
+| [modular-even](by-dataset.md#modular-even) | modular-valuation-joint | 5,067,269 | 5,067,269 |
+| [modular-free](by-dataset.md#modular-free) | modular-adaptive | 25,166,796 | 25,166,796 |
 | [modular-free](by-dataset.md#modular-free) | modular-adaptive-joint | 5,813,021 | 5,813,021 |
 | [modular-free](by-dataset.md#modular-free) | modular-direct | 25,166,796 | 25,166,796 |
 | [modular-free](by-dataset.md#modular-free) | modular-factor | 25,166,796 | 25,166,796 |
 | [modular-free](by-dataset.md#modular-free) | modular-joint | 20,947,779 | 20,947,779 |
+| [modular-free](by-dataset.md#modular-free) | modular-orbit | 24,347,838 | 24,347,838 |
 | [modular-panels](by-dataset.md#modular-panels) | modular-direct | 25,166,796 | 25,166,796 |
 | [modular-panels](by-dataset.md#modular-panels) | modular-factor | 25,166,796 | 25,166,796 |
 | [modular-panels](by-dataset.md#modular-panels) | modular-joint | 4,471,016 | 4,471,016 |
@@ -499,6 +509,7 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | [uniform](by-dataset.md#uniform) | modular-direct | 25,166,796 | 25,166,796 |
 | [uniform](by-dataset.md#uniform) | modular-joint | 25,166,796 | 25,166,796 |
 | [whiteboard-costs](by-dataset.md#whiteboard-costs) | modular-adaptive | 3,192,497 | 3,192,497 |
+| [whiteboard-costs](by-dataset.md#whiteboard-costs) | modular-adaptive-joint | 3,192,497 | 3,192,497 |
 | [whiteboard-costs](by-dataset.md#whiteboard-costs) | modular-direct | 3,192,497 | 3,192,497 |
 | [whiteboard-costs](by-dataset.md#whiteboard-costs) | modular-orbit | 3,192,497 | 3,192,497 |
 
@@ -745,6 +756,7 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | [wiki-dev](by-dataset.md#wiki-dev) | wiki-templates | 8,255,626 | 8,255,626 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | wcm-literal | 5,345,330 | 5,345,330 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | wcm-literal-primed | 5,331,459 | 5,331,459 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | wcm-similar-template-primed | 5,312,277 | 5,312,277 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | wiki-direct | 8,283,833 | 8,283,833 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | wiki-direct-xz | 6,939,917 | 6,939,917 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | wiki-joint | 8,223,878 | 8,223,878 |

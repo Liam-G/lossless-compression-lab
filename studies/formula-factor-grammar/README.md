@@ -1,10 +1,10 @@
 # Formula leaves, factors and grammar references
 
-## Question
+## Question and prior work
 
 How much does a shared-factor dictionary add when the factor itself already has a short repdigit recipe?
 
-## Run the study
+## Run the experiment
 
 Run from the repository root on Linux with Python and the Zstd CLI.
 
@@ -12,13 +12,17 @@ Run from the repository root on Linux with Python and the Zstd CLI.
 python3 studies/run.py formula-factor-grammar runs/formula-factor-grammar
 ```
 
-## Variants and inputs
+## Variants and format
 
 All four profiles use the same small-divisor search and product tree. Each 16-byte input word is represented by the first fitting divisor and its cofactor. Experiment 02 supplies literal operand coding. Experiment 01 supplies the bounded direct/ratio catalog and arithmetic inverse. The sharing profiles intern cofactor values at first occurrence using experiment 11’s reference token encoding. Each leaf has an operator tag. Only shared profiles build the dictionary, which the decoder reconstructs in order.
+
+## Inputs and measurement
 
 The planted file contains 80 products built from four repeating quotient leaves. A cofactor window and an equal-sized random control provide comparison inputs. The study shares factor leaves. A deeper product-tree search would test additional kinds of reuse.
 
 ## Results
+
+The following table records the original small diagnostic. The primary benchmark follows it.
 
 Sharing alone used 303 bytes on the planted input. Enabling arithmetic leaves as well reduced it to 264 bytes. Arithmetic without shared references used 492 bytes.
 
@@ -41,4 +45,8 @@ All 12 study archives reconstructed their original bytes. The [trial table](resu
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#formula-factor-grammar) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `hidden-products` (25,165,824 raw bytes), `study17-combined` produced 20,296,188 archive bytes. Zstandard level 3 used 14,343,987 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#hidden-products) · [All project measurements](../../research/large-scale/results/by-experiment.md#formula-factor-grammar)
+
+## Connections
+
+[Shared formulas inside a factor tree](../../research/shared-factor-forest/README.md) · [Whiteboard quotients inside factor trees](../../research/whiteboard-trees/README.md)

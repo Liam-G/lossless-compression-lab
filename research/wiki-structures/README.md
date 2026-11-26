@@ -32,7 +32,7 @@ On the disjoint 25,165,824-byte Wikipedia transfer window, four independently de
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#wiki-structures) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `wiki-transfer` (25,165,824 raw bytes), `wiki-joint-xz` produced 6,915,857 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../large-scale/results/by-experiment.md#wiki-structures)
 
 ## Connections
 

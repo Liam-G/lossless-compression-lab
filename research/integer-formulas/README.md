@@ -35,7 +35,7 @@ Floor, nearest and mixed QFE1 descriptors gave 96,994,288, 96,994,277 and 96,994
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#integer-formulas) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `cofattore-Q.base256` (96,994,187 raw bytes), `integer-composite` produced 96,994,051 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#integer-formulas)
 
 ## Connections
 

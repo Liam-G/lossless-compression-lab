@@ -35,7 +35,7 @@ On the shared-clock control the direct archive used 21,999,209 bytes, per-matrix
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#checkerboard-orbits) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `shared-orbit-1000` (25,165,824 raw bytes), `checker-joint` produced 12,415,836 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#shared-orbit-1000) · [All project measurements](../large-scale/results/by-experiment.md#checkerboard-orbits)
 
 ## Connections
 

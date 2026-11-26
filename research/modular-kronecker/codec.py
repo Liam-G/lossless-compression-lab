@@ -17,6 +17,19 @@ MASK = (Y + X) % 2
 INVERSE = np.array([pow(i, -1, 256) if i % 2 else 0 for i in range(256)], np.uint8)
 
 
+TRAILING = np.array([8] + [(i & -i).bit_length() - 1 for i in range(1, 256)], np.uint8)
+PROFILES = (
+    "direct",
+    "factor",
+    "orbit",
+    "joint",
+    "adaptive",
+    "adaptive-joint",
+    "valuation",
+    "valuation-joint",
+)
+
+
 def step(grid, inverse=False):
     for parity in (1, 0) if inverse else (0, 1):
         neighbors = np.roll(grid, 1, 1) + np.roll(grid, -1, 2)
@@ -30,18 +43,22 @@ def factors_to_grid(a, b):
     return products.reshape(-1, 4, 4, 4, 4).transpose(0, 1, 3, 2, 4).reshape(-1, 16, 16)
 
 
-def split(grid, flexible=False):
+def split(grid, flexible=False, valuation=False):
     panels = grid.reshape(-1, 4, 4, 4, 4).transpose(0, 1, 3, 2, 4).reshape(-1, 16, 16)
     # Normalize the factor at (0,0) to one when that pivot is invertible.
     a = panels[:, :, 0]
     b = panels[:, 0, :] * INVERSE[a[:, 0], None]
-    if flexible:
+    if flexible or valuation:
         # A and B carry the chosen factors, so the decoder never needs a pivot index.
-        pivot = (panels.reshape(-1, 256) & 1).argmax(axis=1)
+        reduced = panels
+        if valuation:
+            common = TRAILING[np.bitwise_or.reduce(panels.reshape(-1, 256), axis=1)]
+            reduced = panels >> common[:, None, None]
+        pivot = (reduced.reshape(-1, 256) & 1).argmax(axis=1)
         batch = np.arange(len(panels))
         row, column = np.divmod(pivot, 16)
         a = panels[batch, :, column]
-        b = panels[batch, row, :] * INVERSE[panels[batch, row, column], None]
+        b = reduced[batch, row, :] * INVERSE[reduced[batch, row, column], None]
     residual = grid - factors_to_grid(a, b)
     return a.T.tobytes() + b.T.tobytes() + residual.tobytes()
 
@@ -67,7 +84,7 @@ def encode(source, dest, profile):
                 [(0, 0, raw), (1, 0, coder.compress(raw))],
                 key=lambda item: len(item[2]),
             )
-            count, tail = divmod(len(raw), 256)
+            count = len(raw) // 256
             if count:
                 grid = (
                     np.frombuffer(raw[: count * 256], np.uint8)
@@ -77,7 +94,8 @@ def encode(source, dest, profile):
                 suffix = raw[count * 256 :]
                 times = (
                     (0, 1, 2, 4)
-                    if profile in ("orbit", "joint", "adaptive-joint")
+                    if profile
+                    in ("orbit", "joint", "adaptive-joint", "valuation-joint")
                     else (0,)
                 )
                 clock = 0
@@ -89,9 +107,13 @@ def encode(source, dest, profile):
                         body = coder.compress(grid.tobytes() + suffix)
                         if len(body) < len(best[2]):
                             best = (2, t, body)
-                    if profile in ("factor", "joint", "adaptive", "adaptive-joint"):
+                    if profile not in ("direct", "orbit"):
                         body = coder.compress(
-                            split(grid, profile in ("adaptive", "adaptive-joint"))
+                            split(
+                                grid,
+                                profile.startswith("adaptive"),
+                                profile.startswith("valuation"),
+                            )
                             + suffix
                         )
                         if len(body) < len(best[2]):
@@ -157,7 +179,7 @@ if __name__ == "__main__":
     p.add_argument("dest", type=Path)
     p.add_argument(
         "--profile",
-        choices=("direct", "factor", "orbit", "joint", "adaptive", "adaptive-joint"),
+        choices=PROFILES,
         default="joint",
     )
     a = p.parse_args()

@@ -1,10 +1,10 @@
 # Automata, factors and residual coding
 
-## Question
+## Question and prior work
 
 Does undoing an automaton step reduce residual cost when the factor model stays fixed?
 
-## Run the study
+## Run the experiment
 
 Run from the repository root on Linux with Python and the Zstd CLI.
 
@@ -12,13 +12,17 @@ Run from the repository root on Linux with Python and the Zstd CLI.
 python3 studies/run.py automaton-factor-residual runs/automaton-factor-residual
 ```
 
-## Variants and inputs
+## Variants and format
 
 Fit two GF(2) basis vectors per eight-row matrix using experiment 08. The orbit profiles consider up to three reverse Checkerboard steps from experiment 06. Rank from experiment 07 breaks ties after residual weight. Send the selected step, basis, coordinates and a nested experiment 14 residual archive. First compare direct and orbit prediction with enumerative coding. Then hold orbit selection fixed while switching among enumeration, Rice gaps, contexts and per-block selection.
+
+## Inputs and measurement
 
 The planted control evolves noisy rank-two matrices. The real controls are a fax window and medical-image bytes. Transform selection minimizes residual weight with a fixed tie rule. Every residual profile sees the same chosen factors for an orbit input.
 
 ## Results
+
+The following table records the original small diagnostic. The primary benchmark follows it.
 
 With enumeration fixed, the orbit reduced the evolved control from 475 bytes to 339. Holding that prediction fixed, Rice used 350 bytes and the context code used 355.
 
@@ -49,4 +53,8 @@ All 20 study archives reconstructed their original bytes. The [trial table](resu
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../../research/large-scale/results/by-experiment.md#automaton-factor-residual) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `manual-graphs` (24,642,792 raw bytes), `study18-orbit-enumerative` produced 17,725,221 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../../research/large-scale/results/by-experiment.md#automaton-factor-residual)
+
+## Connections
+
+[Jointly learning a cellular rule and the matrix of its prediction errors](../../research/learned-cellular-rules/README.md) · [Reversible 3D automata before GF(2) panel coding](../../research/tensor-orbits/README.md)

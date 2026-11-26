@@ -1,6 +1,6 @@
 # All large-file measurements
 
-610 verified archives across 48 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
+624 verified archives across 49 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
 
 The charged total includes the raw reference when the decoder requires it. Shared codec software is excluded. The [machine-readable receipts](archives.jsonl) include full input and archive hashes, selected parameters, and peak KiB where collected.
 
@@ -346,6 +346,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 | glyph-direct | 1,705,163 | 1,705,163 | 0.56175 | 1.499 | 1.103 |
 | zstd3 | 1,903,366 | 1,903,366 | 0.62705 | 0.374 | 0.317 |
 | modular-adaptive | 1,910,515 | 1,910,515 | 0.62940 | 6.095 | 1.028 |
+| modular-adaptive-joint | 1,910,515 | 1,910,515 | 0.62940 | 19.069 | 1.406 |
 | modular-direct | 1,910,515 | 1,910,515 | 0.62940 | 2.230 | 1.923 |
 | modular-orbit | 1,910,515 | 1,910,515 | 0.62940 | 18.372 | 2.139 |
 | png1 | 1,996,848 | 1,996,848 | 0.65784 | 10.313 | 4.838 |
@@ -419,6 +420,19 @@ The charged total includes the raw reference when the decoder requires it. Share
 | relative-joint (base mesa-base) | 13,146,431 | 79,307,071 | 1.56660 | 53.086 | 2.310 |
 | relative-patch (base mesa-base) | 13,146,431 | 79,307,071 | 1.56660 | 19.326 | 3.453 |
 
+## modular-even
+
+25,165,824 raw bytes · SHA-256 `4481a8bb273b700f0e8a875006e35c48ac34d13cdd03abfbe259806fdedbbae3`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| modular-valuation-joint | 5,067,269 | 5,067,269 | 1.61084 | 15.874 | 6.125 |
+| modular-adaptive-joint | 17,965,503 | 17,965,503 | 5.71108 | 17.343 | 4.783 |
+| modular-orbit | 17,965,503 | 17,965,503 | 5.71108 | 5.898 | 3.962 |
+| zstd3 | 18,869,420 | 18,869,420 | 5.99843 | 0.245 | 0.157 |
+| modular-direct | 18,871,144 | 18,871,144 | 5.99898 | 0.590 | 0.567 |
+| modular-valuation | 18,871,144 | 18,871,144 | 5.99898 | 1.820 | 0.541 |
+
 ## modular-free
 
 25,165,824 raw bytes · SHA-256 `607a48741c86478a59808360bc2ea4c2e7926e1f13216639d0f0d4b57bad03d9`
@@ -427,6 +441,9 @@ The charged total includes the raw reference when the decoder requires it. Share
 |---|---:|---:|---:|---:|---:|
 | modular-adaptive-joint | 5,813,021 | 5,813,021 | 1.84791 | 24.126 | 7.689 |
 | modular-joint | 20,947,779 | 20,947,779 | 6.65912 | 27.005 | 6.588 |
+| modular-orbit | 24,347,838 | 24,347,838 | 7.73997 | 8.505 | 4.031 |
+| zstd3 | 25,166,414 | 25,166,414 | 8.00019 | 0.360 | 0.455 |
+| modular-adaptive | 25,166,796 | 25,166,796 | 8.00031 | 5.929 | 1.853 |
 | modular-direct | 25,166,796 | 25,166,796 | 8.00031 | 2.403 | 1.154 |
 | modular-factor | 25,166,796 | 25,166,796 | 8.00031 | 8.968 | 1.185 |
 
@@ -535,6 +552,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 
 | Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
 |---|---:|---:|---:|---:|---:|
+| regenerate-generic | 48 | 48 | 0.00001 | 188.251 | 158.402 |
 | witness-joint | 2,378,373 | 2,378,373 | 0.57884 | 32.827 | 10.948 |
 | witness-arithmetic | 2,937,903 | 2,937,903 | 0.71502 | 32.149 | 13.398 |
 | xz9e | 4,844,832 | 4,844,832 | 1.17912 | 94.868 | 1.253 |
@@ -846,6 +864,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 | tensor-orbit | 3,090,273 | 3,090,273 | 0.73678 | 32.159 | 2.256 |
 | tensor-rank | 3,090,273 | 3,090,273 | 0.73678 | 10.319 | 0.757 |
 | modular-adaptive | 3,192,497 | 3,192,497 | 0.76115 | 9.046 | 1.192 |
+| modular-adaptive-joint | 3,192,497 | 3,192,497 | 0.76115 | 25.625 | 2.123 |
 | modular-direct | 3,192,497 | 3,192,497 | 0.76115 | 3.273 | 2.701 |
 | modular-orbit | 3,192,497 | 3,192,497 | 0.76115 | 22.578 | 1.187 |
 | zstd3 | 3,513,689 | 3,513,689 | 0.83773 | 1.308 | 0.734 |
@@ -909,6 +928,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 
 | Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
 |---|---:|---:|---:|---:|---:|
+| wcm-similar-template-primed | 5,312,277 | 5,312,277 | 1.68873 | 385.008 | 267.342 |
 | wcm-literal-primed | 5,331,459 | 5,331,459 | 1.69483 | 530.381 | 355.850 |
 | wcm-literal | 5,345,330 | 5,345,330 | 1.69923 | 622.259 | 457.686 |
 | xz9e | 6,637,336 | 6,637,336 | 2.10995 | 32.580 | 0.461 |
@@ -946,6 +966,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 | pilot03-power-add-8 | 26,751,758 | 26,751,758 | 8.50415 | 119.629 | 5.821 |
 | pilot03-sum-add-8 | 26,751,758 | 26,751,758 | 8.50415 | 121.724 | 3.492 |
 | pilot04-10-2-signed-checkpoints | 27,248,340 | 27,248,340 | 8.66201 | 1143.816 | 2.338 |
+| pilot13-combined-64 | 27,922,396 | 27,922,396 | 8.87629 | 468.435 | 26.139 |
 | pilot16-fixed | 33,206,752 | 33,206,752 | 10.55614 | 29.777 | 4.621 |
 | pilot12-copies (base wiki-dev) | 15,112,062 | 40,277,886 | 4.80400 | 81.211 | 9.750 |
 | quartic | 69,926,330 | 69,926,330 | 22.22898 | 349.841 | 133.186 |

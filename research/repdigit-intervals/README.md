@@ -20,7 +20,11 @@ The drivers generate seeded planted and random controls and preserve the winning
 
 RPS1 caps each interval at 32 bytes and enumerates arithmetic descriptions up to 28 bits. It compares fixed 32-byte boundaries, movable intervals with direct repdigits, exact cross-base quotients and zero runs. A 12-byte header carries source size and record count. Every substitution pays for a 4-byte offset, a byte width, a recipe length and its packed recipe. Literal gaps fill the rest. QFT1 extends the maximum interval to 255 bytes and permits a small prime as a multiplier.
 
-## Inputs, results and interpretation
+## Inputs and measurement
+
+The primary trial measures `qft255` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+## Results
 
 On full Q, fixed RPS1 blocks occupied 96,994,199 bytes. Moving the boundaries and enabling all families produced 96,994,108 bytes, saving 79 bytes over the input. The selected intervals were six direct repdigits and three zero runs. On the 184,958-byte plant, adding quotients reduced 148,418 bytes to 116,299. The random control paid only the header. [RPS1 replay](results/intervals.jsonl)
 
@@ -28,4 +32,8 @@ QFT1 reached 96,994,101 bytes on Q, saving 86 bytes over the input. The full-wid
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#repdigit-intervals) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `cofattore-Q.base256` (96,994,187 raw bytes), `qft255` produced 96,994,101 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#repdigit-intervals)
+
+## Connections
+
+[Whiteboard quotients inside factor trees](../whiteboard-trees/README.md) · [Whole-file square, product and modular-square formulas](../integer-formulas/README.md)

@@ -20,7 +20,11 @@ python3 research/benchmark_native.py "$Q" runs/native-trees
 
 At each node, divide out small prime powers. Split the remaining cofactor in binary, retaining each child's width so leading zeros can be restored. The decoder concatenates the child bit strings and multiplies the extracted factors back in. QRT4 carries the per-level arity schedule and a common cut offset. QRT5 carries a seed from which both sides derive individual boundary shifts. The seed, arities, arithmetic-coded factor descriptions, leaves and terminal padding all count.
 
-## Inputs, results and interpretation
+## Inputs and measurement
+
+The primary trial measures `qrt-seeded` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+## Results
 
 | Configuration, 1 MiB leaf limit | Archive bytes | Excess over Q |
 |---|---:|---:|
@@ -44,4 +48,8 @@ The full input contained 233,585,278 decimal-text bytes. The benchmark archive u
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#factor-trees) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `cofattore-Q.base256` (96,994,187 raw bytes), `qrt-seeded` produced 96,994,214 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#factor-trees)
+
+## Connections
+
+[Shared formulas inside a factor tree](../shared-factor-forest/README.md) · [Prime ordinal and product coding](../prime-index-trees/README.md)

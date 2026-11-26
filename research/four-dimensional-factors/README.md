@@ -35,7 +35,7 @@ On the plant, direct and equivalent-factor profiles gave 25,120,549 bytes. The o
 
 ## Large-file benchmark
 
-The [primary measurements for this experiment](../large-scale/results/by-experiment.md#four-dimensional-factors) list complete archives on raw inputs of at least 20 MiB. Each entry links to the same-input baselines and records the cost of any required reference.
+On `noisy-spacetime` (25,165,824 raw bytes), `four-joint` produced 9,414,787 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#noisy-spacetime) · [All project measurements](../large-scale/results/by-experiment.md#four-dimensional-factors)
 
 ## Connections
 
