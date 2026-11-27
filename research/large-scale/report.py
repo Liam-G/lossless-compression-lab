@@ -112,7 +112,7 @@ def project_index(records, output):
     lines = [
         "# Measurements by experiment",
         "",
-        "Each entry links the implementation, its verified profiles and same-input baselines. Bytes include the entire archive. The delivered total also charges a required reference. A preparation recipe and the input hash identify each source.",
+        "Compare the original input (raw bytes) with the complete encoded file (archive bytes). Bytes saved equals the raw size minus the archive and any required reference. Positive values mean compression. Negative values mean expansion. Projects that use a reference also show the total if the receiver needs that reference delivered. Shared decoder software is excluded. Select an input for same-file baselines and timings.",
         "",
     ]
     for folder, rows in projects.items():
@@ -130,12 +130,13 @@ def project_index(records, output):
                 "",
             ]
         )
-        lines.extend(
-            [
-                "| Input | Profile | Archive bytes | Delivered bytes |",
-                "|---|---|---:|---:|",
-            ]
-        )
+        include_reference = any(row["delivered_reference_bytes"] for row in rows)
+        columns = ["Input", "Profile", "Raw bytes", "Archive bytes"]
+        if include_reference:
+            columns.append("Archive + required reference (bytes)")
+        columns.append("Bytes saved")
+        lines.append("| " + " | ".join(columns) + " |")
+        lines.append("|---|---|" + "---:|" * (len(columns) - 2))
         for row in sorted(
             rows,
             key=lambda r: (r["dataset"], r["codec"], r["knobs"].get("reference", "")),
@@ -145,9 +146,14 @@ def project_index(records, output):
             method = row["codec"]
             if "reference" in row["knobs"]:
                 method += f" ({row['knobs']['reference']})"
-            lines.append(
-                f"| [{name}](by-dataset.md#{anchor}) | {method} | {row['archive_bytes']:,} | {row['archive_plus_reference_bytes']:,} |"
-            )
+            raw = row["input_bytes"]
+            total = row["archive_plus_reference_bytes"]
+            cells = [f"[{name}](by-dataset.md#{anchor})", method, f"{raw:,}", f"{row['archive_bytes']:,}"]
+            if include_reference:
+                cells.append(f"{total:,}")
+            saved = raw - total
+            cells.append(f"{saved:+,}" if saved else "0")
+            lines.append("| " + " | ".join(cells) + " |")
         lines.append("")
     (output / "by-experiment.md").write_text("\n".join(lines).rstrip() + "\n")
 
