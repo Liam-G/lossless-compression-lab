@@ -1,5 +1,7 @@
 # Formula leaves, factors and grammar references
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 How much does a shared-factor dictionary add when the factor itself already has a short repdigit recipe?
@@ -46,6 +48,27 @@ All 12 study archives reconstructed their original bytes. The [trial table](resu
 ## Large-file benchmark
 
 On `hidden-products` (25,165,824 raw bytes), `study17-combined` produced 20,296,188 archive bytes. Zstandard level 3 used 14,343,987 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#hidden-products) · [All project measurements](../../research/large-scale/results/by-experiment.md#formula-factor-grammar)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### hidden-products · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `study17-arithmetic-leaves` | 30,671,807 | -5,505,983 | 34.754 | 41.183 | 25,016 / 23,652 |
+| `study17-combined` | 20,296,188 | +4,869,636 | 58.633 | 54.326 | 24,956 / 23,744 |
+| `study17-literal-leaves` | 30,671,807 | -5,505,983 | 38.258 | 42.369 | 25,136 / 23,712 |
+| `study17-shared-leaves` | 20,296,188 | +4,869,636 | 44.296 | 31.073 | 24,908 / 23,500 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 13,309,788 · Zstandard 19 13,318,271 · Zstandard 3 14,343,987
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#hidden-products)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

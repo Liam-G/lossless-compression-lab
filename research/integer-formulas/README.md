@@ -1,5 +1,7 @@
 # Whole-file square, product and modular-square formulas
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 What is left to send after fitting a whole integer with squares, products of consecutive integers, or a modular square preceded by a sparse polynomial?
@@ -36,6 +38,54 @@ Floor, nearest and mixed QFE1 descriptors gave 96,994,288, 96,994,277 and 96,994
 ## Large-file benchmark
 
 On `cofattore-Q.base256` (96,994,187 raw bytes), `integer-composite` produced 96,994,051 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#integer-formulas)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### cofattore-Q.base256 · 96,994,187 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `integer-composite` | 96,994,051 | +136 | 225.062 | 27.288 |
+| `integer-floor` | 96,994,288 | -101 | 95.815 | 24.662 |
+| `integer-mixed` | 96,994,272 | -85 | 134.060 | 45.895 |
+| `integer-modular` | 96,994,197 | -10 | 286.466 | 38.694 |
+| `integer-nearest` | 96,994,277 | -90 | 119.752 | 34.661 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 96,994,649 · Zstandard 3 96,996,424
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#cofattore-qbase256)
+
+### manual-library · 24,283,584 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `integer-composite-adjusted` | 24,283,599 | -15 | 346.351 | 6.927 | 436,328 / 180,836 |
+| `integer-modular-adjusted` | 24,209,213 | +74,371 | 89.804 | 11.867 | 378,504 / 178,516 |
+
+Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foreground) 202,666 · DjVu (wide strips) 175,164 · CCITT Group 4 1,678,602 · JBIG 1,049,864 · 1-bit PNG 1,996,848 · XZ 9 extreme 1,304,420 · Zstandard 19 1,457,017 · Zstandard 3 1,903,366
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-library)
+
+### uniform · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `integer-composite-adjusted` | 25,165,841 | -17 | 106.419 | 23.725 | 377,976 / 185,312 |
+| `integer-modular-adjusted` | 25,165,838 | -14 | 92.722 | 14.407 | 377,716 / 184,604 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 25,166,414 · Zstandard 3 25,166,414
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#uniform)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

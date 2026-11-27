@@ -1,5 +1,7 @@
 # Experiment 10 · Affine instruction chains
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Which format best describes an affine instruction stream, and how does evaluation order affect reconstruction time?
@@ -64,6 +66,42 @@ All 15 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `affine-pairs` (25,165,824 raw bytes), `pilot10-fixed` produced 6,304,526 archive bytes. Zstandard level 3 used 9,297,292 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#affine-pairs) · [All project measurements](../../research/large-scale/results/by-experiment.md#10-affine-chains)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+
+### affine-pairs · 25,165,824 raw bytes
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `pilot10-conditional` | 15,979,518 | 3.7941 → 4.8886 | 2.3861 → 3.4200 | 3.1041 |
+| `pilot10-fixed` | 6,304,526 | 3.7941 → 7.9116 | 2.3861 → 7.8929 | 1.9820 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `pilot10-conditional` | 9,973,948 → 9,032,831 (+9.44%) | 9,297,291 → 9,175,295 (+1.31%) | 6,866,512 → 7,840,772 (-14.19%) |
+| `pilot10-fixed` | 9,973,948 → 6,245,010 (+37.39%) | 9,297,291 → 6,304,683 (+32.19%) | 6,866,512 → 6,304,896 (+8.18%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `pilot10-conditional` | 15,979,518 | +9,186,306 | 14.732 | 40.837 |
+| `pilot10-dictionary` | 15,534,921 | +9,630,903 | 10.654 | 41.492 |
+| `pilot10-fixed` | 6,304,526 | +18,861,298 | 1.531 | 28.034 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,867,572 · Zstandard 19 7,421,335 · Zstandard 3 9,297,292
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#affine-pairs)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

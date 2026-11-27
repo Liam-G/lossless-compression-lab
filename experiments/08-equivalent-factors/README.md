@@ -1,5 +1,7 @@
 # Experiment 08 · Equivalent matrix factors and error masks
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Can changing a GF(2) factor basis reduce the archive while preserving both the prediction and its exact error mask?
@@ -68,6 +70,24 @@ All 28 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `numerical` (25,696,748 raw bytes), `pilot08-search` produced 24,565,555 archive bytes. Zstandard level 3 used 15,163,683 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#numerical) · [All project measurements](../../research/large-scale/results/by-experiment.md#08-equivalent-factors)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### numerical · 25,696,748 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `pilot08-search` | 24,565,555 | +1,131,193 | 800.557 | 29.549 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 11,662,476 · Zstandard 19 13,213,336 · Zstandard 3 15,163,683
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#numerical)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

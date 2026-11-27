@@ -1,5 +1,7 @@
 # Experiment NN · Descriptive title
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 State the falsifiable question and what counts as a win. Identify the starting prototype, its input and its measured result. Label historical figures separately from results generated here.
@@ -26,7 +28,7 @@ Link to the project section in research/large-scale/results/by-experiment.md and
 
 ## Large-file benchmark
 
-Give one reproducible primary result, the exact raw and archive bytes, the delivered total for a conditional archive and the same-input Zstandard result. Link to the dataset and project sections in the shared results.
+Give one reproducible primary result, the exact raw and archive bytes, the delivered total for a conditional archive and the same-input Zstandard result. Link to the dataset and project sections in the shared results. Once the receipts are published, run `python3 research/large-scale/project_readmes.py` from the repository root to include the project’s full measured tables here.
 
 ## Connections
 

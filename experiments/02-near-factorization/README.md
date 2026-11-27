@@ -1,5 +1,7 @@
 # Experiment 02 · Near-factorization and digit concatenation
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 When does a nearby product pay for both factors and the signed correction? Can decimal concatenation make an otherwise expensive factor cheap?
@@ -60,6 +62,24 @@ All 48 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `wiki-transfer` (25,165,824 raw bytes), `pilot02-first-exact` produced 26,751,758 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../../research/large-scale/results/by-experiment.md#02-near-factorization)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `pilot02-first-exact` | 26,751,758 | -1,585,934 | 705.904 | 4.083 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

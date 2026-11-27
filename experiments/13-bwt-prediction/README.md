@@ -1,5 +1,7 @@
 # Experiment 13 · Burrows–Wheeler transform and prediction
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Does the Burrows–Wheeler transform help a generator, the residual coder, or both?
@@ -57,6 +59,39 @@ All 48 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `wiki-dev` (25,165,824 raw bytes), `pilot13-combined-64` produced 27,942,709 archive bytes. Zstandard level 3 used 8,951,574 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-dev) · [All project measurements](../../research/large-scale/results/by-experiment.md#13-bwt-prediction)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### wiki-dev · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot13-bwt-64` | 27,549,525 | -2,383,701 | 59.842 | 28.358 | 24,800 / 23,648 |
+| `pilot13-combined-64` | 27,942,709 | -2,776,885 | 327.933 | 49.380 | 24,944 / 23,460 |
+| `pilot13-direct-64` | 26,350,492 | -1,184,668 | 25.226 | 13.886 | 24,800 / 23,500 |
+| `pilot13-predict-64` | 26,743,690 | -1,577,866 | 275.703 | 4.001 | 25,044 / 23,624 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,602,488 · Zstandard 19 6,873,848 · Zstandard 3 8,951,574
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-dev)
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `pilot13-combined-64` | 27,922,396 | -2,756,572 | 468.435 | 26.139 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

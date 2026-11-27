@@ -1,5 +1,7 @@
 # Byte-valued cellular automata and Kronecker factors
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 The local discussion proposed larger cellular alphabets and Kronecker or tensor factors in topics 35 and 38. Can reversing a cellular rule expose a product of two small matrices when its cells carry full byte values? This implementation uses arithmetic modulo 256. The earlier binary, three-dimensional, and four-dimensional experiments are linked below. [Original idea register](../evidence/idea-atlas.md)
@@ -40,6 +42,193 @@ On the all-even control, orbit reversal alone and the adaptive odd-pivot joint e
 ## Large-file benchmark
 
 On `modular-panels` (25,165,824 raw bytes), `modular-joint` produced 4,471,016 archive bytes. Zstandard level 3 used 25,166,414 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#modular-panels) · [All project measurements](../large-scale/results/by-experiment.md#modular-kronecker)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+
+### modular-panels · 25,165,824 raw bytes
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `modular-joint` | 28,312,524 | 7.9918 → 1.6383 | 7.9873 → 1.2147 | 1.8432 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `modular-joint` | 25,168,569 → 4,695,964 (+81.34%) | 25,166,413 → 4,478,573 (+82.20%) | 25,167,132 → 4,327,872 (+82.80%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `modular-direct` | 25,166,796 | -972 | 1.573 | 1.192 | 35,688 / 33,260 |
+| `modular-factor` | 25,166,796 | -972 | 4.084 | 0.930 | 37,888 / 35,276 |
+| `modular-joint` | 4,471,016 | +20,694,808 | 15.742 | 8.164 | 42,048 / 35,512 |
+| `modular-orbit` | 24,560,134 | +605,690 | 12.770 | 8.732 | 37,912 / 35,572 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 25,167,132 · Zstandard 19 25,166,414 · Zstandard 3 25,166,414
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#modular-panels)
+
+<details>
+<summary>manual-library · 24,283,584 raw bytes</summary>
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `modular-adaptive` | 1,910,515 | +22,373,069 | 6.095 | 1.028 | 40,328 / 33,452 |
+| `modular-adaptive-joint` | 1,910,515 | +22,373,069 | 19.069 | 1.406 | 39,504 / 35,588 |
+| `modular-direct` | 1,910,515 | +22,373,069 | 2.230 | 1.923 | 38,316 / 35,452 |
+| `modular-orbit` | 1,910,515 | +22,373,069 | 18.372 | 2.139 | 37,804 / 33,268 |
+| `modular-valuation-joint` | 1,910,515 | +22,373,069 | 8.934 | 0.400 | 41,620 / 35,512 |
+
+Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foreground) 202,666 · DjVu (wide strips) 175,164 · CCITT Group 4 1,678,602 · JBIG 1,049,864 · 1-bit PNG 1,996,848 · XZ 9 extreme 1,304,420 · Zstandard 19 1,457,017 · Zstandard 3 1,903,366
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-library)
+
+</details>
+
+<details>
+<summary>modular-even · 25,165,824 raw bytes</summary>
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `modular-adaptive-joint` | 17,965,503 | +7,200,321 | 17.343 | 4.783 | 41,856 / 37,992 |
+| `modular-direct` | 18,871,144 | +6,294,680 | 0.590 | 0.567 | 38,084 / 35,996 |
+| `modular-orbit` | 17,965,503 | +7,200,321 | 5.898 | 3.962 | 39,752 / 37,956 |
+| `modular-valuation` | 18,871,144 | +6,294,680 | 1.820 | 0.541 | 41,508 / 35,920 |
+| `modular-valuation-joint` | 5,067,269 | +20,098,555 | 15.874 | 6.125 | 42,576 / 37,608 |
+
+Same-input baseline archives (bytes) · Zstandard 3 18,869,420
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#modular-even)
+
+</details>
+
+<details>
+<summary>modular-free · 25,165,824 raw bytes</summary>
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `modular-adaptive` | 25,166,796 | -972 | 5.929 | 1.853 | 39,980 / 35,308 |
+| `modular-adaptive-joint` | 5,813,021 | +19,352,803 | 24.126 | 7.689 | 39,288 / 37,672 |
+| `modular-direct` | 25,166,796 | -972 | 2.403 | 1.154 | 37,860 / 35,340 |
+| `modular-factor` | 25,166,796 | -972 | 8.968 | 1.185 | 37,908 / 33,304 |
+| `modular-joint` | 20,947,779 | +4,218,045 | 27.005 | 6.588 | 39,152 / 35,848 |
+| `modular-orbit` | 24,347,838 | +817,986 | 8.505 | 4.031 | 39,996 / 37,476 |
+
+Same-input baseline archives (bytes) · Zstandard 3 25,166,414
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#modular-free)
+
+</details>
+
+<details>
+<summary>modular-transfer · 25,165,824 raw bytes</summary>
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `modular-factor` | 25,166,796 | -972 | 5.346 | 1.726 | 40,728 / 33,392 |
+| `modular-joint` | 4,480,896 | +20,684,928 | 21.046 | 8.150 | 42,100 / 37,648 |
+| `modular-orbit` | 24,560,992 | +604,832 | 9.043 | 8.517 | 37,708 / 37,560 |
+
+Same-input baseline archives (bytes) · Zstandard 3 25,166,414
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#modular-transfer)
+
+</details>
+
+<details>
+<summary>numerical · 25,696,748 raw bytes</summary>
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `modular-joint` | 25,697,750 | 6.3494 → 6.3493 | 5.5271 → 5.5270 | 6.3495 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `modular-joint` | 15,063,439 → 15,063,384 (+0.00%) | 15,163,679 → 15,164,986 (-0.01%) | 11,665,916 → 11,730,228 (-0.55%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `modular-direct` | 14,949,292 | +10,747,456 | 4.457 | 1.416 | 36,296 / 35,856 |
+| `modular-factor` | 14,949,292 | +10,747,456 | 6.033 | 1.608 | 41,204 / 34,116 |
+| `modular-joint` | 14,949,292 | +10,747,456 | 20.881 | 0.998 | 41,468 / 36,032 |
+| `modular-orbit` | 14,949,292 | +10,747,456 | 16.787 | 1.018 | 40,068 / 36,036 |
+| `modular-valuation-joint` | 14,949,292 | +10,747,456 | 11.687 | 0.531 | 42,392 / 35,844 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 11,662,476 · Zstandard 19 13,213,336 · Zstandard 3 15,163,683
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#numerical)
+
+</details>
+
+<details>
+<summary>uniform · 25,165,824 raw bytes</summary>
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `modular-joint` | 25,166,796 | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 8.0003 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `modular-joint` | 25,169,682 → 25,170,654 (-0.00%) | 25,166,413 → 25,167,385 (-0.00%) | 25,167,136 → 25,168,108 (-0.00%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `modular-direct` | 25,166,796 | -972 | 2.137 | 1.515 | 37,688 / 33,312 |
+| `modular-joint` | 25,166,796 | -972 | 26.702 | 1.771 | 41,840 / 35,272 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 25,166,414 · Zstandard 3 25,166,414
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#uniform)
+
+</details>
+
+<details>
+<summary>whiteboard-costs · 33,554,432 raw bytes</summary>
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `modular-adaptive` | 3,192,497 | +30,361,935 | 9.046 | 1.192 | 41,472 / 35,744 |
+| `modular-adaptive-joint` | 3,192,497 | +30,361,935 | 25.625 | 2.123 | 42,252 / 36,052 |
+| `modular-direct` | 3,192,497 | +30,361,935 | 3.273 | 2.701 | 38,268 / 35,836 |
+| `modular-orbit` | 3,192,497 | +30,361,935 | 22.578 | 1.187 | 38,196 / 33,732 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 2,203,672 · Zstandard 19 2,286,184 · Zstandard 3 3,513,689
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#whiteboard-costs)
+
+</details>
+
+<!-- END generated project measurements -->
 
 ## Connections
 

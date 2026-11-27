@@ -79,6 +79,13 @@ python3 research/large-scale/bench.py runs/large/raw/numerical runs/my-grid.json
 python3 research/large-scale/report.py runs/large/measurements runs/my-tables
 ```
 
+After updating the published archive or preprocessing receipts in `research/large-scale/results/`, refresh the tables in all project READMEs. The check also runs in the benchmark audit.
+
+```sh
+python3 research/large-scale/project_readmes.py
+python3 research/large-scale/project_readmes.py --check
+```
+
 To regenerate the remaining groups, run the applicable commands below against a fresh output directory, or against the same directory after making the basic corpus files. The scripts create new output files. The replay tool verifies each raw hash before encoding and checks the resulting archive hash.
 
 ```sh

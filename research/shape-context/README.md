@@ -1,5 +1,7 @@
 # Raster shape search with an actual range-coded archive
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 The old search in `lab/shapes2/shapesearch.py` found a 1,729-bit row and a useful neighborhood on the Canterbury fax. Its 29,745-byte result was an estimated description and sequential code length. SCX1 uses this observation, encodes the bits with the original Statico range coder, and decodes them from the archive alone.
@@ -51,6 +53,96 @@ After fixing the codec, a separate check took every matching gzip-compressed PSF
 ## Large-file benchmark
 
 On `manual-graphs` (24,642,792 raw bytes), `shape` produced 901,604 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../large-scale/results/by-experiment.md#shape-context)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### manual-graphs · 24,642,792 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `shape` | 901,604 | +23,741,188 | 104.488 | 13.904 |
+
+Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foreground) 213,732 · DjVu (wide strips) 191,132 · CCITT Group 4 1,270,850 · JBIG 707,797 · 1-bit PNG 1,418,635 · XZ 9 extreme 930,864 · Zstandard 19 1,034,431 · Zstandard 3 1,325,134
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-graphs)
+
+### manual-library · 24,283,584 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `shape` | 1,283,911 | +22,999,673 | 142.515 | 27.266 |
+
+Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foreground) 202,666 · DjVu (wide strips) 175,164 · CCITT Group 4 1,678,602 · JBIG 1,049,864 · 1-bit PNG 1,996,848 · XZ 9 extreme 1,304,420 · Zstandard 19 1,457,017 · Zstandard 3 1,903,366
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-library)
+
+### manual-transfer · 31,809,024 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `shape` | 1,331,683 | +30,477,341 | 178.463 | 37.689 | 72,856 / 38,392 |
+
+Same-input baseline archives (bytes) · DjVu 213,659 · DjVu (separated foreground) 213,655 · DjVu (wide strips) 189,610 · JBIG 1,108,897 · XZ 9 extreme 1,354,964 · Zstandard 19 1,525,436
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-transfer)
+
+### nci · 33,553,445 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `shape` | 8,743,426 | +24,810,019 | 66.023 | 9.544 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 1,449,272 · Zstandard 19 1,664,988 · Zstandard 3 2,835,400
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#nci)
+
+### numerical · 25,696,748 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `shape` | 16,165,523 | +9,531,225 | 57.991 | 9.894 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 11,662,476 · Zstandard 19 13,213,336 · Zstandard 3 15,163,683
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#numerical)
+
+### samba · 21,606,400 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `shape` | 15,955,462 | +5,650,938 | 37.734 | 5.418 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 3,739,524 · Zstandard 19 3,894,675 · Zstandard 3 4,957,768
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#samba)
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `shape` | 20,974,546 | +4,191,278 | 50.864 | 7.656 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

@@ -1,5 +1,7 @@
 # Experiment 06 · Reversible automata and step counts
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Can a simpler predecessor grid repay the cost of telling the decoder how many automaton steps to run?
@@ -59,6 +61,37 @@ All 54 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `shared-orbit-1000` (25,165,824 raw bytes), `pilot06-checker-3-fixed` produced 22,274,238 archive bytes. [Input and timing](../../research/large-scale/results/by-dataset.md#shared-orbit-1000) · [All project measurements](../../research/large-scale/results/by-experiment.md#06-reversible-automata)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+
+### shared-orbit-1000 · 25,165,824 raw bytes
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `pilot06-checker-3-fixed` | 22,274,238 | 6.9648 → 7.7281 | 6.3175 → 7.4767 | 6.8401 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `pilot06-checker-3-fixed` | 22,067,549 → 21,470,554 (+2.71%) | 21,987,747 → 21,474,587 (+2.33%) | 20,184,408 → 20,716,428 (-2.64%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot06-checker-3-fixed` | 22,274,238 | +2,891,586 | 131.233 | 214.897 | 24,616 / 23,604 |
+| `pilot06-zero` | 25,076,546 | +89,278 | 58.622 | 115.018 | 24,836 / 23,588 |
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#shared-orbit-1000)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

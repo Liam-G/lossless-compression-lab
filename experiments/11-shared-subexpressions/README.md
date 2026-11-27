@@ -1,5 +1,7 @@
 # Experiment 11 · Grammars and shared subexpressions
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 How often must an instruction or subexpression recur before a grammar definition pays for itself?
@@ -61,6 +63,39 @@ All 30 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `formula-text` (25,165,824 raw bytes), `pilot11-dag` produced 9,357,678 archive bytes. Zstandard level 3 used 4,118,041 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#formula-text) · [All project measurements](../../research/large-scale/results/by-experiment.md#11-shared-subexpressions)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+
+### formula-text · 25,165,824 raw bytes
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `pilot11-dag` | 9,357,678 | 3.6110 → 4.7847 | 1.1528 → 1.7253 | 1.7791 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `pilot11-dag` | 2,958,719 → 2,322,775 (+21.49%) | 4,118,040 → 2,187,854 (+46.87%) | 1,856,404 → 1,625,172 (+12.46%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot11-dag` | 9,357,678 | +15,808,146 | 409.926 | 6.981 | — / — |
+| `pilot11-flat` | 25,179,662 | -13,838 | 23.571 | 51.652 | 24,920 / 23,468 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 1,773,272 · Zstandard 19 1,807,329 · Zstandard 3 4,118,041
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#formula-text)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

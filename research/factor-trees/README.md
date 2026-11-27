@@ -1,5 +1,7 @@
 # Mixed-arity factor trees
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Can extracting the small prime factors of every node pay for the tree when its children split at different bit positions? The native GMP implementation comes from `lab/hutter/divisors/q-fattori-ricorsivi/albero.cpp`. It uses Statico's range coder for factor descriptors. The [original sweep](original-arity-sweep.tsv) prices 129 schedules. Its final column identifies configurations originally written and checked with `cmp`.
@@ -49,6 +51,51 @@ The full input contained 233,585,278 decimal-text bytes. The benchmark archive u
 ## Large-file benchmark
 
 On `cofattore-Q.base256` (96,994,187 raw bytes), `qrt-seeded` produced 96,994,214 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#factor-trees)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### cofattore-Q.base256 · 96,994,187 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `qrt-binary` | 96,994,218 | -31 | 14.118 | 6.514 |
+| `qrt-seeded` | 96,994,214 | -27 | 8.719 | 7.790 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 96,994,649 · Zstandard 3 96,996,424
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#cofattore-qbase256)
+
+### cofattore-Q.txt · 233,585,278 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `decimal-1000000` | 97,001,941 | +136,583,337 | 105.699 | 116.955 |
+| `decimal-64000000` | 96,994,346 | +136,590,932 | 159.959 | 368.037 |
+
+Same-input baseline archives (bytes) · Zstandard 3 114,336,073
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#cofattore-qtxt)
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `qrt-binary` | 25,165,852 | -28 | 3.968 | 1.396 |
+| `qrt-seeded` | 25,165,851 | -27 | 2.664 | 1.723 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

@@ -1,5 +1,7 @@
 # Experiment 12 · Relative compression
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 How do fixed offsets, movable copies and insertion/deletion alignment compare when the recipient already has a related file?
@@ -61,6 +63,24 @@ All 27 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `wiki-transfer` (25,165,824 raw bytes), `pilot12-copies` produced 15,112,062 archive bytes. Delivering the required reference as well costs 40,277,886 bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../../research/large-scale/results/by-experiment.md#12-relative-patches)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Archive + required reference (bytes) | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|---:|
+| `pilot12-copies` (base `wiki-dev`) | 15,112,062 | 40,277,886 | -15,112,062 | 81.211 | 9.750 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

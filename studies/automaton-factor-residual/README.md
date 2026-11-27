@@ -1,5 +1,7 @@
 # Automata, factors and residual coding
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Does undoing an automaton step reduce residual cost when the factor model stays fixed?
@@ -54,6 +56,35 @@ All 20 study archives reconstructed their original bytes. The [trial table](resu
 ## Large-file benchmark
 
 On `manual-graphs` (24,642,792 raw bytes), `study18-orbit-enumerative` produced 17,725,221 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../../research/large-scale/results/by-experiment.md#automaton-factor-residual)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### manual-graphs · 24,642,792 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `study18-direct-enumerative` | 14,653,191 | +9,989,601 | 65.912 | 95.317 | 25,252 / 23,828 |
+| `study18-orbit-enumerative` | 17,725,221 | +6,917,571 | 288.920 | 58.864 | 25,120 / 23,664 |
+
+Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foreground) 213,732 · DjVu (wide strips) 191,132 · CCITT Group 4 1,270,850 · JBIG 707,797 · 1-bit PNG 1,418,635 · XZ 9 extreme 930,864 · Zstandard 19 1,034,431 · Zstandard 3 1,325,134
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#manual-graphs)
+
+### noisy-spacetime · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `study18-direct-enumerative` | 31,450,511 | -6,284,687 | 761.297 | 563.380 | 25,096 / 23,492 |
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#noisy-spacetime)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

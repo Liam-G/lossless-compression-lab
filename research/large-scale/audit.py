@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from bench import digest
+from project_readmes import refresh
 from replay import resolve
 from report import experiment_pages, read_trials
 
@@ -55,6 +56,7 @@ def check_preprocessing(receipts):
 def audit(raw=None, workspace=None):
     receipts = read_trials([HERE / "results/archives.jsonl"])
     check_preprocessing(receipts)
+    print(f"{refresh(check=True)} project READMEs match the published measurements")
     groups = experiment_pages()
     projects = set()
     files = {}

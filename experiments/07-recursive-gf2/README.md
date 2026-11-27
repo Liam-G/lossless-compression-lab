@@ -1,5 +1,7 @@
 # Experiment 07 · Automata and recursive GF(2) factorization
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Does undoing a reversible transformation before factorization expose low rank, and does a third level of recursion help?
@@ -63,6 +65,38 @@ All 40 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `manual-graphs` (24,642,792 raw bytes), `pilot07-pre-1` produced 3,112,119 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../../research/large-scale/results/by-experiment.md#07-recursive-gf2)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+
+### manual-graphs · 24,642,792 raw bytes
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `pilot07-pre-1` | 3,112,119 | 0.7646 → 6.8702 | 0.5291 → 5.9196 | 0.8676 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `pilot07-pre-1` | 1,520,849 → 2,217,323 (-45.80%) | 1,325,130 → 2,215,382 (-67.18%) | 1,004,072 → 2,156,664 (-114.79%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot07-pre-1` | 3,112,119 | +21,530,673 | 64.787 | 100.498 | 31,096 / 23,624 |
+
+Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foreground) 213,732 · DjVu (wide strips) 191,132 · CCITT Group 4 1,270,850 · JBIG 707,797 · 1-bit PNG 1,418,635 · XZ 9 extreme 930,864 · Zstandard 19 1,034,431 · Zstandard 3 1,325,134
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#manual-graphs)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

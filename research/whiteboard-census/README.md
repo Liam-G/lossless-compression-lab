@@ -1,5 +1,7 @@
 # The whiteboard census and its formula witnesses
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 The 2019 board proposed the ratio of two repeated-digit integers. How many values actually have a cheap representation, and do those same equations help compress the research outputs? This project restores `lab/whiteboard/rep_fast.c`, the independent Python brute-force checker and the original analysis of every recorded saving witness. The census tables, witness archives and ordinary raw files are three different targets.
@@ -55,6 +57,109 @@ WRP1 delivers a Python extractor and the enumerator inside the archive. The sour
 ## Large-file benchmark
 
 On `whiteboard-witnesses` (22,630,320 raw bytes), `witness-joint` produced 1,082,142 archive bytes. Zstandard level 3 used 4,602,358 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#whiteboard-witnesses) · [All project measurements](../large-scale/results/by-experiment.md#whiteboard-census)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+
+### whiteboard-witnesses · 22,630,320 raw bytes
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `witness-joint` | 14,110,128 | 2.9495 → 1.9285 | 2.7803 → 0.7663 | 1.2024 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `witness-joint` | 5,230,942 → 1,122,203 (+78.55%) | 4,602,354 → 1,109,554 (+75.89%) | 2,968,412 → 961,108 (+67.62%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `regenerate-generic` | 2,051 | +22,628,269 | 34.105 | 35.762 | 295,012 / 295,028 |
+| `regenerate-native` | 48 | +22,630,272 | 40.396 | 38.186 | 292,572 / 291,152 |
+| `witness-arithmetic` | 1,600,689 | +21,029,631 | 15.036 | 17.481 | 186,820 / 174,656 |
+| `witness-columns` | 2,306,827 | +20,323,493 | 6.560 | 1.381 | 115,028 / 126,816 |
+| `witness-direct` | 4,289,180 | +18,341,140 | 3.847 | 1.603 | 79,900 / 68,780 |
+| `witness-joint` | 1,082,142 | +21,548,178 | 37.870 | 22.854 | 240,440 / 175,904 |
+| `witnessapp-binary` | 11,723 | +22,618,597 | 42.400 | 42.596 | 291,148 / 293,172 |
+| `witnessapp-generic` | 29,100 | +22,601,220 | 32.989 | 58.207 | 292,520 / 293,296 |
+| `witnessapp-source` | 6,068 | +22,624,252 | 38.704 | 42.680 | 292,288 / 291,504 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 2,679,352 · Zstandard 19 3,705,005 · Zstandard 3 4,602,358
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#whiteboard-witnesses)
+
+### nonunit-witnesses · 32,870,784 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `regenerate-generic` | 48 | +32,870,736 | 188.251 | 158.402 | 1,173,904 / 1,176,124 |
+| `witness-arithmetic` | 2,937,903 | +29,932,881 | 32.149 | 13.398 | 272,156 / 246,956 |
+| `witness-columns` | 5,053,332 | +27,817,452 | 8.455 | 1.801 | 148,572 / 176,972 |
+| `witness-joint` | 2,378,373 | +30,492,411 | 32.827 | 10.948 | 375,300 / 246,108 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 4,844,832 · Zstandard 19 6,038,280
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#nonunit-witnesses)
+
+### shuffled-witnesses · 22,630,320 raw bytes
+
+**Entropy before and after preprocessing**
+
+| Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
+|---|---:|---:|---:|---:|
+| `witness-joint` | 19,790,312 | 2.9495 → 3.0670 | 2.7803 → 1.7457 | 2.6821 |
+
+**Same compressor on original → prepared bytes**
+
+| Profile | gzip 6 | Zstandard 3 | XZ 6 |
+|---|---:|---:|---:|
+| `witness-joint` | 6,460,681 → 3,776,913 (+41.54%) | 6,474,999 → 3,768,334 (+41.80%) | 4,322,840 → 3,550,292 (+17.87%) |
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `regenerate-generic` | 3,589,802 | +19,040,518 | 42.129 | 35.358 | 293,360 / 291,324 |
+| `witness-arithmetic` | 5,638,203 | +16,992,117 | 20.188 | 28.897 | 188,912 / 180,288 |
+| `witness-columns` | 3,721,398 | +18,908,922 | 7.354 | 2.066 | 109,284 / 127,272 |
+| `witness-joint` | 3,721,398 | +18,908,922 | 54.704 | 2.733 | 244,156 / 129,616 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 4,237,984 · Zstandard 19 5,252,719
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#shuffled-witnesses)
+
+### whiteboard-costs · 33,554,432 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `census-analytic` | 3,039,880 | +30,514,552 | 8.050 | 1.622 | 182,528 / 172,540 |
+| `census-direct` | 3,041,773 | +30,512,659 | 4.873 | 1.431 | 85,704 / 71,964 |
+| `census-events` | 137,209 | +33,417,223 | 14.664 | 5.518 | 302,124 / 184,308 |
+| `census-exact` | 15 | +33,554,417 | 17.654 | 9.498 | 185,616 / 100,428 |
+| `census-gaps` | 187,296 | +33,367,136 | 8.398 | 5.284 | 187,004 / 185,544 |
+| `census-inferred` | 246,627 | +33,307,805 | 14.704 | 7.610 | 230,924 / 183,636 |
+| `census-narrow` | 316,324 | +33,238,108 | 14.485 | 5.187 | 184,260 / 167,012 |
+| `censusapp-binary` | 10,528 | +33,543,904 | 24.969 | 13.651 | 183,260 / 81,140 |
+| `censusapp-gmp` | 387,915 | +33,166,517 | 43.774 | 13.075 | 183,392 / 81,308 |
+| `censusapp-source` | 5,911 | +33,548,521 | 20.335 | 16.818 | 181,280 / 81,188 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 2,203,672 · Zstandard 19 2,286,184 · Zstandard 3 3,513,689
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#whiteboard-costs)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

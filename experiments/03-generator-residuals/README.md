@@ -1,5 +1,7 @@
 # Experiment 03 · Powers, generator sums and exact residuals
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Which predictor family and correction operator produce the smallest exact archive for a fixed seed budget?
@@ -75,6 +77,25 @@ Point labels give the number of seeds tested per word.
 ## Large-file benchmark
 
 On `wiki-transfer` (25,165,824 raw bytes), `pilot03-sum-add-8` produced 26,751,758 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../../research/large-scale/results/by-experiment.md#03-generator-residuals)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot03-power-add-8` | 26,751,758 | -1,585,934 | 119.629 | 5.821 | 25,204 / 23,608 |
+| `pilot03-sum-add-8` | 26,751,758 | -1,585,934 | 121.724 | 3.492 | — / — |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

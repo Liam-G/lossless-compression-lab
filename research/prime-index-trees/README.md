@@ -1,5 +1,7 @@
 # Prime ordinal and product coding
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Do savings on many individual prime or factorable words survive the selectors needed for the whole file?
@@ -35,6 +37,40 @@ The four whole-Q archives were 97,005,287 (fixed), 97,006,292 (tree), 98,625,024
 ## Large-file benchmark
 
 On `cofattore-Q.base256` (96,994,187 raw bytes), `prime-tree` produced 97,006,292 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#prime-index-trees)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### cofattore-Q.base256 · 96,994,187 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `prime-explore` | 98,625,024 | -1,630,837 | 30.739 | 9.643 |
+| `prime-fixed` | 97,005,287 | -11,100 | 14.531 | 10.304 |
+| `prime-sums` | 104,419,953 | -7,425,766 | 12.284 | 9.355 |
+| `prime-tree` | 97,006,292 | -12,105 | 23.746 | 9.904 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 96,994,649 · Zstandard 3 96,996,424
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#cofattore-qbase256)
+
+### uniform · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `prime-fixed` | 25,168,750 | -2,926 | 3.099 | 1.869 |
+| `prime-sums` | 27,092,567 | -1,926,743 | 5.314 | 3.472 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 25,166,414 · Zstandard 3 25,166,414
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#uniform)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

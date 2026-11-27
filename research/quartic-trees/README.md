@@ -1,5 +1,7 @@
 # Recursive fourth-power quotients
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 How long is a whole-file formula when its operands also have to be specified? The original GMP engine in `lab/hutter/divisors/q-torri-quoziente/ricorsiva/quartiche.cpp` constructs nodes of the form `F(k,a,d) = floor((a⁴ + d⁴) / 2ᵏ)`. The decoder knows how to derive the shift and child widths. The encoder uses integer fourth roots and remainders to construct both children and continues recursively. Small subtrees use a shared 65,536-entry dictionary whose terminal operands are the integers 0 through 15.
@@ -30,6 +32,36 @@ Fresh Q prefixes of 4 KiB, 64 KiB and 1 MiB produced 11,450, 181,137 and 2,483,7
 ## Large-file benchmark
 
 On `wiki-transfer` (25,165,824 raw bytes), `quartic` produced 69,926,330 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../large-scale/results/by-experiment.md#quartic-trees)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `quartic` | 69,926,330 | -44,760,506 | 349.841 | 133.186 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+### cofattore-Q.base256 · 96,994,187 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `quartic` | 247,891,575 | -150,897,388 | 1986.913 | 1309.108 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 96,994,649 · Zstandard 3 96,996,424
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#cofattore-qbase256)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

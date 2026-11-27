@@ -1,5 +1,7 @@
 # Reference copies, local formulas and interval selection
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 When a target contains both movable reference spans and generated spans, does their joint selection repay its metadata?
@@ -46,6 +48,24 @@ All 12 study archives reconstructed their original bytes. The [trial table](resu
 ## Large-file benchmark
 
 On `numpy-update` (53,800,960 raw bytes), `study19-mixed` produced 18,553,077 archive bytes. Delivering the required reference as well costs 72,272,117 bytes. Zstandard level 3 used 11,502,762 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#numpy-update) · [All project measurements](../../research/large-scale/results/by-experiment.md#reference-formula-intervals)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### numpy-update · 53,800,960 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Archive + required reference (bytes) | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|---:|
+| `study19-mixed` (base `numpy-base`) | 18,553,077 | 72,272,117 | -18,471,157 | 679.012 | 15.730 | 45,340 / 23,684 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 8,272,288 · Zstandard 19 9,104,011 · Zstandard 3 11,502,762
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#numpy-update)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

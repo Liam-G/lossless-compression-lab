@@ -1,5 +1,7 @@
 # Repeated glyphs and an exact bitmap residual
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Can the lab's idea of storing a reusable shape plus a correction work on an entire technical manual? The raster-context prototype in `lab/shape` predicted each pixel. This extension finds connected components, reuses their bitmaps at different positions and tests whether the remaining pixels still benefit from a fax coder. Lossless DjVu provides a mature symbol-coding comparison.
@@ -37,6 +39,75 @@ Learning positions saved bytes on all four inputs. The wider-strip DjVu archive 
 ## Large-file benchmark
 
 On `manual-valgrind` (30,924,288 raw bytes), `glyph-position` produced 394,104 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#manual-valgrind) · [All project measurements](../large-scale/results/by-experiment.md#glyph-residuals)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### manual-valgrind · 30,924,288 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `glyph-joint` | 435,746 | +30,488,542 | 63.797 | 7.104 | 298,660 / 186,952 |
+| `glyph-position` | 394,104 | +30,530,184 | 91.306 | 7.714 | 326,344 / 185,352 |
+
+Same-input baseline archives (bytes) · DjVu 868,904 · DjVu (separated foreground) 869,916 · DjVu (wide strips) 828,622 · JBIG 1,980,581 · XZ 9 extreme 1,795,240 · Zstandard 19 2,032,818
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-valgrind)
+
+### manual-graphs · 24,642,792 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `glyph-direct` | 1,206,504 | +23,436,288 | 2.018 | 1.360 | 95,888 / 84,852 |
+| `glyph-fuzzy` | 337,192 | +24,305,600 | 8.509 | 1.915 | 202,588 / 148,044 |
+| `glyph-glyphs` | 338,447 | +24,304,345 | 8.436 | 2.341 | 181,248 / 148,104 |
+| `glyph-jbig` | 707,818 | +23,934,974 | 3.545 | 3.609 | 98,840 / 305,592 |
+| `glyph-joint` | 211,517 | +24,431,275 | 11.266 | 3.200 | 202,988 / 304,868 |
+| `glyph-position` | 189,603 | +24,453,189 | 57.770 | 11.363 | 207,412 / 304,412 |
+
+Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foreground) 213,732 · DjVu (wide strips) 191,132 · CCITT Group 4 1,270,850 · JBIG 707,797 · 1-bit PNG 1,418,635 · XZ 9 extreme 930,864 · Zstandard 19 1,034,431 · Zstandard 3 1,325,134
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-graphs)
+
+### manual-library · 24,283,584 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `glyph-direct` | 1,705,163 | +22,578,421 | 1.499 | 1.103 | 99,276 / 85,644 |
+| `glyph-fuzzy` | 277,021 | +24,006,563 | 9.288 | 4.339 | 216,712 / 155,492 |
+| `glyph-glyphs` | 277,021 | +24,006,563 | 8.377 | 2.337 | 192,208 / 155,700 |
+| `glyph-jbig` | 1,049,885 | +23,233,699 | 3.261 | 3.683 | 98,172 / 302,836 |
+| `glyph-joint` | 196,530 | +24,087,054 | 16.003 | 4.229 | 216,832 / 301,292 |
+| `glyph-position` | 160,297 | +24,123,287 | 74.727 | 10.305 | 227,736 / 301,208 |
+
+Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foreground) 202,666 · DjVu (wide strips) 175,164 · CCITT Group 4 1,678,602 · JBIG 1,049,864 · 1-bit PNG 1,996,848 · XZ 9 extreme 1,304,420 · Zstandard 19 1,457,017 · Zstandard 3 1,903,366
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-library)
+
+### manual-transfer · 31,809,024 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `glyph-direct` | 1,796,363 | +30,012,661 | 1.508 | 1.094 | 106,276 / 93,428 |
+| `glyph-fuzzy` | 257,250 | +31,551,774 | 17.986 | 2.239 | 256,992 / 178,520 |
+| `glyph-glyphs` | 257,250 | +31,551,774 | 9.339 | 2.645 | 228,132 / 178,680 |
+| `glyph-joint` | 225,552 | +31,583,472 | 17.115 | 4.936 | 286,408 / 375,184 |
+| `glyph-position` | 195,223 | +31,613,801 | 86.202 | 11.498 | 267,028 / 374,500 |
+
+Same-input baseline archives (bytes) · DjVu 213,659 · DjVu (separated foreground) 213,655 · DjVu (wide strips) 189,610 · JBIG 1,108,897 · XZ 9 extreme 1,354,964 · Zstandard 19 1,525,436
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

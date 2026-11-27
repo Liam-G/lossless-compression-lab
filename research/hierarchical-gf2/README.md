@@ -1,5 +1,7 @@
 # Hierarchical GF(2) with checkerboard evolution
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Can backward cellular evolution recover the low rank of a matrix before recursive factorization? GFH1 divides a file into 16 × 16 binary matrices. Its native predecessor search and independent Python decoder are ported from `lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/gerarchico-gf2/{orbita.cpp,gerarchico.py}`. The ten original inputs and ten corresponding full-profile archives are included as compatibility vectors.
@@ -30,6 +32,24 @@ Each input is 8,192 bytes. On the evolved rank-four fixture, all restricted prof
 ## Large-file benchmark
 
 On `manual-graphs` (24,642,792 raw bytes), `gfh-3-1` produced 3,098,408 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../large-scale/results/by-experiment.md#hierarchical-gf2)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### manual-graphs · 24,642,792 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `gfh-3-1` | 3,098,408 | +21,544,384 | 82.681 | 65.656 | 27,816 / 18,960 |
+
+Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foreground) 213,732 · DjVu (wide strips) 191,132 · CCITT Group 4 1,270,850 · JBIG 707,797 · 1-bit PNG 1,418,635 · XZ 9 extreme 930,864 · Zstandard 19 1,034,431 · Zstandard 3 1,325,134
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-graphs)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

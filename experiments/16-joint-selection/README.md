@@ -1,5 +1,7 @@
 # Experiment 16 · Joint selection of compression methods
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Does selecting a method at different offsets beat a single method once headers and model resets are fully priced?
@@ -58,6 +60,38 @@ All 24 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `manual-library` (24,283,584 raw bytes), `pilot16-intervals-regions` produced 2,157,752 archive bytes. Zstandard level 3 used 1,903,366 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#manual-library) · [All project measurements](../../research/large-scale/results/by-experiment.md#16-joint-selection)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### manual-library · 24,283,584 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot16-fixed` | 10,520,316 | +13,763,268 | 56.062 | 19.452 | 24,704 / 23,520 |
+| `pilot16-intervals-regions` | 2,157,752 | +22,125,832 | 913.789 | 1.369 | 39,716 / 23,580 |
+| `pilot16-single` | 2,157,752 | +22,125,832 | 4.051 | 0.881 | 25,204 / 23,652 |
+
+Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foreground) 202,666 · DjVu (wide strips) 175,164 · CCITT Group 4 1,678,602 · JBIG 1,049,864 · 1-bit PNG 1,996,848 · XZ 9 extreme 1,304,420 · Zstandard 19 1,457,017 · Zstandard 3 1,903,366
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#manual-library)
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `pilot16-fixed` | 33,206,752 | -8,040,928 | 29.777 | 4.621 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

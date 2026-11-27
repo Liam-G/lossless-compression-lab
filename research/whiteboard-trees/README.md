@@ -1,5 +1,7 @@
 # Whiteboard quotients inside factor trees
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 The [original whiteboard](whiteboard.png) represents an integer as a ratio of repeated-digit numbers in different bases. Write a repdigit as `G(b,r,c) = c (b^r − 1)/(b − 1)`. QBT1 can describe a tree leaf as `p × (G(b,r,c) / G(d,t,e))` when the inner quotient is integral. A missing denominator means one. A second experiment asks whether extracting a factor before choosing the next split can expose a quotient that a split of the original integer misses.
@@ -45,6 +47,52 @@ The fixture embeds a cross-base quotient in one half of a cofactor, then applies
 ## Large-file benchmark
 
 On `cofattore-Q.base256` (96,994,187 raw bytes), `whiteboard` produced 96,994,200 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#whiteboard-trees)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### cofattore-Q.base256 · 96,994,187 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `whiteboard` | 96,994,200 | -13 | 33.231 | 0.559 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 96,994,649 · Zstandard 3 96,996,424
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#cofattore-qbase256)
+
+### hidden-products · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `forest-factor` | 22,597,654 | +2,568,170 | 304.398 | 1.841 |
+| `forest-leaf-factor` | 22,469,215 | +2,696,609 | 96.210 | 2.402 |
+| `forest-literal` | 23,372,356 | +1,793,468 | 18.083 | 1.283 |
+| `forest-nested` | 16,568,758 | +8,597,066 | 453.149 | 9.844 |
+| `forest-whiteboard` | 23,372,356 | +1,793,468 | 28.311 | 2.212 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 13,309,788 · Zstandard 19 13,318,271 · Zstandard 3 14,343,987
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#hidden-products)
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `whiteboard` | 25,165,837 | -13 | 12.385 | 0.365 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

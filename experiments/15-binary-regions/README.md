@@ -1,5 +1,7 @@
 # Experiment 15 · Regenerating binary regions
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 How much of a binary can a versioned generator catalog recreate after every interval and recipe is counted?
@@ -57,6 +59,25 @@ All 16 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `mozilla` (51,220,480 raw bytes), `pilot15-combined` produced 35,313,184 archive bytes. Zstandard level 3 used 18,281,292 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#mozilla) · [All project measurements](../../research/large-scale/results/by-experiment.md#15-binary-regions)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### mozilla · 51,220,480 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot15-combined` | 35,313,184 | +15,907,296 | 319.594 | 22.196 | — / — |
+| `pilot15-literal` | 51,247,081 | -26,601 | 65.219 | 2.238 | 25,100 / 23,496 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 13,376,240 · Zstandard 19 15,071,672 · Zstandard 3 18,281,292
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#mozilla)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

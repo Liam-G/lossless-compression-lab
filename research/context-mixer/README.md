@@ -1,5 +1,7 @@
 # CM3 context mixing
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 How much does the lab's text compressor gain when it combines byte and word contexts, longer matches, a second mixer and a recurrent predictor? The CPU implementation and predictor headers are from `lab/arena`. The historic full-file run used the v9 configuration and the binary called cm3_v11. The workspace source has later optional predictors. The retained log records the original result.
@@ -42,6 +44,26 @@ On the first 131,072 bytes of enwik8, small context tables produced a 34,010-byt
 ## Large-file benchmark
 
 On `wiki-dev` (25,165,824 raw bytes), `cm3-mix` produced 5,017,931 archive bytes. Zstandard level 3 used 8,951,574 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wiki-dev) · [All project measurements](../large-scale/results/by-experiment.md#context-mixer)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### wiki-dev · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `cm3-context` | 5,128,905 | +20,036,919 | 176.900 | 261.540 |
+| `cm3-lstm32` | 4,997,716 | +20,168,108 | 1761.612 | 1960.914 |
+| `cm3-mix` | 5,017,931 | +20,147,893 | 739.683 | 1013.867 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,602,488 · Zstandard 19 6,873,848 · Zstandard 3 8,951,574
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-dev)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

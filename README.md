@@ -2,6 +2,8 @@
 
 This English research repository contains 16 thesis experiments, three cross-experiment studies and 28 research projects recovered or extended from the original compression lab. The [large-file benchmark](research/large-scale/README.md) requires at least **20 MiB of raw input per trial** and checks exact reconstruction. The [idea atlas](research/evidence/idea-atlas.md) connects the local project conversations, the 51-topic dossier, and the original whiteboard formula to measured experiments and open proposals.
 
+Each project README includes its own benchmark tables. For an example with paired entropy measurements and all standalone archives, open the [four-dimensional factors results](research/four-dimensional-factors/README.md#large-file-benchmark).
+
 ## Does preprocessing help a standard compressor?
 
 The comparison uses two paths on identical input: **raw → standard compressor** and **reversible preprocessing → the same compressor**. We measure byte entropy before and after preprocessing, count every byte needed to undo it, and verify that both paths reconstruct the input.

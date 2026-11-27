@@ -1,5 +1,7 @@
 # Experiment 05 · Local bases and exceptional digits
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Does the lowest-entropy numeral base also minimize the archive after dominant digits, exceptions and selectors are paid for?
@@ -64,6 +66,60 @@ All 16 profile archives decoded byte for byte. The [trial measurements](results/
 ## Large-file benchmark
 
 On `manual-graphs` (24,642,792 raw bytes), `pilot05-local-bytes` produced 8,312,441 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../../research/large-scale/results/by-experiment.md#05-local-bases)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### manual-graphs · 24,642,792 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot05-local-bytes` | 8,312,441 | +16,330,351 | 302.298 | 29.921 | 27,736 / 23,628 |
+
+Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foreground) 213,732 · DjVu (wide strips) 191,132 · CCITT Group 4 1,270,850 · JBIG 707,797 · 1-bit PNG 1,418,635 · XZ 9 extreme 930,864 · Zstandard 19 1,034,431 · Zstandard 3 1,325,134
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#manual-graphs)
+
+### whiteboard-costs · 33,554,432 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot05-local-bytes` | 17,808,940 | +15,745,492 | 819.370 | 67.864 | 29,728 / 23,616 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 2,203,672 · Zstandard 19 2,286,184 · Zstandard 3 3,513,689
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#whiteboard-costs)
+
+### wiki-dev · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `pilot05-local-bytes` | 26,744,147 | -1,578,323 | 1503.476 | 4.334 | 24,932 / 23,676 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,602,488 · Zstandard 19 6,873,848 · Zstandard 3 8,951,574
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-dev)
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `pilot05-local-bytes` | 26,747,076 | -1,581,252 | 2761.713 | 2.306 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

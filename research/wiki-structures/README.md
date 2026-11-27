@@ -1,5 +1,7 @@
 # Wikipedia page order, algebraic templates and primed context mixing
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 Does grouping structurally similar pages make their prose or mathematical slots cheaper to reproduce? Three original implementations survive in `lab/hutter/shapes9/wiki_order.py`, `wiki_templates.py` and `wiki_archive.py`. The last uses the multi-member CM3 container from `lab/arena/cm3_parallel.py`. This folder includes the transforms, original WCM1 and C3P1 containers and a separate selector that prices the representations with Zstandard or XZ.
@@ -33,6 +35,51 @@ On the disjoint 25,165,824-byte Wikipedia transfer window, four independently de
 ## Large-file benchmark
 
 On `wiki-transfer` (25,165,824 raw bytes), `wiki-joint-xz` produced 6,915,857 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../large-scale/results/by-experiment.md#wiki-structures)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `wcm-literal` | 5,345,330 | +19,820,494 | 622.259 | 457.686 | 156,828 / 155,716 |
+| `wcm-literal-primed` | 5,331,459 | +19,834,365 | 530.381 | 355.850 | 158,576 / 158,324 |
+| `wcm-similar-template-primed` | 5,312,277 | +19,853,547 | 385.008 | 267.342 | 255,292 / 164,160 |
+| `wiki-direct` | 8,283,833 | +16,881,991 | 4.668 | 2.580 | 42,136 / 28,584 |
+| `wiki-direct-xz` | 6,939,917 | +18,225,907 | 117.327 | 3.944 | 153,116 / 45,916 |
+| `wiki-joint` | 8,223,878 | +16,941,946 | 141.622 | 4.088 | 150,268 / 65,240 |
+| `wiki-joint-xz` | 6,915,857 | +18,249,967 | 414.619 | 4.148 | 238,100 / 64,804 |
+| `wiki-links` | 8,283,833 | +16,881,991 | 18.252 | 1.937 | 83,400 / 28,536 |
+| `wiki-ordering` | 8,229,885 | +16,935,939 | 27.888 | 4.423 | 89,432 / 43,944 |
+| `wiki-templates` | 8,275,996 | +16,889,828 | 34.759 | 4.647 | 118,376 / 65,064 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+### wiki-dev · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) | Peak KiB (encode / decode) |
+|---|---:|---:|---:|---:|---:|
+| `wiki-direct` | 8,267,789 | +16,898,035 | 7.195 | 0.675 | 41,376 / 28,780 |
+| `wiki-direct-xz` | 6,914,621 | +18,251,203 | 122.199 | 4.046 | 154,980 / 44,424 |
+| `wiki-joint` | 8,223,663 | +16,942,161 | 134.533 | 7.488 | 153,444 / 64,308 |
+| `wiki-joint-xz` | 6,894,633 | +18,271,191 | 428.699 | 4.826 | 243,688 / 68,432 |
+| `wiki-links` | 8,267,789 | +16,898,035 | 18.458 | 2.132 | 86,300 / 28,700 |
+| `wiki-ordering` | 8,233,638 | +16,932,186 | 26.717 | 2.848 | 86,912 / 44,824 |
+| `wiki-templates` | 8,255,626 | +16,910,198 | 26.716 | 2.496 | 107,836 / 64,928 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,602,488 · Zstandard 19 6,873,848 · Zstandard 3 8,951,574
+
+[Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-dev)
+
+<!-- END generated project measurements -->
 
 ## Connections
 

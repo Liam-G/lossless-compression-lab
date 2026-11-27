@@ -1,5 +1,7 @@
 # Experiment 04 · Irrational sums, backtracking and checkpoints
 
+[View this project's benchmark tables](#large-file-benchmark)
+
 ## Question and prior work
 
 When are signed sums of square roots cheaper than literal alphabet ranks, and when do extra segment indices repay their cost?
@@ -67,6 +69,24 @@ All 144 profile archives decoded byte for byte. The [trial measurements](results
 ## Large-file benchmark
 
 On `wiki-transfer` (25,165,824 raw bytes), `pilot04-10-2-signed-checkpoints` produced 27,248,340 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../../research/large-scale/results/by-experiment.md#04-irrational-checkpoints)
+
+<!-- BEGIN generated project measurements -->
+
+Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+### wiki-transfer · 25,165,824 raw bytes
+
+**Standalone archives**
+
+| Profile | Archive bytes | Bytes saved vs raw | Encode (s) | Decode (s) |
+|---|---:|---:|---:|---:|
+| `pilot04-10-2-signed-checkpoints` | 27,248,340 | -2,082,516 | 1143.816 | 2.338 |
+
+Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
+
+[Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+<!-- END generated project measurements -->
 
 ## Connections
 
