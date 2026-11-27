@@ -843,6 +843,7 @@ Each entry links the implementation, its verified profiles and same-input baseli
 | Input | Profile | Archive bytes | Delivered bytes |
 |---|---|---:|---:|
 | [wiki-dev](by-dataset.md#wiki-dev) | cm3-context | 5,128,905 | 5,128,905 |
+| [wiki-dev](by-dataset.md#wiki-dev) | cm3-lstm32 | 4,997,716 | 4,997,716 |
 | [wiki-dev](by-dataset.md#wiki-dev) | cm3-mix | 5,017,931 | 5,017,931 |
 
 <a id="statico"></a>

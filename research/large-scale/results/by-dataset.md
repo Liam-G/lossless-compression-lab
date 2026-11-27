@@ -1,6 +1,6 @@
 # All large-file measurements
 
-626 verified archives across 49 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
+627 verified archives across 49 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
 
 The charged total includes the raw reference when the decoder requires it. Shared codec software is excluded. The [machine-readable receipts](archives.jsonl) include full input and archive hashes, selected parameters, and peak KiB where collected.
 
@@ -901,6 +901,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 
 | Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
 |---|---:|---:|---:|---:|---:|
+| cm3-lstm32 | 4,997,716 | 4,997,716 | 1.58873 | 1761.612 | 1960.914 |
 | cm3-mix | 5,017,931 | 5,017,931 | 1.59516 | 739.683 | 1013.867 |
 | cm3-context | 5,128,905 | 5,128,905 | 1.63043 | 176.900 | 261.540 |
 | xz9e | 6,602,488 | 6,602,488 | 2.09887 | 25.976 | 0.497 |
