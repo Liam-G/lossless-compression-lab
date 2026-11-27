@@ -2,6 +2,16 @@
 
 This English research repository contains 16 thesis experiments, three cross-experiment studies and 28 research projects recovered or extended from the original compression lab. The [large-file benchmark](research/large-scale/README.md) requires at least **20 MiB of raw input per trial** and checks exact reconstruction. The [idea atlas](research/evidence/idea-atlas.md) connects the local project conversations, the 51-topic dossier, and the original whiteboard formula to measured experiments and open proposals.
 
+## Benchmark summary
+
+Each bar compares a verified experimental archive with XZ extreme on the same raw input. Positive values mean a smaller archive. The cellular orbit with Kronecker factors saved 82.2% on generated matrix products and used 28.2% more space on the real Silesia numerical stream.
+
+![Archive size reductions versus XZ extreme. On archived and real data, whiteboard witness coding saved 59.6%, glyph coding saved 78.0%, lattice prediction saved 10.6%, and cellular Kronecker coding used 28.2% more space. On generated data, cellular Kronecker coding saved 82.2%, joint cellular rule learning saved 62.4%, and shared factor trees saved 1.6%.](research/large-scale/results/readme-summary.png)
+
+[Exact sizes and timings for all 627 benchmark results](research/large-scale/results/by-dataset.md)
+
+## Project highlights
+
 | Start with | What you can reproduce |
 |---|---|
 | [The original whiteboard census and witnesses](research/whiteboard-census/README.md) | Rebuild the 32 MiB cost table and use the recorded equations to compress a separate 22,630,320-byte witness file to 1,082,142 bytes. |
