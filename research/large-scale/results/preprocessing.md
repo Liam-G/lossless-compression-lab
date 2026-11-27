@@ -1,6 +1,6 @@
 # Preprocessing before standard compression
 
-83 measured input/profile pairs on 20 distinct inputs. Each raw input is at least 20 MiB. Each pair uses exactly the same source bytes on both paths.
+159 measured input/profile pairs on 26 distinct inputs. Each raw input is at least 20 MiB. Each pair uses exactly the same source bytes on both paths.
 
 1. Compress the original input directly with gzip, Zstandard or XZ.
 2. Serialize the reversible preprocessing output, including headers, choices, lengths, dictionaries, model parameters, literal fallbacks and residuals. Measure this stream before backend compression, then compress it with the same executable and settings as the original.
@@ -19,11 +19,79 @@
 | covertype-prefix | lattice-rows-fields | 25,165,824 | 25,169,388 | 2.2843 → 2.2866 | 1.3298 → 1.3302 | 2.2869 |
 | covertype-prefix | lattice-rows-joint | 25,165,824 | 25,166,796 | 2.2843 → 1.3312 | 1.3298 → 0.9613 | 1.3312 |
 | covertype-prefix | lattice-rows-prefix | 25,165,824 | 27,491,616 | 2.2843 → 2.6163 | 1.3298 → 1.3132 | 2.8581 |
+| evolved-stamps | checker-bitmap-direct-book | 28,311,552 | 4,829,851 | 1.9696 → 6.4078 | 1.9232 → 4.6752 | 1.0931 |
+| evolved-stamps | checker-bitmap-direct-flat | 28,311,552 | 28,314,124 | 1.9696 → 1.9696 | 1.9232 → 1.9232 | 1.9698 |
+| evolved-stamps | checker-bitmap-direct-tree | 28,311,552 | 9,593,235 | 1.9696 → 5.2001 | 1.9232 → 2.3533 | 1.7620 |
+| evolved-stamps | checker-bitmap-orbit-book | 28,311,552 | 885,494 | 1.9696 → 6.9038 | 1.9232 → 5.3183 | 0.2159 |
+| evolved-stamps | checker-bitmap-orbit-flat | 28,311,552 | 28,314,124 | 1.9696 → 1.4372 | 1.9232 → 1.4113 | 1.4373 |
+| evolved-stamps | checker-bitmap-orbit-hot | 28,311,552 | 884,982 | 1.9696 → 6.8986 | 1.9232 → 5.3806 | 0.2156 |
+| evolved-stamps | checker-bitmap-orbit-hotplanes | 28,311,552 | 884,982 | 1.9696 → 6.8982 | 1.9232 → 5.9038 | 0.2156 |
+| evolved-stamps | checker-bitmap-orbit-planes | 28,311,552 | 3,849,414 | 1.9696 → 7.3016 | 1.9232 → 5.7304 | 0.9928 |
+| evolved-stamps | checker-bitmap-orbit-tree | 28,311,552 | 3,849,414 | 1.9696 → 7.3024 | 1.9232 → 2.0626 | 0.9929 |
+| evolved-stamps | checker-bitmap-rotated-book | 28,311,552 | 10,114,461 | 1.9696 → 6.0024 | 1.9232 → 4.8330 | 2.1444 |
+| evolved-stamps | checker-bitmap-select | 28,311,552 | 885,494 | 1.9696 → 6.9038 | 1.9232 → 5.3183 | 0.2159 |
+| evolved-stamps | checker-bitmap-xor-book | 28,311,552 | 5,092,083 | 1.9696 → 6.4980 | 1.9232 → 4.8623 | 1.1687 |
+| evolved-stamps | checker-bitmap-xor-flat | 28,311,552 | 28,314,124 | 1.9696 → 2.0309 | 1.9232 → 1.9871 | 2.0311 |
+| evolved-stamps | checker-bitmap-xor-tree | 28,311,552 | 9,593,235 | 1.9696 → 5.2846 | 1.9232 → 2.6072 | 1.7906 |
 | formula-text | pilot11-dag | 25,165,824 | 9,357,678 | 3.6110 → 4.7847 | 1.1528 → 1.7253 | 1.7791 |
+| graphs-shuffled-lines | checker-bitmap-direct-book | 24,642,792 | 7,403,073 | 0.7646 → 4.1137 | 0.5291 → 3.6116 | 1.2358 |
+| graphs-shuffled-lines | checker-bitmap-direct-flat | 24,642,792 | 24,650,434 | 0.7646 → 0.7646 | 0.5291 → 0.5292 | 0.7649 |
+| graphs-shuffled-lines | checker-bitmap-direct-tree | 24,642,792 | 9,598,949 | 0.7646 → 2.0176 | 0.5291 → 1.8635 | 0.7859 |
+| graphs-shuffled-lines | checker-bitmap-orbit-book | 24,642,792 | 10,298,117 | 0.7646 → 5.7467 | 0.5291 → 4.8523 | 2.4015 |
+| graphs-shuffled-lines | checker-bitmap-select | 24,642,792 | 24,650,434 | 0.7646 → 0.7646 | 0.5291 → 0.5292 | 0.7649 |
+| graphs-shuffled-lines | checker-bitmap-xor-flat | 24,642,792 | 24,650,434 | 0.7646 → 1.3353 | 0.5291 → 0.9789 | 1.3358 |
+| graphs-shuffled-lines | checker-bitmap-xor-hotplanes | 24,642,792 | 7,200,199 | 0.7646 → 4.0479 | 0.5291 → 3.3618 | 1.1827 |
+| graphs-shuffled-lines | checker-bitmap-xor-tree | 24,642,792 | 10,244,921 | 0.7646 → 3.0310 | 0.5291 → 2.2780 | 1.2601 |
 | hidden-products | shared-shared | 25,165,824 | 13,379,724 | 6.3745 → 7.9279 | 4.3616 → 7.7994 | 4.2150 |
 | learned-field | learned-coupled | 29,491,200 | 29,491,588 | 7.9931 → 3.5692 | 7.9890 → 2.7951 | 3.5693 |
 | luma-jake | learned-coupled | 29,491,200 | 29,491,324 | 6.0905 → 1.1219 | 2.2173 → 0.4218 | 1.1219 |
+| manual-graphs | checker-bitmap-direct-book | 24,642,792 | 2,850,113 | 0.7646 → 5.4081 | 0.5291 → 4.0221 | 0.6255 |
+| manual-graphs | checker-bitmap-direct-flat | 24,642,792 | 24,650,434 | 0.7646 → 0.7646 | 0.5291 → 0.5292 | 0.7649 |
+| manual-graphs | checker-bitmap-direct-hot | 24,642,792 | 2,531,379 | 0.7646 → 4.7870 | 0.5291 → 3.2825 | 0.4917 |
+| manual-graphs | checker-bitmap-direct-hotplanes | 24,642,792 | 2,531,379 | 0.7646 → 4.7870 | 0.5291 → 4.1411 | 0.4917 |
+| manual-graphs | checker-bitmap-direct-planes | 24,642,792 | 2,926,539 | 0.7646 → 4.6161 | 0.5291 → 3.6930 | 0.5482 |
+| manual-graphs | checker-bitmap-direct-tree | 24,642,792 | 2,926,539 | 0.7646 → 4.6152 | 0.5291 → 2.9137 | 0.5481 |
+| manual-graphs | checker-bitmap-orbit-book | 24,642,792 | 3,323,668 | 0.7646 → 5.8915 | 0.5291 → 5.1405 | 0.7946 |
+| manual-graphs | checker-bitmap-orbit-flat | 24,642,792 | 24,650,434 | 0.7646 → 0.9611 | 0.5291 → 0.6964 | 0.9614 |
+| manual-graphs | checker-bitmap-orbit-tree | 24,642,792 | 3,393,558 | 0.7646 → 5.1915 | 0.5291 → 4.1933 | 0.7149 |
+| manual-graphs | checker-bitmap-select | 24,642,792 | 6,123,631 | 0.7646 → 2.0863 | 0.5291 → 1.6433 | 0.5184 |
+| manual-graphs | checker-bitmap-xor-book | 24,642,792 | 2,920,517 | 0.7646 → 4.6615 | 0.5291 → 4.0528 | 0.5524 |
+| manual-graphs | checker-bitmap-xor-flat | 24,642,792 | 24,650,434 | 0.7646 → 0.5581 | 0.5291 → 0.4053 | 0.5583 |
+| manual-graphs | checker-bitmap-xor-hot | 24,642,792 | 2,608,143 | 0.7646 → 3.8982 | 0.5291 → 3.3043 | 0.4126 |
+| manual-graphs | checker-bitmap-xor-hotplanes | 24,642,792 | 2,608,143 | 0.7646 → 3.8980 | 0.5291 → 3.4410 | 0.4126 |
+| manual-graphs | checker-bitmap-xor-planes | 24,642,792 | 2,904,414 | 0.7646 → 3.7019 | 0.5291 → 2.9840 | 0.4363 |
+| manual-graphs | checker-bitmap-xor-tree | 24,642,792 | 2,904,414 | 0.7646 → 3.7017 | 0.5291 → 2.9808 | 0.4363 |
 | manual-graphs | pilot07-pre-1 | 24,642,792 | 3,112,119 | 0.7646 → 6.8702 | 0.5291 → 5.9196 | 0.8676 |
+| manual-library | checker-bitmap-direct-book | 24,283,584 | 3,978,731 | 1.0898 → 5.5074 | 0.7688 → 4.0516 | 0.9024 |
+| manual-library | checker-bitmap-direct-tree | 24,283,584 | 4,329,338 | 1.0898 → 4.5936 | 0.7688 → 2.8490 | 0.8190 |
+| manual-library | checker-bitmap-orbit-book | 24,283,584 | 4,623,892 | 1.0898 → 5.9495 | 0.7688 → 5.1475 | 1.1329 |
+| manual-library | checker-bitmap-select | 24,283,584 | 5,661,943 | 1.0898 → 3.0788 | 0.7688 → 2.4187 | 0.7179 |
+| manual-library | checker-bitmap-xor-book | 24,283,584 | 4,064,989 | 1.0898 → 4.7625 | 0.7688 → 4.0913 | 0.7972 |
+| manual-library | checker-bitmap-xor-flat | 24,283,584 | 24,290,980 | 1.0898 → 0.7858 | 0.7688 → 0.5951 | 0.7861 |
+| manual-library | checker-bitmap-xor-hot | 24,283,584 | 3,703,395 | 1.0898 → 4.0059 | 0.7688 → 3.3646 | 0.6109 |
+| manual-library | checker-bitmap-xor-hotplanes | 24,283,584 | 3,703,395 | 1.0898 → 4.0058 | 0.7688 → 3.5299 | 0.6109 |
+| manual-library | checker-bitmap-xor-planes | 24,283,584 | 4,312,007 | 1.0898 → 3.6490 | 0.7688 → 2.9694 | 0.6479 |
+| manual-library | checker-bitmap-xor-tree | 24,283,584 | 4,312,007 | 1.0898 → 3.6489 | 0.7688 → 2.9336 | 0.6479 |
+| manual-transfer | checker-bitmap-direct-book | 31,809,024 | 4,542,839 | 0.9931 → 5.4695 | 0.6449 → 3.8703 | 0.7811 |
+| manual-transfer | checker-bitmap-direct-tree | 31,809,024 | 5,197,543 | 0.9931 → 4.4275 | 0.6449 → 2.6278 | 0.7235 |
+| manual-transfer | checker-bitmap-orbit-book | 31,809,024 | 5,251,862 | 0.9931 → 5.9091 | 0.6449 → 4.9348 | 0.9756 |
+| manual-transfer | checker-bitmap-select | 31,809,024 | 13,353,597 | 0.9931 → 1.6982 | 0.6449 → 1.3089 | 0.7129 |
+| manual-transfer | checker-bitmap-xor-book | 31,809,024 | 4,537,674 | 0.9931 → 4.6357 | 0.6449 → 3.9871 | 0.6613 |
+| manual-transfer | checker-bitmap-xor-flat | 31,809,024 | 31,811,916 | 0.9931 → 0.6563 | 0.6449 → 0.5019 | 0.6563 |
+| manual-transfer | checker-bitmap-xor-hot | 31,809,024 | 4,023,794 | 0.9931 → 4.0289 | 0.6449 → 3.4131 | 0.5097 |
+| manual-transfer | checker-bitmap-xor-hotplanes | 31,809,024 | 4,023,794 | 0.9931 → 4.0286 | 0.6449 → 3.5358 | 0.5096 |
+| manual-transfer | checker-bitmap-xor-planes | 31,809,024 | 5,128,749 | 0.9931 → 3.3440 | 0.6449 → 2.6874 | 0.5392 |
+| manual-transfer | checker-bitmap-xor-tree | 31,809,024 | 5,128,749 | 0.9931 → 3.3438 | 0.6449 → 2.7025 | 0.5391 |
+| manual-valgrind | checker-bitmap-direct-book | 30,924,288 | 6,350,615 | 1.3043 → 5.5204 | 0.8091 → 4.0915 | 1.1337 |
+| manual-valgrind | checker-bitmap-direct-tree | 30,924,288 | 8,011,199 | 1.3043 → 4.0819 | 0.8091 → 2.5323 | 1.0575 |
+| manual-valgrind | checker-bitmap-orbit-book | 30,924,288 | 7,291,997 | 1.3043 → 6.1036 | 0.8091 → 5.1477 | 1.4392 |
+| manual-valgrind | checker-bitmap-select | 30,924,288 | 14,905,493 | 1.3043 → 2.1255 | 0.8091 → 1.5679 | 1.0245 |
+| manual-valgrind | checker-bitmap-xor-book | 30,924,288 | 6,527,085 | 1.3043 → 4.9093 | 0.8091 → 4.1685 | 1.0362 |
+| manual-valgrind | checker-bitmap-xor-flat | 30,924,288 | 30,927,100 | 1.3043 → 1.0792 | 0.8091 → 0.6600 | 1.0793 |
+| manual-valgrind | checker-bitmap-xor-hot | 30,924,288 | 5,689,159 | 1.3043 → 4.1315 | 0.8091 → 3.3168 | 0.7601 |
+| manual-valgrind | checker-bitmap-xor-hotplanes | 30,924,288 | 5,689,159 | 1.3043 → 4.1314 | 0.8091 → 3.4003 | 0.7601 |
+| manual-valgrind | checker-bitmap-xor-planes | 30,924,288 | 8,128,963 | 1.3043 → 3.4362 | 0.8091 → 2.3048 | 0.9033 |
+| manual-valgrind | checker-bitmap-xor-tree | 30,924,288 | 8,128,963 | 1.3043 → 3.4361 | 0.8091 → 2.7195 | 0.9032 |
 | modular-panels | modular-joint | 25,165,824 | 28,312,524 | 7.9918 → 1.6383 | 7.9873 → 1.2147 | 1.8432 |
 | nci | lattice-rows-above | 33,553,445 | 33,554,761 | 2.4293 → 1.7313 | 1.9466 → 1.0145 | 1.7314 |
 | nci | lattice-rows-columns | 33,553,445 | 33,554,761 | 2.4293 → 2.4775 | 1.9466 → 0.6467 | 2.4776 |
@@ -75,8 +143,16 @@
 | noisy-spacetime | four-joint | 25,165,824 | 34,605,324 | 7.9645 → 3.2005 | 7.9554 → 2.0327 | 4.4010 |
 | numerical | lattice-joint | 25,696,748 | 25,696,985 | 6.3494 → 4.9333 | 5.5271 → 3.7053 | 4.9333 |
 | numerical | modular-joint | 25,696,748 | 25,697,750 | 6.3494 → 6.3493 | 5.5271 → 5.5270 | 6.3495 |
+| rotated-stamps | checker-bitmap-direct-book | 28,311,552 | 4,786,724 | 2.1087 → 6.3996 | 1.5529 → 4.4591 | 1.0820 |
+| rotated-stamps | checker-bitmap-direct-tree | 28,311,552 | 9,660,566 | 2.1087 → 5.1941 | 1.5529 → 2.3352 | 1.7723 |
+| rotated-stamps | checker-bitmap-orbit-book | 28,311,552 | 10,109,056 | 2.1087 → 6.2687 | 1.5529 → 4.9895 | 2.2383 |
+| rotated-stamps | checker-bitmap-rotated-book | 28,311,552 | 885,494 | 2.1087 → 6.9034 | 1.5529 → 5.3186 | 0.2159 |
 | shared-orbit-1000 | pilot06-checker-3-fixed | 25,165,824 | 22,274,238 | 6.9648 → 7.7281 | 6.3175 → 7.4767 | 6.8401 |
 | shuffled-witnesses | witness-joint | 22,630,320 | 19,790,312 | 2.9495 → 3.0670 | 2.7803 → 1.7457 | 2.6821 |
+| uniform | checker-bitmap-direct-book | 25,165,824 | 31,977,556 | 8.0000 → 7.9274 | 7.9981 → 7.8311 | 10.0731 |
+| uniform | checker-bitmap-orbit-book | 25,165,824 | 31,977,556 | 8.0000 → 7.9274 | 7.9981 → 7.8312 | 10.0731 |
+| uniform | checker-bitmap-select | 25,165,824 | 25,168,884 | 8.0000 → 8.0000 | 7.9981 → 7.9980 | 8.0010 |
+| uniform | checker-bitmap-xor-flat | 25,165,824 | 25,168,884 | 8.0000 → 8.0000 | 7.9981 → 7.9980 | 8.0010 |
 | uniform | lattice-rows-joint | 25,165,824 | 25,312,096 | 8.0000 → 7.9964 | 7.9981 → 7.9819 | 8.0429 |
 | uniform | lattice-rows-route-select | 25,165,824 | 25,166,316 | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 8.0001 |
 | uniform | lattice-rows-select | 25,165,824 | 25,166,316 | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 8.0001 |
@@ -109,11 +185,79 @@ Each cell gives **compressed original bytes → compressed prepared bytes (perce
 | covertype-prefix | lattice-rows-fields | 3,997,073 → 3,372,812 (+15.618%) | 3,778,786 → 3,279,530 (+13.212%) | 2,801,076 → 2,198,712 (+21.505%) |
 | covertype-prefix | lattice-rows-joint | 3,997,073 → 3,422,678 (+14.370%) | 3,778,786 → 3,312,836 (+12.331%) | 2,801,076 → 2,742,460 (+2.093%) |
 | covertype-prefix | lattice-rows-prefix | 3,997,073 → 4,185,009 (-4.702%) | 3,778,786 → 4,039,129 (-6.890%) | 2,801,076 → 2,966,092 (-5.891%) |
+| evolved-stamps | checker-bitmap-direct-book | 9,210,659 → 2,654,150 (+71.184%) | 9,023,243 → 2,754,721 (+69.471%) | 7,530,660 → 2,120,388 (+71.843%) |
+| evolved-stamps | checker-bitmap-direct-flat | 9,210,659 → 9,212,352 (-0.018%) | 9,023,243 → 9,024,278 (-0.011%) | 7,530,660 → 7,526,840 (+0.051%) |
+| evolved-stamps | checker-bitmap-direct-tree | 9,210,659 → 2,700,418 (+70.682%) | 9,023,243 → 2,958,588 (+67.211%) | 7,530,660 → 1,975,876 (+73.762%) |
+| evolved-stamps | checker-bitmap-orbit-book | 9,210,659 → 622,700 (+93.239%) | 9,023,243 → 623,735 (+93.087%) | 7,530,660 → 560,916 (+92.552%) |
+| evolved-stamps | checker-bitmap-orbit-flat | 9,210,659 → 7,130,259 (+22.587%) | 9,023,243 → 6,884,881 (+23.698%) | 7,530,660 → 5,485,804 (+27.154%) |
+| evolved-stamps | checker-bitmap-orbit-hot | 9,210,659 → 646,407 (+92.982%) | 9,023,243 → 653,696 (+92.755%) | 7,530,660 → 585,652 (+92.223%) |
+| evolved-stamps | checker-bitmap-orbit-hotplanes | 9,210,659 → 766,811 (+91.675%) | 9,023,243 → 767,416 (+91.495%) | 7,530,660 → 693,544 (+90.790%) |
+| evolved-stamps | checker-bitmap-orbit-planes | 9,210,659 → 3,534,488 (+61.626%) | 9,023,243 → 3,490,104 (+61.321%) | 7,530,660 → 3,076,668 (+59.145%) |
+| evolved-stamps | checker-bitmap-orbit-tree | 9,210,659 → 807,400 (+91.234%) | 9,023,243 → 781,611 (+91.338%) | 7,530,660 → 628,356 (+91.656%) |
+| evolved-stamps | checker-bitmap-rotated-book | 9,210,659 → 5,366,106 (+41.740%) | 9,023,243 → 5,577,984 (+38.182%) | 7,530,660 → 4,102,704 (+45.520%) |
+| evolved-stamps | checker-bitmap-select | 9,210,659 → 622,700 (+93.239%) | 9,023,243 → 623,735 (+93.087%) | 7,530,660 → 560,916 (+92.552%) |
+| evolved-stamps | checker-bitmap-xor-book | 9,210,659 → 2,823,988 (+69.340%) | 9,023,243 → 2,945,054 (+67.361%) | 7,530,660 → 2,275,564 (+69.783%) |
+| evolved-stamps | checker-bitmap-xor-flat | 9,210,659 → 9,509,890 (-3.249%) | 9,023,243 → 9,322,938 (-3.321%) | 7,530,660 → 7,732,272 (-2.677%) |
+| evolved-stamps | checker-bitmap-xor-tree | 9,210,659 → 2,784,689 (+69.767%) | 9,023,243 → 3,117,274 (+65.453%) | 7,530,660 → 2,084,084 (+72.325%) |
 | formula-text | pilot11-dag | 4,118,040 → 2,187,854 (+46.871%) | 2,958,719 → 2,322,775 (+21.494%) | 1,856,404 → 1,625,172 (+12.456%) |
+| graphs-shuffled-lines | checker-bitmap-direct-book | 1,849,713 → 3,606,684 (-94.986%) | 2,036,986 → 3,536,239 (-73.602%) | 1,380,120 → 2,771,044 (-100.783%) |
+| graphs-shuffled-lines | checker-bitmap-direct-flat | 1,849,713 → 1,851,560 (-0.100%) | 2,036,986 → 2,039,106 (-0.104%) | 1,380,120 → 1,392,196 (-0.875%) |
+| graphs-shuffled-lines | checker-bitmap-direct-tree | 1,849,713 → 2,826,361 (-52.800%) | 2,036,986 → 2,674,340 (-31.289%) | 1,380,120 → 1,991,168 (-44.275%) |
+| graphs-shuffled-lines | checker-bitmap-orbit-book | 1,849,713 → 6,280,069 (-239.516%) | 2,036,986 → 6,223,539 (-205.527%) | 1,380,120 → 4,865,512 (-252.543%) |
+| graphs-shuffled-lines | checker-bitmap-select | 1,849,713 → 1,851,560 (-0.100%) | 2,036,986 → 2,039,106 (-0.104%) | 1,380,120 → 1,392,196 (-0.875%) |
+| graphs-shuffled-lines | checker-bitmap-xor-flat | 1,849,713 → 2,408,779 (-30.224%) | 2,036,986 → 2,576,199 (-26.471%) | 1,380,120 → 1,844,152 (-33.623%) |
+| graphs-shuffled-lines | checker-bitmap-xor-hotplanes | 1,849,713 → 2,933,192 (-58.576%) | 2,036,986 → 3,010,554 (-47.795%) | 1,380,120 → 2,612,392 (-89.287%) |
+| graphs-shuffled-lines | checker-bitmap-xor-tree | 1,849,713 → 3,492,995 (-88.840%) | 2,036,986 → 3,349,886 (-64.453%) | 1,380,120 → 2,593,716 (-87.934%) |
 | hidden-products | shared-shared | 14,343,986 → 13,038,675 (+9.100%) | 14,118,577 → 13,077,821 (+7.372%) | 13,314,968 → 13,011,616 (+2.278%) |
 | learned-field | learned-coupled | 29,389,440 → 11,276,527 (+61.631%) | 29,358,227 → 11,231,282 (+61.744%) | 29,419,328 → 10,497,028 (+64.319%) |
 | luma-jake | learned-coupled | 1,716,540 → 1,796,738 (-4.672%) | 8,869,318 → 1,712,131 (+80.696%) | 990,504 → 1,375,752 (-38.894%) |
+| manual-graphs | checker-bitmap-direct-book | 1,325,130 → 1,389,866 (-4.885%) | 1,520,849 → 1,464,931 (+3.677%) | 1,004,072 → 1,076,292 (-7.193%) |
+| manual-graphs | checker-bitmap-direct-flat | 1,325,130 → 1,328,836 (-0.280%) | 1,520,849 → 1,523,258 (-0.158%) | 1,004,072 → 1,008,172 (-0.408%) |
+| manual-graphs | checker-bitmap-direct-hot | 1,325,130 → 1,046,567 (+21.022%) | 1,520,849 → 1,139,557 (+25.071%) | 1,004,072 → 796,608 (+20.662%) |
+| manual-graphs | checker-bitmap-direct-hotplanes | 1,325,130 → 1,314,345 (+0.814%) | 1,520,849 → 1,356,654 (+10.796%) | 1,004,072 → 1,106,104 (-10.162%) |
+| manual-graphs | checker-bitmap-direct-planes | 1,325,130 → 1,252,966 (+5.446%) | 1,520,849 → 1,326,907 (+12.752%) | 1,004,072 → 995,652 (+0.839%) |
+| manual-graphs | checker-bitmap-direct-tree | 1,325,130 → 926,450 (+30.086%) | 1,520,849 → 1,067,575 (+29.804%) | 1,004,072 → 634,084 (+36.849%) |
+| manual-graphs | checker-bitmap-orbit-book | 1,325,130 → 1,818,834 (-37.257%) | 1,520,849 → 2,009,971 (-32.161%) | 1,004,072 → 1,403,424 (-39.773%) |
+| manual-graphs | checker-bitmap-orbit-flat | 1,325,130 → 2,163,497 (-63.267%) | 1,520,849 → 2,368,383 (-55.728%) | 1,004,072 → 1,790,876 (-78.361%) |
+| manual-graphs | checker-bitmap-orbit-tree | 1,325,130 → 1,249,242 (+5.727%) | 1,520,849 → 1,561,232 (-2.655%) | 1,004,072 → 868,944 (+13.458%) |
+| manual-graphs | checker-bitmap-select | 1,325,130 → 970,779 (+26.741%) | 1,520,849 → 1,109,905 (+27.021%) | 1,004,072 → 690,144 (+31.265%) |
+| manual-graphs | checker-bitmap-xor-book | 1,325,130 → 1,383,577 (-4.411%) | 1,520,849 → 1,479,231 (+2.736%) | 1,004,072 → 1,102,620 (-9.815%) |
+| manual-graphs | checker-bitmap-xor-flat | 1,325,130 → 1,359,169 (-2.569%) | 1,520,849 → 1,513,711 (+0.469%) | 1,004,072 → 1,112,424 (-10.791%) |
+| manual-graphs | checker-bitmap-xor-hot | 1,325,130 → 1,010,214 (+23.765%) | 1,520,849 → 1,125,042 (+26.025%) | 1,004,072 → 780,124 (+22.304%) |
+| manual-graphs | checker-bitmap-xor-hotplanes | 1,325,130 → 1,273,925 (+3.864%) | 1,520,849 → 1,294,290 (+14.897%) | 1,004,072 → 1,135,300 (-13.070%) |
+| manual-graphs | checker-bitmap-xor-planes | 1,325,130 → 1,201,823 (+9.305%) | 1,520,849 → 1,250,981 (+17.745%) | 1,004,072 → 1,020,492 (-1.635%) |
+| manual-graphs | checker-bitmap-xor-tree | 1,325,130 → 883,342 (+33.339%) | 1,520,849 → 1,031,081 (+32.204%) | 1,004,072 → 612,788 (+38.970%) |
 | manual-graphs | pilot07-pre-1 | 1,325,130 → 2,215,382 (-67.182%) | 1,520,849 → 2,217,323 (-45.795%) | 1,004,072 → 2,156,664 (-114.792%) |
+| manual-library | checker-bitmap-direct-book | 1,903,362 → 1,891,562 (+0.620%) | 2,189,641 → 2,053,017 (+6.240%) | 1,375,968 → 1,420,104 (-3.208%) |
+| manual-library | checker-bitmap-direct-tree | 1,903,362 → 1,219,247 (+35.942%) | 2,189,641 → 1,537,629 (+29.777%) | 1,375,968 → 739,252 (+46.274%) |
+| manual-library | checker-bitmap-orbit-book | 1,903,362 → 2,422,699 (-27.285%) | 2,189,641 → 2,804,192 (-28.066%) | 1,375,968 → 1,787,632 (-29.918%) |
+| manual-library | checker-bitmap-select | 1,903,362 → 1,260,597 (+33.770%) | 2,189,641 → 1,562,357 (+28.648%) | 1,375,968 → 804,356 (+41.543%) |
+| manual-library | checker-bitmap-xor-book | 1,903,362 → 1,884,878 (+0.971%) | 2,189,641 → 2,069,896 (+5.469%) | 1,375,968 → 1,450,876 (-5.444%) |
+| manual-library | checker-bitmap-xor-flat | 1,903,362 → 1,920,038 (-0.876%) | 2,189,641 → 2,172,094 (+0.801%) | 1,375,968 → 1,499,812 (-9.001%) |
+| manual-library | checker-bitmap-xor-hot | 1,903,362 → 1,382,633 (+27.358%) | 2,189,641 → 1,610,206 (+26.463%) | 1,375,968 → 1,020,688 (+25.820%) |
+| manual-library | checker-bitmap-xor-hotplanes | 1,903,362 → 1,854,681 (+2.558%) | 2,189,641 → 1,888,003 (+13.776%) | 1,375,968 → 1,635,116 (-18.834%) |
+| manual-library | checker-bitmap-xor-planes | 1,903,362 → 1,745,729 (+8.282%) | 2,189,641 → 1,864,803 (+14.835%) | 1,375,968 → 1,417,244 (-3.000%) |
+| manual-library | checker-bitmap-xor-tree | 1,903,362 → 1,162,886 (+38.904%) | 2,189,641 → 1,480,008 (+32.409%) | 1,375,968 → 717,328 (+47.867%) |
+| manual-transfer | checker-bitmap-direct-book | 2,005,044 → 2,061,438 (-2.813%) | 2,229,879 → 2,196,335 (+1.504%) | 1,468,704 → 1,534,596 (-4.486%) |
+| manual-transfer | checker-bitmap-direct-tree | 2,005,044 → 1,360,567 (+32.143%) | 2,229,879 → 1,597,548 (+28.357%) | 1,468,704 → 801,760 (+45.410%) |
+| manual-transfer | checker-bitmap-orbit-book | 2,005,044 → 2,604,989 (-29.922%) | 2,229,879 → 2,946,901 (-32.155%) | 1,468,704 → 1,924,348 (-31.024%) |
+| manual-transfer | checker-bitmap-select | 2,005,044 → 1,495,485 (+25.414%) | 2,229,879 → 1,719,298 (+22.897%) | 1,468,704 → 973,176 (+33.739%) |
+| manual-transfer | checker-bitmap-xor-book | 2,005,044 → 2,025,025 (-0.997%) | 2,229,879 → 2,170,895 (+2.645%) | 1,468,704 → 1,551,548 (-5.641%) |
+| manual-transfer | checker-bitmap-xor-flat | 2,005,044 → 1,992,156 (+0.643%) | 2,229,879 → 2,217,736 (+0.545%) | 1,468,704 → 1,566,396 (-6.652%) |
+| manual-transfer | checker-bitmap-xor-hot | 2,005,044 → 1,534,895 (+23.448%) | 2,229,879 → 1,701,213 (+23.708%) | 1,468,704 → 1,142,092 (+22.238%) |
+| manual-transfer | checker-bitmap-xor-hotplanes | 2,005,044 → 2,023,740 (-0.932%) | 2,229,879 → 2,029,164 (+9.001%) | 1,468,704 → 1,783,448 (-21.430%) |
+| manual-transfer | checker-bitmap-xor-planes | 2,005,044 → 1,847,808 (+7.842%) | 2,229,879 → 1,935,600 (+13.197%) | 1,468,704 → 1,511,756 (-2.931%) |
+| manual-transfer | checker-bitmap-xor-tree | 2,005,044 → 1,307,011 (+34.814%) | 2,229,879 → 1,508,593 (+32.346%) | 1,468,704 → 774,040 (+47.298%) |
+| manual-valgrind | checker-bitmap-direct-book | 2,582,180 → 2,769,522 (-7.255%) | 2,943,798 → 3,005,449 (-2.094%) | 1,908,720 → 2,038,308 (-6.789%) |
+| manual-valgrind | checker-bitmap-direct-tree | 2,582,180 → 1,787,822 (+30.763%) | 2,943,798 → 2,242,189 (+23.833%) | 1,908,720 → 1,042,068 (+45.405%) |
+| manual-valgrind | checker-bitmap-orbit-book | 2,582,180 → 3,568,565 (-38.200%) | 2,943,798 → 4,095,977 (-39.139%) | 1,908,720 → 2,574,776 (-34.895%) |
+| manual-valgrind | checker-bitmap-select | 2,582,180 → 2,003,009 (+22.430%) | 2,943,798 → 2,412,096 (+18.062%) | 1,908,720 → 1,298,608 (+31.964%) |
+| manual-valgrind | checker-bitmap-xor-book | 2,582,180 → 2,790,503 (-8.068%) | 2,943,798 → 3,044,802 (-3.431%) | 1,908,720 → 2,106,880 (-10.382%) |
+| manual-valgrind | checker-bitmap-xor-flat | 2,582,180 → 2,683,089 (-3.908%) | 2,943,798 → 3,014,259 (-2.394%) | 1,908,720 → 2,112,440 (-10.673%) |
+| manual-valgrind | checker-bitmap-xor-hot | 2,582,180 → 2,042,660 (+20.894%) | 2,943,798 → 2,347,526 (+20.255%) | 1,908,720 → 1,462,128 (+23.397%) |
+| manual-valgrind | checker-bitmap-xor-hotplanes | 2,582,180 → 2,689,270 (-4.147%) | 2,943,798 → 2,732,444 (+7.180%) | 1,908,720 → 2,369,924 (-24.163%) |
+| manual-valgrind | checker-bitmap-xor-planes | 2,582,180 → 2,506,790 (+2.920%) | 2,943,798 → 2,690,298 (+8.611%) | 1,908,720 → 1,998,760 (-4.717%) |
+| manual-valgrind | checker-bitmap-xor-tree | 2,582,180 → 1,738,730 (+32.664%) | 2,943,798 → 2,181,871 (+25.882%) | 1,908,720 → 1,025,524 (+46.272%) |
 | modular-panels | modular-joint | 25,166,413 → 4,478,573 (+82.204%) | 25,168,569 → 4,695,964 (+81.342%) | 25,167,132 → 4,327,872 (+82.803%) |
 | nci | lattice-rows-above | 2,835,396 → 3,218,569 (-13.514%) | 3,199,449 → 3,558,372 (-11.218%) | 1,779,272 → 2,070,980 (-16.395%) |
 | nci | lattice-rows-columns | 2,835,396 → 2,489,621 (+12.195%) | 3,199,449 → 2,363,037 (+26.142%) | 1,779,272 → 1,872,004 (-5.212%) |
@@ -165,8 +309,16 @@ Each cell gives **compressed original bytes → compressed prepared bytes (perce
 | noisy-spacetime | four-joint | 25,166,413 → 9,397,974 (+62.657%) | 25,042,968 → 9,362,367 (+62.615%) | 25,063,412 → 8,109,204 (+67.645%) |
 | numerical | lattice-joint | 15,163,679 → 11,635,203 (+23.269%) | 15,063,439 → 11,486,297 (+23.747%) | 11,665,916 → 10,449,384 (+10.428%) |
 | numerical | modular-joint | 15,163,679 → 15,164,986 (-0.009%) | 15,063,439 → 15,063,384 (+0.000%) | 11,665,916 → 11,730,228 (-0.551%) |
+| rotated-stamps | checker-bitmap-direct-book | 7,867,492 → 2,244,509 (+71.471%) | 7,665,858 → 2,246,196 (+70.699%) | 5,962,732 → 1,700,168 (+71.487%) |
+| rotated-stamps | checker-bitmap-direct-tree | 7,867,492 → 2,059,413 (+73.824%) | 7,665,858 → 2,116,004 (+72.397%) | 5,962,732 → 1,218,712 (+79.561%) |
+| rotated-stamps | checker-bitmap-orbit-book | 7,867,492 → 5,441,366 (+30.837%) | 7,665,858 → 5,673,107 (+25.995%) | 5,962,732 → 4,136,800 (+30.622%) |
+| rotated-stamps | checker-bitmap-rotated-book | 7,867,492 → 622,584 (+92.087%) | 7,665,858 → 623,741 (+91.863%) | 5,962,732 → 560,832 (+90.594%) |
 | shared-orbit-1000 | pilot06-checker-3-fixed | 21,987,747 → 21,474,587 (+2.334%) | 22,067,549 → 21,470,554 (+2.705%) | 20,184,408 → 20,716,428 (-2.636%) |
 | shuffled-witnesses | witness-joint | 6,474,999 → 3,768,334 (+41.802%) | 6,460,681 → 3,776,913 (+41.540%) | 4,322,840 → 3,550,292 (+17.871%) |
+| uniform | checker-bitmap-direct-book | 25,166,413 → 31,103,267 (-23.590%) | 25,169,682 → 31,231,293 (-24.083%) | 25,167,136 → 30,331,704 (-20.521%) |
+| uniform | checker-bitmap-orbit-book | 25,166,413 → 31,104,010 (-23.593%) | 25,169,682 → 31,231,950 (-24.086%) | 25,167,136 → 30,346,228 (-20.579%) |
+| uniform | checker-bitmap-select | 25,166,413 → 25,168,724 (-0.009%) | 25,169,682 → 25,172,017 (-0.009%) | 25,167,136 → 25,169,704 (-0.010%) |
+| uniform | checker-bitmap-xor-flat | 25,166,413 → 25,168,941 (-0.010%) | 25,169,682 → 25,172,234 (-0.010%) | 25,167,136 → 25,169,932 (-0.011%) |
 | uniform | lattice-rows-joint | 25,166,413 → 25,312,688 (-0.581%) | 25,169,682 → 25,258,810 (-0.354%) | 25,167,136 → 25,300,180 (-0.529%) |
 | uniform | lattice-rows-route-select | 25,166,413 → 25,166,905 (-0.002%) | 25,169,682 → 25,170,174 (-0.002%) | 25,167,136 → 25,167,628 (-0.002%) |
 | uniform | lattice-rows-select | 25,166,413 → 25,166,905 (-0.002%) | 25,169,682 → 25,170,174 (-0.002%) | 25,167,136 → 25,167,628 (-0.002%) |
@@ -198,6 +350,6 @@ python3 research/large-scale/preprocess.py restore runs/paired/numerical.pre run
 cmp runs/large/raw/numerical runs/paired/numerical.out
 ```
 
-The numbered pilots here already emit a reversible record stream. The adapter preserves the encoder’s block choices. For block-compressed formats it removes the terminal Zstandard frames and updates their lengths. For row profiles it removes the outer Zstandard wrapper and measures the complete RGP1 stream. On restore it supplies the framing expected by the corresponding decoder. All backends receive the same frozen representation, including the modes selected by the original encoder’s internal cost model. These observations cover the listed profiles and inputs.
+The numbered pilots here already emit a reversible record stream. The adapter preserves the encoder’s block choices. For block-compressed formats it removes the terminal Zstandard frames and updates their lengths. For row and bitmap profiles it removes the outer Zstandard wrapper and measures the complete RGP1 or CBP1 stream. On restore it supplies the framing expected by the corresponding decoder. All backends receive the same frozen representation, including the modes selected by the original encoder’s internal cost model. These observations cover the listed profiles and inputs.
 
 The [machine-readable receipts](preprocessing.jsonl) give the complete input, prepared and compressed stream hashes, commands, versions and byte counts. The [corpus manifest and preparation instructions](../README.md#inputs) describe their provenance.

@@ -519,16 +519,175 @@ For entropy before and after preprocessing and matched standard-compressor compa
 
 [Implementation and protocol](../../checkerboard-orbits/README.md)
 
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| evolved-stamps | checker-bitmap-direct-book | 1.9696 → 6.4078 | 1.9232 → 4.6752 | 9,210,659 → 2,654,150 |
+| evolved-stamps | checker-bitmap-direct-flat | 1.9696 → 1.9696 | 1.9232 → 1.9232 | 9,210,659 → 9,212,352 |
+| evolved-stamps | checker-bitmap-direct-tree | 1.9696 → 5.2001 | 1.9232 → 2.3533 | 9,210,659 → 2,700,418 |
+| evolved-stamps | checker-bitmap-orbit-book | 1.9696 → 6.9038 | 1.9232 → 5.3183 | 9,210,659 → 622,700 |
+| evolved-stamps | checker-bitmap-orbit-flat | 1.9696 → 1.4372 | 1.9232 → 1.4113 | 9,210,659 → 7,130,259 |
+| evolved-stamps | checker-bitmap-orbit-hot | 1.9696 → 6.8986 | 1.9232 → 5.3806 | 9,210,659 → 646,407 |
+| evolved-stamps | checker-bitmap-orbit-hotplanes | 1.9696 → 6.8982 | 1.9232 → 5.9038 | 9,210,659 → 766,811 |
+| evolved-stamps | checker-bitmap-orbit-planes | 1.9696 → 7.3016 | 1.9232 → 5.7304 | 9,210,659 → 3,534,488 |
+| evolved-stamps | checker-bitmap-orbit-tree | 1.9696 → 7.3024 | 1.9232 → 2.0626 | 9,210,659 → 807,400 |
+| evolved-stamps | checker-bitmap-rotated-book | 1.9696 → 6.0024 | 1.9232 → 4.8330 | 9,210,659 → 5,366,106 |
+| evolved-stamps | checker-bitmap-select | 1.9696 → 6.9038 | 1.9232 → 5.3183 | 9,210,659 → 622,700 |
+| evolved-stamps | checker-bitmap-xor-book | 1.9696 → 6.4980 | 1.9232 → 4.8623 | 9,210,659 → 2,823,988 |
+| evolved-stamps | checker-bitmap-xor-flat | 1.9696 → 2.0309 | 1.9232 → 1.9871 | 9,210,659 → 9,509,890 |
+| evolved-stamps | checker-bitmap-xor-tree | 1.9696 → 5.2846 | 1.9232 → 2.6072 | 9,210,659 → 2,784,689 |
+| graphs-shuffled-lines | checker-bitmap-direct-book | 0.7646 → 4.1137 | 0.5291 → 3.6116 | 1,849,713 → 3,606,684 |
+| graphs-shuffled-lines | checker-bitmap-direct-flat | 0.7646 → 0.7646 | 0.5291 → 0.5292 | 1,849,713 → 1,851,560 |
+| graphs-shuffled-lines | checker-bitmap-direct-tree | 0.7646 → 2.0176 | 0.5291 → 1.8635 | 1,849,713 → 2,826,361 |
+| graphs-shuffled-lines | checker-bitmap-orbit-book | 0.7646 → 5.7467 | 0.5291 → 4.8523 | 1,849,713 → 6,280,069 |
+| graphs-shuffled-lines | checker-bitmap-select | 0.7646 → 0.7646 | 0.5291 → 0.5292 | 1,849,713 → 1,851,560 |
+| graphs-shuffled-lines | checker-bitmap-xor-flat | 0.7646 → 1.3353 | 0.5291 → 0.9789 | 1,849,713 → 2,408,779 |
+| graphs-shuffled-lines | checker-bitmap-xor-hotplanes | 0.7646 → 4.0479 | 0.5291 → 3.3618 | 1,849,713 → 2,933,192 |
+| graphs-shuffled-lines | checker-bitmap-xor-tree | 0.7646 → 3.0310 | 0.5291 → 2.2780 | 1,849,713 → 3,492,995 |
+| manual-graphs | checker-bitmap-direct-book | 0.7646 → 5.4081 | 0.5291 → 4.0221 | 1,325,130 → 1,389,866 |
+| manual-graphs | checker-bitmap-direct-flat | 0.7646 → 0.7646 | 0.5291 → 0.5292 | 1,325,130 → 1,328,836 |
+| manual-graphs | checker-bitmap-direct-hot | 0.7646 → 4.7870 | 0.5291 → 3.2825 | 1,325,130 → 1,046,567 |
+| manual-graphs | checker-bitmap-direct-hotplanes | 0.7646 → 4.7870 | 0.5291 → 4.1411 | 1,325,130 → 1,314,345 |
+| manual-graphs | checker-bitmap-direct-planes | 0.7646 → 4.6161 | 0.5291 → 3.6930 | 1,325,130 → 1,252,966 |
+| manual-graphs | checker-bitmap-direct-tree | 0.7646 → 4.6152 | 0.5291 → 2.9137 | 1,325,130 → 926,450 |
+| manual-graphs | checker-bitmap-orbit-book | 0.7646 → 5.8915 | 0.5291 → 5.1405 | 1,325,130 → 1,818,834 |
+| manual-graphs | checker-bitmap-orbit-flat | 0.7646 → 0.9611 | 0.5291 → 0.6964 | 1,325,130 → 2,163,497 |
+| manual-graphs | checker-bitmap-orbit-tree | 0.7646 → 5.1915 | 0.5291 → 4.1933 | 1,325,130 → 1,249,242 |
+| manual-graphs | checker-bitmap-select | 0.7646 → 2.0863 | 0.5291 → 1.6433 | 1,325,130 → 970,779 |
+| manual-graphs | checker-bitmap-xor-book | 0.7646 → 4.6615 | 0.5291 → 4.0528 | 1,325,130 → 1,383,577 |
+| manual-graphs | checker-bitmap-xor-flat | 0.7646 → 0.5581 | 0.5291 → 0.4053 | 1,325,130 → 1,359,169 |
+| manual-graphs | checker-bitmap-xor-hot | 0.7646 → 3.8982 | 0.5291 → 3.3043 | 1,325,130 → 1,010,214 |
+| manual-graphs | checker-bitmap-xor-hotplanes | 0.7646 → 3.8980 | 0.5291 → 3.4410 | 1,325,130 → 1,273,925 |
+| manual-graphs | checker-bitmap-xor-planes | 0.7646 → 3.7019 | 0.5291 → 2.9840 | 1,325,130 → 1,201,823 |
+| manual-graphs | checker-bitmap-xor-tree | 0.7646 → 3.7017 | 0.5291 → 2.9808 | 1,325,130 → 883,342 |
+| manual-library | checker-bitmap-direct-book | 1.0898 → 5.5074 | 0.7688 → 4.0516 | 1,903,362 → 1,891,562 |
+| manual-library | checker-bitmap-direct-tree | 1.0898 → 4.5936 | 0.7688 → 2.8490 | 1,903,362 → 1,219,247 |
+| manual-library | checker-bitmap-orbit-book | 1.0898 → 5.9495 | 0.7688 → 5.1475 | 1,903,362 → 2,422,699 |
+| manual-library | checker-bitmap-select | 1.0898 → 3.0788 | 0.7688 → 2.4187 | 1,903,362 → 1,260,597 |
+| manual-library | checker-bitmap-xor-book | 1.0898 → 4.7625 | 0.7688 → 4.0913 | 1,903,362 → 1,884,878 |
+| manual-library | checker-bitmap-xor-flat | 1.0898 → 0.7858 | 0.7688 → 0.5951 | 1,903,362 → 1,920,038 |
+| manual-library | checker-bitmap-xor-hot | 1.0898 → 4.0059 | 0.7688 → 3.3646 | 1,903,362 → 1,382,633 |
+| manual-library | checker-bitmap-xor-hotplanes | 1.0898 → 4.0058 | 0.7688 → 3.5299 | 1,903,362 → 1,854,681 |
+| manual-library | checker-bitmap-xor-planes | 1.0898 → 3.6490 | 0.7688 → 2.9694 | 1,903,362 → 1,745,729 |
+| manual-library | checker-bitmap-xor-tree | 1.0898 → 3.6489 | 0.7688 → 2.9336 | 1,903,362 → 1,162,886 |
+| manual-transfer | checker-bitmap-direct-book | 0.9931 → 5.4695 | 0.6449 → 3.8703 | 2,005,044 → 2,061,438 |
+| manual-transfer | checker-bitmap-direct-tree | 0.9931 → 4.4275 | 0.6449 → 2.6278 | 2,005,044 → 1,360,567 |
+| manual-transfer | checker-bitmap-orbit-book | 0.9931 → 5.9091 | 0.6449 → 4.9348 | 2,005,044 → 2,604,989 |
+| manual-transfer | checker-bitmap-select | 0.9931 → 1.6982 | 0.6449 → 1.3089 | 2,005,044 → 1,495,485 |
+| manual-transfer | checker-bitmap-xor-book | 0.9931 → 4.6357 | 0.6449 → 3.9871 | 2,005,044 → 2,025,025 |
+| manual-transfer | checker-bitmap-xor-flat | 0.9931 → 0.6563 | 0.6449 → 0.5019 | 2,005,044 → 1,992,156 |
+| manual-transfer | checker-bitmap-xor-hot | 0.9931 → 4.0289 | 0.6449 → 3.4131 | 2,005,044 → 1,534,895 |
+| manual-transfer | checker-bitmap-xor-hotplanes | 0.9931 → 4.0286 | 0.6449 → 3.5358 | 2,005,044 → 2,023,740 |
+| manual-transfer | checker-bitmap-xor-planes | 0.9931 → 3.3440 | 0.6449 → 2.6874 | 2,005,044 → 1,847,808 |
+| manual-transfer | checker-bitmap-xor-tree | 0.9931 → 3.3438 | 0.6449 → 2.7025 | 2,005,044 → 1,307,011 |
+| manual-valgrind | checker-bitmap-direct-book | 1.3043 → 5.5204 | 0.8091 → 4.0915 | 2,582,180 → 2,769,522 |
+| manual-valgrind | checker-bitmap-direct-tree | 1.3043 → 4.0819 | 0.8091 → 2.5323 | 2,582,180 → 1,787,822 |
+| manual-valgrind | checker-bitmap-orbit-book | 1.3043 → 6.1036 | 0.8091 → 5.1477 | 2,582,180 → 3,568,565 |
+| manual-valgrind | checker-bitmap-select | 1.3043 → 2.1255 | 0.8091 → 1.5679 | 2,582,180 → 2,003,009 |
+| manual-valgrind | checker-bitmap-xor-book | 1.3043 → 4.9093 | 0.8091 → 4.1685 | 2,582,180 → 2,790,503 |
+| manual-valgrind | checker-bitmap-xor-flat | 1.3043 → 1.0792 | 0.8091 → 0.6600 | 2,582,180 → 2,683,089 |
+| manual-valgrind | checker-bitmap-xor-hot | 1.3043 → 4.1315 | 0.8091 → 3.3168 | 2,582,180 → 2,042,660 |
+| manual-valgrind | checker-bitmap-xor-hotplanes | 1.3043 → 4.1314 | 0.8091 → 3.4003 | 2,582,180 → 2,689,270 |
+| manual-valgrind | checker-bitmap-xor-planes | 1.3043 → 3.4362 | 0.8091 → 2.3048 | 2,582,180 → 2,506,790 |
+| manual-valgrind | checker-bitmap-xor-tree | 1.3043 → 3.4361 | 0.8091 → 2.7195 | 2,582,180 → 1,738,730 |
+| rotated-stamps | checker-bitmap-direct-book | 2.1087 → 6.3996 | 1.5529 → 4.4591 | 7,867,492 → 2,244,509 |
+| rotated-stamps | checker-bitmap-direct-tree | 2.1087 → 5.1941 | 1.5529 → 2.3352 | 7,867,492 → 2,059,413 |
+| rotated-stamps | checker-bitmap-orbit-book | 2.1087 → 6.2687 | 1.5529 → 4.9895 | 7,867,492 → 5,441,366 |
+| rotated-stamps | checker-bitmap-rotated-book | 2.1087 → 6.9034 | 1.5529 → 5.3186 | 7,867,492 → 622,584 |
+| uniform | checker-bitmap-direct-book | 8.0000 → 7.9274 | 7.9981 → 7.8311 | 25,166,413 → 31,103,267 |
+| uniform | checker-bitmap-orbit-book | 8.0000 → 7.9274 | 7.9981 → 7.8312 | 25,166,413 → 31,104,010 |
+| uniform | checker-bitmap-select | 8.0000 → 8.0000 | 7.9981 → 7.9980 | 25,166,413 → 25,168,724 |
+| uniform | checker-bitmap-xor-flat | 8.0000 → 8.0000 | 7.9981 → 7.9980 | 25,166,413 → 25,168,941 |
+
+**Standalone archive sizes**
+
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-direct-book | 28,311,552 | 2,654,223 | +25,657,329 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-direct-flat | 28,311,552 | 9,211,051 | +19,100,501 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-direct-tree | 28,311,552 | 2,697,447 | +25,614,105 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-orbit-book | 28,311,552 | 622,703 | +27,688,849 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-orbit-flat | 28,311,552 | 7,132,908 | +21,178,644 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-orbit-hot | 28,311,552 | 646,410 | +27,665,142 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-orbit-hotplanes | 28,311,552 | 766,814 | +27,544,738 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-orbit-planes | 28,311,552 | 3,534,224 | +24,777,328 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-orbit-tree | 28,311,552 | 808,254 | +27,503,298 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-rotated-book | 28,311,552 | 5,361,414 | +22,950,138 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-select | 28,311,552 | 622,703 | +27,688,849 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-xor-book | 28,311,552 | 2,823,895 | +25,487,657 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-xor-flat | 28,311,552 | 9,512,240 | +18,799,312 |
+| [evolved-stamps](by-dataset.md#evolved-stamps) | checker-bitmap-xor-tree | 28,311,552 | 2,780,872 | +25,530,680 |
+| [graphs-shuffled-lines](by-dataset.md#graphs-shuffled-lines) | checker-bitmap-direct-book | 24,642,792 | 3,608,591 | +21,034,201 |
+| [graphs-shuffled-lines](by-dataset.md#graphs-shuffled-lines) | checker-bitmap-direct-flat | 24,642,792 | 1,846,387 | +22,796,405 |
+| [graphs-shuffled-lines](by-dataset.md#graphs-shuffled-lines) | checker-bitmap-direct-tree | 24,642,792 | 2,827,555 | +21,815,237 |
+| [graphs-shuffled-lines](by-dataset.md#graphs-shuffled-lines) | checker-bitmap-orbit-book | 24,642,792 | 6,277,729 | +18,365,063 |
+| [graphs-shuffled-lines](by-dataset.md#graphs-shuffled-lines) | checker-bitmap-select | 24,642,792 | 1,846,387 | +22,796,405 |
+| [graphs-shuffled-lines](by-dataset.md#graphs-shuffled-lines) | checker-bitmap-xor-flat | 24,642,792 | 2,405,283 | +22,237,509 |
+| [graphs-shuffled-lines](by-dataset.md#graphs-shuffled-lines) | checker-bitmap-xor-hotplanes | 24,642,792 | 2,933,196 | +21,709,596 |
+| [graphs-shuffled-lines](by-dataset.md#graphs-shuffled-lines) | checker-bitmap-xor-tree | 24,642,792 | 3,492,002 | +21,150,790 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-direct-book | 24,642,792 | 1,389,962 | +23,252,830 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-direct-flat | 24,642,792 | 1,329,615 | +23,313,177 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-direct-hot | 24,642,792 | 1,046,571 | +23,596,221 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-direct-hotplanes | 24,642,792 | 1,314,349 | +23,328,443 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-direct-planes | 24,642,792 | 1,252,789 | +23,390,003 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-direct-tree | 24,642,792 | 926,786 | +23,716,006 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-orbit-book | 24,642,792 | 1,818,813 | +22,823,979 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-orbit-flat | 24,642,792 | 2,159,692 | +22,483,100 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-orbit-tree | 24,642,792 | 1,249,131 | +23,393,661 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-select | 24,642,792 | 971,085 | +23,671,707 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-xor-book | 24,642,792 | 1,383,476 | +23,259,316 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-xor-flat | 24,642,792 | 1,357,152 | +23,285,640 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-xor-hot | 24,642,792 | 1,010,218 | +23,632,574 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-xor-hotplanes | 24,642,792 | 1,273,929 | +23,368,863 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-xor-planes | 24,642,792 | 1,202,135 | +23,440,657 |
+| [manual-graphs](by-dataset.md#manual-graphs) | checker-bitmap-xor-tree | 24,642,792 | 883,584 | +23,759,208 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-direct-book | 24,283,584 | 1,891,255 | +22,392,329 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-direct-tree | 24,283,584 | 1,219,251 | +23,064,333 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-orbit-book | 24,283,584 | 2,422,761 | +21,860,823 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-select | 24,283,584 | 1,260,415 | +23,023,169 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-xor-book | 24,283,584 | 1,884,392 | +22,399,192 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-xor-flat | 24,283,584 | 1,914,406 | +22,369,178 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-xor-hot | 24,283,584 | 1,382,637 | +22,900,947 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-xor-hotplanes | 24,283,584 | 1,854,685 | +22,428,899 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-xor-planes | 24,283,584 | 1,745,733 | +22,537,851 |
+| [manual-library](by-dataset.md#manual-library) | checker-bitmap-xor-tree | 24,283,584 | 1,162,890 | +23,120,694 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-direct-book | 31,809,024 | 2,061,234 | +29,747,790 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-direct-tree | 31,809,024 | 1,360,571 | +30,448,453 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-orbit-book | 31,809,024 | 2,604,929 | +29,204,095 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-select | 31,809,024 | 1,490,218 | +30,318,806 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-xor-book | 31,809,024 | 2,025,143 | +29,783,881 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-xor-flat | 31,809,024 | 1,988,651 | +29,820,373 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-xor-hot | 31,809,024 | 1,534,899 | +30,274,125 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-xor-hotplanes | 31,809,024 | 2,023,744 | +29,785,280 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-xor-planes | 31,809,024 | 1,847,812 | +29,961,212 |
+| [manual-transfer](by-dataset.md#manual-transfer) | checker-bitmap-xor-tree | 31,809,024 | 1,307,015 | +30,502,009 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-direct-book | 30,924,288 | 2,769,540 | +28,154,748 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-direct-tree | 30,924,288 | 1,787,354 | +29,136,934 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-orbit-book | 30,924,288 | 3,568,143 | +27,356,145 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-select | 30,924,288 | 1,998,256 | +28,926,032 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-xor-book | 30,924,288 | 2,790,929 | +28,133,359 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-xor-flat | 30,924,288 | 2,675,415 | +28,248,873 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-xor-hot | 30,924,288 | 2,042,640 | +28,881,648 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-xor-hotplanes | 30,924,288 | 2,688,919 | +28,235,369 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-xor-planes | 30,924,288 | 2,508,155 | +28,416,133 |
+| [manual-valgrind](by-dataset.md#manual-valgrind) | checker-bitmap-xor-tree | 30,924,288 | 1,738,368 | +29,185,920 |
 | [numerical](by-dataset.md#numerical) | checker-direct | 25,696,748 | 15,272,238 | +10,424,510 |
 | [numerical](by-dataset.md#numerical) | checker-individual | 25,696,748 | 15,272,238 | +10,424,510 |
 | [numerical](by-dataset.md#numerical) | checker-joint | 25,696,748 | 15,272,238 | +10,424,510 |
 | [numerical](by-dataset.md#numerical) | checker-shared | 25,696,748 | 15,272,238 | +10,424,510 |
+| [rotated-stamps](by-dataset.md#rotated-stamps) | checker-bitmap-direct-book | 28,311,552 | 2,244,369 | +26,067,183 |
+| [rotated-stamps](by-dataset.md#rotated-stamps) | checker-bitmap-direct-tree | 28,311,552 | 2,056,730 | +26,254,822 |
+| [rotated-stamps](by-dataset.md#rotated-stamps) | checker-bitmap-orbit-book | 28,311,552 | 5,438,702 | +22,872,850 |
+| [rotated-stamps](by-dataset.md#rotated-stamps) | checker-bitmap-rotated-book | 28,311,552 | 622,587 | +27,688,965 |
 | [shared-orbit-1000](by-dataset.md#shared-orbit-1000) | checker-direct | 25,165,824 | 21,999,209 | +3,166,615 |
 | [shared-orbit-1000](by-dataset.md#shared-orbit-1000) | checker-individual | 25,165,824 | 13,612,025 | +11,553,799 |
 | [shared-orbit-1000](by-dataset.md#shared-orbit-1000) | checker-joint | 25,165,824 | 12,415,836 | +12,749,988 |
 | [shared-orbit-1000](by-dataset.md#shared-orbit-1000) | checker-shared | 25,165,824 | 12,415,836 | +12,749,988 |
+| [uniform](by-dataset.md#uniform) | checker-bitmap-direct-book | 25,165,824 | 30,949,326 | -5,783,502 |
+| [uniform](by-dataset.md#uniform) | checker-bitmap-orbit-book | 25,165,824 | 30,949,976 | -5,784,152 |
+| [uniform](by-dataset.md#uniform) | checker-bitmap-select | 25,165,824 | 25,168,724 | -2,900 |
+| [uniform](by-dataset.md#uniform) | checker-bitmap-xor-flat | 25,165,824 | 25,168,943 | -3,119 |
 | [uniform](by-dataset.md#uniform) | checker-direct | 25,165,824 | 25,166,508 | -684 |
 | [uniform](by-dataset.md#uniform) | checker-individual | 25,165,824 | 25,166,508 | -684 |
 | [uniform](by-dataset.md#uniform) | checker-joint | 25,165,824 | 25,166,508 | -684 |

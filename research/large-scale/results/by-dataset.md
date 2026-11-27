@@ -1,6 +1,6 @@
 # All large-file measurements
 
-695 verified archives across 53 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
+774 verified archives across 56 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
 
 The charged total includes the raw reference when the decoder requires it. Shared codec software is excluded. The [machine-readable receipts](archives.jsonl) include full input and archive hashes, selected parameters, and peak KiB where collected.
 
@@ -135,6 +135,28 @@ The charged total includes the raw reference when the decoder requires it. Share
 | zstd3 | 312,109,709 | 312,109,709 | 2.49688 | 24.989 | 9.032 |
 | views-direct | 314,928,681 | 314,928,681 | 2.51943 | 63.886 | 21.820 |
 
+## evolved-stamps
+
+28,311,552 raw bytes · SHA-256 `12bfb7cad6a1b19db9829f9bb0de84b5da171e69f139d66f1e7d8f0f10b8f97c`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| checker-bitmap-orbit-book | 622,703 | 622,703 | 0.17596 | 0.916 | 0.757 |
+| checker-bitmap-select | 622,703 | 622,703 | 0.17596 | 4.547 | 0.709 |
+| checker-bitmap-orbit-hot | 646,410 | 646,410 | 0.18266 | 1.442 | 1.178 |
+| checker-bitmap-orbit-hotplanes | 766,814 | 766,814 | 0.21668 | 1.760 | 1.275 |
+| checker-bitmap-orbit-tree | 808,254 | 808,254 | 0.22839 | 0.769 | 0.905 |
+| checker-bitmap-direct-book | 2,654,223 | 2,654,223 | 0.75000 | 0.279 | 0.321 |
+| checker-bitmap-direct-tree | 2,697,447 | 2,697,447 | 0.76222 | 0.314 | 0.396 |
+| checker-bitmap-xor-tree | 2,780,872 | 2,780,872 | 0.78579 | 0.360 | 0.495 |
+| checker-bitmap-xor-book | 2,823,895 | 2,823,895 | 0.79795 | 0.827 | 0.835 |
+| checker-bitmap-orbit-planes | 3,534,224 | 3,534,224 | 0.99867 | 1.461 | 1.277 |
+| checker-bitmap-rotated-book | 5,361,414 | 5,361,414 | 1.51498 | 1.851 | 1.285 |
+| checker-bitmap-orbit-flat | 7,132,908 | 7,132,908 | 2.01555 | 1.223 | 0.716 |
+| zstd3 | 9,210,663 | 9,210,663 | 2.60266 | 0.291 | 0.121 |
+| checker-bitmap-direct-flat | 9,211,051 | 9,211,051 | 2.60277 | 0.458 | 0.237 |
+| checker-bitmap-xor-flat | 9,512,240 | 9,512,240 | 2.68788 | 0.451 | 0.319 |
+
 ## evolved-volume
 
 25,165,824 raw bytes · SHA-256 `3e8438d9383b3a858a7cf81f72ad7cb071180390a7e39117cb5175cb31481aa0`
@@ -192,6 +214,22 @@ The charged total includes the raw reference when the decoder requires it. Share
 | zstd3 | 4,118,041 | 4,118,041 | 1.30909 | 0.262 | 0.126 |
 | pilot11-dag | 9,357,678 | 9,357,678 | 2.97473 | 409.926 | 6.981 |
 | pilot11-flat | 25,179,662 | 25,179,662 | 8.00440 | 23.571 | 51.652 |
+
+## graphs-shuffled-lines
+
+24,642,792 raw bytes · SHA-256 `a2380aad1732409bc6cf4ef34c69368157a0e08203935db60e1a160371bde9de`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| checker-bitmap-direct-flat | 1,846,387 | 1,846,387 | 0.59941 | 0.382 | 0.317 |
+| checker-bitmap-select | 1,846,387 | 1,846,387 | 0.59941 | 4.017 | 0.256 |
+| zstd3 | 1,849,717 | 1,849,717 | 0.60049 | 0.160 | 0.125 |
+| checker-bitmap-xor-flat | 2,405,283 | 2,405,283 | 0.78085 | 0.461 | 0.502 |
+| checker-bitmap-direct-tree | 2,827,555 | 2,827,555 | 0.91793 | 0.670 | 0.452 |
+| checker-bitmap-xor-hotplanes | 2,933,196 | 2,933,196 | 0.95223 | 1.155 | 1.222 |
+| checker-bitmap-xor-tree | 3,492,002 | 3,492,002 | 1.13364 | 1.014 | 1.008 |
+| checker-bitmap-direct-book | 3,608,591 | 3,608,591 | 1.17149 | 0.630 | 0.583 |
+| checker-bitmap-orbit-book | 6,277,729 | 6,277,729 | 2.03799 | 1.089 | 0.668 |
 
 ## hidden-products
 
@@ -322,13 +360,29 @@ The charged total includes the raw reference when the decoder requires it. Share
 | glyph-glyphs | 338,447 | 338,447 | 0.10987 | 8.436 | 2.341 |
 | jbig | 707,797 | 707,797 | 0.22978 | 3.561 | 5.169 |
 | glyph-jbig | 707,818 | 707,818 | 0.22979 | 3.545 | 3.609 |
+| checker-bitmap-xor-tree | 883,584 | 883,584 | 0.28685 | 0.279 | 0.330 |
 | shape | 901,604 | 901,604 | 0.29270 | 104.488 | 13.904 |
+| checker-bitmap-direct-tree | 926,786 | 926,786 | 0.30087 | 0.348 | 0.349 |
 | xz9e | 930,864 | 930,864 | 0.30219 | 61.869 | 0.589 |
+| checker-bitmap-select | 971,085 | 971,085 | 0.31525 | 2.647 | 0.438 |
+| checker-bitmap-xor-hot | 1,010,218 | 1,010,218 | 0.32796 | 0.924 | 0.851 |
 | zstd19 | 1,034,431 | 1,034,431 | 0.33582 | 24.100 | 0.081 |
+| checker-bitmap-direct-hot | 1,046,571 | 1,046,571 | 0.33976 | 0.808 | 0.987 |
+| checker-bitmap-xor-planes | 1,202,135 | 1,202,135 | 0.39026 | 0.665 | 0.771 |
 | glyph-direct | 1,206,504 | 1,206,504 | 0.39168 | 2.018 | 1.360 |
+| checker-bitmap-orbit-tree | 1,249,131 | 1,249,131 | 0.40552 | 0.692 | 0.904 |
+| checker-bitmap-direct-planes | 1,252,789 | 1,252,789 | 0.40670 | 0.909 | 0.610 |
 | group4 | 1,270,850 | 1,270,850 | 0.41257 | 119.160 | 3.477 |
+| checker-bitmap-xor-hotplanes | 1,273,929 | 1,273,929 | 0.41357 | 1.544 | 0.908 |
+| checker-bitmap-direct-hotplanes | 1,314,349 | 1,314,349 | 0.42669 | 0.632 | 1.033 |
 | zstd3 | 1,325,134 | 1,325,134 | 0.43019 | 0.459 | 0.166 |
+| checker-bitmap-direct-flat | 1,329,615 | 1,329,615 | 0.43164 | 0.242 | 0.174 |
+| checker-bitmap-xor-flat | 1,357,152 | 1,357,152 | 0.44058 | 0.273 | 0.190 |
+| checker-bitmap-xor-book | 1,383,476 | 1,383,476 | 0.44913 | 0.329 | 0.312 |
+| checker-bitmap-direct-book | 1,389,962 | 1,389,962 | 0.45124 | 0.389 | 0.352 |
 | png1 | 1,418,635 | 1,418,635 | 0.46054 | 11.290 | 2.944 |
+| checker-bitmap-orbit-book | 1,818,813 | 1,818,813 | 0.59046 | 1.042 | 0.819 |
+| checker-bitmap-orbit-flat | 2,159,692 | 2,159,692 | 0.70112 | 0.452 | 0.452 |
 | gfh-3-1 | 3,098,408 | 3,098,408 | 1.00586 | 82.681 | 65.656 |
 | pilot07-pre-1 | 3,112,119 | 3,112,119 | 1.01031 | 64.787 | 100.498 |
 | pilot05-local-bytes | 8,312,441 | 8,312,441 | 2.69854 | 302.298 | 29.921 |
@@ -352,20 +406,30 @@ The charged total includes the raw reference when the decoder requires it. Share
 | glyph-glyphs | 277,021 | 277,021 | 0.09126 | 8.377 | 2.337 |
 | jbig | 1,049,864 | 1,049,864 | 0.34587 | 3.976 | 6.758 |
 | glyph-jbig | 1,049,885 | 1,049,885 | 0.34587 | 3.261 | 3.683 |
+| checker-bitmap-xor-tree | 1,162,890 | 1,162,890 | 0.38310 | 0.714 | 0.911 |
+| checker-bitmap-direct-tree | 1,219,251 | 1,219,251 | 0.40167 | 0.773 | 0.539 |
+| checker-bitmap-select | 1,260,415 | 1,260,415 | 0.41523 | 2.895 | 0.613 |
 | shape | 1,283,911 | 1,283,911 | 0.42297 | 142.515 | 27.266 |
 | xz9e | 1,304,420 | 1,304,420 | 0.42973 | 54.416 | 0.343 |
+| checker-bitmap-xor-hot | 1,382,637 | 1,382,637 | 0.45550 | 0.833 | 0.769 |
 | zstd19 | 1,457,017 | 1,457,017 | 0.48000 | 24.837 | 0.076 |
 | group4 | 1,678,602 | 1,678,602 | 0.55300 | 183.917 | 5.764 |
 | glyph-direct | 1,705,163 | 1,705,163 | 0.56175 | 1.499 | 1.103 |
+| checker-bitmap-xor-planes | 1,745,733 | 1,745,733 | 0.57512 | 0.766 | 0.935 |
+| checker-bitmap-xor-hotplanes | 1,854,685 | 1,854,685 | 0.61101 | 0.651 | 0.825 |
+| checker-bitmap-xor-book | 1,884,392 | 1,884,392 | 0.62080 | 0.775 | 0.661 |
+| checker-bitmap-direct-book | 1,891,255 | 1,891,255 | 0.62306 | 0.648 | 0.550 |
 | zstd3 | 1,903,366 | 1,903,366 | 0.62705 | 0.374 | 0.317 |
 | modular-adaptive | 1,910,515 | 1,910,515 | 0.62940 | 6.095 | 1.028 |
 | modular-adaptive-joint | 1,910,515 | 1,910,515 | 0.62940 | 19.069 | 1.406 |
 | modular-direct | 1,910,515 | 1,910,515 | 0.62940 | 2.230 | 1.923 |
 | modular-orbit | 1,910,515 | 1,910,515 | 0.62940 | 18.372 | 2.139 |
 | modular-valuation-joint | 1,910,515 | 1,910,515 | 0.62940 | 8.934 | 0.400 |
+| checker-bitmap-xor-flat | 1,914,406 | 1,914,406 | 0.63068 | 0.571 | 0.430 |
 | png1 | 1,996,848 | 1,996,848 | 0.65784 | 10.313 | 4.838 |
 | pilot16-intervals-regions | 2,157,752 | 2,157,752 | 0.71085 | 913.789 | 1.369 |
 | pilot16-single | 2,157,752 | 2,157,752 | 0.71085 | 4.051 | 0.881 |
+| checker-bitmap-orbit-book | 2,422,761 | 2,422,761 | 0.79816 | 0.929 | 0.698 |
 | pilot16-fixed | 10,520,316 | 10,520,316 | 3.46582 | 56.062 | 19.452 |
 | pilot09-combined | 13,922,627 | 13,922,627 | 4.58668 | 1254.920 | 268.980 |
 | integer-modular-adjusted | 24,209,213 | 24,209,213 | 7.97550 | 89.804 | 11.867 |
@@ -385,10 +449,20 @@ The charged total includes the raw reference when the decoder requires it. Share
 | glyph-fuzzy | 257,250 | 257,250 | 0.06470 | 17.986 | 2.239 |
 | glyph-glyphs | 257,250 | 257,250 | 0.06470 | 9.339 | 2.645 |
 | jbig | 1,108,897 | 1,108,897 | 0.27889 | 2.649 | 3.164 |
+| checker-bitmap-xor-tree | 1,307,015 | 1,307,015 | 0.32872 | 1.325 | 1.511 |
 | shape | 1,331,683 | 1,331,683 | 0.33492 | 178.463 | 37.689 |
 | xz9e | 1,354,964 | 1,354,964 | 0.34077 | 114.222 | 1.194 |
+| checker-bitmap-direct-tree | 1,360,571 | 1,360,571 | 0.34218 | 0.640 | 1.017 |
+| checker-bitmap-select | 1,490,218 | 1,490,218 | 0.37479 | 1.914 | 0.499 |
 | zstd19 | 1,525,436 | 1,525,436 | 0.38365 | 73.979 | 1.055 |
+| checker-bitmap-xor-hot | 1,534,899 | 1,534,899 | 0.38603 | 1.043 | 1.386 |
 | glyph-direct | 1,796,363 | 1,796,363 | 0.45179 | 1.508 | 1.094 |
+| checker-bitmap-xor-planes | 1,847,812 | 1,847,812 | 0.46473 | 1.048 | 1.512 |
+| checker-bitmap-xor-flat | 1,988,651 | 1,988,651 | 0.50015 | 0.234 | 0.133 |
+| checker-bitmap-xor-hotplanes | 2,023,744 | 2,023,744 | 0.50897 | 1.172 | 1.036 |
+| checker-bitmap-xor-book | 2,025,143 | 2,025,143 | 0.50933 | 0.423 | 0.475 |
+| checker-bitmap-direct-book | 2,061,234 | 2,061,234 | 0.51840 | 0.403 | 0.370 |
+| checker-bitmap-orbit-book | 2,604,929 | 2,604,929 | 0.65514 | 0.598 | 0.482 |
 
 ## manual-valgrind
 
@@ -401,9 +475,19 @@ The charged total includes the raw reference when the decoder requires it. Share
 | djvu-wide | 828,622 | 828,622 | 0.21436 | 62.211 | 17.354 |
 | djvu | 868,904 | 868,904 | 0.22478 | 31.438 | 14.043 |
 | djvu-multi | 869,916 | 869,916 | 0.22504 | 30.324 | 12.981 |
+| checker-bitmap-xor-tree | 1,738,368 | 1,738,368 | 0.44971 | 1.479 | 1.030 |
+| checker-bitmap-direct-tree | 1,787,354 | 1,787,354 | 0.46238 | 1.431 | 1.190 |
 | xz9e | 1,795,240 | 1,795,240 | 0.46442 | 94.039 | 1.808 |
 | jbig | 1,980,581 | 1,980,581 | 0.51237 | 8.990 | 14.979 |
+| checker-bitmap-select | 1,998,256 | 1,998,256 | 0.51694 | 3.829 | 0.690 |
 | zstd19 | 2,032,818 | 2,032,818 | 0.52588 | 40.667 | 1.180 |
+| checker-bitmap-xor-hot | 2,042,640 | 2,042,640 | 0.52842 | 1.174 | 1.271 |
+| checker-bitmap-xor-planes | 2,508,155 | 2,508,155 | 0.64885 | 1.050 | 1.050 |
+| checker-bitmap-xor-flat | 2,675,415 | 2,675,415 | 0.69212 | 0.489 | 0.571 |
+| checker-bitmap-xor-hotplanes | 2,688,919 | 2,688,919 | 0.69561 | 1.537 | 1.058 |
+| checker-bitmap-direct-book | 2,769,540 | 2,769,540 | 0.71647 | 0.725 | 0.639 |
+| checker-bitmap-xor-book | 2,790,929 | 2,790,929 | 0.72200 | 0.650 | 0.837 |
+| checker-bitmap-orbit-book | 3,568,143 | 3,568,143 | 0.92307 | 1.339 | 1.076 |
 
 ## mapped-text
 
@@ -742,6 +826,18 @@ The charged total includes the raw reference when the decoder requires it. Share
 | zstd3 | 21,155,900 | 21,155,900 | 8.00019 | 0.210 | 0.126 |
 | xz9e | 21,156,512 | 21,156,512 | 8.00042 | 13.317 | 0.142 |
 
+## rotated-stamps
+
+28,311,552 raw bytes · SHA-256 `8a383997be8b1070c9100c4dbabf48482d8d7e0d85fdf4411922e05237112cc3`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| checker-bitmap-rotated-book | 622,587 | 622,587 | 0.17592 | 0.885 | 0.998 |
+| checker-bitmap-direct-tree | 2,056,730 | 2,056,730 | 0.58117 | 0.849 | 0.797 |
+| checker-bitmap-direct-book | 2,244,369 | 2,244,369 | 0.63419 | 0.872 | 0.753 |
+| checker-bitmap-orbit-book | 5,438,702 | 5,438,702 | 1.53681 | 1.126 | 1.099 |
+| zstd3 | 7,867,496 | 7,867,496 | 2.22312 | 0.741 | 0.354 |
+
 ## samba
 
 21,606,400 raw bytes · SHA-256 `93ba07bc44d8267789c1d911992f40b089ffa2140b4a160fac11ccae9a40e7b2`
@@ -854,10 +950,14 @@ The charged total includes the raw reference when the decoder requires it. Share
 | four-joint | 25,168,140 | 25,168,140 | 8.00074 | 59.974 | 0.834 |
 | four-orbit | 25,168,140 | 25,168,140 | 8.00074 | 48.124 | 0.760 |
 | four-rank | 25,168,140 | 25,168,140 | 8.00074 | 4.588 | 1.319 |
+| checker-bitmap-select | 25,168,724 | 25,168,724 | 8.00092 | 2.624 | 0.260 |
 | prime-fixed | 25,168,750 | 25,168,750 | 8.00093 | 3.099 | 1.869 |
+| checker-bitmap-xor-flat | 25,168,943 | 25,168,943 | 8.00099 | 0.407 | 0.362 |
 | sum-4096 | 25,173,018 | 25,173,018 | 8.00229 | 2.590 | 0.938 |
 | lattice-rows-joint | 25,312,692 | 25,312,692 | 8.04669 | 3.036 | 4.063 |
 | prime-sums | 27,092,567 | 27,092,567 | 8.61250 | 5.314 | 3.472 |
+| checker-bitmap-direct-book | 30,949,326 | 30,949,326 | 9.83853 | 1.466 | 0.688 |
+| checker-bitmap-orbit-book | 30,949,976 | 30,949,976 | 9.83873 | 1.458 | 1.002 |
 
 ## walk-distances
 

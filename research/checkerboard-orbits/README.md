@@ -4,6 +4,8 @@
 
 If many matrices lie on an orbit, is it cheaper to choose the sparsest predecessor of each matrix or to send one time for an entire page?
 
+A second experiment moves the two-phase update onto full-width document strips and splits the resulting matrix into quadrants. It compares a fixed inverse with a scanline predictor and prices a shared dictionary of 8 × 8 leaves. [Bitmap trees and the rotated-rule control](bitmap-trees.md)
+
 ### Source files and compatibility
 
 The toroidal checkerboard rule follows `lab/hutter/automa-8x8-passo-byte` and its orbit reports 004–005. The native CBO1 search extends the clock to 1,000 and supports both per-word and page-wide times.

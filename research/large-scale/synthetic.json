@@ -94,5 +94,35 @@
     "even": true,
     "bytes": 25165824,
     "sha256": "4481a8bb273b700f0e8a875006e35c48ac34d13cdd03abfbe259806fdedbbae3"
+  },
+  "evolved-stamps": {
+    "seed": 771037,
+    "program": "checkerboard-orbits/bitmap_controls.py",
+    "arguments": [],
+    "random_source": "NumPy Generator/PCG64",
+    "bytes": 28311552,
+    "sha256": "12bfb7cad6a1b19db9829f9bb0de84b5da171e69f139d66f1e7d8f0f10b8f97c"
+  },
+  "rotated-stamps": {
+    "seed": 771037,
+    "program": "checkerboard-orbits/bitmap_controls.py",
+    "arguments": [
+      "--rotated"
+    ],
+    "random_source": "NumPy Generator/PCG64",
+    "bytes": 28311552,
+    "sha256": "8a383997be8b1070c9100c4dbabf48482d8d7e0d85fdf4411922e05237112cc3"
+  },
+  "graphs-shuffled-lines": {
+    "seed": 771037,
+    "program": "checkerboard-orbits/bitmap_controls.py",
+    "arguments": [
+      "--shuffle-rows",
+      "runs/large/raw/manual-graphs"
+    ],
+    "random_source": "NumPy Generator/PCG64",
+    "bytes": 24642792,
+    "sha256": "a2380aad1732409bc6cf4ef34c69368157a0e08203935db60e1a160371bde9de",
+    "source_sha256": "ff0a6039e0d7031819452c56980333a95d9e12c7473c7e7ef0dfff5fd693e6c6"
   }
 }

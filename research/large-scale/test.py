@@ -174,6 +174,55 @@ class ReversibleModels(unittest.TestCase):
             with self.assertRaises(ValueError):
                 c.matrix(b"bad")
 
+    def test_bitmap_tree_wire_format_and_tails(self):
+        with engine("checkerboard-orbits", "bitmap") as b:
+            # The first 8x8 tile contains exactly one pixel. The first quadrant
+            # at each of three levels is occupied, and row zero of the leaf is 0x80.
+            grid = np.zeros((32, b.ROW), np.uint8)
+            grid[0, 0] = 128
+            tree = b.layout(grid, "tree")
+            root = bytes([128]) + bytes(6)
+            self.assertEqual(tree, root + b"\x80\x80\x80" + bytes(7))
+            for bad in (tree[:-1], tree + b"?", root + bytes(2)):
+                with self.assertRaises(ValueError):
+                    b.unlayout(bad, 32, "tree")
+            rng = np.random.default_rng(13)
+            for raw in (b"", b"\0", bytes(7936), rng.bytes(17), rng.bytes(b.BLOCK + 3)):
+                for mode in b.PROFILES:
+                    with self.subTest(size=len(raw), mode=mode):
+                        prepared, decoded = BytesIO(), BytesIO()
+                        b.encode(BytesIO(raw), prepared, mode)
+                        prepared.seek(0)
+                        b.decode(prepared, decoded)
+                        self.assertEqual(decoded.getvalue(), raw)
+            mixed = rng.integers(0, 256, (32, b.ROW), dtype=np.uint8)
+            mixed[:, 10:40] = mixed[:, :1]
+            for mode in ("book", "planes", "hot", "hotplanes"):
+                body = b.layout(mixed, mode)
+                np.testing.assert_array_equal(b.unlayout(body, 32, mode), mixed)
+                with self.assertRaises(ValueError):
+                    b.unlayout(body[:-1], 32, mode)
+
+    def test_bitmap_checker_zero_boundaries(self):
+        with engine("checkerboard-orbits", "bitmap") as b:
+            raw = np.array([[0x81, 0x81], [0x24, 0x18], [0xFF, 0x01]], np.uint8)
+            for rotated in (False, True):
+                expected = np.unpackbits(raw, axis=1)
+                for parity in (0, 1):
+                    previous = np.pad(expected, 1)
+                    for y, x in np.ndindex(expected.shape):
+                        if (x + y) % 2 == parity:
+                            left, right = previous[y + 1, x], previous[y + 1, x + 2]
+                            above, below = previous[y, x + 1], previous[y + 2, x + 1]
+                            if rotated:
+                                left, right, above, below = above, below, left, right
+                            expected[y, x] ^= (left & right) ^ (above | below)
+                result = b.checker(raw, forward=True, rotated=rotated)
+                np.testing.assert_array_equal(result, np.packbits(expected, axis=1))
+                np.testing.assert_array_equal(
+                    b.checker(result, forward=False, rotated=rotated), raw
+                )
+
     def test_checkerboard_matches_cell_update(self):
         def phase(word, even):
             dst = word

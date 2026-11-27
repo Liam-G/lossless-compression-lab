@@ -45,6 +45,18 @@ PROFILES = (
             "field-prefix",
         )
     ),
+    *(
+        "checker-bitmap-" + name
+        for name in (
+            *(
+                p + "-" + form
+                for p in ("direct", "xor", "orbit")
+                for form in ("flat", "tree", "book", "planes", "hot", "hotplanes")
+            ),
+            "rotated-book",
+            "select",
+        )
+    ),
     "modular-joint",
     "views-bwt",
     "views-mtf",
@@ -116,15 +128,17 @@ def witness_body(src, dst, transform):
 def transcode(data, restore=False):
     src = BytesIO(data)
     tag = take(src, 4)
-    if tag == b"RGR1" and not restore:
-        stream = zstd.ZstdDecompressor().decompress(src.read())
-        if not stream.startswith(b"RGP1"):
-            raise ValueError("Invalid row representation")
-        return stream, "lattice-rows-select"
-    if tag == b"RGP1" and restore:
-        return b"RGR1" + zstd.ZstdCompressor(level=3).compress(
-            data
-        ), "lattice-rows-select"
+    for outer, prepared, decoder in (
+        (b"RGR1", b"RGP1", "lattice-rows-select"),
+        (b"CBZ1", b"CBP1", "checker-bitmap-select"),
+    ):
+        if tag == outer and not restore:
+            stream = zstd.ZstdDecompressor().decompress(src.read())
+            if not stream.startswith(prepared):
+                raise ValueError("Invalid prepared representation")
+            return stream, decoder
+        if tag == prepared and restore:
+            return outer + zstd.ZstdCompressor(level=3).compress(data), decoder
     if tag == b"LCP1" and len(data) >= 14 and data[4] in (1, 6, 7, 10, 11):
         # These five formats serialize their records without a terminal general compressor.
         return data, "collection"

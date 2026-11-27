@@ -6,9 +6,11 @@ This English research repository contains 16 thesis experiments, three cross-exp
 
 The comparison uses two paths on identical input: **raw → standard compressor** and **reversible preprocessing → the same compressor**. We measure byte entropy before and after preprocessing, count every byte needed to undo it, and verify that both paths reconstruct the input.
 
-![Byte entropy before and after preprocessing, alongside measured Zstandard savings. NOAA field routing leaves byte entropy near 3.95 bits and saves 40.85%. On Wikipedia the BWT leaves byte-frequency entropy nearly unchanged and saves 1.87%. On real numerical data lattice prediction lowers byte entropy from 6.35 to 4.93 bits per byte and saves 23.27%.](research/large-scale/results/preprocessing.png)
+![Byte entropy before and after preprocessing, alongside measured Zstandard savings. NOAA field routing leaves byte entropy near 3.95 bits and saves 40.85%. On the Graphviz library manual, byte entropy rises from 1.09 to 3.65 on a shorter stream and Zstandard saves 38.90%. On Wikipedia the BWT leaves byte-frequency entropy nearly unchanged and saves 1.87%. On real numerical data lattice prediction lowers byte entropy from 6.35 to 4.93 bits per byte and saves 23.27%.](research/large-scale/results/preprocessing.png)
 
 On two **24 MiB** samples of NOAA weather reports, simply gathering the bytes of each field together saved **40.85%** and **41.11%** with Zstandard. Byte-frequency entropy barely moved. Encoding a shared prefix against the previous value of the same field raised the savings to **43.34%** and **47.18%**. On UCI Covertype, grouping by field and byte position saved **37.62%**. [Weather and forest-cover experiments, controls and reproduction](research/lattice-prediction/ragged-rows.md)
+
+On four typeset manuals, XORing adjacent scanlines and skipping empty quadrants saved **32.66–38.90%** with Zstandard. On the Graphviz library manual the prepared stream shrank from 24.28 MB to 4.31 MB even as its H0 rose from **1.090 to 3.649** bits per byte. [Bitmap trees, automata and before/after entropy](research/checkerboard-orbits/bitmap-trees.md)
 
 The BWT on Wikipedia illustrates why we also measure context. Its byte histogram barely changed, but the next-byte entropy given the preceding byte fell from **3.881 to 2.801 bits**. That helped gzip and Zstandard. XZ compressed the original ordering better. [Paired entropy, stream lengths and sizes for all three compressors](research/large-scale/results/preprocessing.md)
 

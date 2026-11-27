@@ -13,10 +13,12 @@ PLOTS = [
     ("noaa-2020-prefix", "lattice-rows-fields", "NOAA · CSV field routing"),
     ("noaa-2020-prefix", "lattice-rows-delta", "NOAA · equal-width row differences"),
     ("covertype-prefix", "lattice-rows-field-positions", "Covertype · field and position"),
+    ("manual-library", "checker-bitmap-xor-tree", "Graphviz manual · XOR + tile tree"),
     ("numerical", "lattice-joint", "Numerical data · lattice prediction"),
     ("whiteboard-witnesses", "witness-joint", "Original witnesses · formula columns"),
     ("hidden-products", "shared-shared", "Generated products · factor tree"),
     ("modular-panels", "modular-joint", "Generated panels · cellular orbit"),
+    ("evolved-stamps", "checker-bitmap-orbit-book", "Generated stamps · CA + dictionary"),
 ]
 
 
@@ -92,7 +94,7 @@ def write_report(rows, folder):
         "cmp runs/large/raw/numerical runs/paired/numerical.out",
         "```",
         "",
-        "The numbered pilots here already emit a reversible record stream. The adapter preserves the encoder’s block choices. For block-compressed formats it removes the terminal Zstandard frames and updates their lengths. For row profiles it removes the outer Zstandard wrapper and measures the complete RGP1 stream. On restore it supplies the framing expected by the corresponding decoder. All backends receive the same frozen representation, including the modes selected by the original encoder’s internal cost model. These observations cover the listed profiles and inputs.",
+        "The numbered pilots here already emit a reversible record stream. The adapter preserves the encoder’s block choices. For block-compressed formats it removes the terminal Zstandard frames and updates their lengths. For row and bitmap profiles it removes the outer Zstandard wrapper and measures the complete RGP1 or CBP1 stream. On restore it supplies the framing expected by the corresponding decoder. All backends receive the same frozen representation, including the modes selected by the original encoder’s internal cost model. These observations cover the listed profiles and inputs.",
         "",
         "The [machine-readable receipts](preprocessing.jsonl) give the complete input, prepared and compressed stream hashes, commands, versions and byte counts. The [corpus manifest and preparation instructions](../README.md#inputs) describe their provenance.",
     ]
@@ -139,7 +141,7 @@ def chart(rows, dest):
         ax.tick_params(axis="x", length=0, pad=5)
     left.set_xlim(-0.2, 8.2)
     left.set_xticks([0, 2, 4, 6, 8])
-    left.set_xlabel("Bits per byte")
+    left.set_xlabel("Bits per byte of each stream")
     left.set_title("Byte entropy (H0)", loc="left")
     transform = blended_transform_factory(left.transAxes, left.transData)
     right.set_title("Savings with Zstandard 3", loc="left")

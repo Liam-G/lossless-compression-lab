@@ -32,6 +32,13 @@ def check_preprocessing(receipts):
         stream = streams[name, "raw"]
         if (pin["bytes"], pin["sha256"]) != (stream["bytes"], stream["sha256"]):
             raise ValueError(f"Row input pin mismatch for {name}")
+    for line in (directory / "bitmap-occupancy.jsonl").read_text().splitlines():
+        row = json.loads(line)
+        raw = streams[row["dataset"], "raw"]
+        if (row["bytes"], row["sha256"]) != (raw["bytes"], raw["sha256"]):
+            raise ValueError(
+                f"Bitmap inspection used the wrong input for {row['dataset']}"
+            )
     probes = (directory / "row-matches.jsonl").read_text().splitlines()
     for line in probes:
         probe = json.loads(line)
