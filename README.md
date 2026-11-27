@@ -2,7 +2,15 @@
 
 This English research repository contains 16 thesis experiments, three cross-experiment studies and 28 research projects recovered or extended from the original compression lab. The [large-file benchmark](research/large-scale/README.md) requires at least **20 MiB of raw input per trial** and checks exact reconstruction. The [idea atlas](research/evidence/idea-atlas.md) connects the local project conversations, the 51-topic dossier, and the original whiteboard formula to measured experiments and open proposals.
 
-## Benchmark summary
+## Does preprocessing help a standard compressor?
+
+The comparison uses two paths on identical input: **raw → standard compressor** and **reversible preprocessing → the same compressor**. We measure byte entropy before and after preprocessing, count every byte needed to undo it, and verify that both paths reconstruct the input.
+
+![Byte entropy before and after preprocessing, alongside measured Zstandard savings. On Wikipedia the BWT leaves byte-frequency entropy nearly unchanged and saves 1.87%. On real numerical data lattice prediction lowers byte entropy from 6.35 to 4.93 bits per byte and saves 23.27%.](research/large-scale/results/preprocessing.png)
+
+The BWT on Wikipedia illustrates why we also measure context. Its byte histogram barely changed, but the next-byte entropy given the preceding byte fell from **3.881 to 2.801 bits**. That helped gzip and Zstandard. XZ compressed the original ordering better. [Paired entropy, stream lengths and sizes for all three compressors](research/large-scale/results/preprocessing.md)
+
+## Standalone archive comparison
 
 Each bar compares a verified experimental archive with XZ extreme on the same raw input. Positive values mean a smaller archive. The cellular orbit with Kronecker factors saved 82.2% on generated matrix products and used 28.2% more space on the real Silesia numerical stream.
 

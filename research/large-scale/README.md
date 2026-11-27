@@ -2,6 +2,10 @@
 
 Every published row contains **at least 20 MiB (20,971,520 raw bytes)**. The runner encodes the whole named input, launches a separate decoder and compares every reconstructed byte with the source using `cmp`. It records the complete archive size and SHA-256 only after that comparison succeeds. The [full results by dataset](results/by-dataset.md) give archive sizes, reference charges, rates and timings. The [index by experiment](results/by-experiment.md) groups the same observations by implementation. The [JSONL receipts](results/archives.jsonl) also identify the archive, source, configuration, and recorded selections.
 
+## Preprocessing and byte entropy
+
+The [paired preprocessing measurements](results/preprocessing.md) report before/after entropy on the reversible stream, followed by identical gzip, Zstandard and XZ runs on both representations. The whole-archive tables below answer the separate question of final file size for each codec.
+
 ## What worked, and on which data
 
 | Question | Complete raw input | Measured result |

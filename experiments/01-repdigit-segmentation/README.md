@@ -75,6 +75,8 @@ See the [width and density sweep](results/reference/comparison.csv), [per-profil
 
 On `wiki-transfer` (25,165,824 raw bytes), `pilot01-adaptive-ratios` produced 25,178,126 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../../research/large-scale/results/by-experiment.md#01-repdigit-segmentation)
 
+Both measured wiki-transfer profiles found zero profitable formula patches across 768 chunks. The 12,302-byte increase came from the outer header and record framing. A whole-stream Zstandard 3 pass used 8,968,455 bytes on the original and 8,973,354 bytes after the adaptive preprocessor. [Before/after entropy and matched backend results](../../research/large-scale/results/preprocessing.md)
+
 ## Connections
 
 Experiment 02 can use the arithmetic recipes as leaves in factor trees. Experiments 15 and 16 can consume intervals with their encoded cost and compare regeneration against copying or literal storage.

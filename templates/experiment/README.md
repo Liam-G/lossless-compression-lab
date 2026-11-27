@@ -22,7 +22,7 @@ Use at least 20 MiB raw input per primary benchmark and verify an independent de
 
 ## Results
 
-Link to the project section in research/large-scale/results/by-experiment.md and summarize the most informative results here. The canonical machine-readable records live in research/large-scale/results/archives.jsonl. Keep any original small diagnostic tables under results/reference. Report archive bytes, metadata bytes, search and decode time, peak memory, round-trip equality and decoder delivery cost. Compare with raw input and Zstd. For a two-component experiment, calculate min(bytes A, bytes B) − bytes A+B. Give the crossover or other experiment-specific outcome and explain the limits of the evidence.
+Link to the project section in research/large-scale/results/by-experiment.md and summarize the most informative results here. The canonical machine-readable records live in research/large-scale/results/archives.jsonl. Keep any original small diagnostic tables under results/reference. Report archive bytes, metadata bytes, search and decode time, peak memory, round-trip equality and decoder delivery cost. For a preprocessor, compare the same standard compressor on the raw and prepared streams, including serialized side information. Give H0, H1, both stream lengths and final byte counts. For a two-component experiment, calculate min(bytes A, bytes B) − bytes A+B. Give the crossover or other experiment-specific outcome and explain the limits of the evidence.
 
 ## Large-file benchmark
 

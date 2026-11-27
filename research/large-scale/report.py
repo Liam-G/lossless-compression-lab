@@ -101,6 +101,15 @@ def experiment_pages():
 def project_index(records, output):
     from os.path import relpath
 
+    paired_path = Path(__file__).resolve().parent / "results/preprocessing.jsonl"
+    paired = (
+        {
+            (r["raw"]["sha256"], r["profile"]): r
+            for r in map(json.loads, paired_path.read_text().splitlines())
+        }
+        if paired_path.exists()
+        else {}
+    )
     groups = experiment_pages()
     projects = {}
     for folder in groups.values():
@@ -113,6 +122,13 @@ def project_index(records, output):
         "# Measurements by experiment",
         "",
         "Compare the original input (raw bytes) with the complete encoded file (archive bytes). Bytes saved equals the raw size minus the archive and any required reference. Positive values mean compression. Negative values mean expansion. Projects that use a reference also show the total if the receiver needs that reference delivered. Shared decoder software is excluded. Select an input for same-file baselines and timings.",
+        "",
+        "For entropy before and after preprocessing and matched standard-compressor comparisons, see the [paired preprocessing study]("
+        + relpath(
+            Path(__file__).resolve().parent / "results/preprocessing.md",
+            output.resolve(),
+        )
+        + ").",
         "",
     ]
     for folder, rows in projects.items():
@@ -130,6 +146,27 @@ def project_index(records, output):
                 "",
             ]
         )
+        comparisons = [
+            paired[(r["input_sha256"], r["codec"])]
+            for r in rows
+            if (r["input_sha256"], r["codec"]) in paired
+        ]
+        if comparisons:
+            lines.extend(
+                [
+                    "**Preprocessing before Zstandard 3**",
+                    "",
+                    "| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |",
+                    "|---|---|---:|---:|---:|",
+                ]
+            )
+            for r in comparisons:
+                a, b = r["raw"], r["prepared"]
+                sizes = r["backends"]["zstd-3"]
+                lines.append(
+                    f"| {r['dataset']} | {r['profile']} | {a['h0']:.4f} → {b['h0']:.4f} | {a['h1']:.4f} → {b['h1']:.4f} | {sizes['raw']['bytes']:,} → {sizes['prepared']['bytes']:,} |"
+                )
+            lines.extend(["", "**Standalone archive sizes**", ""])
         include_reference = any(row["delivered_reference_bytes"] for row in rows)
         columns = ["Input", "Profile", "Raw bytes", "Archive bytes"]
         if include_reference:
@@ -148,7 +185,12 @@ def project_index(records, output):
                 method += f" ({row['knobs']['reference']})"
             raw = row["input_bytes"]
             total = row["archive_plus_reference_bytes"]
-            cells = [f"[{name}](by-dataset.md#{anchor})", method, f"{raw:,}", f"{row['archive_bytes']:,}"]
+            cells = [
+                f"[{name}](by-dataset.md#{anchor})",
+                method,
+                f"{raw:,}",
+                f"{row['archive_bytes']:,}",
+            ]
             if include_reference:
                 cells.append(f"{total:,}")
             saved = raw - total

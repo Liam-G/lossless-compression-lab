@@ -2,10 +2,21 @@
 
 Compare the original input (raw bytes) with the complete encoded file (archive bytes). Bytes saved equals the raw size minus the archive and any required reference. Positive values mean compression. Negative values mean expansion. Projects that use a reference also show the total if the receiver needs that reference delivered. Shared decoder software is excluded. Select an input for same-file baselines and timings.
 
+For entropy before and after preprocessing and matched standard-compressor comparisons, see the [paired preprocessing study](preprocessing.md).
+
 <a id="01-repdigit-segmentation"></a>
 ## Experiment 01 · Repdigit ratios and adaptive segmentation
 
 [Implementation and protocol](../../../experiments/01-repdigit-segmentation/README.md)
+
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| wiki-transfer | pilot01-adaptive-ratios | 5.0850 → 5.0884 | 3.8807 → 3.8808 | 8,968,455 → 8,973,354 |
+| wiki-transfer | pilot01-fixed-direct | 5.0850 → 5.0884 | 3.8807 → 3.8808 | 8,968,455 → 8,973,349 |
+
+**Standalone archive sizes**
 
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
@@ -57,6 +68,14 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 
 [Implementation and protocol](../../../experiments/06-reversible-automata/README.md)
 
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| shared-orbit-1000 | pilot06-checker-3-fixed | 6.9648 → 7.7281 | 6.3175 → 7.4767 | 21,987,747 → 21,474,587 |
+
+**Standalone archive sizes**
+
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
 | [shared-orbit-1000](by-dataset.md#shared-orbit-1000) | pilot06-checker-3-fixed | 25,165,824 | 22,274,238 | +2,891,586 |
@@ -66,6 +85,14 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 ## Experiment 07 · Automata and recursive GF(2) factorization
 
 [Implementation and protocol](../../../experiments/07-recursive-gf2/README.md)
+
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| manual-graphs | pilot07-pre-1 | 0.7646 → 6.8702 | 0.5291 → 5.9196 | 1,325,130 → 2,215,382 |
+
+**Standalone archive sizes**
 
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
@@ -96,6 +123,15 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 
 [Implementation and protocol](../../../experiments/10-affine-chains/README.md)
 
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| affine-pairs | pilot10-conditional | 3.7941 → 4.8886 | 2.3861 → 3.4200 | 9,297,291 → 9,175,295 |
+| affine-pairs | pilot10-fixed | 3.7941 → 7.9116 | 2.3861 → 7.8929 | 9,297,291 → 6,304,683 |
+
+**Standalone archive sizes**
+
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
 | [affine-pairs](by-dataset.md#affine-pairs) | pilot10-conditional | 25,165,824 | 15,979,518 | +9,186,306 |
@@ -106,6 +142,14 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 ## Experiment 11 · Grammars and shared subexpressions
 
 [Implementation and protocol](../../../experiments/11-shared-subexpressions/README.md)
+
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| formula-text | pilot11-dag | 3.6110 → 4.7847 | 1.1528 → 1.7253 | 4,118,040 → 2,187,854 |
+
+**Standalone archive sizes**
 
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
@@ -231,6 +275,14 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 
 [Implementation and protocol](../../shared-factor-forest/README.md)
 
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| hidden-products | shared-shared | 6.3745 → 7.9279 | 4.3616 → 7.7994 | 14,343,986 → 13,038,675 |
+
+**Standalone archive sizes**
+
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
 | [affine-pairs](by-dataset.md#affine-pairs) | shared-direct | 25,165,824 | 10,160,796 | +15,005,028 |
@@ -346,6 +398,15 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 ## The whiteboard census and its formula witnesses
 
 [Implementation and protocol](../../whiteboard-census/README.md)
+
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| shuffled-witnesses | witness-joint | 2.9495 → 3.0670 | 2.7803 → 1.7457 | 6,474,999 → 3,768,334 |
+| whiteboard-witnesses | witness-joint | 2.9495 → 1.9285 | 2.7803 → 0.7663 | 4,602,354 → 1,109,554 |
+
+**Standalone archive sizes**
 
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
@@ -478,6 +539,16 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 
 [Implementation and protocol](../../modular-kronecker/README.md)
 
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| modular-panels | modular-joint | 7.9918 → 1.6383 | 7.9873 → 1.2147 | 25,166,413 → 4,478,573 |
+| numerical | modular-joint | 6.3494 → 6.3493 | 5.5271 → 5.5270 | 15,163,679 → 15,164,986 |
+| uniform | modular-joint | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 25,166,413 → 25,167,385 |
+
+**Standalone archive sizes**
+
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
 | [manual-library](by-dataset.md#manual-library) | modular-adaptive | 24,283,584 | 1,910,515 | +22,373,069 |
@@ -520,6 +591,14 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 
 [Implementation and protocol](../../four-dimensional-factors/README.md)
 
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| noisy-spacetime | four-joint | 7.9645 → 3.2005 | 7.9554 → 2.0327 | 25,166,413 → 9,397,974 |
+
+**Standalone archive sizes**
+
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
 | [noisy-spacetime](by-dataset.md#noisy-spacetime) | four-direct | 25,165,824 | 25,120,549 | +45,275 |
@@ -547,6 +626,15 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 ## Jointly learning a cellular rule and the matrix of its prediction errors
 
 [Implementation and protocol](../../learned-cellular-rules/README.md)
+
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| learned-field | learned-coupled | 7.9931 → 3.5692 | 7.9890 → 2.7951 | 29,389,440 → 11,276,527 |
+| luma-jake | learned-coupled | 6.0905 → 1.1219 | 2.2173 → 0.4218 | 1,716,540 → 1,796,738 |
+
+**Standalone archive sizes**
 
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
@@ -591,6 +679,14 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 ## Local integer grids and bit-plane residuals
 
 [Implementation and protocol](../../lattice-prediction/README.md)
+
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| numerical | lattice-joint | 6.3494 → 4.9333 | 5.5271 → 3.7053 | 15,163,679 → 11,635,203 |
+
+**Standalone archive sizes**
 
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
@@ -717,6 +813,15 @@ Compare the original input (raw bytes) with the complete encoded file (archive b
 ## Text fields, BWT and move-to-front
 
 [Implementation and protocol](../../text-views/README.md)
+
+**Preprocessing before Zstandard 3**
+
+| Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
+|---|---|---:|---:|---:|
+| wiki-transfer | views-bwt | 5.0850 → 5.0851 | 3.8807 → 2.8011 | 8,968,455 → 8,800,771 |
+| wiki-transfer | views-mtf | 5.0850 → 2.6119 | 3.8807 → 2.3702 | 8,968,455 → 8,662,902 |
+
+**Standalone archive sizes**
 
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|

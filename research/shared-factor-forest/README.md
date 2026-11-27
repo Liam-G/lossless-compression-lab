@@ -36,6 +36,8 @@ Direct, factor-only and formula-only all gave 14,336,766 bytes on the plant. Inl
 
 On `hidden-products` (25,165,824 raw bytes), `shared-shared` produced 13,097,327 archive bytes. Zstandard level 3 used 14,343,987 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#hidden-products) · [All project measurements](../large-scale/results/by-experiment.md#shared-factor-forest)
 
+On the generated hidden products, the full representation before a standard compressor occupied 13,379,724 bytes from 25,165,824 raw bytes. Its byte entropy increased from 6.374 to 7.928 bits per byte. Accounting for its shorter length gives 4.215 post-transform H0 bits per original byte. Whole-stream Zstandard 3 shrank from 14,343,986 to 13,038,675 bytes. [Matched preprocessing measurements](../large-scale/results/preprocessing.md)
+
 ## Connections
 
 Experiment 01 defines the leaves, experiment 02 the factor operations and experiment 11 the shared-expression question. The [carry tree](../carry-trees/README.md) measures an alternate way of deciding where to split.

@@ -3,6 +3,10 @@
 Primary benchmark results are in the [large-file suite](research/large-scale/README.md). Every primary row verifies at least 20 MiB of complete raw input. The smaller cases below serve as diagnostic fixtures, compatibility vectors and mechanism tests.
 
 
+## Preprocessing measurements
+
+Run each whole-stream backend twice with identical settings and input handling. Compare the compressed raw file with the compressed, fully serialized reversible representation. Record both stream lengths, empirical byte entropy (H0), conditional byte entropy given one preceding byte (H1), and the actual backend byte counts. Count the entire prepared stream, including all information needed to invert the transform. To compare streams of different lengths, also report post H0 multiplied by prepared bytes / raw bytes. The paired ratio is compressed prepared bytes / compressed raw bytes. Both paths must decode byte for byte. [Results, receipts and reproduction](research/large-scale/results/preprocessing.md)
+
 ## Archive costs
 
 Experiment 01 reads and writes RPS1. Experiments 02–16 use LCX1. Its fixed prefix contains four magic bytes followed by one byte each for experiment ID and profile index. An unsigned LEB128 field gives the original size, followed by a four-byte big-endian metadata length, the metadata stream and the body. Each experiment defines its records and inverse. Headers, selectors, dictionary definitions, references and literal padding all count toward the measured archive size.

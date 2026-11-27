@@ -692,6 +692,56 @@ class ReversibleModels(unittest.TestCase):
             self.assertNotEqual(check.returncode, 0)
             self.assertFalse(dest.exists())
 
+    def test_empirical_byte_entropy_and_chunk_boundary(self):
+        from entropy_bench import describe
+        from math import log2
+        from collections import Counter
+
+        self.assertEqual(describe(b"")["h0"], 0)
+        self.assertEqual(describe(b"x")["h1"], 0)
+        cyclic = describe(bytes(range(256)) * 8)
+        self.assertEqual(cyclic["h0"], 8)
+        self.assertEqual(cyclic["h1"], 0)
+        data = b"a" * (1 << 20) + b"ba"
+        observed = Counter(zip(data, data[1:]))
+        previous = Counter(data[:-1])
+        expected = -sum(n * log2(n / previous[a]) for (a, _), n in observed.items()) / (
+            len(data) - 1
+        )
+        self.assertAlmostEqual(describe(data)["h1"], expected, places=12)
+
+    def test_prepared_stream_contains_side_information(self):
+        from preprocess import transcode
+        import struct
+        import zstandard as zstd
+
+        header = struct.Struct(">4sIIQ")
+        record = struct.Struct(">BBI")
+        side = bytes(range(40))
+        body = bytes(range(64))
+        coded = zstd.ZstdCompressor(level=6).compress(body)
+        native = (
+            header.pack(b"LCA1", 8, 8, 1)
+            + record.pack(2, 2, len(side + coded))
+            + side
+            + coded
+        )
+        plain, _ = transcode(native)
+        self.assertEqual(
+            plain,
+            header.pack(b"LCAP", 8, 8, 1)
+            + record.pack(2, 2, len(side + body))
+            + side
+            + body,
+        )
+        self.assertEqual(transcode(plain, restore=True)[0], native)
+        with self.assertRaises(ValueError):
+            transcode(plain)
+        with self.assertRaises(ValueError):
+            transcode(native[:-1])
+        with self.assertRaises(ValueError):
+            transcode(b"unknown")
+
     def test_receipts_and_minimum(self):
         import report
 
