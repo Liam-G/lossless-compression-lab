@@ -6,7 +6,9 @@ This English research repository contains 16 thesis experiments, three cross-exp
 
 The comparison uses two paths on identical input: **raw → standard compressor** and **reversible preprocessing → the same compressor**. We measure byte entropy before and after preprocessing, count every byte needed to undo it, and verify that both paths reconstruct the input.
 
-![Byte entropy before and after preprocessing, alongside measured Zstandard savings. On Wikipedia the BWT leaves byte-frequency entropy nearly unchanged and saves 1.87%. On real numerical data lattice prediction lowers byte entropy from 6.35 to 4.93 bits per byte and saves 23.27%.](research/large-scale/results/preprocessing.png)
+![Byte entropy before and after preprocessing, alongside measured Zstandard savings. NOAA field routing leaves byte entropy near 3.95 bits and saves 40.85%. On Wikipedia the BWT leaves byte-frequency entropy nearly unchanged and saves 1.87%. On real numerical data lattice prediction lowers byte entropy from 6.35 to 4.93 bits per byte and saves 23.27%.](research/large-scale/results/preprocessing.png)
+
+On two **24 MiB** samples of NOAA weather reports, simply gathering the bytes of each field together saved **40.85%** and **41.11%** with Zstandard. Byte-frequency entropy barely moved. Encoding a shared prefix against the previous value of the same field raised the savings to **43.34%** and **47.18%**. On UCI Covertype, grouping by field and byte position saved **37.62%**. [Weather and forest-cover experiments, controls and reproduction](research/lattice-prediction/ragged-rows.md)
 
 The BWT on Wikipedia illustrates why we also measure context. Its byte histogram barely changed, but the next-byte entropy given the preceding byte fell from **3.881 to 2.801 bits**. That helped gzip and Zstandard. XZ compressed the original ordering better. [Paired entropy, stream lengths and sizes for all three compressors](research/large-scale/results/preprocessing.md)
 
@@ -16,7 +18,7 @@ Each bar compares a verified experimental archive with XZ extreme on the same ra
 
 ![Archive size reductions versus XZ extreme. On archived and real data, whiteboard witness coding saved 59.6%, glyph coding saved 78.0%, lattice prediction saved 10.6%, and cellular Kronecker coding used 28.2% more space. On generated data, cellular Kronecker coding saved 82.2%, joint cellular rule learning saved 62.4%, and shared factor trees saved 1.6%.](research/large-scale/results/readme-summary.png)
 
-[Exact sizes and timings for all 627 benchmark results](research/large-scale/results/by-dataset.md)
+[Exact sizes and timings for all benchmark results](research/large-scale/results/by-dataset.md)
 
 ## Project highlights
 

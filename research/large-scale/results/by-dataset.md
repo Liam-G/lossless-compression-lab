@@ -1,6 +1,6 @@
 # All large-file measurements
 
-627 verified archives across 49 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
+695 verified archives across 53 named inputs. Each row represents one complete encode, decode and byte comparison. Inputs can overlap across studies. Times are seconds from one run on a shared machine. Archive and reference sizes are bytes.
 
 The charged total includes the raw reference when the decoder requires it. Shared codec software is excluded. The [machine-readable receipts](archives.jsonl) include full input and archive hashes, selected parameters, and peak KiB where collected.
 
@@ -95,6 +95,19 @@ The charged total includes the raw reference when the decoder requires it. Share
 | decimal-64000000 | 96,994,346 | 96,994,346 | 3.32193 | 159.959 | 368.037 |
 | decimal-1000000 | 97,001,941 | 97,001,941 | 3.32219 | 105.699 | 116.955 |
 | zstd3 | 114,336,073 | 114,336,073 | 3.91587 | 10.461 | 2.999 |
+
+## covertype-prefix
+
+25,165,824 raw bytes · SHA-256 `bf1f664919a72ae6f44ea81268e7085b9b6d09ce3f6c8743207df8723f06ee98`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| lattice-rows-field-positions | 2,499,177 | 2,499,177 | 0.79447 | 0.525 | 0.420 |
+| lattice-rows-field-prefix | 3,360,912 | 3,360,912 | 1.06841 | 0.561 | 0.413 |
+| lattice-rows-fields | 3,371,995 | 3,371,995 | 1.07193 | 0.698 | 0.492 |
+| lattice-rows-joint | 3,427,252 | 3,427,252 | 1.08949 | 0.687 | 0.580 |
+| zstd3 | 3,997,074 | 3,997,074 | 1.27064 | 0.154 | 0.077 |
+| lattice-rows-prefix | 4,181,076 | 4,181,076 | 1.32913 | 0.951 | 0.663 |
 
 ## enwik8
 
@@ -505,18 +518,47 @@ The charged total includes the raw reference when the decoder requires it. Share
 | views-joint | 2,280,295 | 2,280,295 | 0.54368 | 70.941 | 3.429 |
 | views-bwt | 2,280,687 | 2,280,687 | 0.54377 | 5.173 | 2.580 |
 | views-mtf | 2,280,687 | 2,280,687 | 0.54377 | 8.153 | 2.806 |
+| lattice-rows-route-select | 2,493,007 | 2,493,007 | 0.59440 | 9.648 | 1.492 |
+| lattice-rows-select | 2,493,007 | 2,493,007 | 0.59440 | 6.897 | 1.325 |
+| lattice-rows-columns | 2,499,589 | 2,499,589 | 0.59597 | 1.590 | 0.869 |
+| lattice-rows-joint | 2,763,518 | 2,763,518 | 0.65889 | 1.343 | 1.611 |
+| lattice-rows-fields | 2,834,997 | 2,834,997 | 0.67594 | 0.787 | 0.565 |
 | zstd3 | 2,835,400 | 2,835,400 | 0.67603 | 0.086 | 0.048 |
 | views-text | 2,855,044 | 2,855,044 | 0.68072 | 55.996 | 2.158 |
 | views-direct | 2,864,760 | 2,864,760 | 0.68303 | 0.831 | 0.981 |
+| lattice-rows-framed | 2,894,848 | 2,894,848 | 0.69021 | 1.105 | 0.787 |
 | lattice-direct | 2,897,140 | 2,897,140 | 0.69075 | 0.382 | 0.333 |
 | lattice-joint | 2,897,140 | 2,897,140 | 0.69075 | 60.025 | 0.281 |
 | lattice-layout | 2,897,140 | 2,897,140 | 0.69075 | 4.852 | 0.341 |
 | lattice-predict | 2,897,140 | 2,897,140 | 0.69075 | 5.588 | 0.273 |
+| lattice-rows-prefix | 2,939,148 | 2,939,148 | 0.70077 | 0.551 | 0.396 |
+| lattice-rows-field-prefix | 2,939,827 | 2,939,827 | 0.70093 | 0.537 | 0.527 |
+| lattice-rows-field-positions | 3,186,434 | 3,186,434 | 0.75973 | 1.790 | 0.723 |
+| lattice-rows-above | 3,210,541 | 3,210,541 | 0.76548 | 5.134 | 4.989 |
+| lattice-rows-delta | 3,252,940 | 3,252,940 | 0.77558 | 1.820 | 1.893 |
 | tensor-combined | 4,690,214 | 4,690,214 | 1.11827 | 24.318 | 0.402 |
 | tensor-direct | 4,690,214 | 4,690,214 | 1.11827 | 0.698 | 0.512 |
 | tensor-orbit | 4,690,214 | 4,690,214 | 1.11827 | 10.560 | 0.486 |
 | tensor-rank | 4,690,214 | 4,690,214 | 1.11827 | 2.219 | 0.493 |
 | shape | 8,743,426 | 8,743,426 | 2.08466 | 66.023 | 9.544 |
+
+## nci-row-shuffled
+
+33,553,445 raw bytes · SHA-256 `8df3c7bbb83661ea7a145737ae4533cadb30f723e372bb1f0102a73ca1e6d55e`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| lattice-rows-columns | 11,837,029 | 11,837,029 | 2.82225 | 1.897 | 1.077 |
+| lattice-rows-route-select | 11,837,029 | 11,837,029 | 2.82225 | 15.192 | 1.596 |
+| lattice-rows-select | 11,837,029 | 11,837,029 | 2.82225 | 11.072 | 1.390 |
+| lattice-rows-framed | 11,919,156 | 11,919,156 | 2.84183 | 1.308 | 0.869 |
+| zstd3 | 12,578,513 | 12,578,513 | 2.99904 | 0.988 | 0.320 |
+| lattice-rows-fields | 12,584,223 | 12,584,223 | 3.00040 | 0.674 | 0.406 |
+| lattice-rows-field-positions | 12,695,852 | 12,695,852 | 3.02702 | 0.615 | 0.343 |
+| lattice-rows-prefix | 12,813,712 | 12,813,712 | 3.05512 | 0.805 | 0.491 |
+| lattice-rows-field-prefix | 12,815,904 | 12,815,904 | 3.05564 | 0.822 | 0.583 |
+| lattice-rows-joint | 13,576,147 | 13,576,147 | 3.23690 | 2.585 | 1.769 |
+| lattice-rows-delta | 18,077,240 | 18,077,240 | 4.31008 | 2.864 | 1.626 |
 
 ## neif-archive9
 
@@ -533,6 +575,48 @@ The charged total includes the raw reference when the decoder requires it. Share
 | carry-direct | 89,346,426 | 89,346,426 | 8.00000 | 0.700 | 0.754 |
 | carry-joint | 89,346,426 | 89,346,426 | 8.00000 | 33.529 | 1.000 |
 | carry-split | 89,346,426 | 89,346,426 | 8.00000 | 2.205 | 0.734 |
+
+## noaa-1990-prefix
+
+25,165,824 raw bytes · SHA-256 `7f34f6fd6dd4205ae3945ce5a744d744f449d9a976b8adcd5d203d75f556ab8d`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| lattice-rows-field-prefix | 1,851,287 | 1,851,287 | 0.58851 | 1.679 | 0.685 |
+| lattice-rows-route-select | 2,014,421 | 2,014,421 | 0.64037 | 9.414 | 0.997 |
+| lattice-rows-fields | 2,066,584 | 2,066,584 | 0.65695 | 1.139 | 0.974 |
+| lattice-rows-field-positions | 2,296,741 | 2,296,741 | 0.73011 | 1.312 | 0.805 |
+| lattice-rows-positions | 3,163,742 | 3,163,742 | 1.00573 | 1.115 | 0.903 |
+| lattice-rows-select | 3,230,095 | 3,230,095 | 1.02682 | 7.515 | 1.355 |
+| lattice-rows-columns | 3,234,817 | 3,234,817 | 1.02832 | 1.382 | 1.032 |
+| lattice-rows-above | 3,342,275 | 3,342,275 | 1.06248 | 5.589 | 5.536 |
+| lattice-rows-joint | 3,407,235 | 3,407,235 | 1.08313 | 1.110 | 1.031 |
+| zstd3 | 3,541,940 | 3,541,940 | 1.12595 | 0.543 | 0.194 |
+| lattice-rows-literal | 3,546,099 | 3,546,099 | 1.12727 | 0.428 | 0.308 |
+| lattice-rows-framed | 3,746,780 | 3,746,780 | 1.19107 | 1.027 | 0.832 |
+| lattice-rows-prefix | 3,786,850 | 3,786,850 | 1.20381 | 1.465 | 0.798 |
+| lattice-rows-delta | 3,834,129 | 3,834,129 | 1.21884 | 1.403 | 1.248 |
+
+## noaa-2020-prefix
+
+25,165,824 raw bytes · SHA-256 `d6421f0b2bbf8560f4ee580d643597950f249a555a00df6cbf59711cbff75690`
+
+| Codec | Archive | With required reference | Bits per raw byte | Encode s | Decode s |
+|---|---:|---:|---:|---:|---:|
+| lattice-rows-field-prefix | 2,002,982 | 2,002,982 | 0.63673 | 1.001 | 1.219 |
+| lattice-rows-route-select | 2,062,346 | 2,062,346 | 0.65560 | 7.225 | 0.636 |
+| lattice-rows-fields | 2,077,403 | 2,077,403 | 0.66039 | 1.267 | 0.751 |
+| lattice-rows-field-positions | 2,354,265 | 2,354,265 | 0.74840 | 1.218 | 0.568 |
+| lattice-rows-columns | 3,302,573 | 3,302,573 | 1.04986 | 1.455 | 1.191 |
+| lattice-rows-select | 3,302,573 | 3,302,573 | 1.04986 | 7.654 | 1.233 |
+| lattice-rows-positions | 3,318,696 | 3,318,696 | 1.05499 | 1.059 | 0.908 |
+| lattice-rows-joint | 3,478,146 | 3,478,146 | 1.10567 | 1.035 | 1.203 |
+| lattice-rows-above | 3,519,194 | 3,519,194 | 1.11872 | 3.526 | 4.715 |
+| zstd3 | 3,552,109 | 3,552,109 | 1.12919 | 0.476 | 0.249 |
+| lattice-rows-literal | 3,554,623 | 3,554,623 | 1.12998 | 0.422 | 0.301 |
+| lattice-rows-framed | 3,741,661 | 3,741,661 | 1.18944 | 1.073 | 0.713 |
+| lattice-rows-prefix | 3,767,003 | 3,767,003 | 1.19750 | 1.678 | 1.024 |
+| lattice-rows-delta | 3,887,200 | 3,887,200 | 1.23571 | 1.185 | 1.112 |
 
 ## noisy-spacetime
 
@@ -762,6 +846,8 @@ The charged total includes the raw reference when the decoder requires it. Share
 | shared-shared | 25,166,508 | 25,166,508 | 8.00022 | 172.823 | 1.231 |
 | modular-direct | 25,166,796 | 25,166,796 | 8.00031 | 2.137 | 1.515 |
 | modular-joint | 25,166,796 | 25,166,796 | 8.00031 | 26.702 | 1.771 |
+| lattice-rows-route-select | 25,166,909 | 25,166,909 | 8.00034 | 9.383 | 0.545 |
+| lattice-rows-select | 25,166,909 | 25,166,909 | 8.00034 | 10.112 | 0.655 |
 | xz9e | 25,167,136 | 25,167,136 | 8.00042 | 11.410 | 0.034 |
 | four-direct | 25,168,140 | 25,168,140 | 8.00074 | 0.882 | 0.824 |
 | four-equivalent | 25,168,140 | 25,168,140 | 8.00074 | 7.082 | 1.470 |
@@ -770,6 +856,7 @@ The charged total includes the raw reference when the decoder requires it. Share
 | four-rank | 25,168,140 | 25,168,140 | 8.00074 | 4.588 | 1.319 |
 | prime-fixed | 25,168,750 | 25,168,750 | 8.00093 | 3.099 | 1.869 |
 | sum-4096 | 25,173,018 | 25,173,018 | 8.00229 | 2.590 | 0.938 |
+| lattice-rows-joint | 25,312,692 | 25,312,692 | 8.04669 | 3.036 | 4.063 |
 | prime-sums | 27,092,567 | 27,092,567 | 8.61250 | 5.314 | 3.472 |
 
 ## walk-distances
@@ -841,7 +928,9 @@ The charged total includes the raw reference when the decoder requires it. Share
 |---|---:|---:|---:|---:|---:|
 | xz9e | 8,368,672 | 8,368,672 | 1.61484 | 81.337 | 0.730 |
 | zstd19 | 8,679,705 | 8,679,705 | 1.67486 | 44.412 | 0.205 |
+| lattice-rows-select | 12,097,762 | 12,097,762 | 2.33442 | 13.864 | 0.700 |
 | zstd3 | 12,107,198 | 12,107,198 | 2.33624 | 0.400 | 0.099 |
+| lattice-rows-joint | 34,320,561 | 34,320,561 | 6.62260 | 2.665 | 1.928 |
 
 ## whiteboard-costs
 
@@ -952,12 +1041,19 @@ The charged total includes the raw reference when the decoder requires it. Share
 | views-mtf | 8,637,232 | 8,637,232 | 2.74570 | 6.124 | 2.520 |
 | views-bwt | 8,759,477 | 8,759,477 | 2.78456 | 3.986 | 1.809 |
 | views-text | 8,804,216 | 8,804,216 | 2.79878 | 158.612 | 14.020 |
+| lattice-rows-select | 8,962,957 | 8,962,957 | 2.84925 | 10.491 | 0.618 |
 | zstd3 | 8,968,456 | 8,968,456 | 2.85100 | 0.311 | 0.072 |
+| lattice-rows-route-select | 8,983,638 | 8,983,638 | 2.85582 | 17.545 | 0.623 |
 | views-direct | 9,032,653 | 9,032,653 | 2.87140 | 1.529 | 1.393 |
+| lattice-rows-prefix | 9,083,523 | 9,083,523 | 2.88757 | 0.556 | 0.319 |
 | lattice-direct | 9,108,718 | 9,108,718 | 2.89558 | 0.375 | 0.262 |
 | lattice-joint | 9,108,718 | 9,108,718 | 2.89558 | 32.775 | 0.255 |
 | lattice-layout | 9,108,718 | 9,108,718 | 2.89558 | 3.042 | 0.251 |
 | lattice-predict | 9,108,718 | 9,108,718 | 2.89558 | 5.836 | 0.256 |
+| lattice-rows-fields | 9,169,822 | 9,169,822 | 2.91501 | 0.615 | 0.408 |
+| lattice-rows-field-prefix | 9,257,618 | 9,257,618 | 2.94292 | 0.663 | 0.399 |
+| lattice-rows-field-positions | 11,108,131 | 11,108,131 | 3.53118 | 1.571 | 0.874 |
+| lattice-rows-joint | 15,741,722 | 15,741,722 | 5.00416 | 3.032 | 2.611 |
 | shape | 20,974,546 | 20,974,546 | 6.66763 | 50.864 | 7.656 |
 | whiteboard | 25,165,837 | 25,165,837 | 8.00000 | 12.385 | 0.365 |
 | qrt-seeded | 25,165,851 | 25,165,851 | 8.00001 | 2.664 | 1.723 |

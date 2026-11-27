@@ -684,12 +684,81 @@ For entropy before and after preprocessing and matched standard-compressor compa
 
 | Input | Profile | Byte entropy H0 before → after | Conditional entropy H1 before → after | Zstd bytes before → after |
 |---|---|---:|---:|---:|
+| covertype-prefix | lattice-rows-field-positions | 2.2843 → 2.3029 | 1.3298 → 1.0673 | 3,997,073 → 2,493,345 |
+| covertype-prefix | lattice-rows-field-prefix | 2.2843 → 2.5326 | 1.3298 → 1.2712 | 3,997,073 → 3,365,027 |
+| covertype-prefix | lattice-rows-fields | 2.2843 → 2.2866 | 1.3298 → 1.3302 | 3,997,073 → 3,372,812 |
+| covertype-prefix | lattice-rows-joint | 2.2843 → 1.3312 | 1.3298 → 0.9613 | 3,997,073 → 3,422,678 |
+| covertype-prefix | lattice-rows-prefix | 2.2843 → 2.6163 | 1.3298 → 1.3132 | 3,997,073 → 4,185,009 |
+| nci | lattice-rows-above | 2.4293 → 1.7313 | 1.9466 → 1.0145 | 2,835,396 → 3,218,569 |
+| nci | lattice-rows-columns | 2.4293 → 2.4775 | 1.9466 → 0.6467 | 2,835,396 → 2,489,621 |
+| nci | lattice-rows-delta | 2.4293 → 1.2887 | 1.9466 → 0.8982 | 2,835,396 → 3,259,904 |
+| nci | lattice-rows-field-positions | 2.4293 → 2.4463 | 1.9466 → 1.7480 | 2,835,396 → 3,183,691 |
+| nci | lattice-rows-field-prefix | 2.4293 → 2.6398 | 1.9466 → 1.9028 | 2,835,396 → 2,943,388 |
+| nci | lattice-rows-fields | 2.4293 → 2.4309 | 1.9466 → 1.9466 | 2,835,396 → 2,836,967 |
+| nci | lattice-rows-framed | 2.4293 → 2.4775 | 1.9466 → 1.8443 | 2,835,396 → 2,897,093 |
+| nci | lattice-rows-joint | 2.4293 → 1.2887 | 1.9466 → 0.7681 | 2,835,396 → 2,761,194 |
+| nci | lattice-rows-prefix | 2.4293 → 2.6393 | 1.9466 → 1.9022 | 2,835,396 → 2,942,762 |
+| nci | lattice-rows-route-select | 2.4293 → 2.5964 | 1.9466 → 0.6633 | 2,835,396 → 2,483,811 |
+| nci | lattice-rows-select | 2.4293 → 2.5964 | 1.9466 → 0.6633 | 2,835,396 → 2,483,811 |
+| nci-row-shuffled | lattice-rows-columns | 2.4293 → 2.4775 | 2.3190 → 2.1755 | 12,578,509 → 11,833,316 |
+| nci-row-shuffled | lattice-rows-delta | 2.4293 → 3.9131 | 2.3190 → 3.6970 | 12,578,509 → 18,077,269 |
+| nci-row-shuffled | lattice-rows-field-positions | 2.4293 → 2.4463 | 2.3190 → 2.3469 | 12,578,509 → 12,691,175 |
+| nci-row-shuffled | lattice-rows-field-prefix | 2.4293 → 2.5895 | 2.3190 → 2.3101 | 12,578,509 → 12,812,624 |
+| nci-row-shuffled | lattice-rows-fields | 2.4293 → 2.4309 | 2.3190 → 2.3189 | 12,578,509 → 12,579,574 |
+| nci-row-shuffled | lattice-rows-framed | 2.4293 → 2.4775 | 2.3190 → 2.1714 | 12,578,509 → 11,915,614 |
+| nci-row-shuffled | lattice-rows-joint | 2.4293 → 3.9131 | 2.3190 → 2.6379 | 12,578,509 → 13,578,836 |
+| nci-row-shuffled | lattice-rows-prefix | 2.4293 → 2.5891 | 2.3190 → 2.3095 | 12,578,509 → 12,811,858 |
+| nci-row-shuffled | lattice-rows-route-select | 2.4293 → 2.4775 | 2.3190 → 2.1755 | 12,578,509 → 11,833,316 |
+| nci-row-shuffled | lattice-rows-select | 2.4293 → 2.4775 | 2.3190 → 2.1755 | 12,578,509 → 11,833,316 |
+| noaa-1990-prefix | lattice-rows-above | 3.9764 → 2.1622 | 2.6846 → 1.4320 | 3,541,939 → 3,343,075 |
+| noaa-1990-prefix | lattice-rows-columns | 3.9764 → 4.0526 | 2.6846 → 1.0043 | 3,541,939 → 3,221,769 |
+| noaa-1990-prefix | lattice-rows-delta | 3.9764 → 1.5805 | 2.6846 → 1.0964 | 3,541,939 → 3,835,972 |
+| noaa-1990-prefix | lattice-rows-field-positions | 3.9764 → 3.9918 | 2.6846 → 0.9572 | 3,541,939 → 2,307,035 |
+| noaa-1990-prefix | lattice-rows-field-prefix | 3.9764 → 3.7762 | 2.6846 → 1.9335 | 3,541,939 → 1,870,761 |
+| noaa-1990-prefix | lattice-rows-fields | 3.9764 → 3.9783 | 2.6846 → 2.6957 | 3,541,939 → 2,086,007 |
+| noaa-1990-prefix | lattice-rows-framed | 3.9764 → 4.0526 | 2.6846 → 2.7191 | 3,541,939 → 3,744,492 |
+| noaa-1990-prefix | lattice-rows-joint | 3.9764 → 1.5805 | 2.6846 → 1.0309 | 3,541,939 → 3,402,507 |
+| noaa-1990-prefix | lattice-rows-literal | 3.9764 → 3.9767 | 2.6846 → 2.6847 | 3,541,939 → 3,542,684 |
+| noaa-1990-prefix | lattice-rows-positions | 3.9764 → 3.9796 | 2.6846 → 3.0985 | 3,541,939 → 3,164,406 |
+| noaa-1990-prefix | lattice-rows-prefix | 3.9764 → 3.9579 | 2.6846 → 2.2792 | 3,541,939 → 3,784,147 |
+| noaa-1990-prefix | lattice-rows-route-select | 3.9764 → 3.9859 | 2.6846 → 2.6750 | 3,541,939 → 2,032,120 |
+| noaa-1990-prefix | lattice-rows-select | 3.9764 → 4.1541 | 2.6846 → 1.1110 | 3,541,939 → 3,216,603 |
+| noaa-2020-prefix | lattice-rows-above | 3.9485 → 2.1309 | 2.8067 → 1.4288 | 3,552,108 → 3,517,969 |
+| noaa-2020-prefix | lattice-rows-columns | 3.9485 → 4.0258 | 2.8067 → 1.0384 | 3,552,108 → 3,292,962 |
+| noaa-2020-prefix | lattice-rows-delta | 3.9485 → 1.6280 | 2.8067 → 1.1176 | 3,552,108 → 3,888,816 |
+| noaa-2020-prefix | lattice-rows-field-positions | 3.9485 → 3.9639 | 2.8067 → 0.9553 | 3,552,108 → 2,364,895 |
+| noaa-2020-prefix | lattice-rows-field-prefix | 3.9485 → 3.8387 | 2.8067 → 2.0128 | 3,552,108 → 2,012,489 |
+| noaa-2020-prefix | lattice-rows-fields | 3.9485 → 3.9504 | 2.8067 → 2.8159 | 3,552,108 → 2,100,930 |
+| noaa-2020-prefix | lattice-rows-framed | 3.9485 → 4.0258 | 2.8067 → 2.8370 | 3,552,108 → 3,741,542 |
+| noaa-2020-prefix | lattice-rows-joint | 3.9485 → 1.6280 | 2.8067 → 1.0679 | 3,552,108 → 3,474,417 |
+| noaa-2020-prefix | lattice-rows-literal | 3.9485 → 3.9488 | 2.8067 → 2.8068 | 3,552,108 → 3,552,823 |
+| noaa-2020-prefix | lattice-rows-positions | 3.9485 → 3.9516 | 2.8067 → 3.2197 | 3,552,108 → 3,322,140 |
+| noaa-2020-prefix | lattice-rows-prefix | 3.9485 → 3.9139 | 2.8067 → 2.3761 | 3,552,108 → 3,763,027 |
+| noaa-2020-prefix | lattice-rows-route-select | 3.9485 → 3.9516 | 2.8067 → 2.8413 | 3,552,108 → 2,085,342 |
+| noaa-2020-prefix | lattice-rows-select | 3.9485 → 4.0258 | 2.8067 → 1.0384 | 3,552,108 → 3,292,962 |
 | numerical | lattice-joint | 6.3494 → 4.9333 | 5.5271 → 3.7053 | 15,163,679 → 11,635,203 |
+| uniform | lattice-rows-joint | 8.0000 → 7.9964 | 7.9981 → 7.9819 | 25,166,413 → 25,312,688 |
+| uniform | lattice-rows-route-select | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 25,166,413 → 25,166,905 |
+| uniform | lattice-rows-select | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 25,166,413 → 25,166,905 |
+| webster | lattice-rows-joint | 4.9707 → 6.7647 | 3.4171 → 5.8431 | 12,107,194 → 34,326,394 |
+| webster | lattice-rows-select | 4.9707 → 4.9710 | 3.4171 → 3.4171 | 12,107,194 → 12,109,357 |
+| wiki-transfer | lattice-rows-field-positions | 5.0850 → 5.0990 | 3.8807 → 4.3003 | 8,968,455 → 11,111,894 |
+| wiki-transfer | lattice-rows-field-prefix | 5.0850 → 5.1774 | 3.8807 → 3.8770 | 8,968,455 → 9,262,307 |
+| wiki-transfer | lattice-rows-fields | 5.0850 → 5.0863 | 3.8807 → 3.8892 | 8,968,455 → 9,166,657 |
+| wiki-transfer | lattice-rows-joint | 5.0850 → 6.2922 | 3.8807 → 5.3031 | 8,968,455 → 15,754,527 |
+| wiki-transfer | lattice-rows-prefix | 5.0850 → 5.1749 | 3.8807 → 3.8635 | 8,968,455 → 9,089,552 |
+| wiki-transfer | lattice-rows-route-select | 5.0850 → 5.0854 | 3.8807 → 3.8828 | 8,968,455 → 8,987,947 |
+| wiki-transfer | lattice-rows-select | 5.0850 → 5.0852 | 3.8807 → 3.8807 | 8,968,455 → 8,968,995 |
 
 **Standalone archive sizes**
 
 | Input | Profile | Raw bytes | Archive bytes | Bytes saved |
 |---|---|---:|---:|---:|
+| [covertype-prefix](by-dataset.md#covertype-prefix) | lattice-rows-field-positions | 25,165,824 | 2,499,177 | +22,666,647 |
+| [covertype-prefix](by-dataset.md#covertype-prefix) | lattice-rows-field-prefix | 25,165,824 | 3,360,912 | +21,804,912 |
+| [covertype-prefix](by-dataset.md#covertype-prefix) | lattice-rows-fields | 25,165,824 | 3,371,995 | +21,793,829 |
+| [covertype-prefix](by-dataset.md#covertype-prefix) | lattice-rows-joint | 25,165,824 | 3,427,252 | +21,738,572 |
+| [covertype-prefix](by-dataset.md#covertype-prefix) | lattice-rows-prefix | 25,165,824 | 4,181,076 | +20,984,748 |
 | [mesa-update](by-dataset.md#mesa-update) | lattice-joint19 | 67,133,440 | 18,718,222 | +48,415,218 |
 | [mozilla](by-dataset.md#mozilla) | lattice-direct | 51,220,480 | 18,547,895 | +32,672,585 |
 | [mozilla](by-dataset.md#mozilla) | lattice-direct-xz | 51,220,480 | 14,330,877 | +36,889,603 |
@@ -703,6 +772,53 @@ For entropy before and after preprocessing and matched standard-compressor compa
 | [nci](by-dataset.md#nci) | lattice-joint | 33,553,445 | 2,897,140 | +30,656,305 |
 | [nci](by-dataset.md#nci) | lattice-layout | 33,553,445 | 2,897,140 | +30,656,305 |
 | [nci](by-dataset.md#nci) | lattice-predict | 33,553,445 | 2,897,140 | +30,656,305 |
+| [nci](by-dataset.md#nci) | lattice-rows-above | 33,553,445 | 3,210,541 | +30,342,904 |
+| [nci](by-dataset.md#nci) | lattice-rows-columns | 33,553,445 | 2,499,589 | +31,053,856 |
+| [nci](by-dataset.md#nci) | lattice-rows-delta | 33,553,445 | 3,252,940 | +30,300,505 |
+| [nci](by-dataset.md#nci) | lattice-rows-field-positions | 33,553,445 | 3,186,434 | +30,367,011 |
+| [nci](by-dataset.md#nci) | lattice-rows-field-prefix | 33,553,445 | 2,939,827 | +30,613,618 |
+| [nci](by-dataset.md#nci) | lattice-rows-fields | 33,553,445 | 2,834,997 | +30,718,448 |
+| [nci](by-dataset.md#nci) | lattice-rows-framed | 33,553,445 | 2,894,848 | +30,658,597 |
+| [nci](by-dataset.md#nci) | lattice-rows-joint | 33,553,445 | 2,763,518 | +30,789,927 |
+| [nci](by-dataset.md#nci) | lattice-rows-prefix | 33,553,445 | 2,939,148 | +30,614,297 |
+| [nci](by-dataset.md#nci) | lattice-rows-route-select | 33,553,445 | 2,493,007 | +31,060,438 |
+| [nci](by-dataset.md#nci) | lattice-rows-select | 33,553,445 | 2,493,007 | +31,060,438 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-columns | 33,553,445 | 11,837,029 | +21,716,416 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-delta | 33,553,445 | 18,077,240 | +15,476,205 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-field-positions | 33,553,445 | 12,695,852 | +20,857,593 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-field-prefix | 33,553,445 | 12,815,904 | +20,737,541 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-fields | 33,553,445 | 12,584,223 | +20,969,222 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-framed | 33,553,445 | 11,919,156 | +21,634,289 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-joint | 33,553,445 | 13,576,147 | +19,977,298 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-prefix | 33,553,445 | 12,813,712 | +20,739,733 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-route-select | 33,553,445 | 11,837,029 | +21,716,416 |
+| [nci-row-shuffled](by-dataset.md#nci-row-shuffled) | lattice-rows-select | 33,553,445 | 11,837,029 | +21,716,416 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-above | 25,165,824 | 3,342,275 | +21,823,549 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-columns | 25,165,824 | 3,234,817 | +21,931,007 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-delta | 25,165,824 | 3,834,129 | +21,331,695 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-field-positions | 25,165,824 | 2,296,741 | +22,869,083 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-field-prefix | 25,165,824 | 1,851,287 | +23,314,537 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-fields | 25,165,824 | 2,066,584 | +23,099,240 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-framed | 25,165,824 | 3,746,780 | +21,419,044 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-joint | 25,165,824 | 3,407,235 | +21,758,589 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-literal | 25,165,824 | 3,546,099 | +21,619,725 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-positions | 25,165,824 | 3,163,742 | +22,002,082 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-prefix | 25,165,824 | 3,786,850 | +21,378,974 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-route-select | 25,165,824 | 2,014,421 | +23,151,403 |
+| [noaa-1990-prefix](by-dataset.md#noaa-1990-prefix) | lattice-rows-select | 25,165,824 | 3,230,095 | +21,935,729 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-above | 25,165,824 | 3,519,194 | +21,646,630 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-columns | 25,165,824 | 3,302,573 | +21,863,251 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-delta | 25,165,824 | 3,887,200 | +21,278,624 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-field-positions | 25,165,824 | 2,354,265 | +22,811,559 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-field-prefix | 25,165,824 | 2,002,982 | +23,162,842 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-fields | 25,165,824 | 2,077,403 | +23,088,421 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-framed | 25,165,824 | 3,741,661 | +21,424,163 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-joint | 25,165,824 | 3,478,146 | +21,687,678 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-literal | 25,165,824 | 3,554,623 | +21,611,201 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-positions | 25,165,824 | 3,318,696 | +21,847,128 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-prefix | 25,165,824 | 3,767,003 | +21,398,821 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-route-select | 25,165,824 | 2,062,346 | +23,103,478 |
+| [noaa-2020-prefix](by-dataset.md#noaa-2020-prefix) | lattice-rows-select | 25,165,824 | 3,302,573 | +21,863,251 |
 | [numerical](by-dataset.md#numerical) | lattice-direct | 25,696,748 | 15,227,864 | +10,468,884 |
 | [numerical](by-dataset.md#numerical) | lattice-direct-xz | 25,696,748 | 11,846,741 | +13,850,007 |
 | [numerical](by-dataset.md#numerical) | lattice-direct19 | 25,696,748 | 13,601,994 | +12,094,754 |
@@ -729,7 +845,12 @@ For entropy before and after preprocessing and matched standard-compressor compa
 | [uniform](by-dataset.md#uniform) | lattice-joint19 | 25,165,824 | 25,166,052 | -228 |
 | [uniform](by-dataset.md#uniform) | lattice-layout | 25,165,824 | 25,166,052 | -228 |
 | [uniform](by-dataset.md#uniform) | lattice-predict | 25,165,824 | 25,166,052 | -228 |
+| [uniform](by-dataset.md#uniform) | lattice-rows-joint | 25,165,824 | 25,312,692 | -146,868 |
+| [uniform](by-dataset.md#uniform) | lattice-rows-route-select | 25,165,824 | 25,166,909 | -1,085 |
+| [uniform](by-dataset.md#uniform) | lattice-rows-select | 25,165,824 | 25,166,909 | -1,085 |
 | [walk-distances](by-dataset.md#walk-distances) | lattice-joint19 | 21,155,400 | 8,773,798 | +12,381,602 |
+| [webster](by-dataset.md#webster) | lattice-rows-joint | 41,458,703 | 34,320,561 | +7,138,142 |
+| [webster](by-dataset.md#webster) | lattice-rows-select | 41,458,703 | 12,097,762 | +29,360,941 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-direct | 25,165,824 | 9,108,718 | +16,057,106 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-direct-xz | 25,165,824 | 7,602,472 | +17,563,352 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-direct19 | 25,165,824 | 7,824,376 | +17,341,448 |
@@ -738,6 +859,13 @@ For entropy before and after preprocessing and matched standard-compressor compa
 | [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-joint19 | 25,165,824 | 7,824,376 | +17,341,448 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-layout | 25,165,824 | 9,108,718 | +16,057,106 |
 | [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-predict | 25,165,824 | 9,108,718 | +16,057,106 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-rows-field-positions | 25,165,824 | 11,108,131 | +14,057,693 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-rows-field-prefix | 25,165,824 | 9,257,618 | +15,908,206 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-rows-fields | 25,165,824 | 9,169,822 | +15,996,002 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-rows-joint | 25,165,824 | 15,741,722 | +9,424,102 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-rows-prefix | 25,165,824 | 9,083,523 | +16,082,301 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-rows-route-select | 25,165,824 | 8,983,638 | +16,182,186 |
+| [wiki-transfer](by-dataset.md#wiki-transfer) | lattice-rows-select | 25,165,824 | 8,962,957 | +16,202,867 |
 
 <a id="distance-geometry"></a>
 ## Distance matrices reconstructed from landmarks

@@ -10,6 +10,9 @@ HERE = Path(__file__).resolve().parent
 PLOTS = [
     ("wiki-transfer", "pilot01-adaptive-ratios", "Wikipedia · repdigit formulas"),
     ("wiki-transfer", "views-bwt", "Wikipedia · BWT"),
+    ("noaa-2020-prefix", "lattice-rows-fields", "NOAA · CSV field routing"),
+    ("noaa-2020-prefix", "lattice-rows-delta", "NOAA · equal-width row differences"),
+    ("covertype-prefix", "lattice-rows-field-positions", "Covertype · field and position"),
     ("numerical", "lattice-joint", "Numerical data · lattice prediction"),
     ("whiteboard-witnesses", "witness-joint", "Original witnesses · formula columns"),
     ("hidden-products", "shared-shared", "Generated products · factor tree"),
@@ -89,7 +92,7 @@ def write_report(rows, folder):
         "cmp runs/large/raw/numerical runs/paired/numerical.out",
         "```",
         "",
-        "The numbered pilots here already emit a reversible record stream. For the native formats in this study the adapter retains the encoder’s actual block choices, removes each terminal Zstandard frame, and updates its length. On restore it rebuilds those frames for the existing decoder. All backends receive the same frozen representation, including the modes selected by the original encoder’s internal cost model. These observations cover the listed profiles and inputs.",
+        "The numbered pilots here already emit a reversible record stream. The adapter preserves the encoder’s block choices. For block-compressed formats it removes the terminal Zstandard frames and updates their lengths. For row profiles it removes the outer Zstandard wrapper and measures the complete RGP1 stream. On restore it supplies the framing expected by the corresponding decoder. All backends receive the same frozen representation, including the modes selected by the original encoder’s internal cost model. These observations cover the listed profiles and inputs.",
         "",
         "The [machine-readable receipts](preprocessing.jsonl) give the complete input, prepared and compressed stream hashes, commands, versions and byte counts. The [corpus manifest and preparation instructions](../README.md#inputs) describe their provenance.",
     ]
@@ -121,7 +124,7 @@ def chart(rows, dest):
     fig, (left, right) = plt.subplots(
         1,
         2,
-        figsize=(11, 4.1),
+        figsize=(11, 1.4 + 0.45 * len(selected)),
         gridspec_kw={"width_ratios": [1.25, 1]},
         facecolor="white",
     )

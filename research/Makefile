@@ -8,7 +8,7 @@ all: $(BUILD)/orbit.so $(BUILD)/factor-tree $(BUILD)/quartic $(BUILD)/evolve.so 
 	$(BUILD)/text-views.so \
 	$(BUILD)/decimal-blocks \
 	$(BUILD)/panel-factors.so \
-	$(BUILD)/motion.so $(BUILD)/cellular-rules.so $(BUILD)/whiteboard-census $(BUILD)/whiteboard-census-host
+	$(BUILD)/motion.so $(BUILD)/cellular-rules.so $(BUILD)/whiteboard-census $(BUILD)/whiteboard-census-host $(BUILD)/field-lanes.so
 
 $(BUILD):
 	mkdir -p $@
@@ -75,3 +75,6 @@ $(BUILD)/whiteboard-census: whiteboard-census/enumerate.c | $(BUILD)
 
 $(BUILD)/whiteboard-census-host: whiteboard-census/enumerate.c | $(BUILD)
 	$(CC) -O3 -march=native -std=gnu11 $< -lgmp -lm -o $@
+
+$(BUILD)/field-lanes.so: lattice-prediction/field_lanes.cpp | $(BUILD)
+	$(CXX) $(CXXFLAGS) -shared -fPIC $< -o $@

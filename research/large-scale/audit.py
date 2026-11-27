@@ -2,6 +2,7 @@
 
 import argparse
 import csv
+import json
 from pathlib import Path
 
 from bench import digest
@@ -11,8 +12,42 @@ from report import experiment_pages, read_trials
 HERE = Path(__file__).resolve().parent
 
 
+def check_preprocessing(receipts):
+    directory = HERE / "results"
+    archives = {(r["dataset"], r["codec"]): r for r in receipts}
+    streams = {}
+    for line in (directory / "preprocessing.jsonl").read_text().splitlines():
+        row = json.loads(line)
+        name, profile = row["dataset"], row["profile"]
+        raw = row["raw"]
+        archive = archives[name, profile]
+        if (archive["input_bytes"], archive["input_sha256"]) != (
+            raw["bytes"],
+            raw["sha256"],
+        ):
+            raise ValueError(f"Preprocessing input mismatch for {name} / {profile}")
+        streams[name, "raw"] = raw
+        streams[name, profile] = row["prepared"]
+    for name, pin in json.loads((HERE / "row-inputs.json").read_text()).items():
+        stream = streams[name, "raw"]
+        if (pin["bytes"], pin["sha256"]) != (stream["bytes"], stream["sha256"]):
+            raise ValueError(f"Row input pin mismatch for {name}")
+    probes = (directory / "row-matches.jsonl").read_text().splitlines()
+    for line in probes:
+        probe = json.loads(line)
+        mode = probe["profile"]
+        key = "raw" if mode == "raw" else "lattice-rows-" + mode
+        stream = streams[probe["dataset"], key]
+        if (probe["bytes"], probe["sha256"]) != (stream["bytes"], stream["sha256"]):
+            raise ValueError(
+                f"Match probe used the wrong stream for {probe['dataset']} / {mode}"
+            )
+    print(f"{len(probes)} match probes agree with the paired stream hashes")
+
+
 def audit(raw=None, workspace=None):
     receipts = read_trials([HERE / "results/archives.jsonl"])
+    check_preprocessing(receipts)
     groups = experiment_pages()
     projects = set()
     files = {}

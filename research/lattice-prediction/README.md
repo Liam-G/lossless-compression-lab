@@ -4,6 +4,8 @@
 
 Can a file disclose its sample width and lag without an image or scientific-format parser? Do those predictors help once a general entropy coder sees the separated bit planes?
 
+A second experiment studies variable-width records. On NOAA weather observations, neighboring values in the same field share enough structure to cut Zstandard size by over 40% in two separate years. [Ragged rows, CSV fields and prefix coding](ragged-rows.md)
+
 ### Source files and compatibility
 
 The historical `lab/shape/nested.py` measured conditional entropy from rows, byte lanes and planes of the original data. This new encoder turns the same idea into an actual inverse and compares the cost of its complete records.

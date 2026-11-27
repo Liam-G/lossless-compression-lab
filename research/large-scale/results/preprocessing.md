@@ -1,6 +1,6 @@
 # Preprocessing before standard compression
 
-19 measured input/profile pairs on 14 distinct inputs. Each raw input is at least 20 MiB. Each pair uses exactly the same source bytes on both paths.
+83 measured input/profile pairs on 20 distinct inputs. Each raw input is at least 20 MiB. Each pair uses exactly the same source bytes on both paths.
 
 1. Compress the original input directly with gzip, Zstandard or XZ.
 2. Serialize the reversible preprocessing output, including headers, choices, lengths, dictionaries, model parameters, literal fallbacks and residuals. Measure this stream before backend compression, then compress it with the same executable and settings as the original.
@@ -14,19 +14,83 @@
 |---|---|---:|---:|---:|---:|---:|
 | affine-pairs | pilot10-conditional | 25,165,824 | 15,979,518 | 3.7941 → 4.8886 | 2.3861 → 3.4200 | 3.1041 |
 | affine-pairs | pilot10-fixed | 25,165,824 | 6,304,526 | 3.7941 → 7.9116 | 2.3861 → 7.8929 | 1.9820 |
+| covertype-prefix | lattice-rows-field-positions | 25,165,824 | 25,215,468 | 2.2843 → 2.3029 | 1.3298 → 1.0673 | 2.3075 |
+| covertype-prefix | lattice-rows-field-prefix | 25,165,824 | 26,256,422 | 2.2843 → 2.5326 | 1.3298 → 1.2712 | 2.6424 |
+| covertype-prefix | lattice-rows-fields | 25,165,824 | 25,169,388 | 2.2843 → 2.2866 | 1.3298 → 1.3302 | 2.2869 |
+| covertype-prefix | lattice-rows-joint | 25,165,824 | 25,166,796 | 2.2843 → 1.3312 | 1.3298 → 0.9613 | 1.3312 |
+| covertype-prefix | lattice-rows-prefix | 25,165,824 | 27,491,616 | 2.2843 → 2.6163 | 1.3298 → 1.3132 | 2.8581 |
 | formula-text | pilot11-dag | 25,165,824 | 9,357,678 | 3.6110 → 4.7847 | 1.1528 → 1.7253 | 1.7791 |
 | hidden-products | shared-shared | 25,165,824 | 13,379,724 | 6.3745 → 7.9279 | 4.3616 → 7.7994 | 4.2150 |
 | learned-field | learned-coupled | 29,491,200 | 29,491,588 | 7.9931 → 3.5692 | 7.9890 → 2.7951 | 3.5693 |
 | luma-jake | learned-coupled | 29,491,200 | 29,491,324 | 6.0905 → 1.1219 | 2.2173 → 0.4218 | 1.1219 |
 | manual-graphs | pilot07-pre-1 | 24,642,792 | 3,112,119 | 0.7646 → 6.8702 | 0.5291 → 5.9196 | 0.8676 |
 | modular-panels | modular-joint | 25,165,824 | 28,312,524 | 7.9918 → 1.6383 | 7.9873 → 1.2147 | 1.8432 |
+| nci | lattice-rows-above | 33,553,445 | 33,554,761 | 2.4293 → 1.7313 | 1.9466 → 1.0145 | 1.7314 |
+| nci | lattice-rows-columns | 33,553,445 | 33,554,761 | 2.4293 → 2.4775 | 1.9466 → 0.6467 | 2.4776 |
+| nci | lattice-rows-delta | 33,553,445 | 33,554,761 | 2.4293 → 1.2887 | 1.9466 → 0.8982 | 1.2888 |
+| nci | lattice-rows-field-positions | 33,553,445 | 33,619,633 | 2.4293 → 2.4463 | 1.9466 → 1.7480 | 2.4511 |
+| nci | lattice-rows-field-prefix | 33,553,445 | 31,636,805 | 2.4293 → 2.6398 | 1.9466 → 1.9028 | 2.4890 |
+| nci | lattice-rows-fields | 33,553,445 | 33,558,193 | 2.4293 → 2.4309 | 1.9466 → 1.9466 | 2.4313 |
+| nci | lattice-rows-framed | 33,553,445 | 33,554,761 | 2.4293 → 2.4775 | 1.9466 → 1.8443 | 2.4776 |
+| nci | lattice-rows-joint | 33,553,445 | 33,554,761 | 2.4293 → 1.2887 | 1.9466 → 0.7681 | 1.2888 |
+| nci | lattice-rows-prefix | 33,553,445 | 31,633,221 | 2.4293 → 2.6393 | 1.9466 → 1.9022 | 2.4882 |
+| nci | lattice-rows-route-select | 33,553,445 | 33,554,761 | 2.4293 → 2.5964 | 1.9466 → 0.6633 | 2.5965 |
+| nci | lattice-rows-select | 33,553,445 | 33,554,761 | 2.4293 → 2.5964 | 1.9466 → 0.6633 | 2.5965 |
+| nci-row-shuffled | lattice-rows-columns | 33,553,445 | 33,554,761 | 2.4293 → 2.4775 | 2.3190 → 2.1755 | 2.4776 |
+| nci-row-shuffled | lattice-rows-delta | 33,553,445 | 33,554,761 | 2.4293 → 3.9131 | 2.3190 → 3.6970 | 3.9132 |
+| nci-row-shuffled | lattice-rows-field-positions | 33,553,445 | 33,619,633 | 2.4293 → 2.4463 | 2.3190 → 2.3469 | 2.4511 |
+| nci-row-shuffled | lattice-rows-field-prefix | 33,553,445 | 33,942,978 | 2.4293 → 2.5895 | 2.3190 → 2.3101 | 2.6195 |
+| nci-row-shuffled | lattice-rows-fields | 33,553,445 | 33,558,193 | 2.4293 → 2.4309 | 2.3190 → 2.3189 | 2.4313 |
+| nci-row-shuffled | lattice-rows-framed | 33,553,445 | 33,554,761 | 2.4293 → 2.4775 | 2.3190 → 2.1714 | 2.4776 |
+| nci-row-shuffled | lattice-rows-joint | 33,553,445 | 33,554,761 | 2.4293 → 3.9131 | 2.3190 → 2.6379 | 3.9132 |
+| nci-row-shuffled | lattice-rows-prefix | 33,553,445 | 33,939,394 | 2.4293 → 2.5891 | 2.3190 → 2.3095 | 2.6189 |
+| nci-row-shuffled | lattice-rows-route-select | 33,553,445 | 33,554,761 | 2.4293 → 2.4775 | 2.3190 → 2.1755 | 2.4776 |
+| nci-row-shuffled | lattice-rows-select | 33,553,445 | 33,554,761 | 2.4293 → 2.4775 | 2.3190 → 2.1755 | 2.4776 |
+| noaa-1990-prefix | lattice-rows-above | 25,165,824 | 25,166,796 | 3.9764 → 2.1622 | 2.6846 → 1.4320 | 2.1623 |
+| noaa-1990-prefix | lattice-rows-columns | 25,165,824 | 25,166,796 | 3.9764 → 4.0526 | 2.6846 → 1.0043 | 4.0528 |
+| noaa-1990-prefix | lattice-rows-delta | 25,165,824 | 25,166,796 | 3.9764 → 1.5805 | 2.6846 → 1.0964 | 1.5805 |
+| noaa-1990-prefix | lattice-rows-field-positions | 25,165,824 | 25,215,468 | 3.9764 → 3.9918 | 2.6846 → 0.9572 | 3.9997 |
+| noaa-1990-prefix | lattice-rows-field-prefix | 25,165,824 | 15,572,584 | 3.9764 → 3.7762 | 2.6846 → 1.9335 | 2.3367 |
+| noaa-1990-prefix | lattice-rows-fields | 25,165,824 | 25,169,388 | 3.9764 → 3.9783 | 2.6846 → 2.6957 | 3.9789 |
+| noaa-1990-prefix | lattice-rows-framed | 25,165,824 | 25,166,796 | 3.9764 → 4.0526 | 2.6846 → 2.7191 | 4.0528 |
+| noaa-1990-prefix | lattice-rows-joint | 25,165,824 | 25,166,796 | 3.9764 → 1.5805 | 2.6846 → 1.0309 | 1.5805 |
+| noaa-1990-prefix | lattice-rows-literal | 25,165,824 | 25,166,316 | 3.9764 → 3.9767 | 2.6846 → 2.6847 | 3.9767 |
+| noaa-1990-prefix | lattice-rows-positions | 25,165,824 | 25,172,460 | 3.9764 → 3.9796 | 2.6846 → 3.0985 | 3.9806 |
+| noaa-1990-prefix | lattice-rows-prefix | 25,165,824 | 30,802,601 | 3.9764 → 3.9579 | 2.6846 → 2.2792 | 4.8444 |
+| noaa-1990-prefix | lattice-rows-route-select | 25,165,824 | 25,176,534 | 3.9764 → 3.9859 | 2.6846 → 2.6750 | 3.9876 |
+| noaa-1990-prefix | lattice-rows-select | 25,165,824 | 25,166,786 | 3.9764 → 4.1541 | 2.6846 → 1.1110 | 4.1543 |
+| noaa-2020-prefix | lattice-rows-above | 25,165,824 | 25,166,796 | 3.9485 → 2.1309 | 2.8067 → 1.4288 | 2.1309 |
+| noaa-2020-prefix | lattice-rows-columns | 25,165,824 | 25,166,796 | 3.9485 → 4.0258 | 2.8067 → 1.0384 | 4.0260 |
+| noaa-2020-prefix | lattice-rows-delta | 25,165,824 | 25,166,796 | 3.9485 → 1.6280 | 2.8067 → 1.1176 | 1.6281 |
+| noaa-2020-prefix | lattice-rows-field-positions | 25,165,824 | 25,215,468 | 3.9485 → 3.9639 | 2.8067 → 0.9553 | 3.9717 |
+| noaa-2020-prefix | lattice-rows-field-prefix | 25,165,824 | 15,393,657 | 3.9485 → 3.8387 | 2.8067 → 2.0128 | 2.3481 |
+| noaa-2020-prefix | lattice-rows-fields | 25,165,824 | 25,169,388 | 3.9485 → 3.9504 | 2.8067 → 2.8159 | 3.9510 |
+| noaa-2020-prefix | lattice-rows-framed | 25,165,824 | 25,166,796 | 3.9485 → 4.0258 | 2.8067 → 2.8370 | 4.0260 |
+| noaa-2020-prefix | lattice-rows-joint | 25,165,824 | 25,166,796 | 3.9485 → 1.6280 | 2.8067 → 1.0679 | 1.6281 |
+| noaa-2020-prefix | lattice-rows-literal | 25,165,824 | 25,166,316 | 3.9485 → 3.9488 | 2.8067 → 2.8068 | 3.9489 |
+| noaa-2020-prefix | lattice-rows-positions | 25,165,824 | 25,172,460 | 3.9485 → 3.9516 | 2.8067 → 3.2197 | 3.9527 |
+| noaa-2020-prefix | lattice-rows-prefix | 25,165,824 | 30,783,066 | 3.9485 → 3.9139 | 2.8067 → 2.3761 | 4.7875 |
+| noaa-2020-prefix | lattice-rows-route-select | 25,165,824 | 25,172,268 | 3.9485 → 3.9516 | 2.8067 → 2.8413 | 3.9526 |
+| noaa-2020-prefix | lattice-rows-select | 25,165,824 | 25,166,796 | 3.9485 → 4.0258 | 2.8067 → 1.0384 | 4.0260 |
 | noisy-spacetime | four-joint | 25,165,824 | 34,605,324 | 7.9645 → 3.2005 | 7.9554 → 2.0327 | 4.4010 |
 | numerical | lattice-joint | 25,696,748 | 25,696,985 | 6.3494 → 4.9333 | 5.5271 → 3.7053 | 4.9333 |
 | numerical | modular-joint | 25,696,748 | 25,697,750 | 6.3494 → 6.3493 | 5.5271 → 5.5270 | 6.3495 |
 | shared-orbit-1000 | pilot06-checker-3-fixed | 25,165,824 | 22,274,238 | 6.9648 → 7.7281 | 6.3175 → 7.4767 | 6.8401 |
 | shuffled-witnesses | witness-joint | 22,630,320 | 19,790,312 | 2.9495 → 3.0670 | 2.7803 → 1.7457 | 2.6821 |
+| uniform | lattice-rows-joint | 25,165,824 | 25,312,096 | 8.0000 → 7.9964 | 7.9981 → 7.9819 | 8.0429 |
+| uniform | lattice-rows-route-select | 25,165,824 | 25,166,316 | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 8.0001 |
+| uniform | lattice-rows-select | 25,165,824 | 25,166,316 | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 8.0001 |
 | uniform | modular-joint | 25,165,824 | 25,166,796 | 8.0000 → 8.0000 | 7.9981 → 7.9981 | 8.0003 |
+| webster | lattice-rows-joint | 41,458,703 | 41,460,349 | 4.9707 → 6.7647 | 3.4171 → 5.8431 | 6.7650 |
+| webster | lattice-rows-select | 41,458,703 | 41,459,510 | 4.9707 → 4.9710 | 3.4171 → 3.4171 | 4.9711 |
 | whiteboard-witnesses | witness-joint | 22,630,320 | 14,110,128 | 2.9495 → 1.9285 | 2.7803 → 0.7663 | 1.2024 |
+| wiki-transfer | lattice-rows-field-positions | 25,165,824 | 25,215,468 | 5.0850 → 5.0990 | 3.8807 → 4.3003 | 5.1090 |
+| wiki-transfer | lattice-rows-field-prefix | 25,165,824 | 24,571,696 | 5.0850 → 5.1774 | 3.8807 → 3.8770 | 5.0552 |
+| wiki-transfer | lattice-rows-fields | 25,165,824 | 25,169,388 | 5.0850 → 5.0863 | 3.8807 → 3.8892 | 5.0870 |
+| wiki-transfer | lattice-rows-joint | 25,165,824 | 25,275,908 | 5.0850 → 6.2922 | 3.8807 → 5.3031 | 6.3197 |
+| wiki-transfer | lattice-rows-prefix | 25,165,824 | 24,810,563 | 5.0850 → 5.1749 | 3.8807 → 3.8635 | 5.1019 |
+| wiki-transfer | lattice-rows-route-select | 25,165,824 | 25,166,636 | 5.0850 → 5.0854 | 3.8807 → 3.8828 | 5.0855 |
+| wiki-transfer | lattice-rows-select | 25,165,824 | 25,166,316 | 5.0850 → 5.0852 | 3.8807 → 3.8807 | 5.0853 |
 | wiki-transfer | pilot01-adaptive-ratios | 25,165,824 | 25,178,126 | 5.0850 → 5.0884 | 3.8807 → 3.8808 | 5.0909 |
 | wiki-transfer | pilot01-fixed-direct | 25,165,824 | 25,178,126 | 5.0850 → 5.0884 | 3.8807 → 3.8808 | 5.0909 |
 | wiki-transfer | views-bwt | 25,165,824 | 25,165,956 | 5.0850 → 5.0851 | 3.8807 → 2.8011 | 5.0851 |
@@ -40,19 +104,83 @@ Each cell gives **compressed original bytes → compressed prepared bytes (perce
 |---|---|---:|---:|---:|
 | affine-pairs | pilot10-conditional | 9,297,291 → 9,175,295 (+1.312%) | 9,973,948 → 9,032,831 (+9.436%) | 6,866,512 → 7,840,772 (-14.189%) |
 | affine-pairs | pilot10-fixed | 9,297,291 → 6,304,683 (+32.188%) | 9,973,948 → 6,245,010 (+37.387%) | 6,866,512 → 6,304,896 (+8.179%) |
+| covertype-prefix | lattice-rows-field-positions | 3,997,073 → 2,493,345 (+37.621%) | 3,778,786 → 2,410,868 (+36.200%) | 2,801,076 → 1,816,048 (+35.166%) |
+| covertype-prefix | lattice-rows-field-prefix | 3,997,073 → 3,365,027 (+15.813%) | 3,778,786 → 3,198,897 (+15.346%) | 2,801,076 → 2,283,648 (+18.472%) |
+| covertype-prefix | lattice-rows-fields | 3,997,073 → 3,372,812 (+15.618%) | 3,778,786 → 3,279,530 (+13.212%) | 2,801,076 → 2,198,712 (+21.505%) |
+| covertype-prefix | lattice-rows-joint | 3,997,073 → 3,422,678 (+14.370%) | 3,778,786 → 3,312,836 (+12.331%) | 2,801,076 → 2,742,460 (+2.093%) |
+| covertype-prefix | lattice-rows-prefix | 3,997,073 → 4,185,009 (-4.702%) | 3,778,786 → 4,039,129 (-6.890%) | 2,801,076 → 2,966,092 (-5.891%) |
 | formula-text | pilot11-dag | 4,118,040 → 2,187,854 (+46.871%) | 2,958,719 → 2,322,775 (+21.494%) | 1,856,404 → 1,625,172 (+12.456%) |
 | hidden-products | shared-shared | 14,343,986 → 13,038,675 (+9.100%) | 14,118,577 → 13,077,821 (+7.372%) | 13,314,968 → 13,011,616 (+2.278%) |
 | learned-field | learned-coupled | 29,389,440 → 11,276,527 (+61.631%) | 29,358,227 → 11,231,282 (+61.744%) | 29,419,328 → 10,497,028 (+64.319%) |
 | luma-jake | learned-coupled | 1,716,540 → 1,796,738 (-4.672%) | 8,869,318 → 1,712,131 (+80.696%) | 990,504 → 1,375,752 (-38.894%) |
 | manual-graphs | pilot07-pre-1 | 1,325,130 → 2,215,382 (-67.182%) | 1,520,849 → 2,217,323 (-45.795%) | 1,004,072 → 2,156,664 (-114.792%) |
 | modular-panels | modular-joint | 25,166,413 → 4,478,573 (+82.204%) | 25,168,569 → 4,695,964 (+81.342%) | 25,167,132 → 4,327,872 (+82.803%) |
+| nci | lattice-rows-above | 2,835,396 → 3,218,569 (-13.514%) | 3,199,449 → 3,558,372 (-11.218%) | 1,779,272 → 2,070,980 (-16.395%) |
+| nci | lattice-rows-columns | 2,835,396 → 2,489,621 (+12.195%) | 3,199,449 → 2,363,037 (+26.142%) | 1,779,272 → 1,872,004 (-5.212%) |
+| nci | lattice-rows-delta | 2,835,396 → 3,259,904 (-14.972%) | 3,199,449 → 3,513,161 (-9.805%) | 1,779,272 → 2,167,976 (-21.846%) |
+| nci | lattice-rows-field-positions | 2,835,396 → 3,183,691 (-12.284%) | 3,199,449 → 2,944,428 (+7.971%) | 1,779,272 → 2,243,240 (-26.076%) |
+| nci | lattice-rows-field-prefix | 2,835,396 → 2,943,388 (-3.809%) | 3,199,449 → 3,141,871 (+1.800%) | 1,779,272 → 1,770,816 (+0.475%) |
+| nci | lattice-rows-fields | 2,835,396 → 2,836,967 (-0.055%) | 3,199,449 → 3,201,668 (-0.069%) | 1,779,272 → 1,780,856 (-0.089%) |
+| nci | lattice-rows-framed | 2,835,396 → 2,897,093 (-2.176%) | 3,199,449 → 3,254,607 (-1.724%) | 1,779,272 → 1,811,796 (-1.828%) |
+| nci | lattice-rows-joint | 2,835,396 → 2,761,194 (+2.617%) | 3,199,449 → 2,710,424 (+15.285%) | 1,779,272 → 2,126,876 (-19.536%) |
+| nci | lattice-rows-prefix | 2,835,396 → 2,942,762 (-3.787%) | 3,199,449 → 3,141,513 (+1.811%) | 1,779,272 → 1,770,432 (+0.497%) |
+| nci | lattice-rows-route-select | 2,835,396 → 2,483,811 (+12.400%) | 3,199,449 → 2,375,281 (+25.760%) | 1,779,272 → 1,866,432 (-4.899%) |
+| nci | lattice-rows-select | 2,835,396 → 2,483,811 (+12.400%) | 3,199,449 → 2,375,281 (+25.760%) | 1,779,272 → 1,866,432 (-4.899%) |
+| nci-row-shuffled | lattice-rows-columns | 12,578,509 → 11,833,316 (+5.924%) | 12,395,907 → 11,476,737 (+7.415%) | 10,671,000 → 9,958,468 (+6.677%) |
+| nci-row-shuffled | lattice-rows-delta | 12,578,509 → 18,077,269 (-43.716%) | 12,395,907 → 18,304,913 (-47.669%) | 10,671,000 → 16,246,772 (-52.252%) |
+| nci-row-shuffled | lattice-rows-field-positions | 12,578,509 → 12,691,175 (-0.896%) | 12,395,907 → 12,374,847 (+0.170%) | 10,671,000 → 10,804,532 (-1.251%) |
+| nci-row-shuffled | lattice-rows-field-prefix | 12,578,509 → 12,812,624 (-1.861%) | 12,395,907 → 12,627,602 (-1.869%) | 10,671,000 → 10,796,956 (-1.180%) |
+| nci-row-shuffled | lattice-rows-fields | 12,578,509 → 12,579,574 (-0.008%) | 12,395,907 → 12,398,506 (-0.021%) | 10,671,000 → 10,672,884 (-0.018%) |
+| nci-row-shuffled | lattice-rows-framed | 12,578,509 → 11,915,614 (+5.270%) | 12,395,907 → 11,731,819 (+5.357%) | 10,671,000 → 10,081,648 (+5.523%) |
+| nci-row-shuffled | lattice-rows-joint | 12,578,509 → 13,578,836 (-7.953%) | 12,395,907 → 13,695,892 (-10.487%) | 10,671,000 → 11,270,408 (-5.617%) |
+| nci-row-shuffled | lattice-rows-prefix | 12,578,509 → 12,811,858 (-1.855%) | 12,395,907 → 12,627,056 (-1.865%) | 10,671,000 → 10,795,476 (-1.166%) |
+| nci-row-shuffled | lattice-rows-route-select | 12,578,509 → 11,833,316 (+5.924%) | 12,395,907 → 11,476,737 (+7.415%) | 10,671,000 → 9,958,468 (+6.677%) |
+| nci-row-shuffled | lattice-rows-select | 12,578,509 → 11,833,316 (+5.924%) | 12,395,907 → 11,476,737 (+7.415%) | 10,671,000 → 9,958,468 (+6.677%) |
+| noaa-1990-prefix | lattice-rows-above | 3,541,939 → 3,343,075 (+5.615%) | 3,222,875 → 3,242,863 (-0.620%) | 1,816,516 → 1,956,820 (-7.724%) |
+| noaa-1990-prefix | lattice-rows-columns | 3,541,939 → 3,221,769 (+9.039%) | 3,222,875 → 2,876,387 (+10.751%) | 1,816,516 → 2,273,628 (-25.164%) |
+| noaa-1990-prefix | lattice-rows-delta | 3,541,939 → 3,835,972 (-8.301%) | 3,222,875 → 3,572,013 (-10.833%) | 1,816,516 → 2,262,664 (-24.561%) |
+| noaa-1990-prefix | lattice-rows-field-positions | 3,541,939 → 2,307,035 (+34.865%) | 3,222,875 → 2,001,710 (+37.891%) | 1,816,516 → 1,276,732 (+29.715%) |
+| noaa-1990-prefix | lattice-rows-field-prefix | 3,541,939 → 1,870,761 (+47.183%) | 3,222,875 → 1,705,482 (+47.082%) | 1,816,516 → 994,236 (+45.267%) |
+| noaa-1990-prefix | lattice-rows-fields | 3,541,939 → 2,086,007 (+41.106%) | 3,222,875 → 1,913,577 (+40.625%) | 1,816,516 → 957,348 (+47.298%) |
+| noaa-1990-prefix | lattice-rows-framed | 3,541,939 → 3,744,492 (-5.719%) | 3,222,875 → 3,456,834 (-7.259%) | 1,816,516 → 1,992,436 (-9.684%) |
+| noaa-1990-prefix | lattice-rows-joint | 3,541,939 → 3,402,507 (+3.937%) | 3,222,875 → 3,209,091 (+0.428%) | 1,816,516 → 2,564,352 (-41.169%) |
+| noaa-1990-prefix | lattice-rows-literal | 3,541,939 → 3,542,684 (-0.021%) | 3,222,875 → 3,223,895 (-0.032%) | 1,816,516 → 1,818,896 (-0.131%) |
+| noaa-1990-prefix | lattice-rows-positions | 3,541,939 → 3,164,406 (+10.659%) | 3,222,875 → 2,655,397 (+17.608%) | 1,816,516 → 1,691,612 (+6.876%) |
+| noaa-1990-prefix | lattice-rows-prefix | 3,541,939 → 3,784,147 (-6.838%) | 3,222,875 → 3,354,183 (-4.074%) | 1,816,516 → 1,882,168 (-3.614%) |
+| noaa-1990-prefix | lattice-rows-route-select | 3,541,939 → 2,032,120 (+42.627%) | 3,222,875 → 1,852,984 (+42.505%) | 1,816,516 → 1,043,020 (+42.581%) |
+| noaa-1990-prefix | lattice-rows-select | 3,541,939 → 3,216,603 (+9.185%) | 3,222,875 → 2,891,968 (+10.267%) | 1,816,516 → 2,261,252 (-24.483%) |
+| noaa-2020-prefix | lattice-rows-above | 3,552,108 → 3,517,969 (+0.961%) | 3,271,833 → 3,360,252 (-2.702%) | 1,854,284 → 2,033,280 (-9.653%) |
+| noaa-2020-prefix | lattice-rows-columns | 3,552,108 → 3,292,962 (+7.296%) | 3,271,833 → 2,943,377 (+10.039%) | 1,854,284 → 2,344,304 (-26.426%) |
+| noaa-2020-prefix | lattice-rows-delta | 3,552,108 → 3,888,816 (-9.479%) | 3,271,833 → 3,618,964 (-10.610%) | 1,854,284 → 2,252,304 (-21.465%) |
+| noaa-2020-prefix | lattice-rows-field-positions | 3,552,108 → 2,364,895 (+33.423%) | 3,271,833 → 2,081,857 (+36.370%) | 1,854,284 → 1,466,456 (+20.915%) |
+| noaa-2020-prefix | lattice-rows-field-prefix | 3,552,108 → 2,012,489 (+43.344%) | 3,271,833 → 1,767,719 (+45.972%) | 1,854,284 → 1,095,256 (+40.934%) |
+| noaa-2020-prefix | lattice-rows-fields | 3,552,108 → 2,100,930 (+40.854%) | 3,271,833 → 1,917,471 (+41.395%) | 1,854,284 → 1,065,376 (+42.545%) |
+| noaa-2020-prefix | lattice-rows-framed | 3,552,108 → 3,741,542 (-5.333%) | 3,271,833 → 3,477,930 (-6.299%) | 1,854,284 → 2,017,200 (-8.786%) |
+| noaa-2020-prefix | lattice-rows-joint | 3,552,108 → 3,474,417 (+2.187%) | 3,271,833 → 3,272,224 (-0.012%) | 1,854,284 → 2,643,928 (-42.585%) |
+| noaa-2020-prefix | lattice-rows-literal | 3,552,108 → 3,552,823 (-0.020%) | 3,271,833 → 3,272,923 (-0.033%) | 1,854,284 → 1,855,884 (-0.086%) |
+| noaa-2020-prefix | lattice-rows-positions | 3,552,108 → 3,322,140 (+6.474%) | 3,271,833 → 2,800,785 (+14.397%) | 1,854,284 → 1,852,440 (+0.099%) |
+| noaa-2020-prefix | lattice-rows-prefix | 3,552,108 → 3,763,027 (-5.938%) | 3,271,833 → 3,393,947 (-3.732%) | 1,854,284 → 1,917,724 (-3.421%) |
+| noaa-2020-prefix | lattice-rows-route-select | 3,552,108 → 2,085,342 (+41.293%) | 3,271,833 → 1,909,412 (+41.641%) | 1,854,284 → 1,098,844 (+40.740%) |
+| noaa-2020-prefix | lattice-rows-select | 3,552,108 → 3,292,962 (+7.296%) | 3,271,833 → 2,943,377 (+10.039%) | 1,854,284 → 2,344,304 (-26.426%) |
 | noisy-spacetime | four-joint | 25,166,413 → 9,397,974 (+62.657%) | 25,042,968 → 9,362,367 (+62.615%) | 25,063,412 → 8,109,204 (+67.645%) |
 | numerical | lattice-joint | 15,163,679 → 11,635,203 (+23.269%) | 15,063,439 → 11,486,297 (+23.747%) | 11,665,916 → 10,449,384 (+10.428%) |
 | numerical | modular-joint | 15,163,679 → 15,164,986 (-0.009%) | 15,063,439 → 15,063,384 (+0.000%) | 11,665,916 → 11,730,228 (-0.551%) |
 | shared-orbit-1000 | pilot06-checker-3-fixed | 21,987,747 → 21,474,587 (+2.334%) | 22,067,549 → 21,470,554 (+2.705%) | 20,184,408 → 20,716,428 (-2.636%) |
 | shuffled-witnesses | witness-joint | 6,474,999 → 3,768,334 (+41.802%) | 6,460,681 → 3,776,913 (+41.540%) | 4,322,840 → 3,550,292 (+17.871%) |
+| uniform | lattice-rows-joint | 25,166,413 → 25,312,688 (-0.581%) | 25,169,682 → 25,258,810 (-0.354%) | 25,167,136 → 25,300,180 (-0.529%) |
+| uniform | lattice-rows-route-select | 25,166,413 → 25,166,905 (-0.002%) | 25,169,682 → 25,170,174 (-0.002%) | 25,167,136 → 25,167,628 (-0.002%) |
+| uniform | lattice-rows-select | 25,166,413 → 25,166,905 (-0.002%) | 25,169,682 → 25,170,174 (-0.002%) | 25,167,136 → 25,167,628 (-0.002%) |
 | uniform | modular-joint | 25,166,413 → 25,167,385 (-0.004%) | 25,169,682 → 25,170,654 (-0.004%) | 25,167,136 → 25,168,108 (-0.004%) |
+| webster | lattice-rows-joint | 12,107,194 → 34,326,394 (-183.521%) | 12,201,972 → 34,381,121 (-181.767%) | 8,628,848 → 31,185,636 (-261.411%) |
+| webster | lattice-rows-select | 12,107,194 → 12,109,357 (-0.018%) | 12,201,972 → 12,204,071 (-0.017%) | 8,628,848 → 8,629,872 (-0.012%) |
 | whiteboard-witnesses | witness-joint | 4,602,354 → 1,109,554 (+75.892%) | 5,230,942 → 1,122,203 (+78.547%) | 2,968,412 → 961,108 (+67.622%) |
+| wiki-transfer | lattice-rows-field-positions | 8,968,455 → 11,111,894 (-23.900%) | 9,232,082 → 11,665,311 (-26.356%) | 6,743,812 → 8,923,908 (-32.327%) |
+| wiki-transfer | lattice-rows-field-prefix | 8,968,455 → 9,262,307 (-3.277%) | 9,232,082 → 9,809,440 (-6.254%) | 6,743,812 → 6,962,968 (-3.250%) |
+| wiki-transfer | lattice-rows-fields | 8,968,455 → 9,166,657 (-2.210%) | 9,232,082 → 9,753,222 (-5.645%) | 6,743,812 → 6,908,720 (-2.445%) |
+| wiki-transfer | lattice-rows-joint | 8,968,455 → 15,754,527 (-75.666%) | 9,232,082 → 16,107,898 (-74.477%) | 6,743,812 → 13,236,764 (-96.280%) |
+| wiki-transfer | lattice-rows-prefix | 8,968,455 → 9,089,552 (-1.350%) | 9,232,082 → 9,339,483 (-1.163%) | 6,743,812 → 6,824,684 (-1.199%) |
+| wiki-transfer | lattice-rows-route-select | 8,968,455 → 8,987,947 (-0.217%) | 9,232,082 → 9,268,308 (-0.392%) | 6,743,812 → 6,763,280 (-0.289%) |
+| wiki-transfer | lattice-rows-select | 8,968,455 → 8,968,995 (-0.006%) | 9,232,082 → 9,233,599 (-0.016%) | 6,743,812 → 6,744,120 (-0.005%) |
 | wiki-transfer | pilot01-adaptive-ratios | 8,968,455 → 8,973,354 (-0.055%) | 9,232,082 → 9,246,045 (-0.151%) | 6,743,812 → 6,747,788 (-0.059%) |
 | wiki-transfer | pilot01-fixed-direct | 8,968,455 → 8,973,349 (-0.055%) | 9,232,082 → 9,246,040 (-0.151%) | 6,743,812 → 6,747,580 (-0.056%) |
 | wiki-transfer | views-bwt | 8,968,455 → 8,800,771 (+1.870%) | 9,232,082 → 8,513,896 (+7.779%) | 6,743,812 → 7,360,740 (-9.148%) |
@@ -70,6 +198,6 @@ python3 research/large-scale/preprocess.py restore runs/paired/numerical.pre run
 cmp runs/large/raw/numerical runs/paired/numerical.out
 ```
 
-The numbered pilots here already emit a reversible record stream. For the native formats in this study the adapter retains the encoder’s actual block choices, removes each terminal Zstandard frame, and updates its length. On restore it rebuilds those frames for the existing decoder. All backends receive the same frozen representation, including the modes selected by the original encoder’s internal cost model. These observations cover the listed profiles and inputs.
+The numbered pilots here already emit a reversible record stream. The adapter preserves the encoder’s block choices. For block-compressed formats it removes the terminal Zstandard frames and updates their lengths. For row profiles it removes the outer Zstandard wrapper and measures the complete RGP1 stream. On restore it supplies the framing expected by the corresponding decoder. All backends receive the same frozen representation, including the modes selected by the original encoder’s internal cost model. These observations cover the listed profiles and inputs.
 
 The [machine-readable receipts](preprocessing.jsonl) give the complete input, prepared and compressed stream hashes, commands, versions and byte counts. The [corpus manifest and preparation instructions](../README.md#inputs) describe their provenance.

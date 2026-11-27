@@ -27,6 +27,24 @@ PROFILES = (
     "pilot01-adaptive-ratios",
     "shared-shared",
     "lattice-joint",
+    *(
+        "lattice-rows-" + mode
+        for mode in (
+            "literal",
+            "framed",
+            "above",
+            "delta",
+            "columns",
+            "joint",
+            "select",
+            "fields",
+            "positions",
+            "field-positions",
+            "route-select",
+            "prefix",
+            "field-prefix",
+        )
+    ),
     "modular-joint",
     "views-bwt",
     "views-mtf",
@@ -98,6 +116,15 @@ def witness_body(src, dst, transform):
 def transcode(data, restore=False):
     src = BytesIO(data)
     tag = take(src, 4)
+    if tag == b"RGR1" and not restore:
+        stream = zstd.ZstdDecompressor().decompress(src.read())
+        if not stream.startswith(b"RGP1"):
+            raise ValueError("Invalid row representation")
+        return stream, "lattice-rows-select"
+    if tag == b"RGP1" and restore:
+        return b"RGR1" + zstd.ZstdCompressor(level=3).compress(
+            data
+        ), "lattice-rows-select"
     if tag == b"LCP1" and len(data) >= 14 and data[4] in (1, 6, 7, 10, 11):
         # These five formats serialize their records without a terminal general compressor.
         return data, "collection"

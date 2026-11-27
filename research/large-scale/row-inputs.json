@@ -1,0 +1,44 @@
+{
+  "noaa-1990-prefix": {
+    "source": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_year/1990.csv.gz",
+    "compressed_range": "bytes 0-10485759/155457055",
+    "last_modified": "Fri, 27 Nov 2026 08:56:15 GMT",
+    "etag": "\"944161f-6613e3b90bab7\"",
+    "downloaded_prefix_sha256": "cf78cc4d2900bb8fb64d72290b127e16097021b3a45ed5a6f8223f58d756922b",
+    "raw_offset": 0,
+    "bytes": 25165824,
+    "sha256": "7f34f6fd6dd4205ae3945ce5a744d744f449d9a976b8adcd5d203d75f556ab8d",
+    "lf_count": 716099
+  },
+  "noaa-2020-prefix": {
+    "source": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_year/2020.csv.gz",
+    "compressed_range": "bytes 0-10485759/171617769",
+    "last_modified": "Fri, 27 Nov 2026 09:00:26 GMT",
+    "etag": "\"a3aade9-6613e4a8ceb8d\"",
+    "downloaded_prefix_sha256": "f22953c850ef7e959a8cd54ed57fa0c6eb277ec1425bc77262178fb45587f306",
+    "raw_offset": 0,
+    "bytes": 25165824,
+    "sha256": "d6421f0b2bbf8560f4ee580d643597950f249a555a00df6cbf59711cbff75690",
+    "lf_count": 702037
+  },
+  "nci-row-shuffled": {
+    "source": "nci",
+    "source_sha256": "fc63a31770947b8c2062d3b19ca94c00485a232bb91b502021948fee983e1635",
+    "seed": 301057,
+    "generator": "NumPy PCG64",
+    "block_bytes": 262144,
+    "bytes": 33553445,
+    "sha256": "8df3c7bbb83661ea7a145737ae4533cadb30f723e372bb1f0102a73ca1e6d55e"
+  },
+  "covertype-prefix": {
+    "source": "https://archive.ics.uci.edu/static/public/31/covertype.zip",
+    "doi": "10.24432/C50K5N",
+    "archive_sha256": "89a975c2457cd48e824238ae43c5a3cb762e42c4b4078d9b44a4514055105f6d",
+    "member": "covtype.data.gz",
+    "member_sha256": "614360d0257557dd1792834a85a1cdebfadc3c4f30b011d56afee7ffb5b15771",
+    "raw_offset": 0,
+    "bytes": 25165824,
+    "sha256": "bf1f664919a72ae6f44ea81268e7085b9b6d09ce3f6c8743207df8723f06ee98",
+    "lf_count": 194609
+  }
+}

@@ -47,6 +47,15 @@ PROFILE_ENGINES = {
 def commands(codec, src, arc, dest, scratch, reference=None):
     env = {k: v for k, v in os.environ.items() if not k.startswith("CM3_")}
     family, _, profile = codec.partition("-")
+    if codec.startswith("lattice-rows-"):
+        engine = [sys.executable, RESEARCH / "lattice-prediction/ragged.py"]
+        return (
+            engine
+            + ["encode", src, arc, "--profile", codec.removeprefix("lattice-rows-")],
+            engine + ["decode", arc, dest],
+            env,
+            {},
+        )
     if family in PROFILE_ENGINES:
         engine = [sys.executable, RESEARCH / PROFILE_ENGINES[family]]
         return (

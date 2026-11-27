@@ -39,6 +39,78 @@ def engine(folder, filename="codec"):
 
 
 class ReversibleModels(unittest.TestCase):
+    def test_ragged_rows_and_field_lanes(self):
+        with engine("lattice-prediction", "ragged") as r:
+
+            def roundtrip(raw, modes):
+                for mode in modes:
+                    with self.subTest(mode=mode, length=len(raw)):
+                        prepared, restored = BytesIO(), BytesIO()
+                        r.encode(BytesIO(raw), prepared, mode)
+                        prepared.seek(0)
+                        r.decode(prepared, restored)
+                        self.assertEqual(restored.getvalue(), raw)
+
+            raw = b'\x00\n\n"X,Y",,,,a,b,c,d,e,f,g,h,i,j\r\n'
+            raw += b"\n".join(bytes([n % 256]) * n for n in (254, 255, 256))
+            for data in (b"", b"\n", raw, bytes(range(256)) * 3):
+                roundtrip(data, r.PROFILES)
+            roundtrip(b"a" * (r.BLOCK - 4) + b",abcde\nabcdef", r.PROFILES)
+            token = b"k" * 65539
+            roundtrip(token + b",0\n" + token + b",1", ("prefix", "field-prefix"))
+            stream = r.field_stream(b"aa,10\nb,2", 9, "fields")
+            self.assertEqual(stream[:32], bytes.fromhex("0000000500000004") + bytes(24))
+            self.assertEqual(stream[32:], b"aa,b,10\n2")
+            with self.assertRaises(ValueError):
+                r.field_stream(bytes(32) + stream[32:], 9, "fields", True)
+            with self.assertRaises(ValueError):
+                r.front_stream(b"\x00\x00\x00\x01\x01", 1, "prefix", True)
+            prepared = BytesIO()
+            r.encode(BytesIO(raw), prepared, "joint")
+            for bad in (prepared.getvalue()[:-1], prepared.getvalue() + b"x"):
+                with self.assertRaises(ValueError):
+                    r.decode(BytesIO(bad), BytesIO())
+
+    def test_row_shuffle_and_match_probe(self):
+        with engine("lattice-prediction", "row_inputs") as inputs:
+            raw = b"mississippi\n\nabba dabba\nabc" * 50
+
+            def shuffled():
+                return inputs.permute_rows(raw, np.random.default_rng(34))
+
+            result = shuffled()
+            self.assertEqual(shuffled(), result)
+            self.assertNotEqual(raw, result)
+            self.assertEqual(
+                [sorted(r) for r in raw.split(b"\n")],
+                [sorted(r) for r in result.split(b"\n")],
+            )
+        with engine("lattice-prediction", "match_probe") as probe:
+            raw = b"abcdxxabcdyyabcdxxabcdbb" * 6
+            lengths = []
+            for i in range(0, len(raw) - 16 + 1, 3):
+                prior = next(
+                    (
+                        j
+                        for j in range(i - 1, max(-1, i - 21), -1)
+                        if raw[j : j + 4] == raw[i : i + 4]
+                    ),
+                    None,
+                )
+                length = 0
+                while (
+                    prior is not None
+                    and length < 16
+                    and raw[prior + length] == raw[i + length]
+                ):
+                    length += 1
+                lengths.append(length)
+            row = probe.measure(raw, stride=3, window=20, limit=16)
+            self.assertEqual(row["matched_bytes"], sum(lengths))
+            self.assertEqual(row["at_cap"], lengths.count(16))
+            repeated = probe.measure(b"abcd" * 32810)
+            self.assertEqual(repeated["at_cap"], repeated["samples"] - 1)
+
     def test_carry_and_sparse_scales(self):
         rng = Random(73)
         with engine("carry-trees") as c:
