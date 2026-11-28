@@ -1,31 +1,14 @@
 # Distance matrices reconstructed from landmarks
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: wins on data derived from real data.** Best: Distances between 4,600 real places, −77.0% vs xz -9e. Planted control: Distances along a random planar walk, −84.1% vs xz -9e.
+>
+> Part of [chapter 4](../../report/4-specialised.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-The old triangle experiment predicted an entry from the row above. Can a decoder recover the geometry itself when it receives only pairwise distances?
+A table of distances between points is fully determined by the points' positions. Can a decoder rebuild the whole table from a few landmark columns?
 
-### Source files and compatibility
-
-The lower-triangle layout and random-walk control come from `lab/shape/triangle.py`. DGM1 adds a self-contained landmark predictor. The geographic inputs are constructed from actual coordinates in enwik9. They are separate, derived files with independently pinned hashes.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/distance-geometry/codec.py encode runs/large/raw/arc-distances runs/places.dgm --profile all
-python3 research/distance-geometry/codec.py decode runs/places.dgm runs/places.restored
-cmp runs/large/raw/arc-distances runs/places.restored
-```
-
-## Variants and format
-
-For n vertices the file has n(n−1)/2 little-endian unsigned 16-bit entries. The encoder chooses a triangle or tetrahedron of well-spread anchors, then stores their indices and full distance columns. Differences of squared distances give dot products against the anchor simplex. An integer adjugate and a fixed-point inverse predict the remaining pairs. The decoder recovers all errors from signed residual lanes. A separate spherical profile maps angular bins to chord bins using a deterministic Q62 recurrence before predicting, and maps back before applying the residual. The archived integer table is restored exactly; the coordinates stay with the data generator.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -33,28 +16,36 @@ flowchart LR
     T --> W["Send landmark columns and exact distance errors"]
 ```
 
+The encoder picks three or four well-spread landmarks, stores their full distance columns, recovers each point's coordinates relative to them, predicts every other distance and stores the exact errors.
+
+<details><summary>Technical details</summary>
+
+The old triangle experiment predicted an entry from the row above. Can a decoder recover the geometry itself when it receives only pairwise distances?
+
 **Mechanism and test.** Low-dimensional geometry lets a few columns predict many pairwise distances. Quantization and a mismatch between chord and angular distance increase residual cost. An equal-size random triangle controls for triangular storage alone.
 
-## Inputs and measurement
+For n vertices the file has n(n−1)/2 little-endian unsigned 16-bit entries. The encoder chooses a triangle or tetrahedron of well-spread anchors, then stores their indices and full distance columns. Differences of squared distances give dot products against the anchor simplex. An integer adjugate and a fixed-point inverse predict the remaining pairs. The decoder recovers all errors from signed residual lanes. A separate spherical profile maps angular bins to chord bins using a deterministic Q62 recurrence before predicting, and maps back before applying the residual. The archived integer table is restored exactly; the coordinates stay with the data generator.
 
-The 4,600 distinct coordinate pairs come from Wikipedia coordinate templates and explicitly signed named infobox fields. One table contains rounded 3D unit-sphere chord distances and another rounded great-circle angles. A seeded planar walk extends the original control. The random control has exactly the same triangular length and row count. Each raw file contains 21,155,400 bytes.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-On the real-place chord table, row prediction gave 14,052,449 bytes, three landmarks gave 14,554,691, four landmarks gave 3,850,014 and XZ extreme gave 16,711,344. On the angular table, blindly applying the Euclidean model gave 14,975,990 bytes. The spherical model gave 4,242,861. On matched random words the selector retained the original data with a 13-byte header. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Great-circle angles between the same places | derived from real | 21,155,400 | 4,242,861 (`distance-all`) | — | 16,371,240 (xz -9e) | **−74.1%** |
+| Distances between 4,600 real places | derived from real | 21,155,400 | 3,850,014 (`distance-joint`) | — | 16,711,344 (xz -9e) | **−77.0%** |
+| Distances along a random planar walk | planted | 21,155,400 | 2,860,313 (`distance-joint`) | — | 17,954,172 (xz -9e) | **−84.1%** |
+| Random triangle of distances | control | 21,155,400 | 21,155,413 (`distance-all`) | — | 21,155,900 (zstd -19) | −0.0023% |
 
-## Large-file benchmark
-
-On `place-distances` (21,155,400 raw bytes), `distance-three` produced 3,850,014 archive bytes. Zstandard level 3 used 20,188,613 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#place-distances) · [All project measurements](../large-scale/results/by-experiment.md#distance-geometry)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `place-distances`, `distance-three` delivers 3,850,014 bytes, 16,338,599 bytes smaller than standalone Zstandard 3 (20,188,613 bytes).
-
-Holding `distance-three` fixed across the 4 measured input/reference settings with a standalone Zstandard 3 control gives **4 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -140,6 +131,29 @@ python3 research/large-scale/primary.py runs/replay-distance-geometry --project 
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-This tests one specific nonrectangular geometry. Compare [lattice prediction](../lattice-prediction/README.md), which searches rectangular lags on the same byte stream.
+## Small-scale results
+
+The 4,600 distinct coordinate pairs come from Wikipedia coordinate templates and explicitly signed named infobox fields. One table contains rounded 3D unit-sphere chord distances and another rounded great-circle angles. A seeded planar walk extends the original control. The random control has exactly the same triangular length and row count. Each raw file contains 21,155,400 bytes.
+
+On the real-place chord table, row prediction gave 14,052,449 bytes, three landmarks gave 14,554,691, four landmarks gave 3,850,014 and XZ extreme gave 16,711,344. On the angular table, blindly applying the Euclidean model gave 14,975,990 bytes. The spherical model gave 4,242,861. On matched random words the selector retained the original data with a 13-byte header. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
+
+```sh
+mkdir -p runs
+python3 research/distance-geometry/codec.py encode runs/large/raw/arc-distances runs/places.dgm --profile all
+python3 research/distance-geometry/codec.py decode runs/places.dgm runs/places.restored
+cmp runs/large/raw/arc-distances runs/places.restored
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The lower-triangle layout and random-walk control come from `lab/shape/triangle.py`. DGM1 adds a self-contained landmark predictor. The geographic inputs are constructed from actual coordinates in enwik9. They are separate, derived files with independently pinned hashes.
+
+</details>

@@ -1,28 +1,14 @@
 # Reversible 3D automata before GF(2) panel coding
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: detector only.** Best real input: Silesia numerical files (mr + x-ray + sao), +24.5% vs xz -9e. Planted control: 3-D field from a hidden automaton + low rank, −60.9% vs brotli -11.
+>
+> Part of [chapter 2](../../report/2-dynamics.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-A 3D automaton can spread local low-rank structure across planes. Can a decoder recover the original volume cheaply if the encoder stores an earlier state? The native kernel comes from `lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/griglie-intere/automi/inverso/passi.cpp`. Historically it was applied to U, V and an XOR correction E derived from a Neif archive. Here it is paired with an exact panel coder on ordinary file bytes.
+In three dimensions, can stepping a volume backwards through an automaton make its planes low rank, and therefore cheap?
 
-## Run the experiment
-
-```sh
-mkdir -p runs
-python3 research/tensor-orbits/codec.py encode "$CORPUS/canterbury/ptt5" runs/fax.tgf --profile combined
-python3 research/tensor-orbits/codec.py decode runs/fax.tgf runs/fax.bin
-cmp "$CORPUS/canterbury/ptt5" runs/fax.bin
-python3 research/tensor-orbits/benchmark.py "$CORPUS" runs/volumes
-```
-
-## Variants and format
-
-Each full 8 KiB slab is a volume of 64 planes, each 16 rows by 64 bits. A step updates alternating parities along x, y and z in six half-steps with zero boundaries. A cell XORs either its preceding neighbor or the AND of its two neighbors along the axis. An individual half-step is its own inverse because its donors remain fixed. Applying the six half-steps in reverse order therefore gives a predecessor.
-
-For each candidate state, the panel coder groups a plane into eight 16 × 8 binary matrices. Rank zero needs only a tag. Rank one or two carries basis rows and binary coordinates. Higher rank escapes to literal row bytes. Tags, bases, coordinates and literal panels form separate lanes. Direct, orbit-only, rank-only and combined profiles all use DEFLATE level 6 on the candidate payload. The four-byte slab record pays for method, rule, step and compressed length. All four share a 12-byte file header. A partial slab can enter the geometry search if it contains whole planes.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -30,34 +16,39 @@ flowchart LR
     T --> W["Store predecessor choice, factors and remaining data"]
 ```
 
+The encoder evolves a 3-D volume backwards, stores the earlier state as low-rank panels plus corrections, and the decoder steps it forward again.
+
+<details><summary>Technical details</summary>
+
+A 3D automaton can spread local low-rank structure across planes. Can a decoder recover the original volume cheaply if the encoder stores an earlier state? The native kernel comes from `lab/hutter/divisors/q-correzioni-fattori/encoder-cofattori/cmix-neif-2.0/griglie-intere/automi/inverso/passi.cpp`. Historically it was applied to U, V and an XOR correction E derived from a Neif archive. Here it is paired with an exact panel coder on ordinary file bytes.
+
 **Mechanism and test.** Reverse evolution can restore low-rank planes when the source was mixed by the tested dynamics. Orbit-only and panel-only coding help distinguish simpler predecessor bytes from a genuine factorization gain.
 
-## Inputs and measurement
+Each full 8 KiB slab is a volume of 64 planes, each 16 rows by 64 bits. A step updates alternating parities along x, y and z in six half-steps with zero boundaries. A cell XORs either its preceding neighbor or the AND of its two neighbors along the axis. An individual half-step is its own inverse because its donors remain fixed. Applying the six half-steps in reverse order therefore gives a predecessor.
 
-The primary trial measures `tensor-combined` on the complete `evolved-volume` input (25,165,824 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+For each candidate state, the panel coder groups a plane into eight 16 × 8 binary matrices. Rank zero needs only a tag. Rank one or two carries basis rows and binary coordinates. Higher rank escapes to literal row bytes. Tags, bases, coordinates and literal panels form separate lanes. Direct, orbit-only, rank-only and combined profiles all use DEFLATE level 6 on the candidate payload. The four-byte slab record pays for method, rule, step and compressed length. All four share a 12-byte file header. A partial slab can enter the geometry search if it contains whole planes.
 
-## Results
+</details>
 
-| Input | Direct | Orbit only | Rank only | Both | XZ extreme |
-|---|---:|---:|---:|---:|---:|
-| Evolved rank-two volume, 256 KiB | 259,175 | 216,650 | 259,157 | 100,339 | 258,752 |
-| Full Canterbury fax | 56,191 | 56,186 | 56,032 | 56,027 | 39,860 |
-| Silesia MR, first MiB | 377,578 | 377,578 | 299,013 | 298,966 | 264,592 |
-| Silesia X-ray, first MiB | 788,099 | 787,711 | 627,116 | 627,116 | 536,956 |
+## Results on 20 MiB inputs
 
-The plant uses independent rank-two panel bases and then evolves each slab forward by a search-supported distance. The combined decoder recovers this construction. On MR almost all the gain came from the panel representation, with 47 additional bytes from the orbit search. The same extra step saved five bytes on the fax and zero on X-ray, uniform noise, the spreadsheet and the enwik8 prefix. [All comparisons](results/comparisons.csv) · [Rule and step selections](results/trials.csv)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-## Large-file benchmark
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Silesia nci (chemical database) | real | 33,553,445 | 4,690,214 (`tensor-combined`) | — | 1,449,272 (xz -9e) | 3.2× larger |
+| Silesia numerical files (mr + x-ray + sao) | real | 25,696,748 | 14,514,489 (`tensor-combined`) | — | 11,662,476 (xz -9e) | +24.5% |
+| Silesia samba (source tarball) | real | 21,606,400 | 6,853,237 (`tensor-combined`) | — | 3,739,524 (xz -9e) | +83.3% |
+| Census tables printed by our enumerator | self-generated | 33,554,432 | 3,090,273 (`tensor-combined`) | — | 2,203,672 (xz -9e) | +40.2% |
+| 3-D field from a hidden automaton + low rank | planted | 25,165,824 | 9,632,435 (`tensor-combined`) | — | 24,648,803 (brotli -11) | **−60.9%** |
 
-On `evolved-volume` (25,165,824 raw bytes), `tensor-combined` produced 9,632,435 archive bytes. Zstandard level 3 used 25,166,414 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#evolved-volume) · [All project measurements](../large-scale/results/by-experiment.md#tensor-orbits)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `evolved-volume`, `tensor-combined` delivers 9,632,435 bytes, 15,533,979 bytes smaller than standalone Zstandard 3 (25,166,414 bytes).
-
-Holding `tensor-combined` fixed across the 5 measured input/reference settings with a standalone Zstandard 3 control gives **3 smaller, 0 equal and 2 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -154,6 +145,27 @@ python3 research/large-scale/primary.py runs/replay-tensor-orbits --project tens
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Four-dimensional automata with noisy binary matrix factors](../four-dimensional-factors/README.md) · [Byte-valued cellular automata and Kronecker factors](../modular-kronecker/README.md)
+## Small-scale results
+
+The primary trial measures `tensor-combined` on the complete `evolved-volume` input (25,165,824 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+| Input | Direct | Orbit only | Rank only | Both | XZ extreme |
+|---|---:|---:|---:|---:|---:|
+| Evolved rank-two volume, 256 KiB | 259,175 | 216,650 | 259,157 | 100,339 | 258,752 |
+| Full Canterbury fax | 56,191 | 56,186 | 56,032 | 56,027 | 39,860 |
+| Silesia MR, first MiB | 377,578 | 377,578 | 299,013 | 298,966 | 264,592 |
+| Silesia X-ray, first MiB | 788,099 | 787,711 | 627,116 | 627,116 | 536,956 |
+
+The plant uses independent rank-two panel bases and then evolves each slab forward by a search-supported distance. The combined decoder recovers this construction. On MR almost all the gain came from the panel representation, with 47 additional bytes from the orbit search. The same extra step saved five bytes on the fax and zero on X-ray, uniform noise, the spreadsheet and the enwik8 prefix. [All comparisons](results/comparisons.csv) · [Rule and step selections](results/trials.csv)
+
+## Run it
+
+```sh
+mkdir -p runs
+python3 research/tensor-orbits/codec.py encode "$CORPUS/canterbury/ptt5" runs/fax.tgf --profile combined
+python3 research/tensor-orbits/codec.py decode runs/fax.tgf runs/fax.bin
+cmp "$CORPUS/canterbury/ptt5" runs/fax.bin
+python3 research/tensor-orbits/benchmark.py "$CORPUS" runs/volumes
+```

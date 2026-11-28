@@ -1,0 +1,10 @@
+COINCIDENCE HUNT  target <repo>/research/coincidence-hunt/controls/ctl_primes.txt: 300 characters = 2400 bits; 12 threads
+bars: raw 2400 bits | its own letter statistics (order-0, table not counted) 919 bits
+
+=== integer sequences: ~40 named integer sequences (primes, Fibonacci, Catalan, partitions, Collatz, Recaman, Stern, Golomb, van Eck, totient, ...) read as bits (bit 0..7, div3, rising) from every start, and written out as text with separators '', ' ', ',', ', ', newline, '|' from every character
+  -> 1.11e+07 candidates (naming one costs 26.4 bits), 0.6s
+     best: 35 bits = primes written out with separator ', ', from character 5, 0 wrong chars
+     longest exact run from the start: 2400 bits (primes written out from character 5)
+
+RANKING (best candidate of each family; raw = 2400 bits, letter statistics = 919 bits), total 1s
+  1.      35 bits  BEATS RAW  integer sequences: primes written out with separator ', ', from character 5  [0 wrong chars]

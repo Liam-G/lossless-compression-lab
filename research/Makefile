@@ -78,3 +78,32 @@ $(BUILD)/whiteboard-census-host: whiteboard-census/enumerate.c | $(BUILD)
 
 $(BUILD)/field-lanes.so: lattice-prediction/field_lanes.cpp | $(BUILD)
 	$(CXX) $(CXXFLAGS) -shared -fPIC $< -o $@
+
+# ---- Experiments recovered from the lab notebooks (2026-11-28). Build with: make -C research lab
+LAB := $(BUILD)/hunt $(BUILD)/blockgen $(BUILD)/gen $(BUILD)/view $(BUILD)/bwtlab $(BUILD)/cmlab $(BUILD)/cm2lab \
+	$(BUILD)/repeats $(BUILD)/grammar-lab $(BUILD)/m3probe $(BUILD)/stride-scan
+lab: $(LAB)
+.PHONY: lab
+SAIS := statico/third_party/libsais/libsais.c
+$(BUILD)/hunt: coincidence-hunt/hunt.cpp | $(BUILD)
+	$(CXX) -O3 -std=c++20 -march=native $< -lgmp -pthread -o $@
+$(BUILD)/blockgen: block-programs/blockgen.cpp | $(BUILD)
+	$(CXX) -O3 -std=c++20 -march=native $< -lgmp -pthread -o $@
+$(BUILD)/gen: block-programs/gen.cpp | $(BUILD)
+	$(CXX) -O3 -std=c++20 -march=native $< -lgmp -pthread -o $@
+$(BUILD)/view: reshape-tournament/view.cpp $(BUILD)/sais.o | $(BUILD)
+	$(CXX) -O3 -std=c++20 $< $(BUILD)/sais.o -o $@
+$(BUILD)/bwtlab: bwt-lab/bwtlab.cpp $(BUILD)/sais.o | $(BUILD)
+	$(CXX) -O3 -std=c++20 -march=native $< $(BUILD)/sais.o -pthread -o $@
+$(BUILD)/cmlab: context-mixer/history/cmlab.cpp | $(BUILD)
+	$(CXX) -O3 -std=c++20 -march=native $< -o $@
+$(BUILD)/cm2lab: context-mixer/history/cm2lab.cpp context-mixer/lstm.hpp | $(BUILD)
+	$(CXX) -O3 -std=c++20 -march=native -ffast-math $< -o $@
+$(BUILD)/repeats: context-mixer/history/repeats.cpp | $(BUILD)
+	$(CXX) -O3 -std=c++20 $< -o $@
+$(BUILD)/grammar-lab: grammar-probes/gbuild.cpp grammar-probes/grammar_lab.cpp $(BUILD)/sais.o | $(BUILD)
+	$(CXX) -O3 -std=c++20 grammar-probes/gbuild.cpp grammar-probes/grammar_lab.cpp $(BUILD)/sais.o -o $@
+$(BUILD)/m3probe: grammar-probes/probe.cpp | $(BUILD)
+	$(CXX) -O3 -std=c++20 $< -o $@
+$(BUILD)/stride-scan: stride-scan/scan.c | $(BUILD)
+	$(CC) -O3 $< -lm -o $@

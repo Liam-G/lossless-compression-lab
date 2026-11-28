@@ -1,0 +1,10 @@
+{
+  "note": "Ordinary tools on the same 300 characters (enwik8 bytes 4123-4422), measured 2026-11-28. Bits = 8 x bytes of the complete output (gzip -9 -n, zstd -19, brotli -q 11). CM3 is the exact coding cost of our context mixer starting from empty tables (CM3_BITS=16). Letter statistics = order-0 cost of the characters given their own counts, with the table itself not counted (an optimistic bound).",
+  "tools": {
+    "gzip -9": 1760,
+    "zstd -19": 1712,
+    "Letter statistics (table not counted)": 1438,
+    "CM3, starting empty": 1432,
+    "brotli -11 (has a built-in English dictionary)": 1384
+  }
+}

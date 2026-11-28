@@ -1,0 +1,6 @@
+    17811463 bytes  1.4251 bits/byte  [6205s]  cm3 BITS=21 (2.8 GB tables) LSTM=192 (real archive) sha256 2b49720e
+    17814365 bytes  1.4251 bits/byte  [6330s]  cm3 BITS=21 (2.8 GB tables) LSTM=192 (decoded) sha256 2b49720e
+.rw-r--r-- 18M 25 Nov 07:53 work/full/enwik8.cm3v9
+FULL ENWIK8 ROUND TRIP (cm3 v9): IDENTICAL
+2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8  ../../corpus/enwik8/enwik8
+2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8  work/full/enwik8.cm3v9back

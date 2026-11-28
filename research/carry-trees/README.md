@@ -1,34 +1,14 @@
 # Integer carries across tree boundaries
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: no meaningful gain on real data.** Best real input: Q: the record archive as an integer, −0.0044% vs zstd -19.
+>
+> Part of [chapter 1](../../report/1-formulas.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Does multiplying or dividing a file before splitting expose regions that the same transformation on individual leaves misses?
+Does multiplying or dividing the whole file by a small number before splitting it expose regions that the same trick on each piece would miss?
 
-### Source files and compatibility
-
-The original mixed-arity trees divide an integer and split its quotient. The hybrid Q archive in `lab/hutter/divisors/q-ibrido/ibrido.py` selects disjoint spans in 12Q. CRT1 and SCL1 are new experiments based on those two constructions.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/carry-trees/codec.py encode runs/large/raw/mapped-text runs/mapped.crt --profile joint
-python3 research/carry-trees/codec.py decode runs/mapped.crt runs/mapped.restored
-cmp runs/large/raw/mapped-text runs/mapped.restored
-python3 research/carry-trees/sparse_scale.py encode "$Q" runs/q.scl --profile informed
-python3 research/carry-trees/sparse_scale.py decode runs/q.scl runs/q-scale.restored
-cmp "$Q" runs/q-scale.restored
-```
-
-## Variants and format
-
-CRT1 uses literal, Zstandard, split and map nodes on roots up to 4 MiB. An odd multiplier is bijective modulo 2ⁿ. The power of two in a factor rotates bits, preserving those that would otherwise overflow. The inverse solves the exact carry and reverses the rotation. A map above a split carries information across its boundary. Encoder shortlist decisions cost no decoder bits. SCL1 applies a single map across the entire file and uses weighted interval scheduling over verified compressed replacements. The probe-selected `joint` profile and the `informed` profile, which adds the original lab candidate 12, are reported separately.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -36,26 +16,37 @@ flowchart LR
     T --> W["Store map and profitable replacement intervals"]
 ```
 
+The file is scaled (for example by 12), split into regions, and sparse arithmetic regions are coded while the rest stays literal; the order of scaling and splitting is compared.
+
+<details><summary>Technical details</summary>
+
+Does multiplying or dividing a file before splitting expose regions that the same transformation on individual leaves misses?
+
 **Mechanism and test.** Carries cross a boundary when scaling precedes a cut. This can expose a locally encodable span even when the rest is incompressible. The blind and informed searches test how much the answer depends on prior knowledge of the candidate.
 
-## Inputs and measurement
+CRT1 uses literal, Zstandard, split and map nodes on roots up to 4 MiB. An odd multiplier is bijective modulo 2ⁿ. The power of two in a factor rotates bits, preserving those that would otherwise overflow. The inverse solves the exact carry and reverses the rotation. A map above a split carries information across its boundary. Encoder shortlist decisions cost no decoder bits. SCL1 applies a single map across the entire file and uses weighted interval scheduling over verified compressed replacements. The probe-selected `joint` profile and the `informed` profile, which adds the original lab candidate 12, are reported separately.
 
-Inputs include full Q, full Neif, real numerical bytes, noise, and 24 MiB of distinct Wikipedia fragments deliberately scrambled by independent page-local arithmetic maps.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-On the scrambled text the combined tree gave 9,869,511 bytes, versus 14,295,184 for splitting alone. The independent numerical input gave 13,992,442 versus 14,355,119 for arithmetic alone. The 4 MiB tree stored all of Q literally. On full Q the sparse region-only archive was 96,993,475 bytes, the whole-file joint search gave 96,991,891, and explicitly including factor 12 gave 96,990,415. The original V15 package still has the larger saving. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Silesia numerical files (mr + x-ray + sao) | real | 25,696,748 | 13,992,442 (`carry-joint`) | — | 11,662,476 (xz -9e) | +20.0% |
+| Q: the record archive as an integer | derived from real | 96,994,187 | 96,990,415 (`scale-informed`) | — | 96,994,649 (zstd -19) | −0.0044% |
+| Neif: a later enwik9 archive | derived from real | 89,346,392 | 89,346,307 (`scale-joint`) | — | — | — |
+| Uniform random bytes | control | 25,165,824 | 25,165,842 (`carry-arithmetic`) | — | 25,166,414 (zstd -19) | −0.0023% |
+| mapped-text | other | 25,165,824 | 9,869,511 (`carry-joint`) | — | 10,023,454 (PPMd) | **−1.5%** |
 
-## Large-file benchmark
-
-On `cofattore-Q.base256` (96,994,187 raw bytes), `scale-informed` produced 96,990,415 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#carry-trees)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `cofattore-Q.base256`, `scale-informed` delivers 96,990,415 bytes, 6,009 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -157,6 +148,32 @@ python3 research/large-scale/primary.py runs/replay-carry-trees --project carry-
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Compare with [whiteboard trees](../whiteboard-trees/README.md), [whole-integer formulas](../integer-formulas/README.md) and [arithmetic reference patches](../arithmetic-references/README.md).
+## Small-scale results
+
+Inputs include full Q, full Neif, real numerical bytes, noise, and 24 MiB of distinct Wikipedia fragments deliberately scrambled by independent page-local arithmetic maps.
+
+On the scrambled text the combined tree gave 9,869,511 bytes, versus 14,295,184 for splitting alone. The independent numerical input gave 13,992,442 versus 14,355,119 for arithmetic alone. The 4 MiB tree stored all of Q literally. On full Q the sparse region-only archive was 96,993,475 bytes, the whole-file joint search gave 96,991,891, and explicitly including factor 12 gave 96,990,415. The original V15 package still has the larger saving. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
+
+```sh
+mkdir -p runs
+python3 research/carry-trees/codec.py encode runs/large/raw/mapped-text runs/mapped.crt --profile joint
+python3 research/carry-trees/codec.py decode runs/mapped.crt runs/mapped.restored
+cmp runs/large/raw/mapped-text runs/mapped.restored
+python3 research/carry-trees/sparse_scale.py encode "$Q" runs/q.scl --profile informed
+python3 research/carry-trees/sparse_scale.py decode runs/q.scl runs/q-scale.restored
+cmp "$Q" runs/q-scale.restored
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The original mixed-arity trees divide an integer and split its quotient. The hybrid Q archive in `lab/hutter/divisors/q-ibrido/ibrido.py` selects disjoint spans in 12Q. CRT1 and SCL1 are new experiments based on those two constructions.
+
+</details>

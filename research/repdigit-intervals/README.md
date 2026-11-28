@@ -1,28 +1,14 @@
 # Adaptive repdigit intervals
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: no meaningful gain on real data.** Best real input: Q: the record archive as an integer, −0.0006% vs zstd -19.
+>
+> Part of [chapter 1](../../report/1-formulas.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Do whiteboard formulas occur at profitable positions inside the real cofactor Q? This experiment tries each useful byte offset and selects a set of disjoint replacements by dynamic programming. The original RPS1 codec and native scanner are from `lab/hutter/ragc/repdigit_split`, the arithmetic records from `lab/hutter/ragc/rfce_check/repdigits.py`, and the QFT1 multiplier extension from `lab/hutter/ragc/entropy_base_tree/{quotient_trial.py,product_scan.cpp}`.
+Do whiteboard-style repdigit numbers appear at useful positions inside the record archive Q?
 
-## Run the experiment
-
-```sh
-mkdir -p runs
-python3 research/repdigit-intervals/benchmark.py runs/intervals --q "$Q"
-python3 research/repdigit-intervals/quotient_trial.py bench "$Q" research/build/product-scan runs/products
-python3 research/repdigit-intervals/quotient_trial.py decode runs/products/Q.qft runs/products/restored
-cmp "$Q" runs/products/restored
-```
-
-The drivers generate seeded planted and random controls and preserve the winning real archive in the output directory. RPS1 also accepts a single file via `codec.py encode INPUT OUTPUT --scanner research/build/interval-scan` and `codec.py decode ARCHIVE RESTORED`.
-
-## Variants and format
-
-RPS1 caps each interval at 32 bytes and enumerates arithmetic descriptions up to 28 bits. It compares fixed 32-byte boundaries, movable intervals with direct repdigits, exact cross-base quotients and zero runs. A 12-byte header carries source size and record count. Every substitution pays for a 4-byte offset, a byte width, a recipe length and its packed recipe. Literal gaps fill the rest. QFT1 extends the maximum interval to 255 bytes and permits a small prime as a multiplier.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -30,27 +16,34 @@ flowchart LR
     T --> W["Store offset, width and recipe plus literal gaps"]
 ```
 
+Every byte offset is tried as the start of a repdigit or repdigit quotient; dynamic programming picks the set of non-overlapping replacements that saves most.
+
+<details><summary>Technical details</summary>
+
+Do whiteboard formulas occur at profitable positions inside the real cofactor Q? This experiment tries each useful byte offset and selects a set of disjoint replacements by dynamic programming. The original RPS1 codec and native scanner are from `lab/hutter/ragc/repdigit_split`, the arithmetic records from `lab/hutter/ragc/rfce_check/repdigits.py`, and the QFT1 multiplier extension from `lab/hutter/ragc/entropy_base_tree/{quotient_trial.py,product_scan.cpp}`.
+
 **Mechanism and test.** A match must save more than its offset and parameters. Relaxing the allowed span can uncover longer profitable matches, but sparse hits on a large file still have little effect on its total size.
 
-## Inputs and measurement
+RPS1 caps each interval at 32 bytes and enumerates arithmetic descriptions up to 28 bits. It compares fixed 32-byte boundaries, movable intervals with direct repdigits, exact cross-base quotients and zero runs. A 12-byte header carries source size and record count. Every substitution pays for a 4-byte offset, a byte width, a recipe length and its packed recipe. Literal gaps fill the rest. QFT1 extends the maximum interval to 255 bytes and permits a small prime as a multiplier.
 
-The primary trial measures `qft255` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-On full Q, fixed RPS1 blocks occupied 96,994,199 bytes. Moving the boundaries and enabling all families produced 96,994,108 bytes, saving 79 bytes over the input. The selected intervals were six direct repdigits and three zero runs. On the 184,958-byte plant, adding quotients reduced 148,418 bytes to 116,299. The random control paid only the header. [RPS1 replay](results/intervals.jsonl)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-QFT1 reached 96,994,101 bytes on Q, saving 86 bytes over the input. The full-width solution used six direct repdigits and two zero runs. Enabling prime-scaled quotients added no savings to that solution. The same implementation selected them on its planted input. All distinct archive selections in the evaluation were reconstructed and compared in a separate process. [QFT1 replay and selected recipe families](results/products.json)
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Q: the record archive as an integer | derived from real | 96,994,187 | 96,994,101 (`qft255`) | — | 96,994,649 (zstd -19) | −0.0006% |
+| Neif: a later enwik9 archive | derived from real | 89,346,392 | 89,346,365 (`qft255`) | — | — | — |
 
-## Large-file benchmark
-
-On `cofattore-Q.base256` (96,994,187 raw bytes), `qft255` produced 96,994,101 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#repdigit-intervals)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `cofattore-Q.base256`, `qft255` delivers 96,994,101 bytes, 2,323 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -96,6 +89,24 @@ python3 research/large-scale/primary.py runs/replay-repdigit-intervals --project
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Whiteboard quotients inside factor trees](../whiteboard-trees/README.md) · [Whole-file square, product and modular-square formulas](../integer-formulas/README.md)
+## Small-scale results
+
+The primary trial measures `qft255` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+On full Q, fixed RPS1 blocks occupied 96,994,199 bytes. Moving the boundaries and enabling all families produced 96,994,108 bytes, saving 79 bytes over the input. The selected intervals were six direct repdigits and three zero runs. On the 184,958-byte plant, adding quotients reduced 148,418 bytes to 116,299. The random control paid only the header. [RPS1 replay](results/intervals.jsonl)
+
+QFT1 reached 96,994,101 bytes on Q, saving 86 bytes over the input. The full-width solution used six direct repdigits and two zero runs. Enabling prime-scaled quotients added no savings to that solution. The same implementation selected them on its planted input. All distinct archive selections in the evaluation were reconstructed and compared in a separate process. [QFT1 replay and selected recipe families](results/products.json)
+
+## Run it
+
+```sh
+mkdir -p runs
+python3 research/repdigit-intervals/benchmark.py runs/intervals --q "$Q"
+python3 research/repdigit-intervals/quotient_trial.py bench "$Q" research/build/product-scan runs/products
+python3 research/repdigit-intervals/quotient_trial.py decode runs/products/Q.qft runs/products/restored
+cmp "$Q" runs/products/restored
+```
+
+The drivers generate seeded planted and random controls and preserve the winning real archive in the output directory. RPS1 also accepts a single file via `codec.py encode INPUT OUTPUT --scanner research/build/interval-scan` and `codec.py decode ARCHIVE RESTORED`.

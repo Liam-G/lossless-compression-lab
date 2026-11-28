@@ -1,26 +1,14 @@
 # Repeated glyphs and an exact bitmap residual
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: wins on real data.** Best: Scanned manual: Valgrind, −52.4% vs DjVu.
+>
+> Part of [chapter 4](../../report/4-specialised.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Can the lab's idea of storing a reusable shape plus a correction work on an entire technical manual? The raster-context prototype in `lab/shape` predicted each pixel. This extension finds connected components, reuses their bitmaps at different positions and tests whether the remaining pixels still benefit from a fax coder. Lossless DjVu provides a mature symbol-coding comparison.
+Scanned manuals are printed from a few hundred letter shapes. Can storing each shape once, plus where it appears and an exact pixel correction, beat DjVu and JBIG?
 
-## Run the experiment
-
-```sh
-python3 research/glyph-residuals/codec.py encode runs/large/raw/manual-library runs/manual.glr --profile position
-python3 research/glyph-residuals/codec.py decode runs/manual.glr runs/manual.raw
-cmp runs/large/raw/manual-library runs/manual.raw
-```
-
-## Variants and format
-
-GLR1 counts 8-connected components in 512-row strips. It takes at most 4,096 repeated bitmaps. A position can use an exact shape or a nearby shape with the same dimensions. The encoder XORs every placement out of the source and codes the residual using Zstandard or JBIG. Applying the same placements to the residual restores every pixel, including boundaries, drawings and any correction to an approximate match.
-
-The original position stream sorts placements by their top or bottom, then codes glyph IDs, row steps and signed horizontal gaps. The `position` profile also estimates a baseline offset for each shape, groups events by inferred text line, and tests causal predictors for the next symbol and character spacing. It charges the dictionary, baseline offsets, choices, positions, and residual. Dimensions and all stream lengths are in the archive. The bitmap uses MSB-first, black-one rows and accepts widths divisible by eight.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -28,33 +16,38 @@ flowchart LR
     T --> W["Store glyphs, positions and correction pixels"]
 ```
 
+Connected components are extracted, similar ones share one stored bitmap, their positions are coded, and an exact residual fixes every pixel that differs.
+
+<details><summary>Technical details</summary>
+
+Can the lab's idea of storing a reusable shape plus a correction work on an entire technical manual? The raster-context prototype in `lab/shape` predicted each pixel. This extension finds connected components, reuses their bitmaps at different positions and tests whether the remaining pixels still benefit from a fax coder. Lossless DjVu provides a mature symbol-coding comparison.
+
 **Mechanism and test.** Typeset pages reuse shapes along baselines. Storing a glyph once helps only when reference IDs and locations are cheaper than its pixels. The residual pays for imperfect matches, diagrams and unmodeled regions.
 
-## Inputs and measurement
+GLR1 counts 8-connected components in 512-row strips. It takes at most 4,096 repeated bitmaps. A position can use an exact shape or a nearby shape with the same dimensions. The encoder XORs every placement out of the source and codes the residual using Zstandard or JBIG. Applying the same placements to the residual restores every pixel, including boundaries, drawings and any correction to an approximate match.
 
-Two complete Graphviz manual sets supplied the first comparison. Two different books supplied the first 64 NASM and Valgrind pages. The Valgrind pages were reserved when the new position model was introduced. All four rasters exceed 20 MiB. DjVuLibre's lossless `cjb2` was measured with 8,192- and 32,760-row strips, bundled with `djvm`. A third reference uses foreground RLE and bundled `csepdjvu`. Each DjVu decoder recreated the same pixels for `cmp`.
+The original position stream sorts placements by their top or bottom, then codes glyph IDs, row steps and signed horizontal gaps. The `position` profile also estimates a baseline offset for each shape, groups events by inferred text line, and tests causal predictors for the next symbol and character spacing. It charges the dictionary, baseline offsets, choices, positions, and residual. Dimensions and all stream lengths are in the archive. The bitmap uses MSB-first, black-one rows and accepts widths divisible by eight.
 
-## Results
+</details>
 
-| Raster | Raw bytes | Glyphs + JBIG | Learned positions | DjVu, 32,760 rows |
-|---|---:|---:|---:|---:|
-| Graphviz graph/layout guides | 24,642,792 | 211,517 | 189,603 | 191,132 |
-| Graphviz library manual | 24,283,584 | 196,530 | 160,297 | 175,164 |
-| NASM | 31,809,024 | 225,552 | 195,223 | 189,610 |
-| Valgrind | 30,924,288 | 435,746 | 394,104 | 828,622 |
+## Results on 20 MiB inputs
 
-Learning positions saved bytes on all four inputs. The wider-strip DjVu archive remained 5,613 bytes smaller on NASM. These are digitally typeset PDFs rendered to monochrome. Performance on scanned or degraded paper is a separate question. [Individual archives, timing and hashes](../large-scale/results/by-dataset.md#manual-graphs)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Scanned manual: Graphviz guides | real | 24,642,792 | 189,603 (`glyph-position`) | — | 191,132 (DjVu) | **−0.8%** |
+| Scanned manual: Graphviz library | real | 24,283,584 | 160,297 (`glyph-position`) | — | 175,164 (DjVu) | **−8.5%** |
+| Scanned manual: NASM | real | 31,809,024 | 195,223 (`glyph-position`) | — | 189,610 (DjVu) | +3.0% |
+| Scanned manual: Valgrind | real | 30,924,288 | 394,104 (`glyph-position`) | — | 828,622 (DjVu) | **−52.4%** |
 
-## Large-file benchmark
-
-On `manual-valgrind` (30,924,288 raw bytes), `glyph-position` produced 394,104 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#manual-valgrind) · [All project measurements](../large-scale/results/by-experiment.md#glyph-residuals)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-Holding `glyph-position` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **2 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -139,6 +132,25 @@ python3 research/large-scale/primary.py runs/replay-glyph-residuals --project gl
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Raster shape contexts](../shape-context/README.md) · [Shared recipe dictionaries](../shared-factor-forest/README.md) · [Document inputs](../large-scale/documents.json)
+## Small-scale results
+
+Two complete Graphviz manual sets supplied the first comparison. Two different books supplied the first 64 NASM and Valgrind pages. The Valgrind pages were reserved when the new position model was introduced. All four rasters exceed 20 MiB. DjVuLibre's lossless `cjb2` was measured with 8,192- and 32,760-row strips, bundled with `djvm`. A third reference uses foreground RLE and bundled `csepdjvu`. Each DjVu decoder recreated the same pixels for `cmp`.
+
+| Raster | Raw bytes | Glyphs + JBIG | Learned positions | DjVu, 32,760 rows |
+|---|---:|---:|---:|---:|
+| Graphviz graph/layout guides | 24,642,792 | 211,517 | 189,603 | 191,132 |
+| Graphviz library manual | 24,283,584 | 196,530 | 160,297 | 175,164 |
+| NASM | 31,809,024 | 225,552 | 195,223 | 189,610 |
+| Valgrind | 30,924,288 | 435,746 | 394,104 | 828,622 |
+
+Learning positions saved bytes on all four inputs. The wider-strip DjVu archive remained 5,613 bytes smaller on NASM. These are digitally typeset PDFs rendered to monochrome. Performance on scanned or degraded paper is a separate question. [Individual archives, timing and hashes](../large-scale/results/by-dataset.md#manual-graphs)
+
+## Run it
+
+```sh
+python3 research/glyph-residuals/codec.py encode runs/large/raw/manual-library runs/manual.glr --profile position
+python3 research/glyph-residuals/codec.py decode runs/manual.glr runs/manual.raw
+cmp runs/large/raw/manual-library runs/manual.raw
+```

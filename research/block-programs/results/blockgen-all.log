@@ -1,0 +1,25 @@
+BLOCK GENERATOR ENCODER: first 1024 bytes of <repo>/runs/lab/inputs/e1k, blocks of 64 bytes (512 bits), mode all
+banks: 920 digit/sequence streams x 262144 starts (name 28.8 bits) | 6974 roots/fractions x 6000 starts (name 26.3) | 2 random generators x 4.2M seeds | 308251 formulas/recurrences x 13 read-outs (name 22.9) | 60 integer-sequence texts (name 20.8) | repeating patterns | copy earlier data, last follower (context 1-8), most frequent follower (context 1-3)  [17s]
+@0       last follower                471 bits (raw   512)  predict(next = byte that followed the last 2 bytes the last time they appeared) fix[52 bytes]
+@64      most frequent follower       426 bits (raw   512)  predict(next = most frequent byte after the last 2 bytes so far) fix[46 bytes]
+@128     last follower                170 bits (raw   512)  predict(next = byte that followed the last 3 bytes the last time they appeared) fix[14 bytes]
+@192     most frequent follower       330 bits (raw   512)  predict(next = most frequent byte after the last 2 bytes so far) fix[36 bytes]
+@256     last follower                376 bits (raw   512)  predict(next = byte that followed the last 2 bytes the last time they appeared) fix[38 bytes]
+@320     most frequent follower       405 bits (raw   512)  predict(next = most frequent byte after the last 2 bytes so far) fix[42 bytes]
+@384     last follower                391 bits (raw   512)  predict(next = byte that followed the last 2 bytes the last time they appeared) fix[40 bytes]
+@448     last follower                236 bits (raw   512)  predict(next = byte that followed the last 2 bytes the last time they appeared) fix[21 bytes]
+@512     most frequent follower       236 bits (raw   512)  predict(next = most frequent byte after the last 3 bytes so far) fix[23 bytes]
+@576     most frequent follower       199 bits (raw   512)  predict(next = most frequent byte after the last 2 bytes so far) fix[17 bytes]
+@640     most frequent follower       161 bits (raw   512)  predict(next = most frequent byte after the last 3 bytes so far) fix[13 bytes]
+@704     most frequent follower       130 bits (raw   512)  predict(next = most frequent byte after the last 2 bytes so far) fix[10 bytes]
+@768     last follower                180 bits (raw   512)  predict(next = byte that followed the last 2 bytes the last time they appeared) fix[15 bytes]
+@832     most frequent follower       140 bits (raw   512)  predict(next = most frequent byte after the last 2 bytes so far) fix[11 bytes]
+@896     copy earlier data            147 bits (raw   512)  copy(from=706, len=64) fix[11 bytes]
+@960     most frequent follower       209 bits (raw   512)  predict(next = most frequent byte after the last 2 bytes so far) fix[18 bytes]
+
+ROUND TRIP: OK, every line regenerates its block exactly (0 of 16 blocks differ)
+
+TOTAL 4208 bits = 526 bytes for 1024 bytes (raw 8192 bits; 4.109 bits per byte)  [65s]
+  copy earlier data            1 blocks        147 bits
+  last follower                6 blocks       1824 bits
+  most frequent follower       9 blocks       2236 bits

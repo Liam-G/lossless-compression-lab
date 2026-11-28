@@ -124,48 +124,13 @@ def measurement_block(folder, datasets, primary, pairs, baselines, figures):
     summary = [
         START,
         "",
-        "Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.",
+        "Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.",
     ]
-    primary_rows = [r for r in datasets[preferred] if r["codec"] == profile]
-    for r in primary_rows:
-        controls = baselines.get((preferred, r["input_sha256"]), ())
-        zstd = next((b for b in controls if b["codec"] == "zstd3"), None)
-        total = r["archive_plus_reference_bytes"]
-        if zstd:
-            baseline = zstd["archive_bytes"]
-            diff = total - baseline
-            result = (
-                f"{abs(diff):,} bytes {'larger' if diff > 0 else 'smaller'} than"
-                if diff
-                else "the same size as"
-            )
-            base = (
-                f" with candidate base `{r['knobs']['reference']}`"
-                if "reference" in r["knobs"]
-                else ""
-            )
-            summary += [
-                "",
-                f"On the primary input `{preferred}`, `{profile}`{base} delivers {total:,} bytes, {result} standalone Zstandard 3 ({baseline:,} bytes).",
-            ]
-    comparisons = []
-    for name, entries in datasets.items():
-        for r in entries:
-            if r["codec"] != profile:
-                continue
-            controls = baselines.get((name, r["input_sha256"]), ())
-            baseline = next((b for b in controls if b["codec"] == "zstd3"), None)
-            if baseline:
-                comparisons.append(
-                    r["archive_plus_reference_bytes"] - baseline["archive_bytes"]
-                )
-    if len(comparisons) > 1:
-        wins = sum(d < 0 for d in comparisons)
-        ties = comparisons.count(0)
-        summary += [
-            "",
-            f"Holding `{profile}` fixed across the {len(comparisons)} measured input/reference settings with a standalone Zstandard 3 control gives **{wins} smaller, {ties} equal and {len(comparisons) - wins - ties} larger** delivered archives. Each setting counts once.",
-        ]
+    summary += [
+        "",
+        "These tables list every measured profile. The comparison with the best standard tool on each input "
+        "(gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.",
+    ]
     any_pairs = any(
         (r["dataset"], r["codec"]) in pairs for rows in datasets.values() for r in rows
     )
@@ -300,10 +265,6 @@ def render(text, block):
         if not marker or "\n## Large-file benchmark\n" not in a:
             raise ValueError("Project README is missing its benchmark section")
         text = a.rstrip() + "\n\n" + block + "\n" + marker + b
-    text = text.replace(OLD_JUMP, JUMP, 1)
-    if JUMP not in text:
-        title, nl, rest = text.partition("\n")
-        text = title + nl + "\n" + JUMP + "\n" + rest
     return text
 
 

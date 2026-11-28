@@ -1,0 +1,6 @@
+{
+  "note": "Check of the DjVu baseline on the two manuals where glyph coding wins most (2026-11-28). The benchmark baseline runs cjb2 on bands of 32,760 rows (about 14 pages; DjVu's maximum page height), so one symbol dictionary is shared within each band. Splitting at real page boundaries (one dictionary per page) is worse. All decodes matched every pixel.",
+  "manual-valgrind": {"djvu_wide_bands_benchmark": 828622, "djvu_per_page_lossless": 931250, "ours_glyph_position": 394104},
+  "manual-library": {"djvu_wide_bands_benchmark": 175164, "djvu_per_page_lossless": 249994, "ours_glyph_position": 160297},
+  "limits": "A JBIG2 encoder with one symbol dictionary for the whole document (jbig2enc -s, minidjvu) was not available on the test machine; it could narrow the gap."
+}

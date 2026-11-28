@@ -1,31 +1,14 @@
 # Motion and spatial residuals on grayscale frame sequences
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Video clip 3 (grayscale frames), +45.6% vs H.264 lossless.
+>
+> Part of [chapter 4](../../report/4-specialised.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-When consecutive planes are actual frames, does a motion vector improve prediction enough to pay for its two stored coordinates?
+In video, does storing a motion vector per block improve prediction enough to pay for itself?
 
-### Source files and compatibility
-
-The nested-plane and stride experiments in `lab/shape/nested.py` motivated this transfer to a time axis. MVR1 adds an exact integer motion predictor and tests it against spatial-only and previous-frame baselines.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/motion-residuals/codec.py encode runs/large/raw/luma-jake runs/movie.mvr --width 640 --height 360 --profile joint
-python3 research/motion-residuals/codec.py decode runs/movie.mvr runs/movie.restored
-cmp runs/large/raw/luma-jake runs/movie.restored
-```
-
-## Variants and format
-
-The header supplies width, height and frame count. A frame can use literal pixels, spatial differences, the previous frame, or an integral motion vector per 32×32 tile. Coarse-to-fine search picks the vector using subsampled absolute differences. The joint profile can apply a left or median-edge predictor to temporal errors before ZigZag and Zstandard coding. The previous frame, vector field and residual determine the next frame exactly.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -33,28 +16,35 @@ flowchart LR
     T --> W["Encode vectors and exact residual pixels"]
 ```
 
+Each frame is predicted from the previous one with or without per-block motion and from spatial neighbours, and the residual is coded.
+
+<details><summary>Technical details</summary>
+
+When consecutive planes are actual frames, does a motion vector improve prediction enough to pay for its two stored coordinates?
+
 **Mechanism and test.** Stable or translated content can be predicted from the last frame. Transmitting motion vectors pays off only if the improvement over a plain previous-frame residual exceeds the vector cost. A lossless video codec provides a separate deployment comparison.
 
-## Inputs and measurement
+The header supplies width, height and frame count. A frame can use literal pixels, spatial differences, the previous frame, or an integral motion vector per 32×32 tile. Coarse-to-fine search picks the vector using subsampled absolute differences. The joint profile can apply a left or median-edge predictor to temporal errors before ZigZag and Zstandard coding. The previous frame, vector field and residual determine the next frame exactly.
 
-Each source supplies its first 128 frames, scaled once to 640×360 unsigned 8-bit luma. The raw streams are 29,491,200 bytes each. FFV1 and lossless H.264 are compared by decoding back to identical luma bytes. The experiment measures compression of these canonical frames.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-On Jake, spatial-only used 7,865,422 bytes, previous-frame prediction 1,201,348, and the combined codec 1,188,089. Lossless H.264 was smaller at 803,426. On Rei the combined archive gave 3,882,245, again above lossless H.264 (2,666,233). The time axis explained much more than the extra motion search on these clips. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Video clip 1 (grayscale frames) | real | 29,491,200 | 1,188,089 (`motion-joint`) | — | 803,426 (H.264 lossless) | +47.9% |
+| Video clip 2 (grayscale frames) | real | 29,491,200 | 1,102,656 (`motion-joint`) | — | 535,126 (H.264 lossless) | 2.1× larger |
+| Video clip 3 (grayscale frames) | real | 29,491,200 | 3,882,245 (`motion-joint`) | — | 2,666,233 (H.264 lossless) | +45.6% |
 
-## Large-file benchmark
-
-On `luma-rei` (29,491,200 raw bytes), `motion-joint` produced 3,882,245 archive bytes. Zstandard level 3 used 5,307,286 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#luma-rei) · [All project measurements](../large-scale/results/by-experiment.md#motion-residuals)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `luma-rei`, `motion-joint` delivers 3,882,245 bytes, 1,425,041 bytes smaller than standalone Zstandard 3 (5,307,286 bytes).
-
-Holding `motion-joint` fixed across the 3 measured input/reference settings with a standalone Zstandard 3 control gives **2 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -124,6 +114,29 @@ python3 research/large-scale/primary.py runs/replay-motion-residuals --project m
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Compare [four-dimensional automata](../four-dimensional-factors/README.md) and [wavelet lifting](../reversible-wavelets/README.md) on static RGB images.
+## Small-scale results
+
+Each source supplies its first 128 frames, scaled once to 640×360 unsigned 8-bit luma. The raw streams are 29,491,200 bytes each. FFV1 and lossless H.264 are compared by decoding back to identical luma bytes. The experiment measures compression of these canonical frames.
+
+On Jake, spatial-only used 7,865,422 bytes, previous-frame prediction 1,201,348, and the combined codec 1,188,089. Lossless H.264 was smaller at 803,426. On Rei the combined archive gave 3,882,245, again above lossless H.264 (2,666,233). The time axis explained much more than the extra motion search on these clips. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
+
+```sh
+mkdir -p runs
+python3 research/motion-residuals/codec.py encode runs/large/raw/luma-jake runs/movie.mvr --width 640 --height 360 --profile joint
+python3 research/motion-residuals/codec.py decode runs/movie.mvr runs/movie.restored
+cmp runs/large/raw/luma-jake runs/movie.restored
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The nested-plane and stride experiments in `lab/shape/nested.py` motivated this transfer to a time axis. MVR1 adds an exact integer motion predictor and tests it against spatial-only and previous-frame baselines.
+
+</details>

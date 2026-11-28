@@ -1,38 +1,14 @@
 # Experiment 05 · Local bases and exceptional digits
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Wikipedia text, another 24 MiB, 4.0× larger vs xz -9e.
+>
+> Part of [chapter 1](../../report/1-formulas.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Does the lowest-entropy numeral base also minimize the archive after dominant digits, exceptions and selectors are paid for?
+Every number can be written in any base. Is there a base in which a block has a few dominant digits, so that storing the base plus the exceptions is shorter?
 
-The source prototype searches bases 2–257 and compares empirical entropy with the exact encodings of digit exceptions in fixed-width integer-tree leaves.
-
-### Source files and compatibility
-
-The original leaf scorer supplies the dominant-digit and entropy rules. This implementation prices an explicit list of exception position/value pairs. Paths below are relative to the original workspace.
-
-- `lab/hutter/ragc/entropy_base_tree/trial.py`
-
-## Run the experiment
-
-Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
-
-```sh
-python3 ../../lab.py 05 test
-python3 ../../lab.py 05 encode ../../fixtures/medical.bin sample.lcx
-python3 ../../lab.py 05 decode sample.lcx sample.restored
-cmp ../../fixtures/medical.bin sample.restored
-python3 ../../lab.py 05 benchmark ../../runs/recheck-05
-```
-
-## Variants and format
-
-Each 16-byte word has 13 candidate bases from 2 through 257. Represent it by a digit count, a dominant digit and a list of exceptional positions and values in least-significant-digit order. All fields use unsigned varints. Global profiles transmit one common base and per-word literal flags. Local profiles use one selector per word, including the raw escape. Entropy scoring uses per-digit empirical entropy. Byte scoring includes literal fallback. The decoder restores each word to its original byte width.
-
-The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -40,50 +16,40 @@ flowchart LR
     T --> W["Transmit base, dominant digit and exceptions"]
 ```
 
+Per file or per block, the encoder picks a base from 2 to 257, codes the dominant digits cheaply and lists the exceptional digits. It compares choosing the base by entropy with choosing it by actual encoded size.
+
+<details><summary>Technical details</summary>
+
+Does the lowest-entropy numeral base also minimize the archive after dominant digits, exceptions and selectors are paid for?
+
+The source prototype searches bases 2–257 and compares empirical entropy with the exact encodings of digit exceptions in fixed-width integer-tree leaves.
+
 **Mechanism and test.** A cheap base has few exceptions with inexpensive positions. Compare local against global selection and entropy scoring against actual record length to separate better representation from uncharged selector cost.
 
-## Inputs and measurement
+Each 16-byte word has 13 candidate bases from 2 through 257. Represent it by a digit count, a dominant digit and a list of exceptional positions and values in least-significant-digit order. All fields use unsigned varints. Global profiles transmit one common base and per-word literal flags. Local profiles use one selector per word, including the raw escape. Entropy scoring uses per-digit empirical entropy. Byte scoring includes literal fallback. The decoder restores each word to its original byte width.
 
-The structured input contains repeated digits in changing local bases with a one-place perturbation. A cofactor window and quantized medical-image data exercise the same word format.
+The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
 
-The base set is a frozen subset of the original search range. Details in the trial CSV count changed base choices, including blocks that subsequently take the raw escape, and the complete selector stream.
+</details>
 
-The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+## Results on 20 MiB inputs
 
-## Results
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-Local selection by encoded size saved five bytes over the better individual change on the planted mixed-base input.
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Scanned manual: Graphviz guides | real | 24,642,792 | 8,312,441 (`pilot05-local-bytes`) | — | 191,132 (DjVu) | 43.5× larger |
+| Wikipedia text, 24 MiB | real | 25,165,824 | 26,744,147 (`pilot05-local-bytes`) | — | 6,602,488 (xz -9e) | 4.1× larger |
+| Wikipedia text, another 24 MiB | real | 25,165,824 | 26,747,076 (`pilot05-local-bytes`) | — | 6,637,336 (xz -9e) | 4.0× larger |
+| Census tables printed by our enumerator | self-generated | 33,554,432 | 17,808,940 (`pilot05-local-bytes`) | — | 2,203,672 (xz -9e) | 8.1× larger |
 
-| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
-|---|---:|---|---:|---:|
-| mixed-local-bases | 512 | local-bytes | 236 | 288 |
-| uniform | 512 | local-entropy | 556 | 525 |
-| integer.bin | 512 | local-entropy | 556 | 525 |
-| medical.bin | 512 | local-bytes | 343 | 137 |
-
-All 16 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
-
-### Base selection on the mixed-base control
-
-| Profile | Archive bytes | Transmitted selector bytes | Blocks where the two scoring rules differ |
-|---|---:|---:|---:|
-| global-entropy | 546 | 33 | 32 |
-| local-entropy | 241 | 32 | 2 |
-| global-bytes | 457 | 33 | 32 |
-| local-bytes | 236 | 32 | 2 |
-
-
-## Large-file benchmark
-
-On `manual-graphs` (24,642,792 raw bytes), `pilot05-local-bytes` produced 8,312,441 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../../research/large-scale/results/by-experiment.md#05-local-bases)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `manual-graphs`, `pilot05-local-bytes` delivers 8,312,441 bytes, 6,987,307 bytes larger than standalone Zstandard 3 (1,325,134 bytes).
-
-Holding `pilot05-local-bytes` fixed across the 4 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 4 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -153,6 +119,54 @@ python3 research/large-scale/primary.py runs/replay-05-local-bases --project 05-
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Experiment 01 represents the no-exception case. Experiment 14 provides competing position codes.
+## Small-scale results
+
+The structured input contains repeated digits in changing local bases with a one-place perturbation. A cofactor window and quantized medical-image data exercise the same word format.
+
+The base set is a frozen subset of the original search range. Details in the trial CSV count changed base choices, including blocks that subsequently take the raw escape, and the complete selector stream.
+
+The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+
+Local selection by encoded size saved five bytes over the better individual change on the planted mixed-base input.
+
+| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
+|---|---:|---|---:|---:|
+| mixed-local-bases | 512 | local-bytes | 236 | 288 |
+| uniform | 512 | local-entropy | 556 | 525 |
+| integer.bin | 512 | local-entropy | 556 | 525 |
+| medical.bin | 512 | local-bytes | 343 | 137 |
+
+All 16 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
+
+### Base selection on the mixed-base control
+
+| Profile | Archive bytes | Transmitted selector bytes | Blocks where the two scoring rules differ |
+|---|---:|---:|---:|
+| global-entropy | 546 | 33 | 32 |
+| local-entropy | 241 | 32 | 2 |
+| global-bytes | 457 | 33 | 32 |
+| local-bytes | 236 | 32 | 2 |
+
+## Run it
+
+Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
+
+```sh
+python3 ../../lab.py 05 test
+python3 ../../lab.py 05 encode ../../fixtures/medical.bin sample.lcx
+python3 ../../lab.py 05 decode sample.lcx sample.restored
+cmp ../../fixtures/medical.bin sample.restored
+python3 ../../lab.py 05 benchmark ../../runs/recheck-05
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The original leaf scorer supplies the dominant-digit and entropy rules. This implementation prices an explicit list of exception position/value pairs. Paths below are relative to the original workspace.
+
+- `lab/hutter/ragc/entropy_base_tree/trial.py`
+
+</details>

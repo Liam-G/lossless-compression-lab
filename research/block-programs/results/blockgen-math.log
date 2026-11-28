@@ -1,0 +1,25 @@
+BLOCK GENERATOR ENCODER: first 1024 bytes of <repo>/runs/lab/inputs/e1k, blocks of 64 bytes (512 bits), mode math
+banks: 920 digit/sequence streams x 262144 starts (name 28.8 bits) | 6974 roots/fractions x 6000 starts (name 26.3) | 2 random generators x 4.2M seeds | 308251 formulas/recurrences x 13 read-outs (name 22.9) | 60 integer-sequence texts (name 20.8) | repeating patterns | no data-reusing generators  [14s]
+@0       formulas                     475 bits (raw   512)  f(i) = ((i & 7) << i) -> div3 inverted flip[148 bits]
+@64      formulas                     487 bits (raw   512)  f(i) = fib((26 << sq(i))) -> bit4 inverted flip[157 bits]
+@128     formulas                     485 bits (raw   512)  f(i) = (isqrt(i) | sq(10)) -> lowbyte flip[156 bits]
+@192     repeats+cellular             492 bits (raw   512)  repeat_bits("0110") flip[174 bits]
+@256     digits+sequences             486 bits (raw   512)  champernowne(, step=4)[114774:115286] flip[152 bits]
+@320     formulas                     480 bits (raw   512)  f(i) = sq(sq(7)) -> lowbyte flip[152 bits]
+@384     digits+sequences             475 bits (raw   512)  champernowne(, step=4)[114726:115238] flip[143 bits]
+@448     formulas                     459 bits (raw   512)  x(k+1) = sq(sq((x - 26))), x(0)=3 -> lowbyte flip[136 bits]
+@512     formulas                     459 bits (raw   512)  f(i) = (2 >> (i & 10)) -> printable fix[47 bytes]
+@576     formulas                     482 bits (raw   512)  f(i) = sq(sq(7)) -> lowbyte flip[153 bits]
+@640     repeats+cellular             463 bits (raw   512)  repeat_bits("01100001") flip[145 bits]
+@704     formulas                     460 bits (raw   512)  f(i) = sq(sq(7)) -> lowbyte flip[137 bits]
+@768     formulas                     467 bits (raw   512)  x(k+1) = fib(sq((x ^ 26))), x(0)=1 -> bit7 inverted flip[142 bits]
+@832     digits+sequences             463 bits (raw   512)  champernowne(, step=4)[114774:115286] flip[135 bits]
+@896     formulas                     469 bits (raw   512)  f(i) = sq(sq(7)) -> lowbyte flip[143 bits]
+@960     repeats+cellular             466 bits (raw   512)  repeat_bits("01100101") flip[148 bits]
+
+ROUND TRIP: OK, every line regenerates its block exactly (0 of 16 blocks differ)
+
+TOTAL 7569 bits = 946 bytes for 1024 bytes (raw 8192 bits; 7.392 bits per byte)  [65s]
+  digits+sequences             3 blocks       1424 bits
+  formulas                    10 blocks       4724 bits
+  repeats+cellular             3 blocks       1421 bits

@@ -1,0 +1,7 @@
+digits ready [44s]  check: pi starts 0x243f6a88 (expect 243f6a88), e starts 0xb7e15162 (expect b7e15162)
+16 digit streams (5 constants + 11 digit-wise sums), 4,194,304 bits each
+search 16 streams x    65,536 start positions -> cost to name the spot  20.0 bits | bits recreated: enwik8 text                 22  xz output of enwik8 text    19  seeded random bytes         20  CONTROL: a piece of sqrt(2  20
+search 16 streams x   262,144 start positions -> cost to name the spot  22.0 bits | bits recreated: enwik8 text                 25  xz output of enwik8 text    22  seeded random bytes         24  CONTROL: a piece of sqrt(2  20
+search 16 streams x 1,048,576 start positions -> cost to name the spot  24.0 bits | bits recreated: enwik8 text                 25  xz output of enwik8 text    24  seeded random bytes         24  CONTROL: a piece of sqrt(2  23
+search 16 streams x 4,194,304 start positions -> cost to name the spot  26.0 bits | bits recreated: enwik8 text                 26  xz output of enwik8 text    25  seeded random bytes         25  CONTROL: a piece of sqrt(2 128
+[51s]

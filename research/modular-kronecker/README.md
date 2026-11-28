@@ -1,33 +1,14 @@
 # Byte-valued cellular automata and Kronecker factors
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: detector only.** Best real input: Silesia numerical files (mr + x-ray + sao), +28.2% vs xz -9e. Planted control: Byte orbit hiding a Kronecker product, −82.8% vs brotli -11.
+>
+> Part of [chapter 2](../../report/2-dynamics.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-The local discussion proposed larger cellular alphabets and Kronecker or tensor factors in topics 35 and 38. Can reversing a cellular rule expose a product of two small matrices when its cells carry full byte values? This implementation uses arithmetic modulo 256. The earlier binary, three-dimensional, and four-dimensional experiments are linked below. [Original idea register](../evidence/idea-atlas.md)
+With byte-valued cells (arithmetic modulo 256), can reversing an automaton reveal that a panel is the product of two small 4×4 matrices?
 
-## Run the experiment
-
-The codec requires Python, NumPy and python-zstandard. Run from the repository root.
-
-```sh
-mkdir -p runs/modular-input
-python3 research/modular-kronecker/control.py runs/modular-input/modular-panels
-python3 suite.py benchmark runs/modular-result --project modular-kronecker --raw runs/modular-input
-python3 research/modular-kronecker/codec.py encode runs/modular-input/modular-panels runs/panels.mkr --profile adaptive-joint
-python3 research/modular-kronecker/codec.py decode runs/panels.mkr runs/panels.out
-cmp runs/modular-input/modular-panels runs/panels.out
-```
-
-## Variants and format
-
-A 16 × 16 periodic byte grid has two checkerboard phases. On each phase a cell adds its north neighbor, its east neighbor and three times its south neighbor modulo 256. The neighbors lie on the other color. Subtracting the same values in reverse phase order exactly inverts the step.
-
-The factor model represents a 16 × 16 grid as two 4 × 4 byte matrices and a byte residual. For outer coordinates i,j and inner coordinates k,l, the predicted cell at (4i+k, 4j+l) equals A[i,j] × B[k,l] modulo 256. An odd pivot is invertible in this ring. The fixed fit uses the top-left pivot. The adaptive fit chooses an odd pivot anywhere in the rearranged grid. Only the actual factors travel in the stream, so the decoder needs no pivot location. The valuation variant strips the power of two common to every cell before inverting a pivot. It retains that scale in the first factor and needs no extra decoder fields. Even when a prediction fails, the stored residual recovers every cell.
-
-Each 256 KiB bank pays for its mode, time, raw size and payload size. The encoder tests 0, 1, 2 and 4 reverse steps and compares whole candidate archives using the same Zstandard level. Literal and direct Zstandard modes are always available. A final partial grid travels verbatim within its bank payload.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -35,31 +16,44 @@ flowchart LR
     T --> W["Store factor matrices and modular errors"]
 ```
 
+Panels are evolved backwards, fitted as a Kronecker product of two small matrices, and the exact byte differences are stored.
+
+<details><summary>Technical details</summary>
+
+The local discussion proposed larger cellular alphabets and Kronecker or tensor factors in topics 35 and 38. Can reversing a cellular rule expose a product of two small matrices when its cells carry full byte values? This implementation uses arithmetic modulo 256. The earlier binary, three-dimensional, and four-dimensional experiments are linked below. [Original idea register](../evidence/idea-atlas.md)
+
 **Mechanism and test.** An aligned product lets two small matrices predict a large panel. Wrong dynamics or unsuitable pivots can leave expensive residuals. Compare the generated transfer, free and even-pivot controls with the real numerical stream.
 
-## Inputs and measurement
+A 16 × 16 periodic byte grid has two checkerboard phases. On each phase a cell adds its north neighbor, its east neighbor and three times its south neighbor modulo 256. The neighbors lie on the other color. Subtracting the same values in reverse phase order exactly inverts the step.
 
-Each generated input has 98,304 grids and exactly **25,165,824 raw bytes**. Every grid receives independently sampled factors and approximately one corrupted cell in 128 before evolution. The first two seeds constrain the top-left pivot to be odd. A third seed removes that condition. A fourth multiplies each noisy bank by 2, 4 or 8 before evolution, making every candidate pivot even. The real numerical corpus and uniform controls use the same encoder. [Seeds and source hashes](../large-scale/synthetic.json)
+The factor model represents a 16 × 16 grid as two 4 × 4 byte matrices and a byte residual. For outer coordinates i,j and inner coordinates k,l, the predicted cell at (4i+k, 4j+l) equals A[i,j] × B[k,l] modulo 256. An odd pivot is invertible in this ring. The fixed fit uses the top-left pivot. The adaptive fit chooses an odd pivot anywhere in the rearranged grid. Only the actual factors travel in the stream, so the decoder needs no pivot location. The valuation variant strips the power of two common to every cell before inverting a pivot. It retains that scale in the first factor and needs no extra decoder fields. Even when a prediction fails, the stored residual recovers every cell.
 
-## Results
+Each 256 KiB bank pays for its mode, time, raw size and payload size. The encoder tests 0, 1, 2 and 4 reverse steps and compares whole candidate archives using the same Zstandard level. Literal and direct Zstandard modes are always available. A final partial grid travels verbatim within its bank payload.
 
-On the first seed, factors alone used 25,166,796 bytes and orbit reversal alone used 24,560,134. Combining them used **4,471,016 bytes**, a saving of 20,089,118 over the better component. A second seed yielded 4,480,896 bytes for the joint model and 24,560,992 for the orbit alone. All four fixed-pivot profiles tied at 14,949,292 bytes on the real Silesia numerical stream. Both direct and joint coding used 25,166,796 bytes on the matched uniform input.
+</details>
 
-Removing the planted odd top-left condition exposed a failure in the fixed normalization. The joint codec grew to 20,947,779 bytes. Choosing an odd pivot separately for each panel reduced it to **5,813,021 bytes** on the identical 25,165,824 bytes. The adaptive factor model alone used 25,166,796 bytes and orbit reversal alone used 24,347,838. On the Graphviz library raster and the original whiteboard cost tables, all the tested adaptive profiles tied their direct coding controls.
+## Results on 20 MiB inputs
 
-On the all-even control, orbit reversal alone and the adaptive odd-pivot joint encoder each used 17,965,503 bytes. Valuation-aware fitting alone used 18,871,144. Combining valuation-aware fitting and orbit reversal reduced the archive to **5,067,269 bytes**. The same valuation-aware joint profile matched direct coding exactly on the real numerical stream (14,949,292 bytes) and the Graphviz library raster (1,910,515 bytes).
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-## Large-file benchmark
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Scanned manual: Graphviz library | real | 24,283,584 | 1,910,515 (`modular-adaptive`) | — | 175,164 (DjVu) | 10.9× larger |
+| Silesia numerical files (mr + x-ray + sao) | real | 25,696,748 | 14,949,292 (`modular-direct`) | 15,063,384 (`modular-joint → gzip-6`) | 11,662,476 (xz -9e) | +28.2% |
+| Census tables printed by our enumerator | self-generated | 33,554,432 | 3,192,497 (`modular-adaptive`) | — | 2,203,672 (xz -9e) | +44.9% |
+| Byte orbit hiding a Kronecker product | planted | 25,165,824 | 4,471,016 (`modular-joint`) | 4,327,872 (`modular-joint → xz-6`) | 25,165,869 (brotli -11) | **−82.8%** |
+| Uniform random bytes | control | 25,165,824 | 25,166,796 (`modular-direct`) | — | 25,166,414 (zstd -19) | +0.0015% |
+| modular-even | other | 25,165,824 | 5,067,269 (`modular-valuation-joint`) | — | 18,869,420 (zstd -3) | **−73.1%** |
+| modular-free | other | 25,165,824 | 5,813,021 (`modular-adaptive-joint`) | — | 25,163,036 (gzip -9) | **−76.9%** |
+| modular-transfer | other | 25,165,824 | 4,480,896 (`modular-joint`) | — | 25,165,869 (brotli -11) | **−82.2%** |
 
-On `modular-panels` (25,165,824 raw bytes), `modular-joint` produced 4,471,016 archive bytes. Zstandard level 3 used 25,166,414 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#modular-panels) · [All project measurements](../large-scale/results/by-experiment.md#modular-kronecker)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `modular-panels`, `modular-joint` delivers 4,471,016 bytes, 20,695,398 bytes smaller than standalone Zstandard 3 (25,166,414 bytes).
-
-Holding `modular-joint` fixed across the 5 measured input/reference settings with a standalone Zstandard 3 control gives **4 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -281,6 +275,27 @@ python3 research/large-scale/entropy_bench.py modular-joint runs/large/raw/modul
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Binary matrix and orbit models](../tensor-orbits/README.md) · [Four-dimensional binary factors](../four-dimensional-factors/README.md) · [Learning a rule jointly with an error basis](../learned-cellular-rules/README.md)
+## Small-scale results
+
+Each generated input has 98,304 grids and exactly **25,165,824 raw bytes**. Every grid receives independently sampled factors and approximately one corrupted cell in 128 before evolution. The first two seeds constrain the top-left pivot to be odd. A third seed removes that condition. A fourth multiplies each noisy bank by 2, 4 or 8 before evolution, making every candidate pivot even. The real numerical corpus and uniform controls use the same encoder. [Seeds and source hashes](../large-scale/synthetic.json)
+
+On the first seed, factors alone used 25,166,796 bytes and orbit reversal alone used 24,560,134. Combining them used **4,471,016 bytes**, a saving of 20,089,118 over the better component. A second seed yielded 4,480,896 bytes for the joint model and 24,560,992 for the orbit alone. All four fixed-pivot profiles tied at 14,949,292 bytes on the real Silesia numerical stream. Both direct and joint coding used 25,166,796 bytes on the matched uniform input.
+
+Removing the planted odd top-left condition exposed a failure in the fixed normalization. The joint codec grew to 20,947,779 bytes. Choosing an odd pivot separately for each panel reduced it to **5,813,021 bytes** on the identical 25,165,824 bytes. The adaptive factor model alone used 25,166,796 bytes and orbit reversal alone used 24,347,838. On the Graphviz library raster and the original whiteboard cost tables, all the tested adaptive profiles tied their direct coding controls.
+
+On the all-even control, orbit reversal alone and the adaptive odd-pivot joint encoder each used 17,965,503 bytes. Valuation-aware fitting alone used 18,871,144. Combining valuation-aware fitting and orbit reversal reduced the archive to **5,067,269 bytes**. The same valuation-aware joint profile matched direct coding exactly on the real numerical stream (14,949,292 bytes) and the Graphviz library raster (1,910,515 bytes).
+
+## Run it
+
+The codec requires Python, NumPy and python-zstandard. Run from the repository root.
+
+```sh
+mkdir -p runs/modular-input
+python3 research/modular-kronecker/control.py runs/modular-input/modular-panels
+python3 suite.py benchmark runs/modular-result --project modular-kronecker --raw runs/modular-input
+python3 research/modular-kronecker/codec.py encode runs/modular-input/modular-panels runs/panels.mkr --profile adaptive-joint
+python3 research/modular-kronecker/codec.py decode runs/panels.mkr runs/panels.out
+cmp runs/modular-input/modular-panels runs/panels.out
+```

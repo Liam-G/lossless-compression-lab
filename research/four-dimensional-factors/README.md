@@ -1,32 +1,14 @@
 # Four-dimensional automata with noisy binary matrix factors
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Silesia numerical files (mr + x-ray + sao), +37.3% vs xz -9e.
+>
+> Part of [chapter 2](../../report/2-dynamics.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Can inverse evolution recover approximate low rank after motion in four axes? Can equally valid bases yield different coded lengths?
+In four dimensions (space plus time) with noise, can reversing an automaton recover a low-rank structure, and does the choice among equivalent factor bases change the size?
 
-### Source files and compatibility
-
-This extends the U/V/E constructions from local reports 028–031, the predecessor search in report 013, and numbered experiments 06–08. F4D1 is a new format with a small native panel factorizer and a separate forward inverse.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/four-dimensional-factors/control.py runs/spacetime.bin
-python3 research/four-dimensional-factors/codec.py encode runs/spacetime.bin runs/spacetime.f4d --profile joint
-python3 research/four-dimensional-factors/codec.py decode runs/spacetime.f4d runs/spacetime.restored
-cmp runs/spacetime.bin runs/spacetime.restored
-```
-
-## Variants and format
-
-Each 64 KiB volume has open time, z, y and packed x axes. Each axis has two parity updates. Linear neighbor-XOR and nonlinear two-neighbor rules have an exact inverse obtained by reversing the schedule. Independently, each 16×8 panel stores two basis rows, two coordinate bit masks and its exact XOR residual. Six binary changes of basis preserve the product. The joint mode ranks predecessor samples and fully prices two candidate factorizations plus the step-zero factorization. Stored bases and coordinates are sufficient to decode.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -38,60 +20,36 @@ flowchart LR
     F --> E["Basis + coordinates + exact XOR errors"]
 ```
 
+The encoder reverses the 4-D evolution, factors each block into two bit matrices plus an error matrix, and tries equivalent bases.
+
+<details><summary>Technical details</summary>
+
+Can inverse evolution recover approximate low rank after motion in four axes? Can equally valid bases yield different coded lengths?
+
 **Mechanism and test.** The planted generator mixes nearly low-rank panels along four axes. Undoing its schedule exposes the factors. The joint and orbit-only archives tie on numerical, Samba and uniform inputs, which bounds the observed incremental benefit of factoring.
 
-## Inputs and measurement
-
-The 24 MiB plant has slowly changing bases, independently sampled coordinates and a deliberate one-bit error in every other panel. Each volume then evolves a chosen number of steps. The real numerical and Samba inputs and uniform bytes use exactly the same search.
-
-## Results
-
-On the plant, direct and equivalent-factor profiles gave 25,120,549 bytes. The orbit alone gave 19,601,212. Combining inverse evolution with factor/residual coding gave 9,414,787. On real numerical data the joint profile tied the orbit-only result of 16,013,206. Samba and uniform data also showed no incremental factor gain. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
-
-
-### What does factoring add after the automaton?
-
-All five profiles used the same four pinned inputs. The direct profile retains the native record headers. The raw baseline skips those headers. Comparing orbit with joint holds the framing and backend fixed and tests the additional option to fit factors on a predecessor. Comparing direct with rank and equivalent tests those factor choices before reversing any steps.
-
-| Input | Factored blocks selected by joint / total | gzip 6 bytes saved by adding factors | Zstandard 3 bytes saved | XZ 6 bytes saved |
-|---|---:|---:|---:|---:|
-| `noisy-spacetime` | 384 / 384 | 5,243,072 | 9,383,067 | 2,666,448 |
-| `numerical` | 0 / 393 | 0 | 0 | 0 |
-| `samba` | 0 / 330 | 0 | 0 | 0 |
-| `uniform` | 0 / 384 | 0 | 0 | 0 |
-
-On every input, direct, rank-only and equivalent-basis coding emitted byte-identical prepared streams. On the plant, undoing the evolution first changed that outcome on all 384 blocks. The orbit-only stream had normalized H0 of **6.8492 bits per original byte**. Adding factors lowered it to **4.4010**, even though the prepared stream grew from **25,168,140 to 34,605,324 bytes**. All three backends benefited, by different amounts.
-
-On numerical, Samba and uniform input the orbit and joint prepared hashes match exactly. The zeroes above mean the encoder selected no factor records. On numerical it selected an orbit on just two blocks. That choice saved **975 bytes** in the native block archive, yet cost **6,700 bytes** with whole-stream Zstandard compared with the framed direct profile, and **9,430 bytes** compared with raw Zstandard. The block-wise selection objective and the whole-stream objective can favor different choices.
-
-The paired runs used native archives checked against the previously published SHA-256 for each input and profile. Where profiles already had identical verified archives, one matching native file supplied those profiles. Each pair ran inverse preprocessing and all three compress/decompress comparisons. This is one planted source with specific dynamics, two real files and one uniform control. It establishes a mechanism on this plant and leaves its prevalence on other volumes open. [Native selections and hashes](../large-scale/results/archives.jsonl) · [Prepared stream hashes and backend sizes](../large-scale/results/preprocessing.jsonl)
-
-<details>
-<summary>Reproduce the complete five-by-four paired experiment</summary>
-
-From the repository root after building the panel factorizer and preparing the pinned inputs, use a fresh output directory.
-
-```sh
-mkdir -p runs/four-paired
-for input in noisy-spacetime numerical samba uniform; do
-  for profile in direct orbit rank equivalent joint; do
-    python3 research/large-scale/entropy_bench.py "four-$profile" \
-      "runs/large/raw/$input" "runs/four-paired/$input-$profile.json" || exit 1
-  done
-done
-```
+Each 64 KiB volume has open time, z, y and packed x axes. Each axis has two parity updates. Linear neighbor-XOR and nonlinear two-neighbor rules have an exact inverse obtained by reversing the schedule. Independently, each 16×8 panel stores two basis rows, two coordinate bit masks and its exact XOR residual. Six binary changes of basis preserve the product. The joint mode ranks predecessor samples and fully prices two candidate factorizations plus the step-zero factorization. Stored bases and coordinates are sufficient to decode.
 
 </details>
 
-## Large-file benchmark
+## Results on 20 MiB inputs
 
-On `noisy-spacetime` (25,165,824 raw bytes), `four-joint` produced 9,414,787 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#noisy-spacetime) · [All project measurements](../large-scale/results/by-experiment.md#four-dimensional-factors)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
+
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Silesia numerical files (mr + x-ray + sao) | real | 25,696,748 | 16,013,206 (`four-joint`) | — | 11,662,476 (xz -9e) | +37.3% |
+| Silesia samba (source tarball) | real | 21,606,400 | 5,843,228 (`four-direct`) | — | 3,739,524 (xz -9e) | +56.3% |
+| 4-D noisy field from a hidden automaton | planted | 25,165,824 | 9,414,787 (`four-joint`) | 8,109,204 (`four-joint → xz-6`) | — | — |
+| Uniform random bytes | control | 25,165,824 | 25,168,140 (`four-direct`) | — | 25,166,414 (zstd -19) | +0.0069% |
+
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-Holding `four-joint` fixed across the 3 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 3 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -280,6 +238,65 @@ python3 research/large-scale/entropy_bench.py four-direct runs/large/raw/noisy-s
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-The [three-dimensional exact rank study](../tensor-orbits/README.md) uses different panels. The [motion residual study](../motion-residuals/README.md) works on natural sequences of luminance frames.
+## Small-scale results
+
+The 24 MiB plant has slowly changing bases, independently sampled coordinates and a deliberate one-bit error in every other panel. Each volume then evolves a chosen number of steps. The real numerical and Samba inputs and uniform bytes use exactly the same search.
+
+On the plant, direct and equivalent-factor profiles gave 25,120,549 bytes. The orbit alone gave 19,601,212. Combining inverse evolution with factor/residual coding gave 9,414,787. On real numerical data the joint profile tied the orbit-only result of 16,013,206. Samba and uniform data also showed no incremental factor gain. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+
+### What does factoring add after the automaton?
+
+All five profiles used the same four pinned inputs. The direct profile retains the native record headers. The raw baseline skips those headers. Comparing orbit with joint holds the framing and backend fixed and tests the additional option to fit factors on a predecessor. Comparing direct with rank and equivalent tests those factor choices before reversing any steps.
+
+| Input | Factored blocks selected by joint / total | gzip 6 bytes saved by adding factors | Zstandard 3 bytes saved | XZ 6 bytes saved |
+|---|---:|---:|---:|---:|
+| `noisy-spacetime` | 384 / 384 | 5,243,072 | 9,383,067 | 2,666,448 |
+| `numerical` | 0 / 393 | 0 | 0 | 0 |
+| `samba` | 0 / 330 | 0 | 0 | 0 |
+| `uniform` | 0 / 384 | 0 | 0 | 0 |
+
+On every input, direct, rank-only and equivalent-basis coding emitted byte-identical prepared streams. On the plant, undoing the evolution first changed that outcome on all 384 blocks. The orbit-only stream had normalized H0 of **6.8492 bits per original byte**. Adding factors lowered it to **4.4010**, even though the prepared stream grew from **25,168,140 to 34,605,324 bytes**. All three backends benefited, by different amounts.
+
+On numerical, Samba and uniform input the orbit and joint prepared hashes match exactly. The zeroes above mean the encoder selected no factor records. On numerical it selected an orbit on just two blocks. That choice saved **975 bytes** in the native block archive, yet cost **6,700 bytes** with whole-stream Zstandard compared with the framed direct profile, and **9,430 bytes** compared with raw Zstandard. The block-wise selection objective and the whole-stream objective can favor different choices.
+
+The paired runs used native archives checked against the previously published SHA-256 for each input and profile. Where profiles already had identical verified archives, one matching native file supplied those profiles. Each pair ran inverse preprocessing and all three compress/decompress comparisons. This is one planted source with specific dynamics, two real files and one uniform control. It establishes a mechanism on this plant and leaves its prevalence on other volumes open. [Native selections and hashes](../large-scale/results/archives.jsonl) · [Prepared stream hashes and backend sizes](../large-scale/results/preprocessing.jsonl)
+
+<details>
+<summary>Reproduce the complete five-by-four paired experiment</summary>
+
+From the repository root after building the panel factorizer and preparing the pinned inputs, use a fresh output directory.
+
+```sh
+mkdir -p runs/four-paired
+for input in noisy-spacetime numerical samba uniform; do
+  for profile in direct orbit rank equivalent joint; do
+    python3 research/large-scale/entropy_bench.py "four-$profile" \
+      "runs/large/raw/$input" "runs/four-paired/$input-$profile.json" || exit 1
+  done
+done
+```
+
+</details>
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
+
+```sh
+mkdir -p runs
+python3 research/four-dimensional-factors/control.py runs/spacetime.bin
+python3 research/four-dimensional-factors/codec.py encode runs/spacetime.bin runs/spacetime.f4d --profile joint
+python3 research/four-dimensional-factors/codec.py decode runs/spacetime.f4d runs/spacetime.restored
+cmp runs/spacetime.bin runs/spacetime.restored
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+This extends the U/V/E constructions from local reports 028–031, the predecessor search in report 013, and numbered experiments 06–08. F4D1 is a new format with a small native panel factorizer and a separate forward inverse.
+
+</details>

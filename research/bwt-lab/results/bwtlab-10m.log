@@ -1,0 +1,25 @@
+BWT LAB on <repo>/runs/lab/inputs/e10m (10000000 bytes). Sizes are exact adaptive-coding costs (what an arithmetic coder writes, +-0.01%).
+BWT: primary index 2260728, inverse BWT gives the input back: YES (byte-exact)  [0.5s]
+what BWT output looks like (middle of the file): rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+runs of identical bytes: original 9419519 (avg length 1.06), after BWT 3928205 (avg length 2.55)
+after BWT + move-to-front: 60.7% of all bytes are 0
+
+SECOND STAGE (same models, without and with BWT):
+  raw text   -> letter counts (order-0)                               6269384 bytes  5.016 bits/byte  [1.2s]
+  BWT output -> letter counts (order-0)                               3854239 bytes  3.083 bits/byte  [1.2s]
+  raw text   -> next byte given previous byte (order-1)               4789847 bytes  3.832 bits/byte  [1.5s]
+  BWT output -> next byte given previous byte (order-1)               2754618 bytes  2.204 bits/byte  [1.5s]
+  raw text   -> next byte given previous 2 bytes (order-2)            3862096 bytes  3.090 bits/byte  [1.7s]
+  BWT output -> next byte given previous 2 bytes (order-2)            2763431 bytes  2.211 bits/byte  [2.5s]
+  BWT -> move-to-front -> rank counts                                 2721013 bytes  2.177 bits/byte  [1.2s]
+  BWT -> move-to-front -> runs of 0 + ranks (run generator + fixes)      2538087 bytes  2.030 bits/byte  [0.7s]
+  raw text   -> mix of order-0/1/2 + run model + 2 APMs               3522562 bytes  2.818 bits/byte  [21.0s]
+  BWT output -> mix of order-0/1/2 + run model + 2 APMs               2432301 bytes  1.946 bits/byte  [24.3s]
+
+RIGHT-CONTEXT HINTS (the decoder can know the letters that FOLLOW each BWT symbol if the archive stores counts):
+  header: letter counts 582 bytes | letter-pair counts (11845 pairs) 18184 bytes | triple counts (92713 triples) 143876 bytes
+  BWT -> bigger mix (hashed order 0-3, two mixers, 3 APMs), no hints      2390774 bytes  1.913 bits/byte  [46.8s]
+    + hint: the next letter (letter counts in the header, included)      2395542 bytes  1.916 bits/byte  [41.6s]
+    + hint: the next 2 letters (pair counts in the header, included)      2399659 bytes  1.920 bits/byte  [46.5s]
+    + hint: the next 3 letters (triple counts in the header, included)      2507176 bytes  2.006 bits/byte  [35.5s]
+(BWT side costs 4 bytes for the primary index, included as +8 bytes header)

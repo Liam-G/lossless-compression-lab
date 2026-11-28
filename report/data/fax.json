@@ -1,0 +1,8 @@
+{
+  "note": "Canterbury ptt5 (CCITT fax test page, 1728 x 2376 pixels, 513,216 bytes), re-verified 2026-11-28. Every archive decoded and compared with the original pixels. Group 4 TIFF from the shape-context project page; cmix is published (Silesia/Canterbury tables), not measured.",
+  "input_bytes": 513216,
+  "ours": {"shape-context (research/build/shape)": 28037},
+  "standard": {"gzip -9": 52377, "bzip2 -9": 49759, "PPMd o10": 48586, "zstd -19": 43644, "brotli -11": 40939,
+               "xz -9e": 39868, "CCITT Group 4 (TIFF)": 32344, "JBIG (pbmtojbg)": 25917, "DjVu (cjb2 -lossless)": 22490},
+  "published": {"cmix": 21883}
+}

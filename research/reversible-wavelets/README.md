@@ -1,31 +1,14 @@
 # Integer lifting and color differences
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Photo 3 (RGB), +53.2% vs JPEG XL.
+>
+> Part of [chapter 4](../../report/4-specialised.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Does a reversible 2D wavelet become more useful when it sees color-difference planes instead of red, green and blue?
+Does a reversible colour transform followed by an integer wavelet compress photos better than PNG, WebP or JPEG XL?
 
-### Source files and compatibility
-
-This combines the signal and Walsh topics of the dossier with the integer row/plane hypothesis from `lab/shape/nested.py`. The implementation uses the reversible integer 5/3 lifting transform and a green-centered reversible color transform. RWL1 is a new archive.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/reversible-wavelets/codec.py encode runs/large/raw/wall2.ppm runs/image.rwl --profile joint
-python3 research/reversible-wavelets/codec.py decode runs/image.rwl runs/image.restored.ppm
-cmp runs/large/raw/wall2.ppm runs/image.restored.ppm
-```
-
-## Variants and format
-
-Each tile can use direct, color-only, lifting-only or combined coding. The encoder tries one, two or three pyramid levels. Each subband retains signed coefficients using ZigZag mapping and low/high byte planes. Odd row and column counts reuse the nearest endpoint; the inverse reverses the predict/update steps. All variants use the same Zstandard backend.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -33,28 +16,35 @@ flowchart LR
     T --> W["Store signed subbands and layout"]
 ```
 
+RGB is converted to reversible colour-difference planes, each plane goes through a multi-level integer wavelet, and coefficients are context-coded.
+
+<details><summary>Technical details</summary>
+
+Does a reversible 2D wavelet become more useful when it sees color-difference planes instead of red, green and blue?
+
 **Mechanism and test.** Neighboring pixels can yield small high-frequency coefficients. Color-only and lifting-only profiles isolate their contributions. One image selects identical outputs for every profile, so image structure matters even within the same corpus.
 
-## Inputs and measurement
+Each tile can use direct, color-only, lifting-only or combined coding. The encoder tries one, two or three pyramid levels. Each subband retains signed coefficients using ZigZag mapping and low/high byte planes. Odd row and column counts reuse the nearest endpoint; the inverse reverses the predict/update steps. All variants use the same Zstandard backend.
 
-The three original wallpaper PNGs were decoded to canonical 8-bit P6 RGB before benchmarking. Every method restores that complete canonical byte stream, including its header. Timings and sizes cover encoding the raster, rather than reproducing the source PNG container. Dedicated baselines include PNG, lossless WebP and lossless JPEG XL.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-On wall2, 96,560,657 raw bytes, direct coding gave 37,922,336, color 37,365,473, lifting 32,521,660 and their combination 32,392,630. Lossless JPEG XL gave 21,138,142. On wall1 every wavelet profile chose the same 644,213-byte result. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Photo 1 (RGB) | real | 99,532,817 | 19,619,307 (`wavelet-color`) | — | 12,086,473 (JPEG XL) | +62.3% |
+| Photo 2 (RGB) | real | 99,532,817 | 644,213 (`wavelet-color`) | — | 407,227 (JPEG XL) | +58.2% |
+| Photo 3 (RGB) | real | 96,560,657 | 32,392,630 (`wavelet-joint`) | — | 21,138,142 (JPEG XL) | +53.2% |
 
-## Large-file benchmark
-
-On `wall2.ppm` (96,560,657 raw bytes), `wavelet-joint` produced 32,392,630 archive bytes. Zstandard level 3 used 47,585,586 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wall2ppm) · [All project measurements](../large-scale/results/by-experiment.md#reversible-wavelets)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `wall2.ppm`, `wavelet-joint` delivers 32,392,630 bytes, 15,192,956 bytes smaller than standalone Zstandard 3 (47,585,586 bytes).
-
-Holding `wavelet-joint` fixed across the 3 measured input/reference settings with a standalone Zstandard 3 control gives **3 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -121,6 +111,29 @@ python3 research/large-scale/primary.py runs/replay-reversible-wavelets --projec
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Experiment 09 uses Walsh terms and XOR. The [lattice](../lattice-prediction/README.md) discovers integer widths, while [motion residuals](../motion-residuals/README.md) add a previous frame.
+## Small-scale results
+
+The three original wallpaper PNGs were decoded to canonical 8-bit P6 RGB before benchmarking. Every method restores that complete canonical byte stream, including its header. Timings and sizes cover encoding the raster, rather than reproducing the source PNG container. Dedicated baselines include PNG, lossless WebP and lossless JPEG XL.
+
+On wall2, 96,560,657 raw bytes, direct coding gave 37,922,336, color 37,365,473, lifting 32,521,660 and their combination 32,392,630. Lossless JPEG XL gave 21,138,142. On wall1 every wavelet profile chose the same 644,213-byte result. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
+
+```sh
+mkdir -p runs
+python3 research/reversible-wavelets/codec.py encode runs/large/raw/wall2.ppm runs/image.rwl --profile joint
+python3 research/reversible-wavelets/codec.py decode runs/image.rwl runs/image.restored.ppm
+cmp runs/large/raw/wall2.ppm runs/image.restored.ppm
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+This combines the signal and Walsh design topics with the integer row/plane hypothesis from `lab/shape/nested.py`. The implementation uses the reversible integer 5/3 lifting transform and a green-centered reversible color transform. RWL1 is a new archive.
+
+</details>

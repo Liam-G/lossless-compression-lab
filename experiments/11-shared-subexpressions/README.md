@@ -1,38 +1,14 @@
 # Experiment 11 · Grammars and shared subexpressions
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Our formula listing as text, +15.3% vs PPMd.
+>
+> Part of [chapter 1](../../report/1-formulas.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-How often must an instruction or subexpression recur before a grammar definition pays for itself?
+How often must a piece of an expression repeat before defining it once and referring to it pays off?
 
-Statico M1 defines grammar symbols on first use and refers to them by frequency class and index. This study compares sequence and expression-aware sharing with a common literal alphabet.
-
-### Source files and compatibility
-
-The GLZ reference supplies the definition-before-reference grammar principle. The new byte-token format enables flat, pair-rule and expression-DAG comparisons. Paths below are relative to the original workspace.
-
-- `statico/src/glz.hpp`
-
-## Run the experiment
-
-Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
-
-```sh
-python3 ../../lab.py 11 test
-python3 ../../lab.py 11 encode ../../fixtures/grammar-1061fc7.txt sample.lcx
-python3 ../../lab.py 11 decode sample.lcx sample.restored
-cmp ../../fixtures/grammar-1061fc7.txt sample.restored
-python3 ../../lab.py 11 benchmark ../../runs/recheck-11
-```
-
-## Variants and format
-
-Flat emits byte tokens. Grammar replaces frequent adjacent token pairs when measured savings exceed a definition. DAG discovers repeated balanced parenthesized expressions, processing nested definitions before parents. Both serialize a rule count, lengths and token bodies, followed by a root token stream. The first 126 rules have one-byte references. High-byte literals use an escape. Every profile uses the same literal representation. The decoder expands only references to previously defined rules.
-
-The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -40,45 +16,37 @@ flowchart LR
     T --> W["Emit definitions once and refer back"]
 ```
 
+The same instruction listing is stored flat, as a sequence grammar (repeated runs become rules) or as a graph of shared subexpressions.
+
+<details><summary>Technical details</summary>
+
+How often must an instruction or subexpression recur before a grammar definition pays for itself?
+
+Statico M1 defines grammar symbols on first use and refers to them by frequency class and index. This study compares sequence and expression-aware sharing with a common literal alphabet.
+
 **Mechanism and test.** Reuse repays the first definition only after sufficient repetition. The flat stream controls for token escaping. An expression DAG and a sequence grammar expose different kinds of repetition in the same input.
 
-## Inputs and measurement
+Flat emits byte tokens. Grammar replaces frequent adjacent token pairs when measured savings exceed a definition. DAG discovers repeated balanced parenthesized expressions, processing nested definitions before parents. Both serialize a rule count, lengths and token bodies, followed by a root token stream. The first 126 rules have one-byte references. High-byte literals use an escape. Every profile uses the same literal representation. The decoder expands only references to previously defined rules.
 
-Sweep one through sixteen copies of a parenthesized expression, plus a sequence of distinct bytes. Render actual affine instructions as expression strings for two further tests. Each measured decoder runs a second time in a fresh process for its own peak RSS measurement.
+The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
 
-Subtrees are recognized by their exact byte spelling. The sequence parser is greedy and considers its most frequent pair at each round. Rule storage in bytes and process RSS are reported separately.
+</details>
 
-The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+## Results on 20 MiB inputs
 
-## Results
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-One full expression already contains two copies of its inner subtree. DAG beat flat on that first input, and two full expressions were the first tested case where its 28-byte archive also beat the 31-byte source.
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Our formula listing as text | derived from real | 25,165,824 | 9,357,678 (`pilot11-dag`) | 1,625,172 (`pilot11-dag → xz-6`) | 1,409,680 (PPMd) | +15.3% |
 
-| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
-|---|---:|---|---:|---:|
-| reuse-1 | 15 | dag | 24 | 28 |
-| uniform | 15 | flat | 32 | 28 |
-| reuse-2 | 31 | dag | 28 | 31 |
-| reuse-3 | 47 | dag | 30 | 31 |
-| reuse-4 | 63 | dag | 32 | 32 |
-| reuse-8 | 127 | dag | 40 | 32 |
-| reuse-16 | 255 | grammar | 55 | 32 |
-| distinct | 128 | flat | 141 | 141 |
-| affine-0.bin-expressions | 1,727 | grammar | 367 | 307 |
-| affine-1.bin-expressions | 1,731 | grammar | 362 | 314 |
-
-All 30 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
-
-
-## Large-file benchmark
-
-On `formula-text` (25,165,824 raw bytes), `pilot11-dag` produced 9,357,678 archive bytes. Zstandard level 3 used 4,118,041 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#formula-text) · [All project measurements](../../research/large-scale/results/by-experiment.md#11-shared-subexpressions)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `formula-text`, `pilot11-dag` delivers 9,357,678 bytes, 5,239,637 bytes larger than standalone Zstandard 3 (4,118,041 bytes).
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -138,6 +106,51 @@ python3 research/large-scale/entropy_bench.py pilot11-dag runs/large/raw/formula
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Experiment 10 provides the real operator stream. Experiment 04 offers repeated coefficient groups.
+## Small-scale results
+
+Sweep one through sixteen copies of a parenthesized expression, plus a sequence of distinct bytes. Render actual affine instructions as expression strings for two further tests. Each measured decoder runs a second time in a fresh process for its own peak RSS measurement.
+
+Subtrees are recognized by their exact byte spelling. The sequence parser is greedy and considers its most frequent pair at each round. Rule storage in bytes and process RSS are reported separately.
+
+The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+
+One full expression already contains two copies of its inner subtree. DAG beat flat on that first input, and two full expressions were the first tested case where its 28-byte archive also beat the 31-byte source.
+
+| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
+|---|---:|---|---:|---:|
+| reuse-1 | 15 | dag | 24 | 28 |
+| uniform | 15 | flat | 32 | 28 |
+| reuse-2 | 31 | dag | 28 | 31 |
+| reuse-3 | 47 | dag | 30 | 31 |
+| reuse-4 | 63 | dag | 32 | 32 |
+| reuse-8 | 127 | dag | 40 | 32 |
+| reuse-16 | 255 | grammar | 55 | 32 |
+| distinct | 128 | flat | 141 | 141 |
+| affine-0.bin-expressions | 1,727 | grammar | 367 | 307 |
+| affine-1.bin-expressions | 1,731 | grammar | 362 | 314 |
+
+All 30 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
+
+## Run it
+
+Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
+
+```sh
+python3 ../../lab.py 11 test
+python3 ../../lab.py 11 encode ../../fixtures/grammar-1061fc7.txt sample.lcx
+python3 ../../lab.py 11 decode sample.lcx sample.restored
+cmp ../../fixtures/grammar-1061fc7.txt sample.restored
+python3 ../../lab.py 11 benchmark ../../runs/recheck-11
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The GLZ reference supplies the definition-before-reference grammar principle. The new byte-token format enables flat, pair-rule and expression-DAG comparisons. Paths below are relative to the original workspace.
+
+- `statico/src/glz.hpp`
+
+</details>

@@ -1,26 +1,14 @@
 # Jointly learning a cellular rule and the matrix of its prediction errors
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: detector only.** Best real input: Video clip 3 (grayscale frames), +55.2% vs H.264 lossless. Planted control: Field from a hidden cellular rule, −64.2% vs gzip -9.
+>
+> Part of [chapter 2](../../report/2-dynamics.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-The original checkerboard and multidimensional automaton searches select a rule from a fixed family before factoring its output. What happens when the rule itself cannot be inferred until the error planes are considered together? This extension learns a 32-entry nonlinear truth table per bit plane and a triangular GF(2) change of basis for the residual byte. It compares independent training with joint training from the same raw frames.
+What if the automaton rule is unknown? Can it be learned from the data together with the way its errors are correlated?
 
-## Run the experiment
-
-```sh
-make -C research
-python3 research/learned-cellular-rules/control.py runs/large/raw/learned-field
-python3 research/large-scale/bench.py runs/large/raw/learned-field runs/learned-cellular.jsonl learned-direct learned-rule learned-basis learned-joint learned-coupled
-```
-
-## Variants and format
-
-Each 16-frame bank chooses literal storage, a direct compressed stream, a temporal XOR, or a fitted cellular predictor. Five binary inputs from the preceding frame supply a lookup address for every bit. The inputs are the center cell and its four direct neighbors. A second-order option also XORs the cell from two frames earlier. The first frame is carried as part of the predictive residual. Each rule table costs four bytes per plane.
-
-The triangular matrix has a unit diagonal, so an 8-byte row-mask descriptor suffices for its inverse. In the sequential `joint` profile the encoder fits each transition by majority vote and then fits a basis to its errors. In `coupled`, the encoder learns a plane's truth table conditional on the parity of already modeled error planes. A Walsh–Hadamard transform scores all eligible parities from a small contingency table. A penalty discourages spurious lookup entries in nearly balanced noise. The decoder needs only the selected tables and basis. Both profiles use the same candidate archive format, bit-plane layouts, framing and Zstandard 6.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -28,26 +16,41 @@ flowchart LR
     T --> W["Transmit rule tables, matrix and exact residuals"]
 ```
 
+Per bit plane the encoder learns a 32-entry rule table and a change of basis for the residual byte, either one after the other or jointly.
+
+<details><summary>Technical details</summary>
+
+The original checkerboard and multidimensional automaton searches select a rule from a fixed family before factoring its output. What happens when the rule itself cannot be inferred until the error planes are considered together? This extension learns a 32-entry nonlinear truth table per bit plane and a triangular GF(2) change of basis for the residual byte. It compares independent training with joint training from the same raw frames.
+
 **Mechanism and test.** Learning can exploit a shared pattern in prediction errors across planes. The independent-error control tests that explanation. On video a simple temporal XOR is a competing explanation for savings.
 
-## Inputs and measurement
+Each 16-frame bank chooses literal storage, a direct compressed stream, a temporal XOR, or a fitted cellular predictor. Five binary inputs from the preceding frame supply a lookup address for every bit. The inputs are the center cell and its four direct neighbors. A second-order option also XORs the cell from two frames earlier. The first frame is carried as part of the predictive residual. Each rule table costs four bytes per plane.
 
-The primary control contains eight separately generated banks of sixteen 640 × 360 frames and independent rule tables. Two dense innovation planes mix into six sparse ones. The other controls change the seed, shift each residual bit plane to break cross-plane alignment, or supply uniform noise. Three real grayscale clips use the same geometry and byte count. See the [input manifests](../large-scale/synthetic.json) and [video sources](../large-scale/videos.json).
+The triangular matrix has a unit diagonal, so an 8-byte row-mask descriptor suffices for its inverse. In the sequential `joint` profile the encoder fits each transition by majority vote and then fits a basis to its errors. In `coupled`, the encoder learns a plane's truth table conditional on the parity of already modeled error planes. A Walsh–Hadamard transform scores all eligible parities from a small contingency table. A penalty discourages spurious lookup entries in nearly balanced noise. The decoder needs only the selected tables and basis. Both profiles use the same candidate archive format, bit-plane layouts, framing and Zstandard 6.
 
-## Results
+</details>
 
-On the 29,491,200-byte generated field, fixed-order training followed by a basis produced 25,054,265 bytes. Joint estimation of the rule and basis produced **11,051,733**. On a fresh seed the sequential and coupled archives were 26,700,643 and 11,045,164 bytes. Shifting each error plane independently reduced the coupled advantage to one byte, 25,262,112 versus 25,262,111. Uniform noise tied at 29,491,268. The real clips selected the same archive sizes under the two profiles, including 1,647,841 bytes on Jake and 4,139,127 on Rei. The planted result identifies a dependency the sequential model missed. The real-video measurements put a limit on its observed transfer. [Archives and ablations](../large-scale/results/by-dataset.md#learned-field)
+## Results on 20 MiB inputs
 
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-## Large-file benchmark
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Video clip 1 (grayscale frames) | real | 29,491,200 | 1,647,841 (`learned-coupled`) | 1,712,131 (`learned-coupled → gzip-6`) | 803,426 (H.264 lossless) | 2.1× larger |
+| Video clip 2 (grayscale frames) | real | 29,491,200 | 1,350,637 (`learned-coupled`) | — | 535,126 (H.264 lossless) | 2.5× larger |
+| Video clip 3 (grayscale frames) | real | 29,491,200 | 4,139,127 (`learned-coupled`) | — | 2,666,233 (H.264 lossless) | +55.2% |
+| Field from a hidden cellular rule | planted | 29,491,200 | 11,051,733 (`learned-coupled`) | 10,497,028 (`learned-coupled → xz-6`) | 29,358,227 (gzip -9) | **−64.2%** |
+| field-independent | other | 29,491,200 | 25,262,111 (`learned-coupled`) | — | 29,491,253 (brotli -11) | **−14.3%** |
+| field-transfer | other | 29,491,200 | 11,045,164 (`learned-coupled`) | — | 29,232,144 (zstd -19) | **−62.2%** |
+| field-uniform | other | 29,491,200 | 29,491,268 (`learned-coupled`) | — | 29,491,253 (brotli -11) | +0.0001% |
 
-On `learned-field` (29,491,200 raw bytes), `learned-coupled` produced 11,051,733 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#learned-field) · [All project measurements](../large-scale/results/by-experiment.md#learned-cellular-rules)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-Holding `learned-coupled` fixed across the 6 measured input/reference settings with a standalone Zstandard 3 control gives **5 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -241,6 +244,18 @@ python3 research/large-scale/entropy_bench.py learned-coupled runs/large/raw/lea
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Four-dimensional fixed rules](../four-dimensional-factors/README.md) · [Reversible clock search](../checkerboard-orbits/README.md) · [Walsh representation](../../experiments/09-walsh-bitplanes/README.md) · [Motion references](../motion-residuals/README.md)
+## Small-scale results
+
+The primary control contains eight separately generated banks of sixteen 640 × 360 frames and independent rule tables. Two dense innovation planes mix into six sparse ones. The other controls change the seed, shift each residual bit plane to break cross-plane alignment, or supply uniform noise. Three real grayscale clips use the same geometry and byte count. See the [input manifests](../large-scale/synthetic.json) and [video sources](../large-scale/videos.json).
+
+On the 29,491,200-byte generated field, fixed-order training followed by a basis produced 25,054,265 bytes. Joint estimation of the rule and basis produced **11,051,733**. On a fresh seed the sequential and coupled archives were 26,700,643 and 11,045,164 bytes. Shifting each error plane independently reduced the coupled advantage to one byte, 25,262,112 versus 25,262,111. Uniform noise tied at 29,491,268. The real clips selected the same archive sizes under the two profiles, including 1,647,841 bytes on Jake and 4,139,127 on Rei. The planted result identifies a dependency the sequential model missed. The real-video measurements put a limit on its observed transfer. [Archives and ablations](../large-scale/results/by-dataset.md#learned-field)
+
+## Run it
+
+```sh
+make -C research
+python3 research/learned-cellular-rules/control.py runs/large/raw/learned-field
+python3 research/large-scale/bench.py runs/large/raw/learned-field runs/learned-cellular.jsonl learned-direct learned-rule learned-basis learned-joint learned-coupled
+```

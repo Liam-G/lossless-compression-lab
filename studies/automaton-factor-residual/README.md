@@ -1,24 +1,14 @@
 # Automata, factors and residual coding
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Scanned manual: Graphviz guides, 76.7× larger vs DjVu.
+>
+> Part of [chapter 2](../../report/2-dynamics.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Does undoing an automaton step reduce residual cost when the factor model stays fixed?
+Experiments 06, 07, 08 and 14 combined: with the factor model held fixed, does undoing an automaton step make the residual cheaper?
 
-## Run the experiment
-
-Run from the repository root on Linux with Python and the Zstd CLI.
-
-```sh
-python3 studies/run.py automaton-factor-residual runs/automaton-factor-residual
-```
-
-## Variants and format
-
-Fit two GF(2) basis vectors per eight-row matrix using experiment 08. The orbit profiles consider up to three reverse Checkerboard steps from experiment 06. Rank from experiment 07 breaks ties after residual weight. Send the selected step, basis, coordinates and a nested experiment 14 residual archive. First compare direct and orbit prediction with enumerative coding. Then hold orbit selection fixed while switching among enumeration, Rice gaps, contexts and per-block selection.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -26,52 +16,34 @@ flowchart LR
     T --> W["Send step, factors and coded residual"]
 ```
 
+The same factorization and residual coder run with and without an automaton step in front, and with direct or enumerative residual coding.
+
+<details><summary>Technical details</summary>
+
+Does undoing an automaton step reduce residual cost when the factor model stays fixed?
+
 **Mechanism and test.** A lower error weight can improve subset coding while leaving long or irregular gaps. Switching the residual coder with the orbit held fixed tests whether the gain comes from the fit or from the mask representation.
 
-## Inputs and measurement
+Fit two GF(2) basis vectors per eight-row matrix using experiment 08. The orbit profiles consider up to three reverse Checkerboard steps from experiment 06. Rank from experiment 07 breaks ties after residual weight. Send the selected step, basis, coordinates and a nested experiment 14 residual archive. First compare direct and orbit prediction with enumerative coding. Then hold orbit selection fixed while switching among enumeration, Rice gaps, contexts and per-block selection.
 
-The planted control evolves noisy rank-two matrices. The real controls are a fax window and medical-image bytes. Transform selection minimizes residual weight with a fixed tie rule. Every residual profile sees the same chosen factors for an orbit input.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-The following table records the original small diagnostic. The primary benchmark follows it.
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-With enumeration fixed, the orbit reduced the evolved control from 475 bytes to 339. Holding that prediction fixed, Rice used 350 bytes and the context code used 355.
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Scanned manual: Graphviz guides | real | 24,642,792 | 14,653,191 (`study18-direct-enumerative`) | — | 191,132 (DjVu) | 76.7× larger |
+| 4-D noisy field from a hidden automaton | planted | 25,165,824 | 31,450,511 (`study18-direct-enumerative`) | — | — | — |
 
-| Input | Profile | Raw bytes | Archive | Archive plus required base | Zstd |
-|---|---|---:|---:|---:|---:|
-| evolved-noisy-rank-two | direct-enumerative | 384 | 475 | 475 | 397 |
-| evolved-noisy-rank-two | orbit-enumerative | 384 | 339 | 339 | 397 |
-| evolved-noisy-rank-two | orbit-rice | 384 | 350 | 350 | 397 |
-| evolved-noisy-rank-two | orbit-context | 384 | 355 | 355 | 397 |
-| evolved-noisy-rank-two | orbit-adaptive | 384 | 351 | 351 | 397 |
-| uniform | direct-enumerative | 384 | 509 | 509 | 397 |
-| uniform | orbit-enumerative | 384 | 537 | 537 | 397 |
-| uniform | orbit-rice | 384 | 554 | 554 | 397 |
-| uniform | orbit-context | 384 | 577 | 577 | 397 |
-| uniform | orbit-adaptive | 384 | 549 | 549 | 397 |
-| fax-mid.bin | direct-enumerative | 512 | 313 | 313 | 80 |
-| fax-mid.bin | orbit-enumerative | 512 | 377 | 377 | 80 |
-| fax-mid.bin | orbit-rice | 512 | 393 | 393 | 80 |
-| fax-mid.bin | orbit-context | 512 | 425 | 425 | 80 |
-| fax-mid.bin | orbit-adaptive | 512 | 393 | 393 | 80 |
-| medical.bin | direct-enumerative | 512 | 353 | 353 | 137 |
-| medical.bin | orbit-enumerative | 512 | 417 | 417 | 137 |
-| medical.bin | orbit-rice | 512 | 433 | 433 | 137 |
-| medical.bin | orbit-context | 512 | 460 | 460 | 137 |
-| medical.bin | orbit-adaptive | 512 | 433 | 433 | 137 |
-
-All 20 study archives reconstructed their original bytes. The [trial table](results/reference/trials.csv) includes input hashes, side-stream byte counts and single-run timings. [Study implementation](benchmark.py).
-
-## Large-file benchmark
-
-On `manual-graphs` (24,642,792 raw bytes), `study18-orbit-enumerative` produced 17,725,221 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../../research/large-scale/results/by-experiment.md#automaton-factor-residual)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `manual-graphs`, `study18-orbit-enumerative` delivers 17,725,221 bytes, 16,400,087 bytes larger than standalone Zstandard 3 (1,325,134 bytes).
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -116,6 +88,45 @@ python3 research/large-scale/primary.py runs/replay-automaton-factor-residual --
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Jointly learning a cellular rule and the matrix of its prediction errors](../../research/learned-cellular-rules/README.md) · [Reversible 3D automata before GF(2) panel coding](../../research/tensor-orbits/README.md)
+## Small-scale results
+
+The planted control evolves noisy rank-two matrices. The real controls are a fax window and medical-image bytes. Transform selection minimizes residual weight with a fixed tie rule. Every residual profile sees the same chosen factors for an orbit input.
+
+The following table records the original small diagnostic. The primary benchmark follows it.
+
+With enumeration fixed, the orbit reduced the evolved control from 475 bytes to 339. Holding that prediction fixed, Rice used 350 bytes and the context code used 355.
+
+| Input | Profile | Raw bytes | Archive | Archive plus required base | Zstd |
+|---|---|---:|---:|---:|---:|
+| evolved-noisy-rank-two | direct-enumerative | 384 | 475 | 475 | 397 |
+| evolved-noisy-rank-two | orbit-enumerative | 384 | 339 | 339 | 397 |
+| evolved-noisy-rank-two | orbit-rice | 384 | 350 | 350 | 397 |
+| evolved-noisy-rank-two | orbit-context | 384 | 355 | 355 | 397 |
+| evolved-noisy-rank-two | orbit-adaptive | 384 | 351 | 351 | 397 |
+| uniform | direct-enumerative | 384 | 509 | 509 | 397 |
+| uniform | orbit-enumerative | 384 | 537 | 537 | 397 |
+| uniform | orbit-rice | 384 | 554 | 554 | 397 |
+| uniform | orbit-context | 384 | 577 | 577 | 397 |
+| uniform | orbit-adaptive | 384 | 549 | 549 | 397 |
+| fax-mid.bin | direct-enumerative | 512 | 313 | 313 | 80 |
+| fax-mid.bin | orbit-enumerative | 512 | 377 | 377 | 80 |
+| fax-mid.bin | orbit-rice | 512 | 393 | 393 | 80 |
+| fax-mid.bin | orbit-context | 512 | 425 | 425 | 80 |
+| fax-mid.bin | orbit-adaptive | 512 | 393 | 393 | 80 |
+| medical.bin | direct-enumerative | 512 | 353 | 353 | 137 |
+| medical.bin | orbit-enumerative | 512 | 417 | 417 | 137 |
+| medical.bin | orbit-rice | 512 | 433 | 433 | 137 |
+| medical.bin | orbit-context | 512 | 460 | 460 | 137 |
+| medical.bin | orbit-adaptive | 512 | 433 | 433 | 137 |
+
+All 20 study archives reconstructed their original bytes. The [trial table](results/reference/trials.csv) includes input hashes, side-stream byte counts and single-run timings. [Study implementation](benchmark.py).
+
+## Run it
+
+Run from the repository root on Linux with Python and the Zstd CLI.
+
+```sh
+python3 studies/run.py automaton-factor-residual runs/automaton-factor-residual
+```

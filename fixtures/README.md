@@ -1,6 +1,6 @@
 # Benchmark fixtures
 
-These byte samples ship with the experiments so a checkout can reproduce the comparisons. Each run records SHA-256 for the evaluated input and any external reference. The ELF files are benchmark data.
+Small frozen inputs used by the round-trip tests of the sixteen numbered experiments (`python3 suite.py test`). They are test vectors, not benchmark results: real comparisons use inputs of at least 20 MiB ([methods](../report/methods.md)). Paths below refer to the public corpora (`corpus/`) or to files of the original lab notebook (`lab/`), which is not part of this repository.
 
 | File | Bytes | Origin |
 |---|---:|---|
@@ -11,8 +11,8 @@ These byte samples ship with the experiments so a checkout can reproduce the com
 | scanner.elf | 23,128 | Unmodified `lab/hutter/ragc/repdigit_split/scan`, loaded as bytes |
 | grammar-fd90565.txt | 776 | From 256 bytes before the W.swap call through the available suffix (up to 1,024 further bytes), statico revision `fd90565`, src/grammar.cpp |
 | grammar-1061fc7.txt | 967 | From 256 bytes before the W.swap call through the available suffix (up to 1,024 further bytes), statico revision `1061fc7`, src/grammar.cpp |
-| logo-old.png | 1,563 | Debian logo PNG in the workspace focal root filesystem |
-| logo-new.png | 1,678 | Debian logo PNG in the workspace bookworm root filesystem |
+| logo-old.png | 1,563 | Debian logo PNG from an Ubuntu 20.04 (focal) root filesystem |
+| logo-new.png | 1,678 | Debian logo PNG from a Debian 12 (bookworm) root filesystem |
 | identifiers-grammar.txt | 768 | First 64 lowercase alphanumeric identifiers/words of length 3–12 in `statico/src/grammar.cpp`, right-padded with 0 to 12 characters |
 | identifiers-codec.txt | 768 | First 64 lowercase alphanumeric identifiers/words of length 3–12 in `statico/src/glz.hpp`, right-padded with 0 to 12 characters |
 | affine-0.bin | 512 | Signed 16-bit normalized operands of instructions 1–128 in the original formula.bin stream |

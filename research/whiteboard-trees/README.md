@@ -1,8 +1,29 @@
 # Whiteboard quotients inside factor trees
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: no meaningful gain on real data.** Best real input: Q: the record archive as an integer, −0.0005% vs zstd -19. Planted control: Products hiding a repdigit factor, +25.3% vs brotli -11.
+>
+> Part of [chapter 1](../../report/1-formulas.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
+
+Can the whiteboard formula (one repeated-digit number divided by another) describe nodes inside a factor tree, even if it cannot describe a whole file?
+
+## How it works
+
+```mermaid
+flowchart LR
+    N["Integer node"] --> L["Literal"]
+    N --> C["Split by bit width"]
+    N --> Q["Exact repdigit quotient"]
+    N --> F["FWF1 factor and correction"]
+    F --> C
+    C --> K["Encode both children"]
+    Q --> P["Store operands and multiplier"]
+```
+
+At each tree node the encoder looks for a scaled quotient of two repdigits; if none fits it splits the cofactor again.
+
+<details><summary>Technical details</summary>
 
 The [original whiteboard](whiteboard.png) represents an integer as an exact ratio of repeated-digit numbers in different bases.
 
@@ -20,68 +41,31 @@ In the board notation $d$ is the result. The [QBT1 decoder](tree.py#L59-L73) cal
 
 The QBT1 encoder and decoder come from `lab/hutter/ragc/entropy_base_tree/big_tree.py`. Its modular filters discard candidates cheaply before exact integer and width checks. It tries the root, binary splits, several asymmetric root cuts and selected deeper paths anchored at the beginning, middle and end. The new FWF1 search is in [factor_forest.py](factor_forest.py). The separate fourth-power construction lives in [quartic trees](../quartic-trees/README.md).
 
-## Run the experiment
-
-```sh
-mkdir -p runs
-python3 research/whiteboard-trees/tree.py decode research/whiteboard-trees/original-control.qbt runs/whiteboard.bin
-python3 research/whiteboard-trees/tree.py bench "$Q" runs/big-whiteboard
-cmp research/whiteboard-trees/original-control.qbt runs/big-whiteboard/planted-big.qbt
-python3 research/whiteboard-trees/benchmark_forest.py "$CORPUS" runs/forest
-python3 research/whiteboard-trees/factor_forest.py encode runs/whiteboard.bin runs/example.fwf --profile nested
-python3 research/whiteboard-trees/factor_forest.py decode runs/example.fwf runs/forest.bin
-cmp runs/whiteboard.bin runs/forest.bin
-```
-
-## Variants and format
+**Mechanism and test.** Division can expose a formula on one side of a cut. The planted tree tests that mechanism. On complete Q the whole-file encoder selected a literal root, which identifies the limit of this bounded search.
 
 QBT1 stores the byte length in a 12-byte header. Each node selects a literal, a centered split, an explicit unequal cut or a formula with seven integer parameters. The decoder derives each child's width from its parent. The 33-byte planted archive consists of the header, one split and two formulas. The new encoder reproduced the [historical archive](original-control.qbt) byte for byte. On full Q the encoder selected a literal root, yielding 96,994,200 bytes. [Full-Q and planted replay](results/big-results.json)
 
 FWF1 starts from 64-byte words, permits three levels and up to two factor nodes on a path. The encoder can apply `n = p × child − δ`, with δ in {0, +1, −1}, then split the child's bits. It tries up to two exact divisors per correction from ten small primes. Literal and leading-zero-trimmed leaves, bisecting splits and a common width rule are shared across profiles. The encoder chooses by the byte length of the actual tagged records.
 
-### Method diagram
+</details>
 
-```mermaid
-flowchart LR
-    N["Integer node"] --> L["Literal"]
-    N --> C["Split by bit width"]
-    N --> Q["Exact repdigit quotient"]
-    N --> F["FWF1 factor and correction"]
-    F --> C
-    C --> K["Encode both children"]
-    Q --> P["Store operands and multiplier"]
-```
+## Results on 20 MiB inputs
 
-**Mechanism and test.** Division can expose a formula on one side of a cut. The planted tree tests that mechanism. On complete Q the whole-file encoder selected a literal root, which identifies the limit of this bounded search.
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-## Inputs and measurement
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Wikipedia text, another 24 MiB | real | 25,165,824 | 25,165,837 (`whiteboard`) | — | 6,637,336 (xz -9e) | 3.8× larger |
+| Q: the record archive as an integer | derived from real | 96,994,187 | 96,994,200 (`whiteboard`) | — | 96,994,649 (zstd -19) | −0.0005% |
+| Products hiding a repdigit factor | planted | 25,165,824 | 16,568,758 (`forest-nested`) | — | 13,226,527 (brotli -11) | +25.3% |
 
-The primary trial measures `whiteboard` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
-
-## Results
-
-| 32 KiB hidden-product control | Archive bytes |
-|---|---:|
-| Literal leaves and splits | 30,577 |
-| Factors and splits | 29,528 |
-| Whiteboard leaves and splits | 30,577 |
-| Factors restricted to an unsplit leaf | 29,434 |
-| Nested factors, splits and formulas | 21,597 |
-| Zstandard level 3 | 18,723 |
-
-The fixture embeds a cross-base quotient in one half of a cofactor, then applies a small prime and a possible one-unit correction. Decoding counted 507 quotient leaves below factors and 457 splits below factors. The nested method saved 7,837 bytes over restricting factors to leaves. Zstandard compressed this same control further. On the real MR, X-ray and spreadsheet slices all five profiles tied. This bounded search establishes where operator order matters and gives its cost on data without the plant. [Every profile, input hash and decoded node count](results/forest/trials.csv)
-
-## Large-file benchmark
-
-On `cofattore-Q.base256` (96,994,187 raw bytes), `whiteboard` produced 96,994,200 archive bytes. Zstandard level 3 used 96,996,424 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#cofattore-qbase256) · [All project measurements](../large-scale/results/by-experiment.md#whiteboard-trees)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `cofattore-Q.base256`, `whiteboard` delivers 96,994,200 bytes, 2,224 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
-
-Holding `whiteboard` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **1 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -143,6 +127,32 @@ python3 research/large-scale/primary.py runs/replay-whiteboard-trees --project w
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[The whiteboard census and its formula witnesses](../whiteboard-census/README.md) · [Shared formulas inside a factor tree](../shared-factor-forest/README.md)
+## Small-scale results
+
+The primary trial measures `whiteboard` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+| 32 KiB hidden-product control | Archive bytes |
+|---|---:|
+| Literal leaves and splits | 30,577 |
+| Factors and splits | 29,528 |
+| Whiteboard leaves and splits | 30,577 |
+| Factors restricted to an unsplit leaf | 29,434 |
+| Nested factors, splits and formulas | 21,597 |
+| Zstandard level 3 | 18,723 |
+
+The fixture embeds a cross-base quotient in one half of a cofactor, then applies a small prime and a possible one-unit correction. Decoding counted 507 quotient leaves below factors and 457 splits below factors. The nested method saved 7,837 bytes over restricting factors to leaves. Zstandard compressed this same control further. On the real MR, X-ray and spreadsheet slices all five profiles tied. This bounded search establishes where operator order matters and gives its cost on data without the plant. [Every profile, input hash and decoded node count](results/forest/trials.csv)
+
+## Run it
+
+```sh
+mkdir -p runs
+python3 research/whiteboard-trees/tree.py decode research/whiteboard-trees/original-control.qbt runs/whiteboard.bin
+python3 research/whiteboard-trees/tree.py bench "$Q" runs/big-whiteboard
+cmp research/whiteboard-trees/original-control.qbt runs/big-whiteboard/planted-big.qbt
+python3 research/whiteboard-trees/benchmark_forest.py "$CORPUS" runs/forest
+python3 research/whiteboard-trees/factor_forest.py encode runs/whiteboard.bin runs/example.fwf --profile nested
+python3 research/whiteboard-trees/factor_forest.py decode runs/example.fwf runs/forest.bin
+cmp runs/whiteboard.bin runs/forest.bin
+```

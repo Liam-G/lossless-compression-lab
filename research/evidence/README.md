@@ -15,7 +15,7 @@ The long-form technical register, `esperimenti_descrizioni_tecniche.txt`, leads 
 | 119, 127–136 | Generator banks with exact residuals, arithmetic fields, substring transforms and recurrence fits | A generator bank with small corrections produced large savings on its planted sequence. At six correction bytes it found 1,657 matches on Q vs 1,643 on matched random data, and expanded Q by 4,720 bytes after selectors. |
 | 140–141 | Exact cross-base ratios and short arithmetic records | The 117-bit integer (2¹²⁰ − 1)/13 has a 22-bit recipe in the original gamma format. Whether a substring pays for a position and width is a separate question, tested by RPS1 and QFT1. |
 
-The [idea atlas](idea-atlas.md) indexes all 51 dossier topics and all 23 register families. The [protocol inventory](protocol-index.tsv) preserves the 583 recorded source and measurement directories. The [supplementary ledger](supplementary.tsv) identifies 15 standalone result files by path and hash.
+The [idea atlas](idea-atlas.md) indexes all 51 design topics and all 23 register families. The [protocol inventory](protocol-index.tsv) preserves the 583 recorded source and measurement directories. The [supplementary ledger](supplementary.tsv) identifies 15 standalone result files by path and hash.
 
 ## How to interpret the replays
 

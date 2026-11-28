@@ -1,0 +1,16 @@
+{
+  "note": "Bits a search reproduced EXACTLY from the start of a target, against the bits needed to name the winning candidate (log2 of the number of candidates). Real targets: 300 characters of enwik8 (coincidence hunt), the first bytes of enwik8, xz and PPMd output of the first MiB of enwik8, and seeded random bytes. Planted controls were made by one member of the family. Source logs: research/coincidence-hunt/results, research/rules-vs-noise/results (re-verified 2026-11-28). Values capped by the search length are marked capped.",
+  "real": [
+    ["hunt: digits and sequences", 34.9, 33], ["hunt: roots and fractions", 29.3, 24], ["hunt: generator seeds", 36.4, 32],
+    ["hunt: formulas", 27.1, 25], ["hunt: recurrences", 29.3, 25], ["hunt: integer sequences", 26.4, 18], ["hunt: automata and shapes", 32.2, 23],
+    ["irrational digits, text", 20.0, 22], ["irrational digits, text", 22.0, 25], ["irrational digits, text", 24.0, 25], ["irrational digits, text", 26.0, 26],
+    ["irrational digits, xz output", 20.0, 19], ["irrational digits, xz output", 22.0, 22], ["irrational digits, xz output", 24.0, 24], ["irrational digits, xz output", 26.0, 25],
+    ["irrational digits, random", 20.0, 20], ["irrational digits, random", 22.0, 24], ["irrational digits, random", 24.0, 24], ["irrational digits, random", 26.0, 25],
+    ["automata, xz output", 27.3, 24], ["automata, PPMd output", 27.3, 26], ["automata, random", 27.3, 25],
+    ["pairs of automata, xz output", 33.4, 28], ["pairs of automata, PPMd output", 33.4, 29], ["pairs of automata, random", 33.4, 31]
+  ],
+  "planted": [
+    ["xorshift32 seed", 36.4, 2400, false], ["formula as letters", 27.1, 2400, false], ["primes as text", 26.4, 2400, false],
+    ["piece of √2", 26.0, 128, true], ["rule 30 output", 27.3, 64, true], ["two rules XORed", 33.4, 64, true]
+  ]
+}

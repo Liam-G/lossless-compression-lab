@@ -1,27 +1,14 @@
 # Recursive fourth-power quotients
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Q: the record archive as an integer, 2.6× larger vs zstd -19.
+>
+> Part of [chapter 1](../../report/1-formulas.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-How long is a whole-file formula when its operands also have to be specified? The original GMP engine in `lab/hutter/divisors/q-torri-quoziente/ricorsiva/quartiche.cpp` constructs nodes of the form `F(k,a,d) = floor((a⁴ + d⁴) / 2ᵏ)`. The decoder knows how to derive the shift and child widths. The encoder uses integer fourth roots and remainders to construct both children and continues recursively. Small subtrees use a shared 65,536-entry dictionary whose terminal operands are the integers 0 through 15.
+Can Q be written as nested formulas of the form (a⁴ + d⁴) / 2ᵏ, recursing into a and d?
 
-## Run the experiment
-
-```sh
-mkdir -p runs
-head -c 4096 "$Q" > runs/q-prefix.bin
-python3 research/quartic-trees/codec.py encode runs/q-prefix.bin runs/q.quartic
-python3 research/quartic-trees/codec.py decode runs/q.quartic runs/q-prefix.restored
-cmp runs/q-prefix.bin runs/q-prefix.restored
-python3 research/benchmark_native.py "$Q" runs/native-quartics
-```
-
-## Variants and format
-
-The historical engine accepted the integer width separately. The QW01 wrapper stores the original byte count and significant bit width in a 20-byte header, preserving empty input and leading zero bytes. The original engine supplies the remaining bytes. Each recursive reference or explicitly encoded pair of child descriptions contributes to the formula length.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -29,27 +16,34 @@ flowchart LR
     T --> W["Write subtree references or explicit operands"]
 ```
 
+Each node solves for two operands whose fourth powers produce the target, then recurses into the operands until they are small.
+
+<details><summary>Technical details</summary>
+
+How long is a whole-file formula when its operands also have to be specified? The original GMP engine in `lab/hutter/divisors/q-torri-quoziente/ricorsiva/quartiche.cpp` constructs nodes of the form `F(k,a,d) = floor((a⁴ + d⁴) / 2ᵏ)`. The decoder knows how to derive the shift and child widths. The encoder uses integer fourth roots and remainders to construct both children and continues recursively. Small subtrees use a shared 65,536-entry dictionary whose terminal operands are the integers 0 through 15.
+
 **Mechanism and test.** An exact formula can lengthen an archive when each operand requires another description. The fresh full-Q and Wikipedia runs measure how much the recursive operands cost at file scale.
 
-## Inputs and measurement
+The historical engine accepted the integer width separately. The QW01 wrapper stores the original byte count and significant bit width in a 20-byte header, preserving empty input and leading zero bytes. The original engine supplies the remaining bytes. Each recursive reference or explicitly encoded pair of child descriptions contributes to the formula length.
 
-The primary trial measures `quartic` on the complete `wiki-transfer` input (25,165,824 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-Fresh Q prefixes of 4 KiB, 64 KiB and 1 MiB produced 11,450, 181,137 and 2,483,741 archive bytes with the wrapper. All decoded exactly. The [historical full-Q measurement](original-full-q.json) recorded 247,891,597 formula bytes before wrapper framing, with 956,890,129 fourth-power nodes when fully expanded and maximum depth 39. It includes matching input and reconstructed SHA-256 digests. A fresh QW01 encode of all 96,994,187 Q bytes produced 247,891,575 archive bytes and passed independent decoding. The receipts preserve each measurement under its own format and build. Both full runs spent more bytes describing the two operands than the original integer occupied. [Prefix replay](../evidence/native-replay/trials.csv)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-## Large-file benchmark
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Wikipedia text, another 24 MiB | real | 25,165,824 | 69,926,330 (`quartic`) | — | 6,637,336 (xz -9e) | 10.5× larger |
+| Q: the record archive as an integer | derived from real | 96,994,187 | 247,891,575 (`quartic`) | — | 96,994,649 (zstd -19) | 2.6× larger |
 
-On `wiki-transfer` (25,165,824 raw bytes), `quartic` produced 69,926,330 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../large-scale/results/by-experiment.md#quartic-trees)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `wiki-transfer`, `quartic` delivers 69,926,330 bytes, 60,957,874 bytes larger than standalone Zstandard 3 (8,968,456 bytes).
-
-Holding `quartic` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 2 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -95,6 +89,21 @@ python3 research/large-scale/primary.py runs/replay-quartic-trees --project quar
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Whole-file square, product and modular-square formulas](../integer-formulas/README.md) · [Integer carries across tree boundaries](../carry-trees/README.md)
+## Small-scale results
+
+The primary trial measures `quartic` on the complete `wiki-transfer` input (25,165,824 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+Fresh Q prefixes of 4 KiB, 64 KiB and 1 MiB produced 11,450, 181,137 and 2,483,741 archive bytes with the wrapper. All decoded exactly. The [historical full-Q measurement](original-full-q.json) recorded 247,891,597 formula bytes before wrapper framing, with 956,890,129 fourth-power nodes when fully expanded and maximum depth 39. It includes matching input and reconstructed SHA-256 digests. A fresh QW01 encode of all 96,994,187 Q bytes produced 247,891,575 archive bytes and passed independent decoding. The receipts preserve each measurement under its own format and build. Both full runs spent more bytes describing the two operands than the original integer occupied. [Prefix replay](../evidence/native-replay/trials.csv)
+
+## Run it
+
+```sh
+mkdir -p runs
+head -c 4096 "$Q" > runs/q-prefix.bin
+python3 research/quartic-trees/codec.py encode runs/q-prefix.bin runs/q.quartic
+python3 research/quartic-trees/codec.py decode runs/q.quartic runs/q-prefix.restored
+cmp runs/q-prefix.bin runs/q-prefix.restored
+python3 research/benchmark_native.py "$Q" runs/native-quartics
+```

@@ -1,38 +1,14 @@
 # Experiment 09 · Walsh–Hadamard prediction and bit planes
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Scanned manual: Graphviz guides, 65.1× larger vs DjVu.
+>
+> Part of [chapter 2](../../report/2-dynamics.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Do bit planes and sparse Walsh–Hadamard coefficients produce a better binary prediction once coefficient and residual bytes are counted?
+Can a few large Walsh–Hadamard (binary Fourier) coefficients predict each bit plane, so that only the coefficients and the wrong bits need storing?
 
-The original hunt program identifies large Walsh coefficients and estimates the cost of correcting discordant bits. This experiment serializes the prediction and its inverse.
-
-### Source files and compatibility
-
-The spectral family in the C++ search supplies the signed Walsh predictor. The new wire format retains each coefficient and its exact correction. Paths below are relative to the original workspace.
-
-- `lab/arena/hunt.cpp`
-
-## Run the experiment
-
-Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
-
-```sh
-python3 ../../lab.py 09 test
-python3 ../../lab.py 09 encode ../../fixtures/medical.bin sample.lcx
-python3 ../../lab.py 09 decode sample.lcx sample.restored
-cmp ../../fixtures/medical.bin sample.restored
-python3 ../../lab.py 09 benchmark ../../runs/recheck-09
-```
-
-## Variants and format
-
-Split into 32-byte blocks and optionally transpose to bit-plane order. Map bits to signed amplitudes, zero-pad to a power of two, and apply the fast Walsh–Hadamard transform. Try 0, 1, 2, 4 or 8 retained coefficients by actual record size. Transmit each coefficient index and ZigZag amplitude. Threshold the inverse transform and DEFLATE the exact XOR mask. All four profiles use the same residual backend and framing. The decoder reverses the plane layout after applying residuals.
-
-The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -40,45 +16,38 @@ flowchart LR
     T --> W["Send coefficients and exact XOR mask"]
 ```
 
+Each bit plane is transformed, its largest coefficients are kept, and the plane they predict is XORed with the real one to give a sparse correction.
+
+<details><summary>Technical details</summary>
+
+Do bit planes and sparse Walsh–Hadamard coefficients produce a better binary prediction once coefficient and residual bytes are counted?
+
+The original hunt program identifies large Walsh coefficients and estimates the cost of correcting discordant bits. This experiment serializes the prediction and its inverse.
+
 **Mechanism and test.** A few coefficients can describe extensive regular patterns. Precision is recovered through the mask, whose size can exceed the avoided literals. Compare plane-only and predictor-only profiles to isolate the source of a change.
 
-## Inputs and measurement
+Split into 32-byte blocks and optionally transpose to bit-plane order. Map bits to signed amplitudes, zero-pad to a power of two, and apply the fast Walsh–Hadamard transform. Try 0, 1, 2, 4 or 8 retained coefficients by actual record size. Transmit each coefficient index and ZigZag amplitude. Threshold the inverse transform and DEFLATE the exact XOR mask. All four profiles use the same residual backend and framing. The decoder reverses the plane layout after applying residuals.
 
-Use a periodic binary signal with 0, 16 or 128 flipped positions, plus fax masks and quantized medical-image bytes. A separate positive control contains exact Walsh basis signals. Trial details count how often each coefficient count is selected.
+The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
 
-Each block starts a fresh DEFLATE stream. Its framing overhead is especially visible on the short real samples.
+</details>
 
-The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+## Results on 20 MiB inputs
 
-## Results
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-On the noiseless periodic control, plane separation reduced 284 bytes to 220. Adding spectral prediction produced the same size, while whole-file Zstd used 24 bytes. On the additional Walsh-basis positive control, the combined predictor used 276 bytes, three fewer than the better single component.
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Scanned manual: Graphviz guides | real | 24,642,792 | 12,437,412 (`pilot09-direct`) | — | 191,132 (DjVu) | 65.1× larger |
+| Scanned manual: Graphviz library | real | 24,283,584 | 13,922,627 (`pilot09-combined`) | — | 175,164 (DjVu) | 79.5× larger |
 
-| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
-|---|---:|---|---:|---:|
-| periodic-noise0 | 512 | planes | 220 | 24 |
-| uniform | 512 | direct | 716 | 525 |
-| periodic-noise16 | 512 | planes | 272 | 97 |
-| periodic-noise128 | 512 | planes | 481 | 238 |
-| planted-Walsh-basis | 512 | combined | 276 | 173 |
-| fax.bin | 512 | direct | 220 | 22 |
-| fax-mid.bin | 512 | direct | 310 | 80 |
-| medical.bin | 512 | planes | 333 | 137 |
-
-All 32 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
-
-
-## Large-file benchmark
-
-On `manual-library` (24,283,584 raw bytes), `pilot09-combined` produced 13,922,627 archive bytes. Zstandard level 3 used 1,903,366 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#manual-library) · [All project measurements](../../research/large-scale/results/by-experiment.md#09-walsh-bitplanes)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `manual-library`, `pilot09-combined` delivers 13,922,627 bytes, 12,019,261 bytes larger than standalone Zstandard 3 (1,903,366 bytes).
-
-Holding `pilot09-combined` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 2 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -125,6 +94,49 @@ python3 research/large-scale/primary.py runs/replay-09-walsh-bitplanes --project
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Experiment 08 offers a low-rank predictor. Experiment 14 compares the residuals obtained from both predictors.
+## Small-scale results
+
+Use a periodic binary signal with 0, 16 or 128 flipped positions, plus fax masks and quantized medical-image bytes. A separate positive control contains exact Walsh basis signals. Trial details count how often each coefficient count is selected.
+
+Each block starts a fresh DEFLATE stream. Its framing overhead is especially visible on the short real samples.
+
+The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+
+On the noiseless periodic control, plane separation reduced 284 bytes to 220. Adding spectral prediction produced the same size, while whole-file Zstd used 24 bytes. On the additional Walsh-basis positive control, the combined predictor used 276 bytes, three fewer than the better single component.
+
+| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
+|---|---:|---|---:|---:|
+| periodic-noise0 | 512 | planes | 220 | 24 |
+| uniform | 512 | direct | 716 | 525 |
+| periodic-noise16 | 512 | planes | 272 | 97 |
+| periodic-noise128 | 512 | planes | 481 | 238 |
+| planted-Walsh-basis | 512 | combined | 276 | 173 |
+| fax.bin | 512 | direct | 220 | 22 |
+| fax-mid.bin | 512 | direct | 310 | 80 |
+| medical.bin | 512 | planes | 333 | 137 |
+
+All 32 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
+
+## Run it
+
+Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
+
+```sh
+python3 ../../lab.py 09 test
+python3 ../../lab.py 09 encode ../../fixtures/medical.bin sample.lcx
+python3 ../../lab.py 09 decode sample.lcx sample.restored
+cmp ../../fixtures/medical.bin sample.restored
+python3 ../../lab.py 09 benchmark ../../runs/recheck-09
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The spectral family in the C++ search supplies the signed Walsh predictor. The new wire format retains each coefficient and its exact correction. Paths below are relative to the original workspace.
+
+- `lab/arena/hunt.cpp`
+
+</details>

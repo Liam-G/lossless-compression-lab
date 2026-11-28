@@ -1,27 +1,14 @@
 # Hierarchical GF(2) with checkerboard evolution
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Scanned manual: Graphviz guides, 16.2× larger vs DjVu.
+>
+> Part of [chapter 2](../../report/2-dynamics.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Can backward cellular evolution recover the low rank of a matrix before recursive factorization? GFH1 divides a file into 16 × 16 binary matrices. Its native predecessor search and independent Python decoder are ported from `lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/gerarchico-gf2/{orbita.cpp,gerarchico.py}`. The ten original inputs and ten corresponding full-profile archives are included as compatibility vectors.
+Does running a cellular automaton backwards before factoring a bit matrix expose low rank that factoring alone misses?
 
-## Run the experiment
-
-```sh
-mkdir -p runs
-python3 research/hierarchical-gf2/codec.py pack --profile full research/hierarchical-gf2/fixtures/rank-4-evolved.bin runs/matrix.gfh
-python3 research/hierarchical-gf2/codec.py unpack runs/matrix.gfh runs/matrix.bin
-cmp research/hierarchical-gf2/fixtures/rank-4-evolved.bin runs/matrix.bin
-cmp research/hierarchical-gf2/fixtures/rank-4-evolved.gfh runs/matrix.gfh
-python3 research/hierarchical-gf2/benchmark.py runs/gf2-replay
-```
-
-## Variants and format
-
-The six profiles measure direct coding, automaton alone, a single factorization, recursive factorization, automata at leaves, and the full ordering with predecessor search before factorization. A factor node transmits a rank, a subset of independent row positions and recursively coded factor data. A predecessor carries the forward step count needed for reconstruction. GFH1 can fall back to the original file plus its 13-byte header. The benchmark uses up to 100 steps, depth 3 and a beam of 2 candidates. The previously published pilot explores a smaller search.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -29,25 +16,33 @@ flowchart LR
     T --> W["Store ranks, independent rows and step counts"]
 ```
 
+Files are cut into 16×16 bit matrices; each matrix may be evolved backwards, then factored recursively as basis rows, coefficients and an error mask.
+
+<details><summary>Technical details</summary>
+
+Can backward cellular evolution recover the low rank of a matrix before recursive factorization? GFH1 divides a file into 16 × 16 binary matrices. Its native predecessor search and independent Python decoder are ported from `lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/gerarchico-gf2/{orbita.cpp,gerarchico.py}`. The ten original inputs and ten corresponding full-profile archives are included as compatibility vectors.
+
 **Mechanism and test.** A predecessor can turn dependent rows into a cheaper tree. Depth and beam limits constrain what is found. Only the measured large-file profile supports a file-scale claim here.
 
-## Inputs and measurement
+The six profiles measure direct coding, automaton alone, a single factorization, recursive factorization, automata at leaves, and the full ordering with predecessor search before factorization. A factor node transmits a rank, a subset of independent row positions and recursively coded factor data. A predecessor carries the forward step count needed for reconstruction. GFH1 can fall back to the original file plus its 13-byte header. The benchmark uses up to 100 steps, depth 3 and a beam of 2 candidates. The previously published pilot explores a smaller search.
 
-The primary trial measures `gfh-3-1` on the complete `manual-graphs` input (24,642,792 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-Each input is 8,192 bytes. On the evolved rank-four fixture, all restricted profiles gave 8,205 bytes. The full profile gave 4,492. On the hierarchical fixture, single-level factorization gave 6,471 and recursive factorization gave 5,514. Plain rank-four matrices already reached 4,267 bytes with one factorization. The uniform and Neif payload fixtures selected literal files. All 60 trials matched the original measured sizes, and all ten full-profile encodes reproduced the historical archive bytes exactly. [Replay with decoded node counts](results/replay/trials.csv)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-## Large-file benchmark
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Scanned manual: Graphviz guides | real | 24,642,792 | 3,098,408 (`gfh-3-1`) | — | 191,132 (DjVu) | 16.2× larger |
 
-On `manual-graphs` (24,642,792 raw bytes), `gfh-3-1` produced 3,098,408 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../large-scale/results/by-experiment.md#hierarchical-gf2)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `manual-graphs`, `gfh-3-1` delivers 3,098,408 bytes, 1,773,274 bytes larger than standalone Zstandard 3 (1,325,134 bytes).
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -81,6 +76,21 @@ python3 research/large-scale/primary.py runs/replay-hierarchical-gf2 --project h
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Reversible 3D automata before GF(2) panel coding](../tensor-orbits/README.md) · [Four-dimensional automata with noisy binary matrix factors](../four-dimensional-factors/README.md)
+## Small-scale results
+
+The primary trial measures `gfh-3-1` on the complete `manual-graphs` input (24,642,792 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+Each input is 8,192 bytes. On the evolved rank-four fixture, all restricted profiles gave 8,205 bytes. The full profile gave 4,492. On the hierarchical fixture, single-level factorization gave 6,471 and recursive factorization gave 5,514. Plain rank-four matrices already reached 4,267 bytes with one factorization. The uniform and Neif payload fixtures selected literal files. All 60 trials matched the original measured sizes, and all ten full-profile encodes reproduced the historical archive bytes exactly. [Replay with decoded node counts](results/replay/trials.csv)
+
+## Run it
+
+```sh
+mkdir -p runs
+python3 research/hierarchical-gf2/codec.py pack --profile full research/hierarchical-gf2/fixtures/rank-4-evolved.bin runs/matrix.gfh
+python3 research/hierarchical-gf2/codec.py unpack runs/matrix.gfh runs/matrix.bin
+cmp research/hierarchical-gf2/fixtures/rank-4-evolved.bin runs/matrix.bin
+cmp research/hierarchical-gf2/fixtures/rank-4-evolved.gfh runs/matrix.gfh
+python3 research/hierarchical-gf2/benchmark.py runs/gf2-replay
+```

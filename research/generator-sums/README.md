@@ -1,32 +1,14 @@
 # Three seeded generators plus a signed residual
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: no meaningful gain on real data.** Best real input: Q: the record archive as an integer, −0.0005% vs zstd -19. Planted control: Sums of three generators, 683× smaller vs zstd -19.
+>
+> Part of [chapter 1](../../report/1-formulas.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-If the encoder searches 16,777,216 seed triples, how much of the target can those three transmitted seed bytes actually explain?
+If we try 16.7 million triples of seeds, how much of a block can the sum of three pseudo-random numbers explain?
 
-### Source files and compatibility
-
-This is the original QGS1 encoder and decoder from `lab/hutter/divisors/q-somma-generatori`, with English diagnostics. It uses the precise SHAKE domains and signed residual representation of the original experiment.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/generator-sums/control.py runs/sums.bin
-python3 research/generator-sums/encode.py runs/sums.bin runs/sums.qgs --block 4096
-python3 research/generator-sums/decoder.py runs/sums.qgs runs/sums.restored
-cmp runs/sums.bin runs/sums.restored
-```
-
-## Variants and format
-
-The first term carries a seed byte as its high byte. Each of the other terms has a leading zero byte. Ordered sums of two terms support a nearest-neighbor search. A prefix bound safely eliminates candidates before the remaining full-width differences are evaluated. Each unit transmits three seeds, a signed-length descriptor and the exact absolute residual. Block size zero describes one whole-file integer.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -34,28 +16,36 @@ flowchart LR
     T --> W["Send seeds and exact signed residual"]
 ```
 
+For every 4 KiB block the encoder searches seed triples whose summed outputs come closest, then stores three seed bytes and the signed residual.
+
+<details><summary>Technical details</summary>
+
+If the encoder searches 16,777,216 seed triples, how much of the target can those three transmitted seed bytes actually explain?
+
 **Mechanism and test.** The generator is cheap when a small seed tuple predicts many bytes. A planted seed sum directly tests recoverability. The numerical and uniform inputs test the cost when the nearest generated value still has a large residual.
 
-## Inputs and measurement
+The first term carries a seed byte as its high byte. Each of the other terms has a leading zero byte. Ordered sums of two terms support a nearest-neighbor search. A prefix bound safely eliminates candidates before the remaining full-width differences are evaluated. Each unit transmits three seeds, a signed-length descriptor and the exact absolute residual. Block size zero describes one whole-file integer.
 
-The plant has 6,144 distinct seed triples across 24 MiB. Half the blocks also receive a small signed correction. Real Q, ordinary numerical bytes and equally long uniform bytes use the same search budget.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-The planted block archive was 36,872 bytes. Zstd-19 and XZ extreme both grew the 25,165,824-byte source. On complete Q, one search gave 96,994,205 bytes and 4 KiB searches gave 97,021,897. On uniform data the 4 KiB mode also expanded. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Silesia numerical files (mr + x-ray + sao) | real | 25,696,748 | 25,696,765 (`sum-0`) | — | 11,662,476 (xz -9e) | 2.2× larger |
+| Q: the record archive as an integer | derived from real | 96,994,187 | 96,994,205 (`sum-0`) | — | 96,994,649 (zstd -19) | −0.0005% |
+| Sums of three generators | planted | 25,165,824 | 36,872 (`sum-4096`) | — | 25,166,414 (zstd -19) | **683× smaller** |
+| Uniform random bytes | control | 25,165,824 | 25,165,841 (`sum-0`) | — | 25,166,414 (zstd -19) | −0.0023% |
 
-## Large-file benchmark
-
-On `three-seeds` (25,165,824 raw bytes), `sum-4096` produced 36,872 archive bytes. Zstandard level 3 used 25,166,414 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#three-seeds) · [All project measurements](../large-scale/results/by-experiment.md#generator-sums)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `three-seeds`, `sum-4096` delivers 36,872 bytes, 25,129,542 bytes smaller than standalone Zstandard 3 (25,166,414 bytes).
-
-Holding `sum-4096` fixed across the 4 measured input/reference settings with a standalone Zstandard 3 control gives **1 smaller, 0 equal and 3 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -129,6 +119,30 @@ python3 research/large-scale/primary.py runs/replay-generator-sums --project gen
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Experiment 03 uses a small generator budget; experiment 04 prices checkpointed irrational sums. The [integer formulas](../integer-formulas/README.md) try wholly different generators on the same Q.
+## Small-scale results
+
+The plant has 6,144 distinct seed triples across 24 MiB. Half the blocks also receive a small signed correction. Real Q, ordinary numerical bytes and equally long uniform bytes use the same search budget.
+
+The planted block archive was 36,872 bytes. Zstd-19 and XZ extreme both grew the 25,165,824-byte source. On complete Q, one search gave 96,994,205 bytes and 4 KiB searches gave 97,021,897. On uniform data the 4 KiB mode also expanded. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
+
+```sh
+mkdir -p runs
+python3 research/generator-sums/control.py runs/sums.bin
+python3 research/generator-sums/encode.py runs/sums.bin runs/sums.qgs --block 4096
+python3 research/generator-sums/decoder.py runs/sums.qgs runs/sums.restored
+cmp runs/sums.bin runs/sums.restored
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+This is the original QGS1 encoder and decoder from `lab/hutter/divisors/q-somma-generatori`, with English diagnostics. It uses the precise SHAKE domains and signed residual representation of the original experiment.
+
+</details>

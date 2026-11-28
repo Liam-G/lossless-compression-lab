@@ -1,0 +1,437 @@
+ARENA cheap: input ../textfront/work/enwik8_10m (10,000,000 bytes), 381 chains x compressors ['zstd', 'bzip2', 'xz'], 4 at a time
+views: ['bwt', 'mtf', 'delta', 'xorprev', 'reverse', 'bitplanes', 'base2', 'base3', 'base4', 'transpose:4', 'transpose:16', 'transpose:80', 'caps', 'words', 'split', 'xz', 'zstd', 'bzip2', 'ppmd']
+[  1/381] none                           10,000,000 ->   10,000,000 (reshape   0.0s, round trip OK) | zstd   2,793,624  bzip2   2,916,026  xz   2,720,256  | best xz 2.176 bits/byte  [26.2s]
+[  2/381] bwt                            10,000,000 ->   10,000,008 (reshape   0.6s, round trip OK) | zstd   2,781,511  bzip2   3,090,296  xz   2,629,496  | best xz 2.104 bits/byte  [18.9s]
+[  3/381] mtf                            10,000,000 ->   10,000,000 (reshape   0.3s, round trip OK) | zstd   6,333,624  bzip2   6,811,945  xz   6,255,984  | best xz 5.005 bits/byte  [23.1s]
+[  4/381] delta                          10,000,000 ->   10,000,000 (reshape   0.1s, round trip OK) | zstd   3,222,589  bzip2   3,325,837  xz   3,163,008  | best xz 2.530 bits/byte  [21.2s]
+[  5/381] xorprev                        10,000,000 ->   10,000,000 (reshape   0.1s, round trip OK) | zstd   3,202,900  bzip2   3,356,783  xz   3,143,780  | best xz 2.515 bits/byte  [22.2s]
+[  6/381] reverse                        10,000,000 ->   10,000,000 (reshape   0.0s, round trip OK) | zstd   2,802,832  bzip2   2,940,020  xz   2,735,720  | best xz 2.189 bits/byte  [26.8s]
+[  7/381] bitplanes                      10,000,000 ->   10,000,008 (reshape   0.3s, round trip OK) | zstd   7,143,028  bzip2   7,453,077  xz   7,075,448  | best xz 5.660 bits/byte  [11.8s]
+[  8/381] base2                          10,000,000 ->   80,000,000 (reshape   0.4s, round trip OK) | zstd   3,554,001  bzip2   4,305,089  xz   2,880,016  | best xz 2.304 bits/byte  [248.3s]
+[  9/381] base3                          10,000,000 ->   60,000,000 (reshape   0.2s, round trip OK) | zstd   3,422,804  bzip2   3,845,602  xz   3,058,660  | best xz 2.447 bits/byte  [186.7s]
+[ 10/381] base4                          10,000,000 ->   40,000,000 (reshape   0.2s, round trip OK) | zstd   3,187,661  bzip2   3,560,262  xz   2,801,056  | best xz 2.241 bits/byte  [130.9s]
+[ 11/381] transpose:4                    10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   5,611,548  bzip2   6,189,759  xz   5,582,784  | best xz 4.466 bits/byte  [32.1s]
+[ 12/381] transpose:16                   10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   6,255,453  bzip2   6,905,064  xz   6,186,332  | best xz 4.949 bits/byte  [29.7s]
+[ 13/381] transpose:80                   10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   6,468,732  bzip2   7,106,527  xz   6,457,952  | best xz 5.166 bits/byte  [29.1s]
+[ 14/381] caps                           10,000,000 ->   10,336,766 (reshape   1.0s, round trip OK) | zstd   2,773,210  bzip2   2,914,017  xz   2,706,244  | best xz 2.165 bits/byte  [34.1s]
+[ 15/381] words                          10,000,000 ->    6,567,626 (reshape   2.3s, round trip OK) | zstd   2,740,943  bzip2   2,755,698  xz   2,639,496  | best xz 2.112 bits/byte  [19.2s]
+[ 16/381] split                          10,000,000 ->   10,026,986 (reshape   1.3s, round trip OK) | zstd   2,773,283  bzip2   2,894,456  xz   2,704,960  | best xz 2.164 bits/byte  [26.6s]
+[ 17/381] xz                             10,000,000 ->    2,720,256 (reshape  13.9s, round trip OK) | zstd   2,720,332  bzip2   2,732,712  xz   2,720,452  | best zstd 2.176 bits/byte  [16.4s]
+[ 18/381] zstd                           10,000,000 ->    2,793,624 (reshape  12.5s, round trip OK) | zstd   2,793,703  bzip2   2,807,308  xz   2,793,828  | best zstd 2.235 bits/byte  [14.9s]
+[ 19/381] bzip2                          10,000,000 ->    2,916,026 (reshape   1.1s, round trip OK) | zstd   2,916,108  bzip2   2,929,913  xz   2,916,232  | best zstd 2.333 bits/byte  [4.2s]
+[ 20/381] ppmd                           10,000,000 ->    2,302,184 (reshape   4.6s, round trip OK) | zstd   2,302,251  bzip2   2,312,514  xz   2,302,360  | best zstd 1.842 bits/byte  [11.0s]
+[ 21/381] bwt+bwt                        10,000,000 ->   10,000,016 (reshape   0.7s, round trip OK) | zstd   3,225,111  bzip2   3,556,180  xz   2,901,768  | best xz 2.321 bits/byte  [15.8s]
+[ 22/381] bwt+mtf                        10,000,000 ->   10,000,008 (reshape   0.6s, round trip OK) | zstd   2,732,767  bzip2   3,010,920  xz   2,690,108  | best xz 2.152 bits/byte  [29.2s]
+[ 23/381] bwt+delta                      10,000,000 ->   10,000,008 (reshape   0.5s, round trip OK) | zstd   3,413,302  bzip2   3,495,036  xz   3,265,556  | best xz 2.612 bits/byte  [20.8s]
+[ 24/381] bwt+xorprev                    10,000,000 ->   10,000,008 (reshape   0.4s, round trip OK) | zstd   3,308,202  bzip2   3,491,492  xz   3,157,700  | best xz 2.526 bits/byte  [21.8s]
+[ 25/381] bwt+reverse                    10,000,000 ->   10,000,008 (reshape   0.5s, round trip OK) | zstd   2,783,628  bzip2   3,089,762  xz   2,627,196  | best xz 2.102 bits/byte  [18.6s]
+[ 26/381] bwt+bitplanes                  10,000,000 ->   10,000,016 (reshape   0.6s, round trip OK) | zstd   3,776,642  bzip2   4,240,522  xz   3,526,740  | best xz 2.821 bits/byte  [19.2s]
+[ 27/381] bwt+base2                      10,000,000 ->   80,000,064 (reshape   0.7s, round trip OK) | zstd   3,639,643  bzip2   3,581,615  xz   2,978,616  | best xz 2.383 bits/byte  [216.5s]
+[ 28/381] bwt+base3                      10,000,000 ->   60,000,048 (reshape   0.8s, round trip OK) | zstd   3,522,230  bzip2   3,336,307  xz   3,183,080  | best xz 2.546 bits/byte  [182.8s]
+[ 29/381] bwt+base4                      10,000,000 ->   40,000,032 (reshape   0.7s, round trip OK) | zstd   3,348,304  bzip2   3,269,592  xz   2,906,988  | best xz 2.326 bits/byte  [132.1s]
+[ 30/381] bwt+transpose:4                10,000,000 ->   10,000,016 (reshape   0.4s, round trip OK) | zstd   3,212,361  bzip2   3,648,017  xz   2,989,344  | best xz 2.391 bits/byte  [23.2s]
+[ 31/381] bwt+transpose:16               10,000,000 ->   10,000,016 (reshape   0.4s, round trip OK) | zstd   3,567,283  bzip2   4,106,812  xz   3,207,204  | best xz 2.566 bits/byte  [29.4s]
+[ 32/381] bwt+transpose:80               10,000,000 ->   10,000,016 (reshape   1.8s, round trip OK) | zstd   3,880,490  bzip2   4,471,019  xz   3,398,748  | best xz 2.719 bits/byte  [62.9s]
+[ 33/381] bwt+caps                       10,000,000 ->   10,013,403 (reshape   0.6s, round trip OK) | zstd   2,785,088  bzip2   3,092,392  xz   2,634,544  | best xz 2.108 bits/byte  [20.2s]
+[ 34/381] bwt+words                      10,000,000 ->   10,002,709 (reshape   1.2s, round trip OK) | zstd   2,872,288  bzip2   3,155,741  xz   2,681,792  | best xz 2.145 bits/byte  [20.3s]
+[ 35/381] bwt+split                    DROPPED: AssertionError
+[ 36/381] bwt+xz                         10,000,000 ->    2,629,496 (reshape  11.6s, round trip OK) | zstd   2,629,572  bzip2   2,641,802  xz   2,629,692  | best zstd 2.104 bits/byte  [14.1s]
+[ 37/381] bwt+zstd                       10,000,000 ->    2,781,511 (reshape   8.0s, round trip OK) | zstd   2,781,590  bzip2   2,794,951  xz   2,781,712  | best zstd 2.225 bits/byte  [11.0s]
+[ 38/381] bwt+bzip2                      10,000,000 ->    3,090,296 (reshape   1.2s, round trip OK) | zstd   3,090,381  bzip2   3,105,565  xz   3,090,512  | best zstd 2.472 bits/byte  [4.5s]
+[ 39/381] bwt+ppmd                       10,000,000 ->    2,802,259 (reshape   3.6s, round trip OK) | zstd   2,802,338  bzip2   2,814,950  xz   2,802,464  | best zstd 2.242 bits/byte  [10.1s]
+[ 40/381] mtf+bwt                        10,000,000 ->   10,000,008 (reshape   0.7s, round trip OK) | zstd   6,367,552  bzip2   6,855,138  xz   6,279,052  | best xz 5.023 bits/byte  [24.3s]
+[ 41/381] mtf+mtf                        10,000,000 ->   10,000,000 (reshape   0.6s, round trip OK) | zstd   6,912,447  bzip2   7,373,833  xz   6,821,608  | best xz 5.457 bits/byte  [21.3s]
+[ 42/381] mtf+delta                      10,000,000 ->   10,000,000 (reshape   0.3s, round trip OK) | zstd   7,335,355  bzip2   7,337,904  xz   7,008,912  | best xz 5.607 bits/byte  [18.8s]
+[ 43/381] mtf+xorprev                    10,000,000 ->   10,000,000 (reshape   0.3s, round trip OK) | zstd   6,849,833  bzip2   7,095,212  xz   6,676,560  | best xz 5.341 bits/byte  [21.6s]
+[ 44/381] mtf+reverse                    10,000,000 ->   10,000,000 (reshape   0.4s, round trip OK) | zstd   6,329,318  bzip2   6,798,459  xz   6,247,744  | best xz 4.998 bits/byte  [26.4s]
+[ 45/381] mtf+bitplanes                  10,000,000 ->   10,000,008 (reshape   0.8s, round trip OK) | zstd   6,602,822  bzip2   6,888,638  xz   6,609,144  | best zstd 5.282 bits/byte  [17.1s]
+[ 46/381] mtf+base2                      10,000,000 ->   80,000,000 (reshape   0.8s, round trip OK) | zstd   7,615,686  bzip2   8,839,830  xz   6,774,780  | best xz 5.420 bits/byte  [416.7s]
+[ 47/381] mtf+base3                      10,000,000 ->   60,000,000 (reshape   0.8s, round trip OK) | zstd   7,563,529  bzip2   8,345,614  xz   7,172,904  | best xz 5.738 bits/byte  [334.0s]
+[ 48/381] mtf+base4                      10,000,000 ->   40,000,000 (reshape   0.6s, round trip OK) | zstd   7,462,346  bzip2   7,684,353  xz   6,686,512  | best xz 5.349 bits/byte  [251.5s]
+[ 49/381] mtf+transpose:4                10,000,000 ->   10,000,008 (reshape   0.4s, round trip OK) | zstd   6,554,359  bzip2   7,046,042  xz   6,490,956  | best xz 5.193 bits/byte  [25.1s]
+[ 50/381] mtf+transpose:16               10,000,000 ->   10,000,008 (reshape   0.3s, round trip OK) | zstd   6,671,559  bzip2   7,154,741  xz   6,642,016  | best xz 5.314 bits/byte  [28.8s]
+[ 51/381] mtf+transpose:80               10,000,000 ->   10,000,008 (reshape   0.5s, round trip OK) | zstd   6,713,990  bzip2   7,187,206  xz   6,725,564  | best zstd 5.371 bits/byte  [25.7s]
+[ 52/381] mtf+caps                     DROPPED: only 23 unused byte values
+[ 53/381] mtf+words                    DROPPED: only 23 unused byte values
+[ 54/381] mtf+split                    DROPPED: only 23 unused byte values
+[ 55/381] mtf+xz                         10,000,000 ->    6,255,984 (reshape  11.8s, round trip OK) | zstd   6,256,141  bzip2   6,283,992  xz   6,256,360  | best zstd 5.005 bits/byte  [19.2s]
+[ 56/381] mtf+zstd                       10,000,000 ->    6,333,624 (reshape  11.5s, round trip OK) | zstd   6,333,784  bzip2   6,365,511  xz   6,334,000  | best zstd 5.067 bits/byte  [17.7s]
+[ 57/381] mtf+bzip2                      10,000,000 ->    6,811,945 (reshape   1.2s, round trip OK) | zstd   6,812,117  bzip2   6,842,584  xz   6,812,348  | best zstd 5.450 bits/byte  [8.5s]
+[ 58/381] mtf+ppmd                       10,000,000 ->    6,289,615 (reshape   8.8s, round trip OK) | zstd   6,289,772  bzip2   6,316,345  xz   6,289,988  | best zstd 5.032 bits/byte  [33.3s]
+[ 59/381] delta+bwt                      10,000,000 ->   10,000,008 (reshape   1.6s, round trip OK) | zstd   3,113,483  bzip2   3,458,138  xz   2,902,356  | best xz 2.322 bits/byte  [33.3s]
+[ 60/381] delta+mtf                      10,000,000 ->   10,000,000 (reshape   0.9s, round trip OK) | zstd   8,183,806  bzip2   8,594,872  xz   8,069,196  | best xz 6.455 bits/byte  [20.7s]
+[ 61/381] delta+delta                    10,000,000 ->   10,000,000 (reshape   0.2s, round trip OK) | zstd   3,876,382  bzip2   4,025,548  xz   3,770,276  | best xz 3.016 bits/byte  [34.8s]
+[ 62/381] delta+xorprev                  10,000,000 ->   10,000,000 (reshape   0.2s, round trip OK) | zstd   3,825,620  bzip2   4,095,425  xz   3,740,248  | best xz 2.992 bits/byte  [23.1s]
+[ 63/381] delta+reverse                  10,000,000 ->   10,000,000 (reshape   0.3s, round trip OK) | zstd   3,227,857  bzip2   3,359,102  xz   3,171,596  | best xz 2.537 bits/byte  [25.7s]
+[ 64/381] delta+bitplanes                10,000,000 ->   10,000,008 (reshape   0.4s, round trip OK) | zstd   9,116,536  bzip2   9,720,366  xz   8,929,028  | best xz 7.143 bits/byte  [9.8s]
+[ 65/381] delta+base2                    10,000,000 ->   80,000,000 (reshape   0.6s, round trip OK) | zstd   4,058,465  bzip2   5,446,140  xz   3,360,376  | best xz 2.688 bits/byte  [243.3s]
+[ 66/381] delta+base3                    10,000,000 ->   60,000,000 (reshape   0.5s, round trip OK) | zstd   3,926,082  bzip2   5,052,757  xz   3,538,100  | best xz 2.830 bits/byte  [200.1s]
+[ 67/381] delta+base4                    10,000,000 ->   40,000,000 (reshape   0.3s, round trip OK) | zstd   3,676,941  bzip2   4,634,190  xz   3,258,852  | best xz 2.607 bits/byte  [127.6s]
+[ 68/381] delta+transpose:4              10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   7,109,152  bzip2   7,746,833  xz   7,025,748  | best xz 5.621 bits/byte  [15.6s]
+[ 69/381] delta+transpose:16             10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   8,040,788  bzip2   8,597,452  xz   7,934,544  | best xz 6.348 bits/byte  [13.2s]
+[ 70/381] delta+transpose:80             10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   8,290,396  bzip2   8,780,456  xz   8,242,740  | best xz 6.594 bits/byte  [12.7s]
+[ 71/381] delta+caps                   DROPPED: only 0 unused byte values
+[ 72/381] delta+words                  DROPPED: only 0 unused byte values
+[ 73/381] delta+split                  DROPPED: only 0 unused byte values
+[ 74/381] delta+xz                       10,000,000 ->    3,163,008 (reshape  11.2s, round trip OK) | zstd   3,163,096  bzip2   3,177,222  xz   3,163,228  | best zstd 2.530 bits/byte  [14.3s]
+[ 75/381] delta+zstd                     10,000,000 ->    3,222,589 (reshape   9.8s, round trip OK) | zstd   3,222,677  bzip2   3,237,837  xz   3,222,812  | best zstd 2.578 bits/byte  [12.3s]
+[ 76/381] delta+bzip2                    10,000,000 ->    3,325,837 (reshape   1.2s, round trip OK) | zstd   3,325,928  bzip2   3,341,414  xz   3,326,064  | best zstd 2.661 bits/byte  [4.9s]
+[ 77/381] delta+ppmd                     10,000,000 ->    2,498,374 (reshape   4.6s, round trip OK) | zstd   2,498,447  bzip2   2,510,024  xz   2,498,564  | best zstd 1.999 bits/byte  [12.3s]
+[ 78/381] xorprev+bwt                    10,000,000 ->   10,000,008 (reshape   0.5s, round trip OK) | zstd   3,172,576  bzip2   3,498,147  xz   2,915,668  | best xz 2.333 bits/byte  [17.1s]
+[ 79/381] xorprev+mtf                    10,000,000 ->   10,000,000 (reshape   0.4s, round trip OK) | zstd   7,718,923  bzip2   8,133,852  xz   7,613,840  | best xz 6.091 bits/byte  [13.3s]
+[ 80/381] xorprev+delta                  10,000,000 ->   10,000,000 (reshape   0.1s, round trip OK) | zstd   3,822,675  bzip2   4,053,041  xz   3,746,732  | best xz 2.997 bits/byte  [17.9s]
+[ 81/381] xorprev+xorprev                10,000,000 ->   10,000,000 (reshape   0.2s, round trip OK) | zstd   3,750,110  bzip2   4,113,320  xz   3,658,408  | best xz 2.927 bits/byte  [20.0s]
+[ 82/381] xorprev+reverse                10,000,000 ->   10,000,000 (reshape   0.1s, round trip OK) | zstd   3,208,202  bzip2   3,391,519  xz   3,152,540  | best xz 2.522 bits/byte  [20.9s]
+[ 83/381] xorprev+bitplanes              10,000,000 ->   10,000,008 (reshape   0.4s, round trip OK) | zstd   7,365,999  bzip2   7,540,547  xz   7,256,880  | best xz 5.806 bits/byte  [12.0s]
+[ 84/381] xorprev+base2                  10,000,000 ->   80,000,000 (reshape   0.7s, round trip OK) | zstd   4,030,059  bzip2   5,521,976  xz   3,330,424  | best xz 2.664 bits/byte  [421.8s]
+[ 85/381] xorprev+base3                  10,000,000 ->   60,000,000 (reshape   0.5s, round trip OK) | zstd   3,890,683  bzip2   5,016,237  xz   3,529,264  | best xz 2.823 bits/byte  [193.4s]
+[ 86/381] xorprev+base4                  10,000,000 ->   40,000,000 (reshape   0.3s, round trip OK) | zstd   3,656,076  bzip2   4,630,967  xz   3,224,692  | best xz 2.580 bits/byte  [130.4s]
+[ 87/381] xorprev+transpose:4            10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   6,813,489  bzip2   7,418,508  xz   6,735,072  | best xz 5.388 bits/byte  [17.8s]
+[ 88/381] xorprev+transpose:16           10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   7,562,936  bzip2   8,102,497  xz   7,489,340  | best xz 5.991 bits/byte  [15.7s]
+[ 89/381] xorprev+transpose:80           10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   7,760,944  bzip2   8,247,151  xz   7,759,268  | best xz 6.207 bits/byte  [14.2s]
+[ 90/381] xorprev+caps                 DROPPED: only 0 unused byte values
+[ 91/381] xorprev+words                DROPPED: only 0 unused byte values
+[ 92/381] xorprev+split                DROPPED: only 0 unused byte values
+[ 93/381] xorprev+xz                     10,000,000 ->    3,143,780 (reshape  11.4s, round trip OK) | zstd   3,143,865  bzip2   3,158,016  xz   3,144,000  | best zstd 2.515 bits/byte  [14.4s]
+[ 94/381] xorprev+zstd                   10,000,000 ->    3,202,900 (reshape  11.1s, round trip OK) | zstd   3,202,988  bzip2   3,217,462  xz   3,203,120  | best zstd 2.562 bits/byte  [14.1s]
+[ 95/381] xorprev+bzip2                  10,000,000 ->    3,356,783 (reshape   1.1s, round trip OK) | zstd   3,356,874  bzip2   3,372,609  xz   3,357,012  | best zstd 2.685 bits/byte  [5.5s]
+[ 96/381] xorprev+ppmd                   10,000,000 ->    2,512,580 (reshape   5.2s, round trip OK) | zstd   2,512,653  bzip2   2,524,175  xz   2,512,768  | best zstd 2.010 bits/byte  [13.0s]
+[ 97/381] reverse+bwt                    10,000,000 ->   10,000,008 (reshape   0.5s, round trip OK) | zstd   2,828,879  bzip2   3,087,413  xz   2,647,104  | best xz 2.118 bits/byte  [20.3s]
+[ 98/381] reverse+mtf                    10,000,000 ->   10,000,000 (reshape   0.4s, round trip OK) | zstd   6,342,520  bzip2   6,811,474  xz   6,249,000  | best xz 4.999 bits/byte  [24.2s]
+[ 99/381] reverse+delta                  10,000,000 ->   10,000,000 (reshape   0.1s, round trip OK) | zstd   3,227,770  bzip2   3,358,668  xz   3,171,732  | best xz 2.537 bits/byte  [22.8s]
+[100/381] reverse+xorprev                10,000,000 ->   10,000,000 (reshape   0.1s, round trip OK) | zstd   3,207,899  bzip2   3,391,512  xz   3,152,544  | best xz 2.522 bits/byte  [23.8s]
+[101/381] reverse+reverse                10,000,000 ->   10,000,000 (reshape   0.1s, round trip OK) | zstd   2,793,624  bzip2   2,916,026  xz   2,720,256  | best xz 2.176 bits/byte  [27.9s]
+[102/381] reverse+bitplanes              10,000,000 ->   10,000,008 (reshape   0.5s, round trip OK) | zstd   7,144,430  bzip2   7,451,396  xz   7,073,504  | best xz 5.659 bits/byte  [12.3s]
+[103/381] reverse+base2                  10,000,000 ->   80,000,000 (reshape   0.6s, round trip OK) | zstd   3,583,538  bzip2   4,369,226  xz   2,891,996  | best xz 2.314 bits/byte  [840.1s]
+[104/381] reverse+base3                  10,000,000 ->   60,000,000 (reshape   0.5s, round trip OK) | zstd   3,442,648  bzip2   3,879,398  xz   3,069,748  | best xz 2.456 bits/byte  [547.5s]
+[105/381] reverse+base4                  10,000,000 ->   40,000,000 (reshape   0.4s, round trip OK) | zstd   3,213,759  bzip2   3,607,358  xz   2,813,828  | best xz 2.251 bits/byte  [408.9s]
+[106/381] reverse+transpose:4            10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   5,612,329  bzip2   6,210,205  xz   5,586,384  | best xz 4.469 bits/byte  [65.6s]
+[107/381] reverse+transpose:16           10,000,000 ->   10,000,008 (reshape   0.3s, round trip OK) | zstd   6,254,710  bzip2   6,905,520  xz   6,180,780  | best xz 4.945 bits/byte  [79.0s]
+[108/381] reverse+transpose:80           10,000,000 ->   10,000,008 (reshape   0.6s, round trip OK) | zstd   6,467,334  bzip2   7,104,017  xz   6,456,552  | best xz 5.165 bits/byte  [85.8s]
+[109/381] reverse+caps                   10,000,000 ->   10,032,771 (reshape  13.9s, round trip OK) | zstd   2,803,947  bzip2   2,942,529  xz   2,738,224  | best xz 2.191 bits/byte  [101.8s]
+[110/381] reverse+words                  10,000,000 ->    6,567,713 (reshape  17.8s, round trip OK) | zstd   2,748,435  bzip2   2,778,923  xz   2,654,456  | best xz 2.124 bits/byte  [63.6s]
+[111/381] reverse+split                DROPPED: AssertionError
+[112/381] reverse+xz                     10,000,000 ->    2,735,720 (reshape  25.5s, round trip OK) | zstd   2,735,796  bzip2   2,748,630  xz   2,735,920  | best zstd 2.189 bits/byte  [37.5s]
+[113/381] reverse+zstd                   10,000,000 ->    2,802,832 (reshape  24.9s, round trip OK) | zstd   2,802,911  bzip2   2,815,612  xz   2,803,036  | best zstd 2.242 bits/byte  [32.1s]
+[114/381] reverse+bzip2                  10,000,000 ->    2,940,020 (reshape   3.1s, round trip OK) | zstd   2,940,102  bzip2   2,953,739  xz   2,940,228  | best zstd 2.352 bits/byte  [18.1s]
+[115/381] reverse+ppmd                   10,000,000 ->    2,304,052 (reshape   9.0s, round trip OK) | zstd   2,304,119  bzip2   2,314,355  xz   2,304,232  | best zstd 1.843 bits/byte  [26.3s]
+[116/381] bitplanes+bwt                  10,000,000 ->   10,000,016 (reshape   1.8s, round trip OK) | zstd   7,535,558  bzip2   7,825,485  xz   7,420,304  | best xz 5.936 bits/byte  [31.1s]
+[117/381] bitplanes+mtf                  10,000,000 ->   10,000,008 (reshape   5.7s, round trip OK) | zstd   7,753,992  bzip2   7,984,714  xz   7,754,704  | best zstd 6.203 bits/byte  [27.4s]
+[118/381] bitplanes+delta                10,000,000 ->   10,000,008 (reshape   1.1s, round trip OK) | zstd   7,763,975  bzip2   7,867,096  xz   7,788,944  | best zstd 6.211 bits/byte  [19.2s]
+[119/381] bitplanes+xorprev              10,000,000 ->   10,000,008 (reshape   1.1s, round trip OK) | zstd   7,740,703  bzip2   7,865,333  xz   7,745,772  | best zstd 6.193 bits/byte  [27.3s]
+[120/381] bitplanes+reverse              10,000,000 ->   10,000,008 (reshape   0.8s, round trip OK) | zstd   7,142,196  bzip2   7,434,039  xz   7,110,620  | best xz 5.688 bits/byte  [32.3s]
+[121/381] bitplanes+bitplanes            10,000,000 ->   10,000,016 (reshape   3.0s, round trip OK) | zstd   7,729,413  bzip2   8,224,644  xz   7,707,832  | best xz 6.166 bits/byte  [39.4s]
+[122/381] bitplanes+base2                10,000,000 ->   80,000,064 (reshape   4.0s, round trip OK) | zstd   7,914,524  bzip2   9,061,792  xz   7,622,408  | best xz 6.098 bits/byte  [765.8s]
+[123/381] bitplanes+base3                10,000,000 ->   60,000,048 (reshape   2.5s, round trip OK) | zstd   8,557,776  bzip2   9,238,797  xz   8,227,404  | best xz 6.582 bits/byte  [689.6s]
+[124/381] bitplanes+base4                10,000,000 ->   40,000,032 (reshape   1.9s, round trip OK) | zstd   7,493,501  bzip2   8,173,986  xz   7,601,672  | best zstd 5.995 bits/byte  [470.9s]
+[125/381] bitplanes+transpose:4          10,000,000 ->   10,000,016 (reshape   3.3s, round trip OK) | zstd   7,485,262  bzip2   7,935,119  xz   7,463,360  | best xz 5.971 bits/byte  [106.5s]
+[126/381] bitplanes+transpose:16         10,000,000 ->   10,000,016 (reshape   1.3s, round trip OK) | zstd   7,652,104  bzip2   8,105,129  xz   7,617,040  | best xz 6.094 bits/byte  [86.5s]
+[127/381] bitplanes+transpose:80         10,000,000 ->   10,000,016 (reshape   3.5s, round trip OK) | zstd   7,810,190  bzip2   8,151,067  xz   7,778,504  | best xz 6.223 bits/byte  [45.5s]
+[128/381] bitplanes+caps               DROPPED: only 0 unused byte values
+[129/381] bitplanes+words              DROPPED: only 0 unused byte values
+[130/381] bitplanes+split              DROPPED: only 0 unused byte values
+[131/381] bitplanes+xz                   10,000,000 ->    7,075,448 (reshape  31.3s, round trip OK) | zstd   7,075,623  bzip2   7,107,274  xz   7,075,860  | best zstd 5.660 bits/byte  [60.1s]
+[132/381] bitplanes+zstd                 10,000,000 ->    7,143,028 (reshape  20.5s, round trip OK) | zstd   7,143,206  bzip2   7,176,394  xz   7,141,096  | best xz 5.713 bits/byte  [46.4s]
+[133/381] bitplanes+bzip2                10,000,000 ->    7,453,077 (reshape  11.3s, round trip OK) | zstd   7,453,264  bzip2   7,486,646  xz   7,453,508  | best zstd 5.963 bits/byte  [79.7s]
+[134/381] bitplanes+ppmd                 10,000,000 ->    7,244,264 (reshape  44.9s, round trip OK) | zstd   7,244,445  bzip2   7,276,746  xz   7,244,688  | best zstd 5.796 bits/byte  [96.7s]
+[135/381] base2+bwt                      10,000,000 ->   80,000,008 (reshape  16.6s, round trip OK) | zstd   3,227,260  bzip2   3,257,889  xz   3,009,940  | best xz 2.408 bits/byte  [227.4s]
+[136/381] base2+mtf                      10,000,000 ->   80,000,000 (reshape   7.7s, round trip OK) | zstd   3,606,517  bzip2   4,447,113  xz   2,901,724  | best xz 2.321 bits/byte  [376.6s]
+[137/381] base2+delta                    10,000,000 ->   80,000,000 (reshape   1.3s, round trip OK) | zstd   3,622,651  bzip2   4,240,790  xz   2,905,584  | best xz 2.324 bits/byte  [366.3s]
+[138/381] base2+xorprev                  10,000,000 ->   80,000,000 (reshape   1.0s, round trip OK) | zstd   3,606,517  bzip2   4,447,113  xz   2,901,724  | best xz 2.321 bits/byte  [368.1s]
+[139/381] base2+reverse                  10,000,000 ->   80,000,000 (reshape   1.5s, round trip OK) | zstd   3,550,033  bzip2   4,331,751  xz   2,883,384  | best xz 2.307 bits/byte  [389.9s]
+[140/381] base2+bitplanes                10,000,000 ->   80,000,008 (reshape   2.2s, round trip OK) | zstd   2,796,532  bzip2   2,992,076  xz   2,770,356  | best xz 2.216 bits/byte  [41.1s]
+[141/381] base2+base2                  DROPPED: would grow past 100,000,000 bytes
+[142/381] base2+base3                  DROPPED: would grow past 100,000,000 bytes
+[143/381] base2+base4                  DROPPED: would grow past 100,000,000 bytes
+[144/381] base2+transpose:4              10,000,000 ->   80,000,008 (reshape   0.9s, round trip OK) | zstd   6,735,447  bzip2   7,955,177  xz   6,349,664  | best xz 5.080 bits/byte  [405.5s]
+[145/381] base2+transpose:16             10,000,000 ->   80,000,008 (reshape   1.4s, round trip OK) | zstd   7,902,326  bzip2   9,205,190  xz   7,843,168  | best xz 6.275 bits/byte  [388.6s]
+[146/381] base2+transpose:80             10,000,000 ->   80,000,008 (reshape   1.4s, round trip OK) | zstd   8,380,853  bzip2   9,676,360  xz   8,325,584  | best xz 6.660 bits/byte  [465.8s]
+[147/381] base2+caps                     10,000,000 ->   80,000,063 (reshape   9.1s, round trip OK) | zstd   3,559,196  bzip2   4,305,277  xz   2,874,348  | best xz 2.299 bits/byte  [449.1s]
+[148/381] base2+words                    10,000,000 ->   80,000,063 (reshape  10.7s, round trip OK) | zstd   3,559,198  bzip2   4,305,280  xz   2,872,948  | best xz 2.298 bits/byte  [556.0s]
+[149/381] base2+split                  DROPPED: AssertionError
+[150/381] base2+xz                       10,000,000 ->    2,881,872 (reshape 287.3s, round trip OK) | zstd   2,881,951  bzip2   2,895,241  xz   2,882,080  | best zstd 2.306 bits/byte  [290.6s]
+[151/381] base2+zstd                     10,000,000 ->    3,554,001 (reshape 171.0s, round trip OK) | zstd   3,554,098  bzip2   3,567,348  xz   3,554,240  | best zstd 2.843 bits/byte  [174.1s]
+[152/381] base2+bzip2                    10,000,000 ->    4,305,089 (reshape  29.7s, round trip OK) | zstd   3,939,301  bzip2   3,942,181  xz   3,944,932  | best zstd 3.151 bits/byte  [53.9s]
+[153/381] base2+ppmd                     10,000,000 ->    6,192,099 (reshape   3.2s, round trip OK) | zstd   6,192,256  bzip2   6,219,939  xz   6,192,472  | best zstd 4.954 bits/byte  [13.5s]
+[154/381] base3+bwt                      10,000,000 ->   60,000,008 (reshape   4.0s, round trip OK) | zstd   3,084,397  bzip2   3,171,259  xz   2,947,144  | best xz 2.358 bits/byte  [167.6s]
+[155/381] base3+mtf                      10,000,000 ->   60,000,000 (reshape   1.4s, round trip OK) | zstd   3,547,865  bzip2   4,150,302  xz   3,206,884  | best xz 2.566 bits/byte  [354.9s]
+[156/381] base3+delta                    10,000,000 ->   60,000,000 (reshape   0.5s, round trip OK) | zstd   3,470,211  bzip2   3,877,177  xz   3,076,412  | best xz 2.461 bits/byte  [346.2s]
+[157/381] base3+xorprev                  10,000,000 ->   60,000,000 (reshape   1.8s, round trip OK) | zstd   3,478,042  bzip2   3,919,119  xz   3,075,820  | best xz 2.461 bits/byte  [327.1s]
+[158/381] base3+reverse                  10,000,000 ->   60,000,000 (reshape   0.9s, round trip OK) | zstd   3,426,997  bzip2   3,988,850  xz   3,063,736  | best xz 2.451 bits/byte  [353.7s]
+[159/381] base3+bitplanes                10,000,000 ->   60,000,008 (reshape   1.8s, round trip OK) | zstd   6,281,341  bzip2   6,483,731  xz   6,160,280  | best xz 4.928 bits/byte  [50.3s]
+[160/381] base3+base2                  DROPPED: would grow past 100,000,000 bytes
+[161/381] base3+base3                  DROPPED: would grow past 100,000,000 bytes
+[162/381] base3+base4                  DROPPED: would grow past 100,000,000 bytes
+[163/381] base3+transpose:4              10,000,000 ->   60,000,008 (reshape   0.9s, round trip OK) | zstd   7,902,501  bzip2   9,069,975  xz   7,717,472  | best xz 6.174 bits/byte  [405.2s]
+[164/381] base3+transpose:16             10,000,000 ->   60,000,008 (reshape   0.9s, round trip OK) | zstd   9,826,185  bzip2  10,406,703  xz   9,413,984  | best xz 7.531 bits/byte  [451.8s]
+[165/381] base3+transpose:80             10,000,000 ->   60,000,008 (reshape   2.8s, round trip OK) | zstd  10,415,973  bzip2  10,922,902  xz   9,928,876  | best xz 7.943 bits/byte  [479.9s]
+[166/381] base3+caps                     10,000,000 ->   60,000,063 (reshape   3.6s, round trip OK) | zstd   3,420,402  bzip2   3,845,821  xz   3,056,992  | best xz 2.446 bits/byte  [413.1s]
+[167/381] base3+words                    10,000,000 ->   60,000,063 (reshape   8.5s, round trip OK) | zstd   3,420,401  bzip2   3,845,821  xz   3,056,992  | best xz 2.446 bits/byte  [489.3s]
+[168/381] base3+split                  DROPPED: AssertionError
+[169/381] base3+xz                       10,000,000 ->    3,058,660 (reshape 278.5s, round trip OK) | zstd   3,058,745  bzip2   3,072,745  xz   3,058,876  | best zstd 2.447 bits/byte  [284.9s]
+[170/381] base3+zstd                     10,000,000 ->    3,422,804 (reshape 218.6s, round trip OK) | zstd   3,422,898  bzip2   3,437,622  xz   3,423,036  | best zstd 2.738 bits/byte  [224.6s]
+[171/381] base3+bzip2                    10,000,000 ->    3,845,602 (reshape  33.2s, round trip OK) | zstd   3,692,378  bzip2   3,682,036  xz   3,708,452  | best bzip2 2.946 bits/byte  [51.7s]
+[172/381] base3+ppmd                     10,000,000 ->    4,561,688 (reshape   4.1s, round trip OK) | zstd   4,561,806  bzip2   4,582,638  xz   4,561,980  | best zstd 3.649 bits/byte  [17.7s]
+[173/381] base4+bwt                      10,000,000 ->   40,000,008 (reshape   5.4s, round trip OK) | zstd   3,088,017  bzip2   3,166,049  xz   2,952,828  | best xz 2.362 bits/byte  [158.4s]
+[174/381] base4+mtf                      10,000,000 ->   40,000,000 (reshape   1.7s, round trip OK) | zstd   3,539,826  bzip2   4,276,519  xz   3,186,852  | best xz 2.549 bits/byte  [246.5s]
+[175/381] base4+delta                    10,000,000 ->   40,000,000 (reshape   0.8s, round trip OK) | zstd   3,316,236  bzip2   3,601,098  xz   2,912,368  | best xz 2.330 bits/byte  [225.7s]
+[176/381] base4+xorprev                  10,000,000 ->   40,000,000 (reshape   0.7s, round trip OK) | zstd   3,292,804  bzip2   3,765,996  xz   2,895,588  | best xz 2.316 bits/byte  [232.7s]
+[177/381] base4+reverse                  10,000,000 ->   40,000,000 (reshape   0.6s, round trip OK) | zstd   3,189,629  bzip2   3,641,498  xz   2,822,488  | best xz 2.258 bits/byte  [235.8s]
+[178/381] base4+bitplanes                10,000,000 ->   40,000,008 (reshape   0.8s, round trip OK) | zstd   4,875,391  bzip2   5,199,015  xz   4,793,688  | best xz 3.835 bits/byte  [33.6s]
+[179/381] base4+base2                  DROPPED: would grow past 100,000,000 bytes
+[180/381] base4+base3                  DROPPED: would grow past 100,000,000 bytes
+[181/381] base4+base4                  DROPPED: would grow past 100,000,000 bytes
+[182/381] base4+transpose:4              10,000,000 ->   40,000,008 (reshape   0.6s, round trip OK) | zstd   6,225,560  bzip2   7,145,670  xz   6,206,432  | best xz 4.965 bits/byte  [250.2s]
+[183/381] base4+transpose:16             10,000,000 ->   40,000,008 (reshape   0.7s, round trip OK) | zstd   7,974,434  bzip2   8,567,279  xz   7,924,896  | best xz 6.340 bits/byte  [271.2s]
+[184/381] base4+transpose:80             10,000,000 ->   40,000,008 (reshape   1.1s, round trip OK) | zstd   8,444,383  bzip2   8,962,561  xz   8,373,836  | best xz 6.699 bits/byte  [274.6s]
+[185/381] base4+caps                     10,000,000 ->   40,000,063 (reshape   3.1s, round trip OK) | zstd   3,190,233  bzip2   3,560,269  xz   2,801,156  | best xz 2.241 bits/byte  [222.4s]
+[186/381] base4+words                    10,000,000 ->   40,000,063 (reshape   4.6s, round trip OK) | zstd   3,190,233  bzip2   3,560,262  xz   2,801,068  | best xz 2.241 bits/byte  [198.7s]
+[187/381] base4+split                  DROPPED: AssertionError
+[188/381] base4+xz                       10,000,000 ->    2,801,056 (reshape 108.0s, round trip OK) | zstd   2,801,135  bzip2   2,813,963  xz   2,801,260  | best zstd 2.241 bits/byte  [110.5s]
+[189/381] base4+zstd                     10,000,000 ->    3,187,661 (reshape  90.5s, round trip OK) | zstd   3,187,755  bzip2   3,202,717  xz   3,187,884  | best zstd 2.550 bits/byte  [93.9s]
+[190/381] base4+bzip2                    10,000,000 ->    3,560,262 (reshape  11.7s, round trip OK) | zstd   3,557,889  bzip2   3,492,473  xz   3,509,384  | best bzip2 2.794 bits/byte  [21.3s]
+[191/381] base4+ppmd                     10,000,000 ->    3,589,990 (reshape   4.4s, round trip OK) | zstd   3,590,087  bzip2   3,605,300  xz   3,590,232  | best zstd 2.872 bits/byte  [14.1s]
+[192/381] transpose:4+bwt                10,000,000 ->   10,000,016 (reshape   1.2s, round trip OK) | zstd   5,647,468  bzip2   6,262,420  xz   5,543,848  | best xz 4.435 bits/byte  [29.4s]
+[193/381] transpose:4+mtf                10,000,000 ->   10,000,008 (reshape   0.5s, round trip OK) | zstd   6,827,211  bzip2   7,289,909  xz   6,768,040  | best xz 5.414 bits/byte  [19.0s]
+[194/381] transpose:4+delta              10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   7,108,755  bzip2   7,223,457  xz   6,910,872  | best xz 5.529 bits/byte  [15.1s]
+[195/381] transpose:4+xorprev            10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   6,954,661  bzip2   7,248,210  xz   6,823,520  | best xz 5.459 bits/byte  [16.5s]
+[196/381] transpose:4+reverse            10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   5,612,542  bzip2   6,210,131  xz   5,585,724  | best xz 4.469 bits/byte  [27.6s]
+[197/381] transpose:4+bitplanes          10,000,000 ->   10,000,016 (reshape   0.7s, round trip OK) | zstd   7,575,856  bzip2   7,973,571  xz   7,598,536  | best zstd 6.061 bits/byte  [16.1s]
+[198/381] transpose:4+base2              10,000,000 ->   80,000,064 (reshape   0.6s, round trip OK) | zstd   6,969,945  bzip2   7,981,772  xz   5,975,172  | best xz 4.780 bits/byte  [534.3s]
+[199/381] transpose:4+base3              10,000,000 ->   60,000,048 (reshape   0.5s, round trip OK) | zstd   6,814,213  bzip2   7,183,829  xz   6,386,332  | best xz 5.109 bits/byte  [386.9s]
+[200/381] transpose:4+base4              10,000,000 ->   40,000,032 (reshape   0.3s, round trip OK) | zstd   6,561,808  bzip2   6,854,636  xz   5,888,680  | best xz 4.711 bits/byte  [262.1s]
+[201/381] transpose:4+transpose:4        10,000,000 ->   10,000,016 (reshape   0.1s, round trip OK) | zstd   6,255,175  bzip2   6,905,276  xz   6,187,068  | best xz 4.950 bits/byte  [32.9s]
+[202/381] transpose:4+transpose:16       10,000,000 ->   10,000,016 (reshape   0.1s, round trip OK) | zstd   6,462,284  bzip2   7,087,204  xz   6,442,376  | best xz 5.154 bits/byte  [22.9s]
+[203/381] transpose:4+transpose:80       10,000,000 ->   10,000,016 (reshape   0.2s, round trip OK) | zstd   6,480,776  bzip2   7,155,902  xz   6,498,696  | best zstd 5.185 bits/byte  [23.6s]
+[204/381] transpose:4+caps               10,000,000 ->   10,120,590 (reshape   2.1s, round trip OK) | zstd   5,642,409  bzip2   6,204,031  xz   5,605,336  | best xz 4.484 bits/byte  [30.6s]
+[205/381] transpose:4+words              10,000,000 ->    9,731,762 (reshape   3.0s, round trip OK) | zstd   5,862,695  bzip2   6,311,505  xz   5,727,180  | best xz 4.582 bits/byte  [48.2s]
+[206/381] transpose:4+split            DROPPED: AssertionError
+[207/381] transpose:4+xz                 10,000,000 ->    5,582,784 (reshape  29.7s, round trip OK) | zstd   5,582,926  bzip2   5,607,798  xz   5,583,124  | best zstd 4.466 bits/byte  [43.6s]
+[208/381] transpose:4+zstd               10,000,000 ->    5,611,548 (reshape  19.3s, round trip OK) | zstd   5,611,690  bzip2   5,639,778  xz   5,611,888  | best zstd 4.489 bits/byte  [31.8s]
+[209/381] transpose:4+bzip2              10,000,000 ->    6,189,759 (reshape   5.0s, round trip OK) | zstd   6,189,919  bzip2   6,219,215  xz   6,190,132  | best zstd 4.952 bits/byte  [22.1s]
+[210/381] transpose:4+ppmd               10,000,000 ->    5,435,881 (reshape  14.6s, round trip OK) | zstd   5,436,020  bzip2   5,459,582  xz   5,436,212  | best zstd 4.349 bits/byte  [37.9s]
+[211/381] transpose:16+bwt               10,000,000 ->   10,000,016 (reshape   2.0s, round trip OK) | zstd   6,232,829  bzip2   6,899,321  xz   6,195,032  | best xz 4.956 bits/byte  [46.6s]
+[212/381] transpose:16+mtf               10,000,000 ->   10,000,008 (reshape   1.0s, round trip OK) | zstd   6,987,600  bzip2   7,495,116  xz   6,973,060  | best xz 5.578 bits/byte  [28.6s]
+[213/381] transpose:16+delta             10,000,000 ->   10,000,008 (reshape   0.3s, round trip OK) | zstd   8,016,503  bzip2   7,935,854  xz   7,818,372  | best xz 6.255 bits/byte  [22.2s]
+[214/381] transpose:16+xorprev           10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   7,782,674  bzip2   7,928,075  xz   7,669,768  | best xz 6.136 bits/byte  [15.2s]
+[215/381] transpose:16+reverse           10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   6,254,377  bzip2   6,905,536  xz   6,180,944  | best xz 4.945 bits/byte  [22.1s]
+[216/381] transpose:16+bitplanes         10,000,000 ->   10,000,016 (reshape   0.5s, round trip OK) | zstd   7,684,574  bzip2   8,082,158  xz   7,688,548  | best zstd 6.148 bits/byte  [12.4s]
+[217/381] transpose:16+base2             10,000,000 ->   80,000,064 (reshape   0.3s, round trip OK) | zstd   7,855,572  bzip2   8,772,404  xz   6,853,500  | best xz 5.483 bits/byte  [507.7s]
+[218/381] transpose:16+base3             10,000,000 ->   60,000,048 (reshape   0.5s, round trip OK) | zstd   7,719,726  bzip2   7,865,322  xz   7,313,848  | best xz 5.851 bits/byte  [392.0s]
+[219/381] transpose:16+base4             10,000,000 ->   40,000,032 (reshape   0.6s, round trip OK) | zstd   7,431,736  bzip2   7,532,542  xz   6,786,708  | best xz 5.429 bits/byte  [295.3s]
+[220/381] transpose:16+transpose:4       10,000,000 ->   10,000,016 (reshape   0.2s, round trip OK) | zstd   6,460,357  bzip2   7,087,101  xz   6,441,976  | best xz 5.154 bits/byte  [45.2s]
+[221/381] transpose:16+transpose:16      10,000,000 ->   10,000,016 (reshape   0.2s, round trip OK) | zstd   6,475,933  bzip2   7,149,622  xz   6,497,400  | best zstd 5.181 bits/byte  [39.2s]
+[222/381] transpose:16+transpose:80      10,000,000 ->   10,000,016 (reshape   0.4s, round trip OK) | zstd   6,476,950  bzip2   7,181,501  xz   6,508,832  | best zstd 5.182 bits/byte  [44.1s]
+[223/381] transpose:16+caps              10,000,000 ->   10,104,871 (reshape   4.1s, round trip OK) | zstd   6,309,955  bzip2   6,912,518  xz   6,211,956  | best xz 4.970 bits/byte  [36.7s]
+[224/381] transpose:16+words             10,000,000 ->    9,836,766 (reshape   3.7s, round trip OK) | zstd   6,557,131  bzip2   7,034,932  xz   6,366,936  | best xz 5.094 bits/byte  [26.9s]
+[225/381] transpose:16+split           DROPPED: AssertionError
+[226/381] transpose:16+xz                10,000,000 ->    6,186,332 (reshape  11.5s, round trip OK) | zstd   6,186,489  bzip2   6,213,816  xz   6,186,704  | best zstd 4.949 bits/byte  [17.9s]
+[227/381] transpose:16+zstd              10,000,000 ->    6,255,453 (reshape  10.4s, round trip OK) | zstd   6,255,610  bzip2   6,287,787  xz   6,255,824  | best zstd 5.004 bits/byte  [16.6s]
+[228/381] transpose:16+bzip2             10,000,000 ->    6,905,064 (reshape   1.8s, round trip OK) | zstd   6,905,236  bzip2   6,937,494  xz   6,905,468  | best zstd 5.524 bits/byte  [8.8s]
+[229/381] transpose:16+ppmd              10,000,000 ->    6,261,431 (reshape   6.9s, round trip OK) | zstd   6,261,588  bzip2   6,288,882  xz   6,261,804  | best zstd 5.009 bits/byte  [19.8s]
+[230/381] transpose:80+bwt               10,000,000 ->   10,000,016 (reshape   0.8s, round trip OK) | zstd   6,432,082  bzip2   7,136,974  xz   6,436,148  | best zstd 5.146 bits/byte  [22.5s]
+[231/381] transpose:80+mtf               10,000,000 ->   10,000,008 (reshape   0.4s, round trip OK) | zstd   7,097,826  bzip2   7,625,252  xz   7,106,320  | best zstd 5.678 bits/byte  [15.9s]
+[232/381] transpose:80+delta             10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   8,332,856  bzip2   8,146,419  xz   8,145,760  | best xz 6.517 bits/byte  [13.7s]
+[233/381] transpose:80+xorprev           10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   8,171,666  bzip2   8,120,333  xz   7,969,216  | best xz 6.375 bits/byte  [14.7s]
+[234/381] transpose:80+reverse           10,000,000 ->   10,000,008 (reshape   0.1s, round trip OK) | zstd   6,466,658  bzip2   7,104,084  xz   6,456,312  | best xz 5.165 bits/byte  [22.8s]
+[235/381] transpose:80+bitplanes         10,000,000 ->   10,000,016 (reshape   0.6s, round trip OK) | zstd   7,677,175  bzip2   8,124,123  xz   7,701,048  | best zstd 6.142 bits/byte  [14.5s]
+[236/381] transpose:80+base2             10,000,000 ->   80,000,064 (reshape   0.6s, round trip OK) | zstd   8,117,439  bzip2   8,964,066  xz   7,138,724  | best xz 5.711 bits/byte  [433.6s]
+[237/381] transpose:80+base3             10,000,000 ->   60,000,048 (reshape   0.4s, round trip OK) | zstd   7,999,696  bzip2   8,031,885  xz   7,619,812  | best xz 6.096 bits/byte  [299.8s]
+[238/381] transpose:80+base4             10,000,000 ->   40,000,032 (reshape   0.3s, round trip OK) | zstd   7,719,770  bzip2   7,699,498  xz   7,085,068  | best xz 5.668 bits/byte  [190.3s]
+[239/381] transpose:80+transpose:4       10,000,000 ->   10,000,016 (reshape   0.1s, round trip OK) | zstd   6,477,565  bzip2   7,154,807  xz   6,497,804  | best zstd 5.182 bits/byte  [26.2s]
+[240/381] transpose:80+transpose:16      10,000,000 ->   10,000,016 (reshape   0.1s, round trip OK) | zstd   6,478,840  bzip2   7,181,547  xz   6,508,004  | best zstd 5.183 bits/byte  [25.6s]
+[241/381] transpose:80+transpose:80      10,000,000 ->   10,000,016 (reshape   0.2s, round trip OK) | zstd   6,478,482  bzip2   7,190,167  xz   6,513,704  | best zstd 5.183 bits/byte  [20.2s]
+[242/381] transpose:80+caps              10,000,000 ->   10,105,603 (reshape   2.7s, round trip OK) | zstd   6,521,297  bzip2   7,111,435  xz   6,484,100  | best xz 5.187 bits/byte  [27.1s]
+[243/381] transpose:80+words             10,000,000 ->    9,860,306 (reshape   3.3s, round trip OK) | zstd   6,785,202  bzip2   7,230,817  xz   6,634,784  | best xz 5.308 bits/byte  [25.2s]
+[244/381] transpose:80+split           DROPPED: AssertionError
+[245/381] transpose:80+xz                10,000,000 ->    6,457,952 (reshape  10.0s, round trip OK) | zstd   6,458,115  bzip2   6,486,813  xz   6,458,336  | best zstd 5.166 bits/byte  [16.0s]
+[246/381] transpose:80+zstd              10,000,000 ->    6,468,732 (reshape   9.7s, round trip OK) | zstd   6,468,895  bzip2   6,502,207  xz   6,469,116  | best zstd 5.175 bits/byte  [13.8s]
+[247/381] transpose:80+bzip2             10,000,000 ->    7,106,527 (reshape   1.4s, round trip OK) | zstd   7,106,010  bzip2   7,139,397  xz   7,106,944  | best zstd 5.685 bits/byte  [9.8s]
+[248/381] transpose:80+ppmd              10,000,000 ->    6,564,714 (reshape   9.3s, round trip OK) | zstd   6,564,880  bzip2   6,594,370  xz   6,565,104  | best zstd 5.252 bits/byte  [23.8s]
+[249/381] caps+bwt                       10,000,000 ->   10,336,774 (reshape   1.9s, round trip OK) | zstd   2,775,000  bzip2   3,073,994  xz   2,632,696  | best xz 2.106 bits/byte  [27.8s]
+[250/381] caps+mtf                       10,000,000 ->   10,336,766 (reshape   2.4s, round trip OK) | zstd   6,313,288  bzip2   6,730,470  xz   6,276,640  | best xz 5.021 bits/byte  [29.2s]
+[251/381] caps+delta                     10,000,000 ->   10,336,766 (reshape   2.7s, round trip OK) | zstd   3,197,779  bzip2   3,280,817  xz   3,135,452  | best xz 2.508 bits/byte  [31.2s]
+[252/381] caps+xorprev                   10,000,000 ->   10,336,766 (reshape   2.0s, round trip OK) | zstd   3,174,961  bzip2   3,317,162  xz   3,117,788  | best xz 2.494 bits/byte  [29.1s]
+[253/381] caps+reverse                   10,000,000 ->   10,336,766 (reshape   2.0s, round trip OK) | zstd   2,780,827  bzip2   2,930,196  xz   2,715,940  | best xz 2.173 bits/byte  [36.1s]
+[254/381] caps+bitplanes                 10,000,000 ->   10,336,776 (reshape   2.1s, round trip OK) | zstd   7,363,257  bzip2   7,709,130  xz   7,292,548  | best xz 5.834 bits/byte  [18.2s]
+[255/381] caps+base2                     10,000,000 ->   82,694,128 (reshape   1.9s, round trip OK) | zstd   3,572,528  bzip2   4,241,663  xz   2,861,512  | best xz 2.289 bits/byte  [372.5s]
+[256/381] caps+base3                     10,000,000 ->   62,020,596 (reshape   3.2s, round trip OK) | zstd   3,408,935  bzip2   3,823,344  xz   3,037,032  | best xz 2.430 bits/byte  [266.2s]
+[257/381] caps+base4                     10,000,000 ->   41,347,064 (reshape   2.9s, round trip OK) | zstd   3,191,640  bzip2   3,558,662  xz   2,784,096  | best xz 2.227 bits/byte  [170.4s]
+[258/381] caps+transpose:4               10,000,000 ->   10,336,774 (reshape   1.8s, round trip OK) | zstd   5,645,997  bzip2   6,180,799  xz   5,638,080  | best xz 4.510 bits/byte  [32.6s]
+[259/381] caps+transpose:16              10,000,000 ->   10,336,774 (reshape   2.4s, round trip OK) | zstd   6,303,561  bzip2   6,882,718  xz   6,244,828  | best xz 4.996 bits/byte  [29.0s]
+[260/381] caps+transpose:80              10,000,000 ->   10,336,774 (reshape   1.9s, round trip OK) | zstd   6,515,171  bzip2   7,079,909  xz   6,509,656  | best xz 5.208 bits/byte  [28.4s]
+[261/381] caps+caps                    DROPPED: only 5 unused byte values
+[262/381] caps+words                   DROPPED: only 5 unused byte values
+[263/381] caps+split                   DROPPED: only 5 unused byte values
+[264/381] caps+xz                        10,000,000 ->    2,706,244 (reshape  16.9s, round trip OK) | zstd   2,706,320  bzip2   2,719,116  xz   2,706,440  | best zstd 2.165 bits/byte  [20.8s]
+[265/381] caps+zstd                      10,000,000 ->    2,773,210 (reshape  12.0s, round trip OK) | zstd   2,773,289  bzip2   2,785,020  xz   2,773,412  | best zstd 2.219 bits/byte  [16.2s]
+[266/381] caps+bzip2                     10,000,000 ->    2,914,017 (reshape   3.6s, round trip OK) | zstd   2,914,099  bzip2   2,928,032  xz   2,914,224  | best zstd 2.331 bits/byte  [10.1s]
+[267/381] caps+ppmd                      10,000,000 ->    2,294,871 (reshape   6.7s, round trip OK) | zstd   2,294,938  bzip2   2,305,287  xz   2,295,048  | best zstd 1.836 bits/byte  [16.0s]
+[268/381] words+bwt                      10,000,000 ->    6,567,634 (reshape   3.9s, round trip OK) | zstd   2,713,163  bzip2   2,913,909  xz   2,564,696  | best xz 2.052 bits/byte  [17.4s]
+[269/381] words+mtf                      10,000,000 ->    6,567,626 (reshape   3.7s, round trip OK) | zstd   4,737,689  bzip2   5,033,509  xz   4,657,052  | best xz 3.726 bits/byte  [14.5s]
+[270/381] words+delta                    10,000,000 ->    6,567,626 (reshape   2.2s, round trip OK) | zstd   3,219,386  bzip2   3,375,599  xz   3,160,908  | best xz 2.529 bits/byte  [15.1s]
+[271/381] words+xorprev                  10,000,000 ->    6,567,626 (reshape   2.4s, round trip OK) | zstd   3,219,046  bzip2   3,354,622  xz   3,140,976  | best xz 2.513 bits/byte  [16.4s]
+[272/381] words+reverse                  10,000,000 ->    6,567,626 (reshape   2.4s, round trip OK) | zstd   2,755,980  bzip2   2,761,621  xz   2,663,476  | best xz 2.131 bits/byte  [20.2s]
+[273/381] words+bitplanes                10,000,000 ->    6,567,640 (reshape   2.7s, round trip OK) | zstd   5,682,953  bzip2   6,053,938  xz   5,575,244  | best xz 4.460 bits/byte  [13.0s]
+[274/381] words+base2                    10,000,000 ->   52,541,008 (reshape   3.9s, round trip OK) | zstd   3,330,927  bzip2   3,957,715  xz   2,813,024  | best xz 2.250 bits/byte  [235.3s]
+[275/381] words+base3                    10,000,000 ->   39,405,756 (reshape   3.9s, round trip OK) | zstd   3,235,716  bzip2   3,591,279  xz   2,991,628  | best xz 2.393 bits/byte  [174.7s]
+[276/381] words+base4                    10,000,000 ->   26,270,504 (reshape   3.7s, round trip OK) | zstd   3,077,788  bzip2   3,371,604  xz   2,736,600  | best xz 2.189 bits/byte  [96.3s]
+[277/381] words+transpose:4              10,000,000 ->    6,567,634 (reshape   3.3s, round trip OK) | zstd   4,345,184  bzip2   4,743,517  xz   4,207,080  | best xz 3.366 bits/byte  [16.5s]
+[278/381] words+transpose:16             10,000,000 ->    6,567,634 (reshape   2.9s, round trip OK) | zstd   4,780,564  bzip2   5,274,090  xz   4,698,664  | best xz 3.759 bits/byte  [16.0s]
+[279/381] words+transpose:80             10,000,000 ->    6,567,634 (reshape   2.6s, round trip OK) | zstd   4,940,986  bzip2   5,419,571  xz   4,889,636  | best xz 3.912 bits/byte  [14.0s]
+[280/381] words+caps                   DROPPED: only 5 unused byte values
+[281/381] words+words                  DROPPED: only 5 unused byte values
+[282/381] words+split                  DROPPED: only 5 unused byte values
+[283/381] words+xz                       10,000,000 ->    2,639,496 (reshape   7.9s, round trip OK) | zstd   2,639,572  bzip2   2,651,063  xz   2,639,692  | best zstd 2.112 bits/byte  [12.0s]
+[284/381] words+zstd                     10,000,000 ->    2,740,943 (reshape   7.9s, round trip OK) | zstd   2,741,019  bzip2   2,753,007  xz   2,741,144  | best zstd 2.193 bits/byte  [11.4s]
+[285/381] words+bzip2                    10,000,000 ->    2,755,698 (reshape   4.2s, round trip OK) | zstd   2,755,777  bzip2   2,769,230  xz   2,755,900  | best zstd 2.205 bits/byte  [8.8s]
+[286/381] words+ppmd                     10,000,000 ->    2,327,615 (reshape   5.6s, round trip OK) | zstd   2,327,682  bzip2   2,338,148  xz   2,327,796  | best zstd 1.862 bits/byte  [13.3s]
+[287/381] split+bwt                      10,000,000 ->   10,026,994 (reshape   1.6s, round trip OK) | zstd   2,782,053  bzip2   3,090,394  xz   2,628,436  | best xz 2.103 bits/byte  [24.3s]
+[288/381] split+mtf                      10,000,000 ->   10,026,986 (reshape   2.1s, round trip OK) | zstd   6,218,385  bzip2   6,661,472  xz   6,160,572  | best xz 4.928 bits/byte  [23.0s]
+[289/381] split+delta                    10,000,000 ->   10,026,986 (reshape   1.3s, round trip OK) | zstd   3,201,171  bzip2   3,294,830  xz   3,143,436  | best xz 2.515 bits/byte  [24.4s]
+[290/381] split+xorprev                  10,000,000 ->   10,026,986 (reshape   1.6s, round trip OK) | zstd   3,180,995  bzip2   3,325,107  xz   3,125,668  | best xz 2.501 bits/byte  [23.1s]
+[291/381] split+reverse                  10,000,000 ->   10,026,986 (reshape   1.2s, round trip OK) | zstd   2,780,497  bzip2   2,918,358  xz   2,718,792  | best xz 2.175 bits/byte  [28.3s]
+[292/381] split+bitplanes                10,000,000 ->   10,027,000 (reshape   2.1s, round trip OK) | zstd   7,046,947  bzip2   7,350,356  xz   6,988,856  | best xz 5.591 bits/byte  [14.3s]
+[293/381] split+base2                    10,000,000 ->   80,215,888 (reshape   1.6s, round trip OK) | zstd   3,515,448  bzip2   4,212,456  xz   2,843,724  | best xz 2.275 bits/byte  [301.2s]
+[294/381] split+base3                    10,000,000 ->   60,161,916 (reshape   2.3s, round trip OK) | zstd   3,387,784  bzip2   3,776,010  xz   3,025,072  | best xz 2.420 bits/byte  [205.7s]
+[295/381] split+base4                    10,000,000 ->   40,107,944 (reshape   2.0s, round trip OK) | zstd   3,160,007  bzip2   3,503,321  xz   2,782,800  | best xz 2.226 bits/byte  [137.5s]
+[296/381] split+transpose:4              10,000,000 ->   10,026,994 (reshape   1.8s, round trip OK) | zstd   5,577,576  bzip2   6,148,512  xz   5,546,504  | best xz 4.437 bits/byte  [26.3s]
+[297/381] split+transpose:16             10,000,000 ->   10,026,994 (reshape   1.4s, round trip OK) | zstd   6,147,423  bzip2   6,786,575  xz   6,070,132  | best xz 4.856 bits/byte  [23.9s]
+[298/381] split+transpose:80             10,000,000 ->   10,026,994 (reshape   1.2s, round trip OK) | zstd   6,758,379  bzip2   6,929,562  xz   6,255,416  | best xz 5.004 bits/byte  [23.8s]
+[299/381] split+caps                   DROPPED: only 3 unused byte values
+[300/381] split+words                  DROPPED: only 3 unused byte values
+[301/381] split+split                  DROPPED: only 3 unused byte values
+[302/381] split+xz                       10,000,000 ->    2,704,960 (reshape  12.0s, round trip OK) | zstd   2,705,036  bzip2   2,717,158  xz   2,705,156  | best zstd 2.164 bits/byte  [16.1s]
+[303/381] split+zstd                     10,000,000 ->    2,773,283 (reshape  13.2s, round trip OK) | zstd   2,773,362  bzip2   2,785,162  xz   2,773,484  | best zstd 2.219 bits/byte  [17.1s]
+[304/381] split+bzip2                    10,000,000 ->    2,894,456 (reshape   3.0s, round trip OK) | zstd   2,894,538  bzip2   2,908,340  xz   2,894,664  | best zstd 2.316 bits/byte  [7.7s]
+[305/381] split+ppmd                     10,000,000 ->    2,300,903 (reshape   4.5s, round trip OK) | zstd   2,300,970  bzip2   2,311,972  xz   2,301,080  | best zstd 1.841 bits/byte  [11.6s]
+[306/381] xz+bwt                         10,000,000 ->    2,720,264 (reshape  10.2s, round trip OK) | zstd   2,720,340  bzip2   2,732,471  xz   2,720,460  | best zstd 2.176 bits/byte  [12.1s]
+[307/381] xz+mtf                         10,000,000 ->    2,720,256 (reshape  11.8s, round trip OK) | zstd   2,720,332  bzip2   2,732,562  xz   2,720,452  | best zstd 2.176 bits/byte  [14.0s]
+[308/381] xz+delta                       10,000,000 ->    2,720,256 (reshape  11.9s, round trip OK) | zstd   2,720,332  bzip2   2,732,598  xz   2,720,452  | best zstd 2.176 bits/byte  [14.3s]
+[309/381] xz+xorprev                     10,000,000 ->    2,720,256 (reshape  11.9s, round trip OK) | zstd   2,720,332  bzip2   2,732,949  xz   2,720,452  | best zstd 2.176 bits/byte  [14.7s]
+[310/381] xz+reverse                     10,000,000 ->    2,720,256 (reshape  11.5s, round trip OK) | zstd   2,720,332  bzip2   2,732,982  xz   2,720,452  | best zstd 2.176 bits/byte  [13.9s]
+[311/381] xz+bitplanes                   10,000,000 ->    2,720,264 (reshape  13.5s, round trip OK) | zstd   2,720,340  bzip2   2,732,552  xz   2,720,460  | best zstd 2.176 bits/byte  [16.1s]
+[312/381] xz+base2                       10,000,000 ->   21,762,048 (reshape  12.9s, round trip OK) | zstd   2,738,046  bzip2   3,367,640  xz   2,923,632  | best zstd 2.190 bits/byte  [114.1s]
+[313/381] xz+base3                       10,000,000 ->   16,321,536 (reshape  12.1s, round trip OK) | zstd   3,173,808  bzip2   3,434,874  xz   3,129,968  | best xz 2.504 bits/byte  [81.2s]
+[314/381] xz+base4                       10,000,000 ->   10,881,024 (reshape  10.9s, round trip OK) | zstd   2,729,548  bzip2   2,943,319  xz   2,963,444  | best zstd 2.184 bits/byte  [51.9s]
+[315/381] xz+transpose:4                 10,000,000 ->    2,720,264 (reshape  12.2s, round trip OK) | zstd   2,720,340  bzip2   2,733,102  xz   2,720,460  | best zstd 2.176 bits/byte  [14.5s]
+[316/381] xz+transpose:16                10,000,000 ->    2,720,264 (reshape  13.2s, round trip OK) | zstd   2,720,340  bzip2   2,732,852  xz   2,720,460  | best zstd 2.176 bits/byte  [15.6s]
+[317/381] xz+transpose:80                10,000,000 ->    2,720,264 (reshape  11.6s, round trip OK) | zstd   2,720,340  bzip2   2,732,679  xz   2,720,460  | best zstd 2.176 bits/byte  [14.1s]
+[318/381] xz+caps                      DROPPED: only 0 unused byte values
+[319/381] xz+words                     DROPPED: only 0 unused byte values
+[320/381] xz+split                     DROPPED: only 0 unused byte values
+[321/381] xz+xz                          10,000,000 ->    2,720,452 (reshape  11.6s, round trip OK) | zstd   2,720,528  bzip2   2,732,568  xz   2,720,648  | best zstd 2.176 bits/byte  [13.3s]
+[322/381] xz+zstd                        10,000,000 ->    2,720,332 (reshape  12.0s, round trip OK) | zstd   2,720,408  bzip2   2,732,963  xz   2,720,528  | best zstd 2.176 bits/byte  [13.8s]
+[323/381] xz+bzip2                       10,000,000 ->    2,732,712 (reshape  11.3s, round trip OK) | zstd   2,732,791  bzip2   2,744,875  xz   2,732,912  | best zstd 2.186 bits/byte  [14.0s]
+[324/381] xz+ppmd                        10,000,000 ->    2,774,452 (reshape  15.0s, round trip OK) | zstd   2,774,531  bzip2   2,787,208  xz   2,774,652  | best zstd 2.220 bits/byte  [18.9s]
+[325/381] zstd+bwt                       10,000,000 ->    2,793,632 (reshape   9.2s, round trip OK) | zstd   2,793,711  bzip2   2,805,766  xz   2,793,760  | best zstd 2.235 bits/byte  [10.9s]
+[326/381] zstd+mtf                       10,000,000 ->    2,793,624 (reshape   9.7s, round trip OK) | zstd   2,793,703  bzip2   2,805,501  xz   2,793,828  | best zstd 2.235 bits/byte  [11.5s]
+[327/381] zstd+delta                     10,000,000 ->    2,793,624 (reshape   9.8s, round trip OK) | zstd   2,793,703  bzip2   2,805,917  xz   2,793,828  | best zstd 2.235 bits/byte  [11.6s]
+[328/381] zstd+xorprev                   10,000,000 ->    2,793,624 (reshape   9.6s, round trip OK) | zstd   2,793,703  bzip2   2,805,698  xz   2,793,828  | best zstd 2.235 bits/byte  [12.1s]
+[329/381] zstd+reverse                   10,000,000 ->    2,793,624 (reshape   9.9s, round trip OK) | zstd   2,793,703  bzip2   2,804,986  xz   2,793,828  | best zstd 2.235 bits/byte  [11.8s]
+[330/381] zstd+bitplanes                 10,000,000 ->    2,793,632 (reshape   8.8s, round trip OK) | zstd   2,793,711  bzip2   2,806,532  xz   2,793,836  | best zstd 2.235 bits/byte  [10.6s]
+[331/381] zstd+base2                     10,000,000 ->   22,348,992 (reshape   9.1s, round trip OK) | zstd   2,812,275  bzip2   3,458,043  xz   3,002,136  | best zstd 2.250 bits/byte  [111.6s]
+[332/381] zstd+base3                     10,000,000 ->   16,761,744 (reshape   9.6s, round trip OK) | zstd   3,255,371  bzip2   3,525,937  xz   3,208,472  | best xz 2.567 bits/byte  [80.8s]
+[333/381] zstd+base4                     10,000,000 ->   11,174,496 (reshape   9.2s, round trip OK) | zstd   2,805,875  bzip2   3,022,658  xz   3,042,220  | best zstd 2.245 bits/byte  [49.5s]
+[334/381] zstd+transpose:4               10,000,000 ->    2,793,632 (reshape   9.5s, round trip OK) | zstd   2,793,711  bzip2   2,806,384  xz   2,793,836  | best zstd 2.235 bits/byte  [11.9s]
+[335/381] zstd+transpose:16              10,000,000 ->    2,793,632 (reshape  10.4s, round trip OK) | zstd   2,793,711  bzip2   2,805,232  xz   2,793,836  | best zstd 2.235 bits/byte  [12.7s]
+[336/381] zstd+transpose:80              10,000,000 ->    2,793,632 (reshape  10.3s, round trip OK) | zstd   2,793,711  bzip2   2,806,067  xz   2,793,836  | best zstd 2.235 bits/byte  [12.2s]
+[337/381] zstd+caps                    DROPPED: only 0 unused byte values
+[338/381] zstd+words                   DROPPED: only 0 unused byte values
+[339/381] zstd+split                   DROPPED: only 0 unused byte values
+[340/381] zstd+xz                        10,000,000 ->    2,793,828 (reshape   9.9s, round trip OK) | zstd   2,793,907  bzip2   2,806,675  xz   2,794,032  | best zstd 2.235 bits/byte  [12.0s]
+[341/381] zstd+zstd                      10,000,000 ->    2,793,703 (reshape  11.2s, round trip OK) | zstd   2,793,782  bzip2   2,806,372  xz   2,793,908  | best zstd 2.235 bits/byte  [13.5s]
+[342/381] zstd+bzip2                     10,000,000 ->    2,807,308 (reshape  10.4s, round trip OK) | zstd   2,807,066  bzip2   2,820,411  xz   2,807,512  | best zstd 2.246 bits/byte  [12.6s]
+[343/381] zstd+ppmd                      10,000,000 ->    2,847,507 (reshape  12.2s, round trip OK) | zstd   2,847,586  bzip2   2,859,809  xz   2,847,712  | best zstd 2.278 bits/byte  [16.3s]
+[344/381] bzip2+bwt                      10,000,000 ->    2,916,034 (reshape   1.5s, round trip OK) | zstd   2,915,917  bzip2   2,929,750  xz   2,916,216  | best zstd 2.333 bits/byte  [4.0s]
+[345/381] bzip2+mtf                      10,000,000 ->    2,916,026 (reshape   1.3s, round trip OK) | zstd   2,916,108  bzip2   2,928,489  xz   2,916,236  | best zstd 2.333 bits/byte  [4.6s]
+[346/381] bzip2+delta                    10,000,000 ->    2,916,026 (reshape   1.2s, round trip OK) | zstd   2,916,108  bzip2   2,929,519  xz   2,916,236  | best zstd 2.333 bits/byte  [3.3s]
+[347/381] bzip2+xorprev                  10,000,000 ->    2,916,026 (reshape   1.1s, round trip OK) | zstd   2,916,108  bzip2   2,928,899  xz   2,916,236  | best zstd 2.333 bits/byte  [4.1s]
+[348/381] bzip2+reverse                  10,000,000 ->    2,916,026 (reshape   1.3s, round trip OK) | zstd   2,916,108  bzip2   2,930,350  xz   2,916,232  | best zstd 2.333 bits/byte  [4.1s]
+[349/381] bzip2+bitplanes                10,000,000 ->    2,916,040 (reshape   1.6s, round trip OK) | zstd   2,916,122  bzip2   2,929,970  xz   2,916,248  | best zstd 2.333 bits/byte  [5.6s]
+[350/381] bzip2+base2                    10,000,000 ->   23,328,208 (reshape   1.7s, round trip OK) | zstd   3,119,932  bzip2   3,588,899  xz   3,116,688  | best xz 2.493 bits/byte  [121.5s]
+[351/381] bzip2+base3                    10,000,000 ->   17,496,156 (reshape   1.2s, round trip OK) | zstd   3,405,951  bzip2   3,674,286  xz   3,344,376  | best xz 2.676 bits/byte  [74.8s]
+[352/381] bzip2+base4                    10,000,000 ->   11,664,104 (reshape   1.6s, round trip OK) | zstd   2,935,669  bzip2   3,148,261  xz   3,137,348  | best zstd 2.349 bits/byte  [47.0s]
+[353/381] bzip2+transpose:4              10,000,000 ->    2,916,034 (reshape   1.0s, round trip OK) | zstd   2,916,116  bzip2   2,930,104  xz   2,916,244  | best zstd 2.333 bits/byte  [3.4s]
+[354/381] bzip2+transpose:16             10,000,000 ->    2,916,034 (reshape   1.4s, round trip OK) | zstd   2,916,116  bzip2   2,929,983  xz   2,916,244  | best zstd 2.333 bits/byte  [4.7s]
+[355/381] bzip2+transpose:80             10,000,000 ->    2,916,034 (reshape   1.4s, round trip OK) | zstd   2,916,116  bzip2   2,929,807  xz   2,916,244  | best zstd 2.333 bits/byte  [3.7s]
+[356/381] bzip2+caps                   DROPPED: only 0 unused byte values
+[357/381] bzip2+words                  DROPPED: only 0 unused byte values
+[358/381] bzip2+split                  DROPPED: only 0 unused byte values
+[359/381] bzip2+xz                       10,000,000 ->    2,916,232 (reshape   2.1s, round trip OK) | zstd   2,916,314  bzip2   2,930,280  xz   2,916,440  | best zstd 2.333 bits/byte  [5.5s]
+[360/381] bzip2+zstd                     10,000,000 ->    2,916,108 (reshape   1.8s, round trip OK) | zstd   2,916,190  bzip2   2,930,101  xz   2,916,316  | best zstd 2.333 bits/byte  [5.4s]
+[361/381] bzip2+bzip2                    10,000,000 ->    2,929,913 (reshape   2.0s, round trip OK) | zstd   2,929,556  bzip2   2,943,627  xz   2,930,124  | best zstd 2.344 bits/byte  [5.5s]
+[362/381] bzip2+ppmd                     10,000,000 ->    2,957,843 (reshape   2.9s, round trip OK) | zstd   2,957,925  bzip2   2,971,622  xz   2,958,052  | best zstd 2.366 bits/byte  [7.4s]
+[363/381] ppmd+bwt                       10,000,000 ->    2,302,192 (reshape   2.9s, round trip OK) | zstd   2,302,259  bzip2   2,313,083  xz   2,302,368  | best zstd 1.842 bits/byte  [7.6s]
+[364/381] ppmd+mtf                       10,000,000 ->    2,302,184 (reshape   3.6s, round trip OK) | zstd   2,302,251  bzip2   2,312,829  xz   2,302,360  | best zstd 1.842 bits/byte  [8.6s]
+[365/381] ppmd+delta                     10,000,000 ->    2,302,184 (reshape   3.5s, round trip OK) | zstd   2,302,251  bzip2   2,313,030  xz   2,302,360  | best zstd 1.842 bits/byte  [9.9s]
+[366/381] ppmd+xorprev                   10,000,000 ->    2,302,184 (reshape   3.2s, round trip OK) | zstd   2,302,251  bzip2   2,313,345  xz   2,302,360  | best zstd 1.842 bits/byte  [9.4s]
+[367/381] ppmd+reverse                   10,000,000 ->    2,302,184 (reshape   4.4s, round trip OK) | zstd   2,302,251  bzip2   2,312,979  xz   2,302,360  | best zstd 1.842 bits/byte  [10.4s]
+[368/381] ppmd+bitplanes                 10,000,000 ->    2,302,192 (reshape   4.4s, round trip OK) | zstd   2,302,259  bzip2   2,312,990  xz   2,302,368  | best zstd 1.842 bits/byte  [11.6s]
+[369/381] ppmd+base2                     10,000,000 ->   18,417,472 (reshape   3.6s, round trip OK) | zstd   2,317,280  bzip2   2,849,808  xz   2,490,696  | best zstd 1.854 bits/byte  [98.2s]
+[370/381] ppmd+base3                     10,000,000 ->   13,813,104 (reshape   5.3s, round trip OK) | zstd   2,685,116  bzip2   2,907,446  xz   2,654,760  | best xz 2.124 bits/byte  [76.6s]
+[371/381] ppmd+base4                     10,000,000 ->    9,208,736 (reshape   4.3s, round trip OK) | zstd   2,310,887  bzip2   2,491,391  xz   2,483,152  | best zstd 1.849 bits/byte  [47.6s]
+[372/381] ppmd+transpose:4               10,000,000 ->    2,302,192 (reshape   4.5s, round trip OK) | zstd   2,302,259  bzip2   2,313,511  xz   2,302,368  | best zstd 1.842 bits/byte  [10.4s]
+[373/381] ppmd+transpose:16              10,000,000 ->    2,302,192 (reshape   3.0s, round trip OK) | zstd   2,302,259  bzip2   2,312,779  xz   2,302,368  | best zstd 1.842 bits/byte  [7.8s]
+[374/381] ppmd+transpose:80              10,000,000 ->    2,302,192 (reshape   2.9s, round trip OK) | zstd   2,302,259  bzip2   2,312,238  xz   2,302,368  | best zstd 1.842 bits/byte  [7.6s]
+[375/381] ppmd+caps                    DROPPED: only 0 unused byte values
+[376/381] ppmd+words                   DROPPED: only 0 unused byte values
+[377/381] ppmd+split                   DROPPED: only 0 unused byte values
+[378/381] ppmd+xz                        10,000,000 ->    2,302,360 (reshape   4.1s, round trip OK) | zstd   2,302,427  bzip2   2,313,434  xz   2,302,536  | best zstd 1.842 bits/byte  [9.9s]
+[379/381] ppmd+zstd                      10,000,000 ->    2,302,251 (reshape   3.4s, round trip OK) | zstd   2,302,318  bzip2   2,313,152  xz   2,302,428  | best zstd 1.842 bits/byte  [8.8s]
+[380/381] ppmd+bzip2                     10,000,000 ->    2,312,514 (reshape   4.4s, round trip OK) | zstd   2,312,581  bzip2   2,323,373  xz   2,312,692  | best zstd 1.850 bits/byte  [10.1s]
+[381/381] ppmd+ppmd                      10,000,000 ->    2,350,036 (reshape   4.8s, round trip OK) | zstd   2,350,103  bzip2   2,361,099  xz   2,350,216  | best zstd 1.880 bits/byte  [9.9s]
+
+RANKING (331 chains ran, 50 dropped); best compressor per chain, bits per input byte
+
+  by zstd: (no reshape = 2,793,624)
+    1. caps+ppmd                      2,294,938  1.836 b/B  -17.85%
+    2. split+ppmd                     2,300,970  1.841 b/B  -17.63%
+    3. ppmd                           2,302,251  1.842 b/B  -17.59%
+    4. ppmd+mtf                       2,302,251  1.842 b/B  -17.59%
+    5. ppmd+delta                     2,302,251  1.842 b/B  -17.59%
+    6. ppmd+xorprev                   2,302,251  1.842 b/B  -17.59%
+    7. ppmd+reverse                   2,302,251  1.842 b/B  -17.59%
+    8. ppmd+bwt                       2,302,259  1.842 b/B  -17.59%
+    9. ppmd+bitplanes                 2,302,259  1.842 b/B  -17.59%
+   10. ppmd+transpose:4               2,302,259  1.842 b/B  -17.59%
+   11. ppmd+transpose:16              2,302,259  1.842 b/B  -17.59%
+   12. ppmd+transpose:80              2,302,259  1.842 b/B  -17.59%
+   13. ppmd+zstd                      2,302,318  1.842 b/B  -17.59%
+   14. ppmd+xz                        2,302,427  1.842 b/B  -17.58%
+   15. reverse+ppmd                   2,304,119  1.843 b/B  -17.52%
+
+  by bzip2: (no reshape = 2,916,026)
+    1. caps+ppmd                      2,305,287  1.844 b/B  -20.94%
+    2. split+ppmd                     2,311,972  1.850 b/B  -20.71%
+    3. ppmd+transpose:80              2,312,238  1.850 b/B  -20.71%
+    4. ppmd                           2,312,514  1.850 b/B  -20.70%
+    5. ppmd+transpose:16              2,312,779  1.850 b/B  -20.69%
+    6. ppmd+mtf                       2,312,829  1.850 b/B  -20.69%
+    7. ppmd+reverse                   2,312,979  1.850 b/B  -20.68%
+    8. ppmd+bitplanes                 2,312,990  1.850 b/B  -20.68%
+    9. ppmd+delta                     2,313,030  1.850 b/B  -20.68%
+   10. ppmd+bwt                       2,313,083  1.850 b/B  -20.68%
+   11. ppmd+zstd                      2,313,152  1.851 b/B  -20.67%
+   12. ppmd+xorprev                   2,313,345  1.851 b/B  -20.67%
+   13. ppmd+xz                        2,313,434  1.851 b/B  -20.66%
+   14. ppmd+transpose:4               2,313,511  1.851 b/B  -20.66%
+   15. reverse+ppmd                   2,314,355  1.851 b/B  -20.63%
+
+  by xz: (no reshape = 2,720,256)
+    1. caps+ppmd                      2,295,048  1.836 b/B  -15.63%
+    2. split+ppmd                     2,301,080  1.841 b/B  -15.41%
+    3. ppmd                           2,302,360  1.842 b/B  -15.36%
+    4. ppmd+mtf                       2,302,360  1.842 b/B  -15.36%
+    5. ppmd+reverse                   2,302,360  1.842 b/B  -15.36%
+    6. ppmd+delta                     2,302,360  1.842 b/B  -15.36%
+    7. ppmd+xorprev                   2,302,360  1.842 b/B  -15.36%
+    8. ppmd+transpose:80              2,302,368  1.842 b/B  -15.36%
+    9. ppmd+transpose:16              2,302,368  1.842 b/B  -15.36%
+   10. ppmd+bitplanes                 2,302,368  1.842 b/B  -15.36%
+   11. ppmd+bwt                       2,302,368  1.842 b/B  -15.36%
+   12. ppmd+transpose:4               2,302,368  1.842 b/B  -15.36%
+   13. ppmd+zstd                      2,302,428  1.842 b/B  -15.36%
+   14. ppmd+xz                        2,302,536  1.842 b/B  -15.36%
+   15. reverse+ppmd                   2,304,232  1.843 b/B  -15.29%
+ALLDONE

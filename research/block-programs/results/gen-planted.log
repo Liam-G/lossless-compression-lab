@@ -1,0 +1,51 @@
+GENERATOR SEARCH on <repo>/runs/lab/inputs/e10m: 10000000 bytes, 2441 blocks of 4096 bytes (32768 bits); scanning 12 evenly spaced blocks
+generator streams: 240 base sequences x 8 steps = 1920 streams, 2013143040 candidate start positions -> naming one costs 31.9 bits
+cellular rules from one cell: 1536 precomputed runs (256 rules x 6 widths), 1024 start rows each
+searching with 12 threads...
+[  1/12] block  2237 @ byte    9162752
+     block alone (order-0 bytes):    17747 bits | best generator layer:    27097 bits = shapes: grid 160 wide, every column constant wrong bits 8407  => loses 9350 bits
+     longest exact run any generator recreates: 263 bits (naming it costs 267.0 bits): rule 74 width 256 seeded with the block's first row
+[  2/12] block   813 @ byte    3330048   <<< PLANTED: Thue-Morse every 3rd from 9999
+     block alone (order-0 bytes):    13096 bits | best generator layer:       47 bits = digits+sequences: Thue-Morse every 3th from 9999 wrong bits 0  => SAVES 13049 bits
+     longest exact run any generator recreates: 32768 bits (naming it costs 31.9 bits): Thue-Morse every 3th from position 9999
+[  3/12] block  1627 @ byte    6664192
+     block alone (order-0 bytes):    19589 bits | best generator layer:    28458 bits = shapes: grid 160 wide, every column constant wrong bits 9361  => loses 8870 bits
+     longest exact run any generator recreates: 263 bits (naming it costs 267.0 bits): rule 64 width 256 seeded with the block's first row
+[  4/12] block  1220 @ byte    4997120
+     block alone (order-0 bytes):    19811 bits | best generator layer:    29698 bits = shapes: grid 8 wide, every column constant wrong bits 10521  => loses 9887 bits
+     longest exact run any generator recreates: 262 bits (naming it costs 267.0 bits): rule 200 width 256 seeded with the block's first row
+[  5/12] block  2034 @ byte    8331264
+     block alone (order-0 bytes):    18605 bits | best generator layer:    27409 bits = shapes: grid 160 wide, every column constant wrong bits 8614  => loses 8804 bits
+     longest exact run any generator recreates: 261 bits (naming it costs 267.0 bits): rule 152 width 256 seeded with the block's first row
+[  6/12] block  1830 @ byte    7495680
+     block alone (order-0 bytes):    20812 bits | best generator layer:    30106 bits = shapes: grid 8 wide, every column constant wrong bits 10913  => loses 9294 bits
+     longest exact run any generator recreates: 261 bits (naming it costs 267.0 bits): rule 18 width 256 seeded with the block's first row
+[  7/12] block  1017 @ byte    4165632
+     block alone (order-0 bytes):    20668 bits | best generator layer:    29346 bits = shapes: grid 16 wide, every column constant wrong bits 10197  => loses 8677 bits
+     longest exact run any generator recreates: 260 bits (naming it costs 267.0 bits): rule 6 width 256 seeded with the block's first row
+[  8/12] block  1423 @ byte    5828608
+     block alone (order-0 bytes):    21804 bits | best generator layer:    29650 bits = shapes: grid 80 wide, every column constant wrong bits 10411  => loses 7846 bits
+     longest exact run any generator recreates: 261 bits (naming it costs 267.0 bits): rule 88 width 256 seeded with the block's first row
+[  9/12] block   610 @ byte    2498560   <<< PLANTED: a pyramid: 3D box 16x16, top third of the planes all ones, rest zeros, 1% noise
+     block alone (order-0 bytes):     6396 bits | best generator layer:     2731 bits = digits+sequences: paperfolding (dragon curve) every 8th from 251376 (inverted) wrong bits 334  => SAVES 3665 bits
+     longest exact run any generator recreates: 370 bits (naming it costs 267.0 bits): rule 232 width 256 seeded with the block's first row
+[ 10/12] block   406 @ byte    1662976   <<< PLANTED: Langton's ant on 128x256 after 11000 steps
+     block alone (order-0 bytes):     3116 bits | best generator layer:       42 bits = Langton's ant: Langton's ant on 128x256 after 11000 steps wrong bits 0  => SAVES 3074 bits
+     longest exact run any generator recreates: 13632 bits (naming it costs 31.9 bits): rule 30 centre column every 3th from position 335880
+[ 11/12] block   203 @ byte     831488   <<< PLANTED: rule 30 width 64 from a random first row
+     block alone (order-0 bytes):    32583 bits | best generator layer:       90 bits = cellular (seeded): rule 30 width 64 seeded wrong bits 0  => SAVES 32493 bits
+     longest exact run any generator recreates: 32768 bits (naming it costs 75.0 bits): rule 30 width 64 seeded with the block's first row
+[ 12/12] block     0 @ byte          0   <<< PLANTED: digits of sqrt2+sqrt3 -> >=5 every 7th from 123457, 2% noise
+     block alone (order-0 bytes):    32571 bits | best generator layer:     4735 bits = digits+sequences: digits of sqrt2+sqrt3 -> >=5 every 7th from 123457 wrong bits 666  => SAVES 27836 bits
+     longest exact run any generator recreates: 264 bits (naming it costs 267.0 bits): rule 88 width 256 seeded with the block's first row
+
+SUMMARY per family (over 12 blocks, first 5 are planted controls)
+family                 blocks it wins bits saved there      longest exact run
+digits+sequences                    3            44551                  32768
+cellular (seeded)                   1            32493                  32768
+cellular (one cell)                 0                0                  13624
+Langton's ant                       1             3074                      0
+shapes                              1             3623                      0
+counters+repeats                    0                0                      0
+linear XOR rule                     0                0                      0
+real (not planted) blocks where some generator beats the block's own order-0 cost: 0 of 7

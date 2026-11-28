@@ -1,0 +1,16 @@
+single programs tried: 165,675,008 (= 2^27.3)   [229s]
+  xz output of enwik8 text                   longest exact prefix recreated: 24 bits   by rule 75, width 39, column 2, start step 86
+  PPMd output of enwik8 text                 longest exact prefix recreated: 26 bits   by rule 30, width 69, column 46, start step 208
+  seeded random bytes                        longest exact prefix recreated: 25 bits   by rule 135, width 42, column 32, start step 126
+  CONTROL: rule 30 noise (made by a rule)    longest exact prefix recreated: 64 bits (checked up to 64)   by rule 30, width 61, column 30, start step 0
+
+  pairs XORed  xz output of enwik8 text                   best prefix 28 bits   from 148,870 distinct programs -> 11,081,064,015 pairs (= 2^33.4)
+  pairs XORed  PPMd output of enwik8 text                 best prefix 29 bits   from 148,870 distinct programs -> 11,081,064,015 pairs (= 2^33.4)
+  pairs XORed  seeded random bytes                        best prefix 31 bits   from 148,870 distinct programs -> 11,081,064,015 pairs (= 2^33.4)
+  pairs XORed  CONTROL: rule 30 noise (made by a rule)    best prefix 64 bits   from 148,870 distinct programs -> 11,081,064,015 pairs (= 2^33.4)
+
+  linear rules xz output of enwik8 text                   shortest XOR rule recreating 8192 bits needs 4098 taps + 4098 seed bits = 8196 bits
+  linear rules PPMd output of enwik8 text                 shortest XOR rule recreating 8192 bits needs 4096 taps + 4096 seed bits = 8192 bits
+  linear rules seeded random bytes                        shortest XOR rule recreating 8192 bits needs 4094 taps + 4094 seed bits = 8188 bits
+  linear rules CONTROL: rule 30 noise (made by a rule)    shortest XOR rule recreating 320 bits needs 159 taps + 159 seed bits = 318 bits
+[230s]

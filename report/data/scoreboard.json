@@ -1,0 +1,909 @@
+[
+ {
+  "dataset": "wiki-dev",
+  "kind": "real",
+  "label": "Wikipedia text, 24 MiB",
+  "chapter": 5,
+  "input_bytes": 25165824,
+  "ours_codec": "cm3-lstm32",
+  "ours_bytes": 4997716,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 6602488,
+  "standard": {
+   "xz -9e": 6602488,
+   "zstd -19": 6873848,
+   "zstd -3": 8951574
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "wiki-transfer",
+  "kind": "real",
+  "label": "Wikipedia text, another 24 MiB",
+  "chapter": 5,
+  "input_bytes": 25165824,
+  "ours_codec": "wcm-similar-template-primed",
+  "ours_bytes": 5312277,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 6637336,
+  "standard": {
+   "xz -9e": 6637336,
+   "zstd -19": 6891038,
+   "zstd -3": 8968456
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "enwik8",
+  "kind": "real",
+  "label": "Wikipedia text, enwik8 (100 MB)",
+  "chapter": 5,
+  "input_bytes": 100000000,
+  "ours_codec": "statico",
+  "ours_bytes": 26346968,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 24831648,
+  "standard": {
+   "xz -9e": 24831648,
+   "zstd -19": 26944227,
+   "zstd -3": 35445335
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "numerical",
+  "kind": "real",
+  "label": "Silesia numerical files (mr + x-ray + sao)",
+  "chapter": 3,
+  "input_bytes": 25696748,
+  "ours_codec": "lattice-joint-xz",
+  "ours_bytes": 10421725,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 11662476,
+  "standard": {
+   "xz -9e": 11662476,
+   "zstd -19": 13213336,
+   "zstd -3": 15163683
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "nci",
+  "kind": "real",
+  "label": "Silesia nci (chemical database)",
+  "chapter": 3,
+  "input_bytes": 33553445,
+  "ours_codec": "statico",
+  "ours_bytes": 1686759,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 1449272,
+  "standard": {
+   "xz -9e": 1449272,
+   "zstd -19": 1616762,
+   "zstd -3": 2835400,
+   "gzip -9": 2987529,
+   "bzip2 -9": 1812734,
+   "PPMd": 2069655
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "mozilla",
+  "kind": "real",
+  "label": "Silesia mozilla (Firefox binaries)",
+  "chapter": 3,
+  "input_bytes": 51220480,
+  "ours_codec": "lattice-joint-xz",
+  "ours_bytes": 14328741,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 13376240,
+  "standard": {
+   "xz -9e": 13376240,
+   "zstd -19": 14979027,
+   "zstd -3": 18281292,
+   "gzip -9": 18994134,
+   "bzip2 -9": 17914392,
+   "PPMd": 15905149
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "samba",
+  "kind": "real",
+  "label": "Silesia samba (source tarball)",
+  "chapter": 3,
+  "input_bytes": 21606400,
+  "ours_codec": "lattice-direct-xz",
+  "ours_bytes": 4239761,
+  "ours_status": "identical",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 3739524,
+  "standard": {
+   "xz -9e": 3739524,
+   "zstd -19": 3894675,
+   "zstd -3": 4957768
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "webster",
+  "kind": "real",
+  "label": "Silesia webster (dictionary)",
+  "chapter": 3,
+  "input_bytes": 41458703,
+  "ours_codec": "lattice-rows-select",
+  "ours_bytes": 12097762,
+  "ours_status": "identical",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 8368672,
+  "standard": {
+   "xz -9e": 8368672,
+   "zstd -19": 8679705,
+   "zstd -3": 12107198
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "noaa-1990-prefix",
+  "kind": "real",
+  "label": "NOAA weather records 1990",
+  "chapter": 3,
+  "input_bytes": 25165824,
+  "ours_codec": "lattice-rows-fields + xz-6",
+  "ours_bytes": 957348,
+  "ours_status": "carried over",
+  "best_standard": "zstd -3",
+  "best_standard_bytes": 3541940,
+  "standard": {
+   "zstd -3": 3541940
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "noaa-2020-prefix",
+  "kind": "real",
+  "label": "NOAA weather records 2020",
+  "chapter": 3,
+  "input_bytes": 25165824,
+  "ours_codec": "lattice-rows-fields + xz-6",
+  "ours_bytes": 1065376,
+  "ours_status": "carried over",
+  "best_standard": "zstd -3",
+  "best_standard_bytes": 3552109,
+  "standard": {
+   "zstd -3": 3552109
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "covertype-prefix",
+  "kind": "real",
+  "label": "UCI forest-cover table",
+  "chapter": 3,
+  "input_bytes": 25165824,
+  "ours_codec": "lattice-rows-field-positions \u2192 brotli -11",
+  "ours_bytes": 1686701,
+  "ours_status": "re-verified",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 2420012,
+  "standard": {
+   "zstd -3": 3997074,
+   "gzip -9": 3608800,
+   "bzip2 -9": 2561779,
+   "zstd -19": 2790801,
+   "xz -9e": 2420012,
+   "PPMd": 2538260,
+   "brotli -11": 2504093
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "manual-graphs",
+  "kind": "real",
+  "label": "Scanned manual: Graphviz guides",
+  "chapter": 4,
+  "input_bytes": 24642792,
+  "ours_codec": "glyph-position",
+  "ours_bytes": 189603,
+  "ours_status": "carried over",
+  "best_standard": "DjVu",
+  "best_standard_bytes": 191132,
+  "standard": {
+   "DjVu": 191132,
+   "CCITT G4": 1270850,
+   "JBIG": 707797,
+   "PNG": 1418635,
+   "xz -9e": 930864,
+   "zstd -19": 1023810,
+   "zstd -3": 1325134,
+   "gzip -9": 1421644,
+   "bzip2 -9": 1258983,
+   "PPMd": 1143179,
+   "brotli -11": 959500
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "manual-library",
+  "kind": "real",
+  "label": "Scanned manual: Graphviz library",
+  "chapter": 4,
+  "input_bytes": 24283584,
+  "ours_codec": "glyph-position",
+  "ours_bytes": 160297,
+  "ours_status": "carried over",
+  "best_standard": "DjVu",
+  "best_standard_bytes": 175164,
+  "standard": {
+   "DjVu": 175164,
+   "CCITT G4": 1678602,
+   "JBIG": 1049864,
+   "PNG": 1996848,
+   "xz -9e": 1304420,
+   "zstd -19": 1438845,
+   "zstd -3": 1903366,
+   "gzip -9": 2078263,
+   "bzip2 -9": 1741873,
+   "PPMd": 1465390,
+   "brotli -11": 1335518
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "manual-transfer",
+  "kind": "real",
+  "label": "Scanned manual: NASM",
+  "chapter": 4,
+  "input_bytes": 31809024,
+  "ours_codec": "glyph-position",
+  "ours_bytes": 195223,
+  "ours_status": "carried over",
+  "best_standard": "DjVu",
+  "best_standard_bytes": 189610,
+  "standard": {
+   "DjVu": 189610,
+   "JBIG": 1108897,
+   "xz -9e": 1354964,
+   "zstd -19": 1510527,
+   "gzip -9": 2145609,
+   "bzip2 -9": 1789773,
+   "PPMd": 1548118,
+   "brotli -11": 1380293
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "manual-valgrind",
+  "kind": "real",
+  "label": "Scanned manual: Valgrind",
+  "chapter": 4,
+  "input_bytes": 30924288,
+  "ours_codec": "glyph-position",
+  "ours_bytes": 394104,
+  "ours_status": "carried over",
+  "best_standard": "DjVu",
+  "best_standard_bytes": 828622,
+  "standard": {
+   "DjVu": 828622,
+   "JBIG": 1980581,
+   "xz -9e": 1795240,
+   "zstd -19": 1998467,
+   "bzip2 -9": 2341159,
+   "gzip -9": 2831935,
+   "PPMd": 1911707,
+   "brotli -11": 1840710
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "luma-jake",
+  "kind": "real",
+  "label": "Video clip 1 (grayscale frames)",
+  "chapter": 4,
+  "input_bytes": 29491200,
+  "ours_codec": "motion-joint",
+  "ours_bytes": 1188089,
+  "ours_status": "identical",
+  "best_standard": "H.264 lossless",
+  "best_standard_bytes": 803426,
+  "standard": {
+   "FFV1": 4229103,
+   "H.264 lossless": 803426,
+   "xz -9e": 956552,
+   "zstd -19": 1238496,
+   "zstd -3": 1716544,
+   "gzip -9": 8735183,
+   "bzip2 -9": 3468129,
+   "PPMd": 2577757,
+   "brotli -11": 1099923
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "luma-kath",
+  "kind": "real",
+  "label": "Video clip 2 (grayscale frames)",
+  "chapter": 4,
+  "input_bytes": 29491200,
+  "ours_codec": "motion-joint",
+  "ours_bytes": 1102656,
+  "ours_status": "identical",
+  "best_standard": "H.264 lossless",
+  "best_standard_bytes": 535126,
+  "standard": {
+   "FFV1": 3538225,
+   "H.264 lossless": 535126,
+   "xz -9e": 553924,
+   "zstd -19": 732848,
+   "zstd -3": 1077172,
+   "bzip2 -9": 2815306,
+   "gzip -9": 8872951,
+   "PPMd": 1548043,
+   "brotli -11": 631617
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "luma-rei",
+  "kind": "real",
+  "label": "Video clip 3 (grayscale frames)",
+  "chapter": 4,
+  "input_bytes": 29491200,
+  "ours_codec": "motion-joint",
+  "ours_bytes": 3882245,
+  "ours_status": "identical",
+  "best_standard": "H.264 lossless",
+  "best_standard_bytes": 2666233,
+  "standard": {
+   "FFV1": 4208993,
+   "H.264 lossless": 2666233,
+   "xz -9e": 3550008,
+   "zstd -19": 4432349,
+   "zstd -3": 5307286,
+   "gzip -9": 7024020,
+   "bzip2 -9": 4805753,
+   "PPMd": 4521809,
+   "brotli -11": 3916825
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "wall0.ppm",
+  "kind": "real",
+  "label": "Photo 1 (RGB)",
+  "chapter": 4,
+  "input_bytes": 99532817,
+  "ours_codec": "wavelet-color",
+  "ours_bytes": 19619307,
+  "ours_status": "identical",
+  "best_standard": "JPEG XL",
+  "best_standard_bytes": 12086473,
+  "standard": {
+   "JPEG XL": 12086473,
+   "PNG": 23521445,
+   "WebP": 12158784,
+   "zstd -3": 20699049
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "wall1.ppm",
+  "kind": "real",
+  "label": "Photo 2 (RGB)",
+  "chapter": 4,
+  "input_bytes": 99532817,
+  "ours_codec": "wavelet-color",
+  "ours_bytes": 644213,
+  "ours_status": "identical",
+  "best_standard": "JPEG XL",
+  "best_standard_bytes": 407227,
+  "standard": {
+   "JPEG XL": 407227,
+   "PNG": 900638,
+   "WebP": 436166,
+   "zstd -3": 733973
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "wall2.ppm",
+  "kind": "real",
+  "label": "Photo 3 (RGB)",
+  "chapter": 4,
+  "input_bytes": 96560657,
+  "ours_codec": "wavelet-joint",
+  "ours_bytes": 32392630,
+  "ours_status": "carried over",
+  "best_standard": "JPEG XL",
+  "best_standard_bytes": 21138142,
+  "standard": {
+   "JPEG XL": 21138142,
+   "PNG": 29015774,
+   "WebP": 23532898,
+   "zstd -3": 47585586
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "numpy-update",
+  "kind": "real",
+  "label": "NumPy release given the previous one",
+  "chapter": 4,
+  "input_bytes": 53800960,
+  "ours_codec": "relative-direct",
+  "ours_bytes": 10201056,
+  "ours_status": "identical",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 8272288,
+  "standard": {
+   "xz -9e": 8272288,
+   "zstd -19": 9104011,
+   "zstd -3": 11502762
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "mesa-update",
+  "kind": "real",
+  "label": "Mesa release given the previous one",
+  "chapter": 4,
+  "input_bytes": 67133440,
+  "ours_codec": "lattice-joint19",
+  "ours_bytes": 18718222,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 16198184,
+  "standard": {
+   "xz -9e": 16198184,
+   "zstd -19": 17566609,
+   "zstd -3": 21668962,
+   "gzip -9": 23147790,
+   "bzip2 -9": 20929919,
+   "PPMd": 18473570,
+   "brotli -11": 16618638
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "place-distances",
+  "kind": "derived",
+  "label": "Distances between 4,600 real places",
+  "chapter": 4,
+  "input_bytes": 21155400,
+  "ours_codec": "distance-joint",
+  "ours_bytes": 3850014,
+  "ours_status": "identical",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 16711344,
+  "standard": {
+   "xz -9e": 16711344,
+   "zstd -19": 19356133,
+   "zstd -3": 20188613
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "arc-distances",
+  "kind": "derived",
+  "label": "Great-circle angles between the same places",
+  "chapter": 4,
+  "input_bytes": 21155400,
+  "ours_codec": "distance-all",
+  "ours_bytes": 4242861,
+  "ours_status": "identical",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 16371240,
+  "standard": {
+   "xz -9e": 16371240,
+   "zstd -19": 19113729,
+   "zstd -3": 20007568,
+   "gzip -9": 19815866,
+   "bzip2 -9": 18552488,
+   "PPMd": 17959121,
+   "brotli -11": 17415147
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "affine-pairs",
+  "kind": "derived",
+  "label": "Our archived formula instructions",
+  "chapter": 1,
+  "input_bytes": 25165824,
+  "ours_codec": "pilot10-fixed \u2192 brotli -11",
+  "ours_bytes": 6241135,
+  "ours_status": "re-verified",
+  "best_standard": "bzip2 -9",
+  "best_standard_bytes": 6265260,
+  "standard": {
+   "xz -9e": 6867572,
+   "zstd -19": 7421335,
+   "zstd -3": 9297292,
+   "gzip -9": 9024248,
+   "bzip2 -9": 6265260,
+   "brotli -11": 7130652,
+   "PPMd": 6374796
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "formula-text",
+  "kind": "derived",
+  "label": "Our formula listing as text",
+  "chapter": 1,
+  "input_bytes": 25165824,
+  "ours_codec": "pilot11-dag + xz-6",
+  "ours_bytes": 1625172,
+  "ours_status": "carried over",
+  "best_standard": "PPMd",
+  "best_standard_bytes": 1409680,
+  "standard": {
+   "xz -9e": 1773272,
+   "zstd -19": 1806864,
+   "zstd -3": 4118041,
+   "bzip2 -9": 1520262,
+   "gzip -9": 2723451,
+   "PPMd": 1409680,
+   "brotli -11": 1928110
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "cofattore-Q.base256",
+  "kind": "derived",
+  "label": "Q: the record archive as an integer",
+  "chapter": 6,
+  "input_bytes": 96994187,
+  "ours_codec": "scale-informed",
+  "ours_bytes": 96990415,
+  "ours_status": "identical",
+  "best_standard": "zstd -19",
+  "best_standard_bytes": 96994649,
+  "standard": {
+   "xz -9e": 96998528,
+   "zstd -19": 96994649,
+   "zstd -3": 96996424
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "neif-archive9",
+  "kind": "derived",
+  "label": "Neif: a later enwik9 archive",
+  "chapter": 6,
+  "input_bytes": 89346392,
+  "ours_codec": "scale-joint",
+  "ours_bytes": 89346307,
+  "ours_status": "identical",
+  "best_standard": null,
+  "best_standard_bytes": null,
+  "standard": {},
+  "panel_complete": false
+ },
+ {
+  "dataset": "whiteboard-costs",
+  "kind": "self",
+  "label": "Census tables printed by our enumerator",
+  "chapter": 1,
+  "input_bytes": 33554432,
+  "ours_codec": "census-exact",
+  "ours_bytes": 15,
+  "ours_status": "identical",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 2203672,
+  "standard": {
+   "xz -9e": 2203672,
+   "zstd -19": 2286184,
+   "zstd -3": 3513689
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "whiteboard-witnesses",
+  "kind": "self",
+  "label": "Witness records printed by our enumerator",
+  "chapter": 1,
+  "input_bytes": 22630320,
+  "ours_codec": "regenerate-native",
+  "ours_bytes": 48,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 2679352,
+  "standard": {
+   "xz -9e": 2679352,
+   "zstd -19": 3705005,
+   "zstd -3": 4602358
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "nonunit-witnesses",
+  "kind": "self",
+  "label": "New witness records printed by our enumerator",
+  "chapter": 1,
+  "input_bytes": 32870784,
+  "ours_codec": "regenerate-generic",
+  "ours_bytes": 48,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 4844832,
+  "standard": {
+   "xz -9e": 4844832,
+   "zstd -19": 6038280
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "evolved-volume",
+  "kind": "planted",
+  "label": "3-D field from a hidden automaton + low rank",
+  "chapter": 2,
+  "input_bytes": 25165824,
+  "ours_codec": "tensor-combined",
+  "ours_bytes": 9632435,
+  "ours_status": "carried over",
+  "best_standard": "brotli -11",
+  "best_standard_bytes": 24648803,
+  "standard": {
+   "xz -9e": 24885056,
+   "zstd -19": 24870518,
+   "zstd -3": 25166414,
+   "gzip -9": 24911082,
+   "bzip2 -9": 25269450,
+   "PPMd": 25482549,
+   "brotli -11": 24648803
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "noisy-spacetime",
+  "kind": "planted",
+  "label": "4-D noisy field from a hidden automaton",
+  "chapter": 2,
+  "input_bytes": 25165824,
+  "ours_codec": "four-joint + xz-6",
+  "ours_bytes": 8109204,
+  "ours_status": "carried over",
+  "best_standard": null,
+  "best_standard_bytes": null,
+  "standard": {},
+  "panel_complete": false
+ },
+ {
+  "dataset": "modular-panels",
+  "kind": "planted",
+  "label": "Byte orbit hiding a Kronecker product",
+  "chapter": 2,
+  "input_bytes": 25165824,
+  "ours_codec": "modular-joint + xz-6",
+  "ours_bytes": 4327872,
+  "ours_status": "carried over",
+  "best_standard": "brotli -11",
+  "best_standard_bytes": 25165869,
+  "standard": {
+   "xz -9e": 25167132,
+   "zstd -19": 25166413,
+   "zstd -3": 25166414,
+   "gzip -9": 25168569,
+   "bzip2 -9": 25283008,
+   "brotli -11": 25165869,
+   "PPMd": 25769386
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "learned-field",
+  "kind": "planted",
+  "label": "Field from a hidden cellular rule",
+  "chapter": 2,
+  "input_bytes": 29491200,
+  "ours_codec": "learned-coupled + xz-6",
+  "ours_bytes": 10497028,
+  "ours_status": "carried over",
+  "best_standard": "gzip -9",
+  "best_standard_bytes": 29358227,
+  "standard": {
+   "FFV1": 30218590,
+   "H.264 lossless": 30017763,
+   "xz -9e": 29419268,
+   "zstd -19": 29363115,
+   "gzip -9": 29358227,
+   "bzip2 -9": 29603494,
+   "brotli -11": 29423690,
+   "PPMd": 30194890
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "shared-orbit-1000",
+  "kind": "planted",
+  "label": "Matrices 1,000 automaton steps from simple",
+  "chapter": 2,
+  "input_bytes": 25165824,
+  "ours_codec": "checker-joint",
+  "ours_bytes": 12415836,
+  "ours_status": "carried over",
+  "best_standard": null,
+  "best_standard_bytes": null,
+  "standard": {},
+  "panel_complete": false
+ },
+ {
+  "dataset": "evolved-stamps",
+  "kind": "planted",
+  "label": "Stamps evolved by an automaton",
+  "chapter": 3,
+  "input_bytes": 28311552,
+  "ours_codec": "checker-bitmap-orbit-book + xz-6",
+  "ours_bytes": 560916,
+  "ours_status": "carried over",
+  "best_standard": "PPMd",
+  "best_standard_bytes": 7183888,
+  "standard": {
+   "zstd -3": 9210663,
+   "bzip2 -9": 8009934,
+   "gzip -9": 8629547,
+   "xz -9e": 7512824,
+   "zstd -19": 7614655,
+   "PPMd": 7183888,
+   "brotli -11": 7299744
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "hidden-products",
+  "kind": "planted",
+  "label": "Products hiding a repdigit factor",
+  "chapter": 1,
+  "input_bytes": 25165824,
+  "ours_codec": "shared-shared + xz-6",
+  "ours_bytes": 13011616,
+  "ours_status": "carried over",
+  "best_standard": "brotli -11",
+  "best_standard_bytes": 13226527,
+  "standard": {
+   "xz -9e": 13309788,
+   "zstd -19": 13318129,
+   "zstd -3": 14343987,
+   "gzip -9": 13829312,
+   "bzip2 -9": 13327127,
+   "PPMd": 13594335,
+   "brotli -11": 13226527
+  },
+  "panel_complete": true
+ },
+ {
+  "dataset": "three-seeds",
+  "kind": "planted",
+  "label": "Sums of three generators",
+  "chapter": 1,
+  "input_bytes": 25165824,
+  "ours_codec": "sum-4096",
+  "ours_bytes": 36872,
+  "ours_status": "identical",
+  "best_standard": "zstd -19",
+  "best_standard_bytes": 25166414,
+  "standard": {
+   "xz -9e": 25167136,
+   "zstd -19": 25166414,
+   "zstd -3": 25166414
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "walk-distances",
+  "kind": "planted",
+  "label": "Distances along a random planar walk",
+  "chapter": 4,
+  "input_bytes": 21155400,
+  "ours_codec": "distance-joint",
+  "ours_bytes": 2860313,
+  "ours_status": "identical",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 17954172,
+  "standard": {
+   "xz -9e": 17954172,
+   "zstd -19": 19976964,
+   "zstd -3": 20717883
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "uniform",
+  "kind": "control",
+  "label": "Uniform random bytes",
+  "chapter": 0,
+  "input_bytes": 25165824,
+  "ours_codec": "integer-modular-adjusted",
+  "ours_bytes": 25165838,
+  "ours_status": "carried over",
+  "best_standard": "zstd -19",
+  "best_standard_bytes": 25166414,
+  "standard": {
+   "xz -9e": 25167136,
+   "zstd -19": 25166414,
+   "zstd -3": 25166414
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "random-triangle",
+  "kind": "control",
+  "label": "Random triangle of distances",
+  "chapter": 0,
+  "input_bytes": 21155400,
+  "ours_codec": "distance-all",
+  "ours_bytes": 21155413,
+  "ours_status": "identical",
+  "best_standard": "zstd -19",
+  "best_standard_bytes": 21155900,
+  "standard": {
+   "xz -9e": 21156512,
+   "zstd -19": 21155900,
+   "zstd -3": 21155900
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "shuffled-witnesses",
+  "kind": "control",
+  "label": "Witness records with values shuffled",
+  "chapter": 1,
+  "input_bytes": 22630320,
+  "ours_codec": "witness-joint + xz-6",
+  "ours_bytes": 3550292,
+  "ours_status": "carried over",
+  "best_standard": "xz -9e",
+  "best_standard_bytes": 4237984,
+  "standard": {
+   "xz -9e": 4237984,
+   "zstd -19": 5252719
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "nci-row-shuffled",
+  "kind": "control",
+  "label": "nci with characters shuffled inside rows",
+  "chapter": 3,
+  "input_bytes": 33553445,
+  "ours_codec": "lattice-rows-columns + xz-6",
+  "ours_bytes": 9958468,
+  "ours_status": "carried over",
+  "best_standard": "bzip2 -9",
+  "best_standard_bytes": 11879367,
+  "standard": {
+   "zstd -3": 12578513,
+   "bzip2 -9": 11879367
+  },
+  "panel_complete": false
+ },
+ {
+  "dataset": "graphs-shuffled-lines",
+  "kind": "control",
+  "label": "Graphviz pages with scanlines shuffled",
+  "chapter": 3,
+  "input_bytes": 24642792,
+  "ours_codec": "checker-bitmap-direct-flat",
+  "ours_bytes": 1846387,
+  "ours_status": "identical",
+  "best_standard": "PPMd",
+  "best_standard_bytes": 1202180,
+  "standard": {
+   "zstd -3": 1849717,
+   "bzip2 -9": 1461241,
+   "gzip -9": 1978447,
+   "zstd -19": 1357240,
+   "PPMd": 1202180,
+   "xz -9e": 1258316,
+   "brotli -11": 1310452
+  },
+  "panel_complete": true
+ }
+]

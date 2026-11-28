@@ -1,104 +1,75 @@
 # Lossless Compression Lab
 
-This English research repository contains 16 thesis experiments, three cross-experiment studies and 28 research projects recovered or extended from the original compression lab. The [large-file benchmark](research/large-scale/README.md) requires at least **20 MiB of raw input per trial** and checks exact reconstruction. The [idea atlas](research/evidence/idea-atlas.md) connects the local project conversations, the 51-topic dossier, and the original whiteboard formula to measured experiments and open proposals.
+A research notebook (November 2026) on one question: **can a file be stored as something shorter that rebuilds it
+exactly?** It started from a whiteboard formula (describe a whole file as one number divided by another) and
+went on to cellular automata, matrix factorization, coincidence searches, data reshaping, specialised models and
+finally our own context-mixing text compressor. Every idea was implemented, run on real data and on planted
+controls, decoded byte for byte, and compared with the standard tools on the same bytes.
 
-Every project folder includes a method diagram, an explanation of the structure the method exploits, a chart of all measured archive profiles and the exact results. The [research findings](research/large-scale/findings.md) compare successful cases with shuffled, mismatched and real-world controls. The [four-dimensional factors experiment](research/four-dimensional-factors/README.md#large-file-benchmark) shows how to read a component comparison.
+**[Read the report →](report/README.md)**
 
-## Does preprocessing help a standard compressor?
+## The short answer
 
-The comparison uses two paths on identical input: **raw → standard compressor** and **reversible preprocessing → the same compressor**. We measure byte entropy before and after preprocessing, count every byte needed to undo it, and verify that both paths reconstruct the input.
+<picture><source media="(prefers-color-scheme: dark)" srcset="report/figures/scoreboard-real-dark.svg"><img alt="Diverging bar chart: for every real input, our best archive relative to the best standard tool. Wins: distances between real places, a scanned manual, weather and forest-cover tables, Wikipedia text, Silesia numerical data. Losses: photos and video, software updates, binaries, enwik8 with the grammar compressor, a formula listing." src="report/figures/scoreboard-real-light.svg"></picture>
 
-![Byte entropy before and after preprocessing, alongside measured Zstandard savings. NOAA field routing leaves byte entropy near 3.95 bits and saves 40.85%. On the Graphviz library manual, byte entropy rises from 1.09 to 3.65 on a shorter stream and Zstandard saves 38.90%. On Wikipedia the BWT leaves byte-frequency entropy nearly unchanged and saves 1.87%. On real numerical data lattice prediction lowers byte entropy from 6.35 to 4.93 bits per byte and saves 23.27%.](research/large-scale/results/preprocessing.png)
+*Our best archive for each **real** input, relative to the best standard tool on the same bytes (left of
+"same" = smaller = better). Standard tools: gzip, bzip2, xz, Zstandard, Brotli, PPMd, plus JPEG XL / WebP /
+PNG for photos, H.264 lossless / FFV1 for video, DjVu / JBIG for scanned pages. Every archive decoded byte-exact.*
 
-On two **24 MiB** samples of NOAA weather reports, simply gathering the bytes of each field together saved **40.85%** and **41.11%** with Zstandard. Byte-frequency entropy barely moved. Encoding a shared prefix against the previous value of the same field raised the savings to **43.34%** and **47.18%**. On UCI Covertype, grouping by field and byte position saved **37.62%**. [Weather and forest-cover experiments, controls and reproduction](research/lattice-prediction/ragged-rows.md)
+| Chapter | Question | Answer |
+|---|---|---|
+| [1 · Formulas](report/1-formulas.md) | Can a short formula, a digit sequence or a random seed regenerate real data? | **No.** Every planted control is found; on real data the best formula saved 0–0.004%. A search finds as many bits by luck as it costs to name what it found. |
+| [2 · Automata and factors](report/2-dynamics.md) | Does running a reversible automaton backwards expose low-rank structure? | **Only in data built that way:** 2.6–15× smaller than standard tools on planted fields, 25% to 65× *larger* on every real input. |
+| [3 · Reshaping](report/3-reshaping.md) | Does reordering bytes help a standard compressor? | **Yes, for tables and rasters:** splitting weather records into fields, predicting numerical grids. Not for prose. |
+| [4 · Specialised models](report/4-specialised.md) | Do models written for one kind of data beat the usual tools? | **Sometimes:** glyph coding of scanned manuals beats DjVu on 3 of 4; photo and video models lose to JPEG XL and H.264. |
+| [5 · Text](report/5-text.md) | How small can our own compressor make enwik8? | **17,811,463 bytes** with our context mixer CM3: better than xz, PPMd, GLZA and paq8l; 12% behind paq8px and 22% behind cmix. |
+| [6 · The record archive](report/6-record-archive.md) | Can the Hutter-record archive itself be made smaller? | **By 0.075%** (73 kB), by recognising the executable and model weights inside it. A new prize award needs at least 1% (about 1 MB). |
 
-On four typeset manuals, XORing adjacent scanlines and skipping empty quadrants saved **32.66–38.90%** with Zstandard. On the Graphviz library manual the prepared stream shrank from 24.28 MB to 4.31 MB even as its H0 rose from **1.090 to 3.649** bits per byte. [Bitmap trees, automata and before/after entropy](research/checkerboard-orbits/bitmap-trees.md)
+What survives: **predictive modelling** (chapter 5) and **format-aware reshaping** (chapters 3–4). What does not:
+**describing real data with formulas, coincidences or automata** (chapters 1–2). Planted controls show those
+detectors work; the data simply does not contain what they look for.
 
-The BWT on Wikipedia illustrates why we also measure context. Its byte histogram barely changed, but the next-byte entropy given the preceding byte fell from **3.881 to 2.801 bits**. That helped gzip and Zstandard. XZ compressed the original ordering better. [Paired entropy, stream lengths and sizes for all three compressors](research/large-scale/results/preprocessing.md)
+## Repository map
 
-In the **four-dimensional automaton** experiment, undoing the evolution of a planted field and then fitting matrix factors cut whole-stream Zstandard from **18,781,041 to 9,397,974 bytes** relative to undoing the evolution alone. The encoder selected factors on **384 of 384** planted blocks and on **zero** blocks of the numerical, Samba and uniform inputs. The two stages help together when reversing the dynamics exposes usable low rank. [Complete five-profile, four-input comparison](research/four-dimensional-factors/README.md#what-does-factoring-add-after-the-automaton)
-
-### Does a lower entropy estimate predict a smaller file?
-
-![All matched preprocessing trials, with normalized zero-order entropy reduction on the horizontal axis and compressed size reduction on the vertical axis for gzip, Zstandard and XZ.](research/large-scale/results/entropy-agreement.svg)
-
-Each point is one input and one method. Above zero, preprocessing saved compressed bytes. Right of zero, it lowered the estimated zero-order cost per original byte. Points in the upper left and lower right show where these two criteria disagree. [Counts for each compressor, input weighting and controlled comparisons](research/large-scale/findings.md#all-paired-trials)
-
-## Standalone archive comparison
-
-Each bar compares a verified experimental archive with XZ extreme on the same raw input. Positive values mean a smaller archive. The cellular orbit with Kronecker factors saved 82.2% on generated matrix products and used 28.2% more space on the real Silesia numerical stream.
-
-![Archive size reductions versus XZ extreme. On archived and real data, whiteboard witness coding saved 59.6%, glyph coding saved 78.0%, lattice prediction saved 10.6%, and cellular Kronecker coding used 28.2% more space. On generated data, cellular Kronecker coding saved 82.2%, joint cellular rule learning saved 62.4%, and shared factor trees saved 1.6%.](research/large-scale/results/readme-summary.png)
-
-[Exact sizes and timings for all benchmark results](research/large-scale/results/by-dataset.md)
-
-## The original whiteboard formula
-
-The 2019 whiteboard asks when an integer can be written as the exact quotient of two numbers made of repeated digits. Each sum builds one such number, one digit position at a time.
-
-$$
-\frac{\displaystyle\sum_{k=0}^{r_1-1} c_1 b_1^k}
-     {\displaystyle\sum_{k=0}^{r_2-1} c_2 b_2^k}
-=
-\frac{c_1}{c_2}
-\cdot \frac{b_1^{r_1}-1}{b_1-1}
-\cdot \frac{b_2-1}{b_2^{r_2}-1}
-= d.
-$$
-
-Here $b_i$ is the base, $c_i$ is the repeated digit and $r_i$ is the number of digits. A formula saves space only when the decoder can recover its parameters for fewer bits than the value it replaces. [Original photograph](research/whiteboard-trees/whiteboard.png) · [Transcription and bounds](research/evidence/idea-atlas.md#the-whiteboard) · [Measured factor-tree experiment](research/shared-factor-forest/README.md)
-
-## Project highlights
-
-| Start with | What you can reproduce |
+| Folder | Contents |
 |---|---|
-| [The original whiteboard census and witnesses](research/whiteboard-census/README.md) | Rebuild the 32 MiB cost table and use the recorded equations to compress a separate 22,630,320-byte witness file to 1,082,142 bytes. |
-| [The whiteboard formula inside a factor tree](research/shared-factor-forest/README.md) | Divide, split a cofactor, encode one child as a quotient of repdigits, and share its recipe. |
-| [Four-dimensional cellular automata and matrix factors](research/four-dimensional-factors/README.md) | Search backward, change the factor basis and store the exact XOR correction. |
-| [Learn the cellular rule and its residual matrix together](research/learned-cellular-rules/README.md) | A 29,491,200-byte planted field drops from 25,054,265 to 11,051,733 bytes when the rule learns from correlations across error planes. |
-| [Byte-valued cellular automata and Kronecker factors](research/modular-kronecker/README.md) | On 24 MiB of evolved, noisy matrix products, reversing the orbit and fitting two 4 × 4 factors reduced the archive from 24,560,134 to 4,471,016 bytes. |
-| [Glyphs, baselines and exact residuals](research/glyph-residuals/README.md) | On 64 Valgrind manual pages, shared bitmaps and character positions use 394,104 bytes. Wide-strip lossless DjVu uses 828,622. |
-| [Triangular distance matrices](research/distance-geometry/README.md) | Restore a 21,155,400-byte geographic distance table from four landmark columns and a residual in 3,850,014 bytes. |
-| [Whole-file formulas and sparse arithmetic regions](research/carry-trees/README.md) | Compare multiplication before and after a split on the complete 96,994,187-byte cofactor Q. |
-| [All implementations](research/README.md) · [Measurements by experiment](research/large-scale/results/by-experiment.md) | Browse runnable projects, exact sizes, conditional-reference charges and per-file timings. |
-| [Historical reports](research/evidence/report-index.tsv) · [Protocol inventory](research/evidence/protocol-index.tsv) | Search 149 English report abstracts and the 583 original source/measurement directories. |
+| [`report/`](report/README.md) | The written report: chapters, [methods](report/methods.md), [glossary](report/glossary.md), [every idea tried](report/ideas.md), figures and the scripts that draw them. |
+| [`research/`](research/README.md) | One folder per method: source code, a short page (question, method, result, how to run), and its measurements. |
+| [`research/large-scale/`](research/large-scale/README.md) | The benchmark runner (≥ 20 MiB inputs, separate decoder, byte comparison), all receipts and result tables. |
+| [`experiments/`](experiments) | The sixteen original thesis experiments as small, tested codecs ([suite runner](suite.py)). |
+| [`studies/`](studies) | Three experiments that combine several of the sixteen. |
+| [`fixtures/`](fixtures/README.md) | Small frozen inputs for the test suites. |
 
-## Run from a clean checkout
+## Run it
 
-The 16 compact diagnostic suites use Python 3.10 or newer, the standard library, the Zstd CLI and the included fixtures. Primary benchmark commands use at least 20 MiB per input. Set up the [large-file inputs and dependencies](research/large-scale/README.md#reproduce-a-result) for the projects you select. For the native projects, follow the [research build and replay instructions](research/README.md#build-and-reproduce).
+Linux, Python 3.10+, NumPy, a C/C++20 compiler, GMP, and the zstd/xz/bzip2/brotli/7z command-line tools.
 
 ```sh
-python3 suite.py test
-python3 suite.py benchmark --list
-python3 lab.py 07 benchmark runs/recursive-gf2
-python3 suite.py benchmark runs/all-experiments --group experiments
+python3 suite.py test                         # 16 codecs: round trips, empty and tiny inputs (about 1 minute)
+make -C research -j4 && make -C research lab  # native code
+python3 research/test.py                      # research codecs
 ```
 
-Each benchmark command creates a new output directory. The suite accepts an individual project, one group, or all projects by default. For the original small comparison tables, use `python3 suite.py diagnostics runs/diagnostics`. For individual encode/decode examples, profiles and results, open the experiment below. The [measurement protocol](PROTOCOL.md) explains metadata, decoder delivery and the difference between an update patch and a full archive.
+Reproduce the measurements (each writes into a fresh folder under `runs/`):
 
-## Experiment index
+```sh
+python3 research/large-scale/datasets.py ../corpus runs/large/raw          # prepare the 20+ MiB inputs
+python3 research/large-scale/rerun_all.py runs/rerun                        # replay every receipt, compare archives
+python3 research/large-scale/baseline_panel.py runs/large/raw runs/panel.jsonl  # standard tools on every input
+python3 research/large-scale/paired_panel.py runs/large/raw runs/paired.jsonl # our transforms → the same panel
+CORPUS=../corpus bash research/lab-reruns.sh runs/lab                       # coincidence hunt, CM history, ...
+CORPUS=../corpus bash research/lab-reruns-2.sh runs/lab                     # shape search, stride scans
+python3 report/build_scoreboard.py && python3 report/make_figures.py        # tables and charts
+python3 report/project_pages.py && python3 report/check_links.py            # project pages, link check
+```
 
-| ID | Experiment | Comparison |
-|---|---|---|
-| [01](experiments/01-repdigit-segmentation/README.md) | Repdigit ratios and adaptive segmentation | Fixed or adaptive boundaries × direct or extended recipe catalog |
-| [02](experiments/02-near-factorization/README.md) | Near-factorization and digit concatenation | Exact or corrected products × indivisible or split factors |
-| [03](experiments/03-generator-residuals/README.md) | Powers, generator sums and exact residuals | Generator family × additive or XOR correction under a search budget |
-| [04](experiments/04-irrational-checkpoints/README.md) | Irrational sums, backtracking and checkpoints | Signed coefficients, number of terms and restart costs |
-| [05](experiments/05-local-bases/README.md) | Local bases and exceptional digits | Global or per-block base × entropy or serialized-byte selection |
-| [06](experiments/06-reversible-automata/README.md) | Reversible automata and step counts | Checkerboard or Margolus orbits with fixed, restricted or omitted step indices |
-| [07](experiments/07-recursive-gf2/README.md) | Automata and recursive GF(2) factorization | Automaton placement × factorization depth |
-| [08](experiments/08-equivalent-factors/README.md) | Equivalent matrix factors and error masks | Original or transformed factor bases at fixed rank and error mask |
-| [09](experiments/09-walsh-bitplanes/README.md) | Walsh–Hadamard prediction and bit planes | Plane splitting × spectral prediction with exact XOR correction |
-| [10](experiments/10-affine-chains/README.md) | Affine instruction chains | Three parameter encodings and two reconstruction algorithms |
-| [11](experiments/11-shared-subexpressions/README.md) | Grammars and shared subexpressions | Flat instructions, sequence grammar or expression DAG |
-| [12](experiments/12-relative-patches/README.md) | Relative compression | Fixed-offset XOR, variable-offset copies or local alignment |
-| [13](experiments/13-bwt-prediction/README.md) | Burrows–Wheeler transform and prediction | Byte reordering × prediction with a common residual coder |
-| [14](experiments/14-sparse-residuals/README.md) | Sparse residual coding | Enumerative ranks, Rice gaps, bit contexts or per-block selection |
-| [15](experiments/15-binary-regions/README.md) | Regenerating binary regions | ELF header generation × local formula scanning |
-| [16](experiments/16-joint-selection/README.md) | Joint selection of compression methods | Single method, fixed-block switching or variable intervals |
+`CORPUS` must contain `enwik8/enwik8`, `silesia/*` and `canterbury/*` (public downloads; see
+[inputs](research/large-scale/README.md#inputs) for every file's source and SHA-256). The record-archive inputs
+of [chapter 6](report/6-record-archive.md) (Q, Neif) are derived from published Hutter Prize archives, which are
+not redistributed here; the page says how each is built.
 
-## Joint studies
+## Status of the numbers
 
-- [Formula leaves, factors and grammar references](studies/formula-factor-grammar/README.md) combines experiments 01, 02 and 11.
-- [Automata, factors and residual coding](studies/automaton-factor-residual/README.md) combines experiments 06, 07, 08 and 14.
-- [Reference copies, local formulas and interval selection](studies/reference-formula-intervals/README.md) combines experiments 12, 15 and 16.
+Every number in the report is labelled **re-verified** (rerun for this report on November 28–29, 2026, with a
+byte-for-byte round trip), **carried over** (verified earlier in the project; original log kept), or
+**published** (third-party, with a link). See [methods](report/methods.md#labels-on-every-number).

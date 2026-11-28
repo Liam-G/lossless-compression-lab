@@ -1,0 +1,77 @@
+COINCIDENCE HUNT  target work/target300.txt: 300 characters = 2400 bits; 12 threads
+bars: raw 2400 bits | its own letter statistics (order-0, table not counted) 1438 bits
+
+=== digits+sequences: digits of pi, e, sqrt2, sqrt3, sqrt5, phi, sqrt2+sqrt3 and their 21 digit-wise sums, each digit -> bit by 8 rules (odd, div3, >=5, bit1..3, zero, prime); Thue-Morse, Fibonacci word, dragon folds, Rudin-Shapiro, period-doubling, Baum-Sweet, Cantor, Sierpinski rows, primes, squares, Champernowne; every 1st..10th element; every start position
+  234 base sequences x 8 steps = 1872 streams of ~1M bits
+  -> 3.92e+09 candidates (naming one costs 34.9 bits), 151.3s
+     best: 2198 bits = Champernowne (1,2,3,... in binary), every 2th, from position 274393, 756 wrong bits
+     longest exact run from the start: 33 bits (digits of pi(+)sqrt5 -> bit2, every 3th, from position 666303)
+
+=== roots+fractions: binary digits of sqrt(n) for n<=4000, cube root of n for n<=1000, 1/q for odd q<=4095; 8192 bits each, every start
+  -> 8.08e+07 candidates (naming one costs 29.3 bits), 2.1s
+     best: 2217 bits = binary digits of 1/85 from bit 5, 779 wrong bits
+     longest exact run from the start: 24 bits (binary digits of sqrt(1149) from bit 787)
+
+=== random generators: xorshift32 with every seed (2^32), splitmix64 with seeds 0..2^30, 8 classic LCGs x 2^24 seeds (top byte per step)
+  xorshift32 done (297s)
+  -> 5.5e+09 candidates (naming one costs 36.4 bits), 364.2s
+     best: 2411 bits = xorshift32 seed 4257794083, 1040 wrong bits
+     longest exact run from the start: 32 bits (xorshift32 seed 3962353174)
+
+=== formulas: every formula f(i) up to size 6 built from i, 1,2,3,5,7,10,26,64,255 and - sq isqrt popcount digitsum tri fib + - * / mod xor and or << >> ^ gcd; read out as bit 0..7, divisible by 3, rising, the low byte, letter a+v mod 26, printable char
+  size 2: 46 distinct so far
+  size 3: 458 distinct so far
+  size 4: 4252 distinct so far
+  size 5: 52639 distinct so far
+  size 6: 675880 distinct so far
+  -> 1.76e+07 candidates (naming one costs 27.1 bits), 25.2s
+     best: 2134 bits = f(i) = (sq(10) xor (i gcd 5)) -> low byte, 709 wrong bits
+     longest exact run from the start: 25 bits (f(i) = (7 + tri(64)) -> low byte)
+
+=== recurrences: every rule x(k+1) = f(x(k), k) up to size 6 built from x, k, 1,2,3,5,7,10,26,64,255 and - sq isqrt popcount digitsum tri fib + - * / mod xor and or << >> ^ gcd; start x(0) in {0,1,2,3}; read out as bit 0..7, divisible by 3, rising, the low byte, letter a+v mod 26, printable char
+  size 2: 46 distinct so far
+  size 3: 530 distinct so far
+  size 4: 4934 distinct so far
+  size 5: 63903 distinct so far
+  size 6: 820980 distinct so far
+  -> 8.54e+07 candidates (naming one costs 29.3 bits), 138.4s
+     best: 2136 bits = x(k+1) = (sq(10) xor (i gcd 5)), x(0)=2 -> low byte, 709 wrong bits
+     longest exact run from the start: 25 bits (x(k+1) = (7 + tri(64)), x(0)=1 -> low byte)
+
+=== integer sequences: ~40 named integer sequences (primes, Fibonacci, Catalan, partitions, Collatz, Recaman, Stern, Golomb, van Eck, totient, ...) read as bits (bit 0..7, div3, rising) from every start, and written out as text with separators '', ' ', ',', ', ', newline, '|' from every character
+  -> 1.11e+07 candidates (naming one costs 26.4 bits), 1.6s
+     best: 2237 bits = Tribonacci -> bit 0, from term 1, 801 wrong bits
+     longest exact run from the start: 18 bits (Collatz steps -> bit 4, from term 22)
+
+=== Fourier: Walsh-Hadamard (binary Fourier): keep the k largest of 4096 coefficients, rebuild the bits, correct the rest; ANF (the target as an XOR-polynomial of its 12 index bits); cosine transform of the 300 character values, k largest coefficients
+  Walsh-Hadamard k=   1: 1191 wrong bits, total 2433 bits
+  Walsh-Hadamard k=   4:  833 wrong bits, total 2344 bits
+  Walsh-Hadamard k=  16:  779 wrong bits, total 2591 bits
+  Walsh-Hadamard k=  64:  630 wrong bits, total 3602 bits
+  Walsh-Hadamard k= 256:  347 wrong bits, total 7839 bits
+  Walsh-Hadamard k=1024:   30 wrong bits, total 25843 bits
+  XOR-polynomial (ANF): 1782 monomials of 4096 (random: ~2048) -> 4055 bits, exact
+  XOR-polynomial (ANF, bit-reversed index): 1782 monomials of 4096 (random: ~2048) -> 4055 bits, exact
+  cosine k=  1: 300 wrong characters, total 2432 bits
+  cosine k= 10: 293 wrong characters, total 2610 bits
+  cosine k= 50: 295 wrong characters, total 3455 bits
+  cosine k=150: 288 wrong characters, total 5535 bits
+  cosine k=300:  26 wrong characters, total 6643 bits
+  -> 4.4e+03 candidates (naming one costs 3.0 bits), 0.2s
+     best: 2337 bits = Walsh-Hadamard, 3 largest coefficients, 853 wrong bits
+     longest exact run from the start: 0 bits ()
+
+=== geometry: all 256 cellular rules seeded with the target's first row (10 widths) or one cell (start row 0..1023); Langton's ant on 12 grids (4M steps); grids of every width: rows/columns/diagonals constant, pyramid shells; repeating patterns of 1..600 bits
+  -> 1.03e+08 candidates (naming one costs 30.6 bits), 13.5s
+     best: 2155 bits = grid 8 wide, every column constant, 717 wrong bits
+     longest exact run from the start: 23 bits (rule 45, width 120, from one cell, row 370+108)
+
+RANKING (best candidate of each family; raw = 2400 bits, letter statistics = 1438 bits), total 697s
+  1.    2134 bits  BEATS RAW  formulas: f(i) = (sq(10) xor (i gcd 5)) -> low byte  [709 wrong bits]
+  2.    2136 bits  BEATS RAW  recurrences: x(k+1) = (sq(10) xor (i gcd 5)), x(0)=2 -> low byte  [709 wrong bits]
+  3.    2155 bits  BEATS RAW  geometry: grid 8 wide, every column constant  [717 wrong bits]
+  4.    2198 bits  BEATS RAW  digits+sequences: Champernowne (1,2,3,... in binary), every 2th, from position 274393  [756 wrong bits]
+  5.    2217 bits  BEATS RAW  roots+fractions: binary digits of 1/85 from bit 5  [779 wrong bits]
+  6.    2237 bits  BEATS RAW  integer sequences: Tribonacci -> bit 0, from term 1  [801 wrong bits]
+  7.    2337 bits  BEATS RAW  Fourier: Walsh-Hadamard, 3 largest coefficients  [853 wrong bits]
+  8.    2411 bits  random generators: xorshift32 seed 4257794083  [1040 wrong bits]

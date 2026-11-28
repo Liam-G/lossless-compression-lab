@@ -1,0 +1,13 @@
+BWT LAB on ../textfront/work/enwik8_10m (10000000 bytes). Sizes are exact adaptive-coding costs (what an arithmetic coder writes, +-0.01%).
+BWT: primary index 2260728, inverse BWT gives the input back: YES (byte-exact)  [1.1s]
+what BWT output looks like (middle of the file): rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+runs of identical bytes: original 9419519 (avg length 1.06), after BWT 3928205 (avg length 2.55)
+after BWT + move-to-front: 60.7% of all bytes are 0
+
+RIGHT-CONTEXT HINTS (the decoder can know the letters that FOLLOW each BWT symbol if the archive stores counts):
+  header: letter counts 582 bytes | letter-pair counts (11845 pairs) 18184 bytes | triple counts (92713 triples) 143876 bytes
+  BWT -> bigger mix (hashed order 0-3, two mixers, 3 APMs), no hints      2390774 bytes  1.913 bits/byte  [43.5s]
+    + hint: the next letter (letter counts in the header, included)      2395542 bytes  1.916 bits/byte  [33.5s]
+    + hint: the next 2 letters (pair counts in the header, included)      2399659 bytes  1.920 bits/byte  [47.5s]
+    + hint: the next 3 letters (triple counts in the header, included)      2507176 bytes  2.006 bits/byte  [63.3s]
+(BWT side costs 4 bytes for the primary index, included as +8 bytes header)

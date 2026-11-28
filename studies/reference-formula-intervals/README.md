@@ -1,24 +1,14 @@
 # Reference copies, local formulas and interval selection
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: NumPy release given the previous one, 8.7× larger vs xz -9e.
+>
+> Part of [chapter 4](../../report/4-specialised.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-When a target contains both movable reference spans and generated spans, does their joint selection repay its metadata?
+Experiments 12, 15 and 16 combined: when a file mixes copies of a reference with generated stretches, does choosing between them per interval pay for the bookkeeping?
 
-## Run the experiment
-
-Run from the repository root on Linux with Python and the Zstd CLI.
-
-```sh
-python3 studies/run.py reference-formula-intervals runs/reference-formula-intervals
-```
-
-## Variants and format
-
-Experiment 12 proposes variable-offset reference copies. Experiment 15 proposes local headers, constants, runs and backward copies. The interval selection from experiment 16 is extended with a state indicating whether the external reference digest has already been paid. Every record includes target offset, width, kind, recipe size and recipe. Untouched bytes remain literal. The decoder checks the reference SHA-256 whenever an external copy was selected.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -26,44 +16,33 @@ flowchart LR
     T --> W["Choose intervals and charge the reference if used"]
 ```
 
+A per-interval selector chooses literal, reference copy or formula, and the result is compared with each method alone.
+
+<details><summary>Technical details</summary>
+
+When a target contains both movable reference spans and generated spans, does their joint selection repay its metadata?
+
 **Mechanism and test.** Reference matches and local recipes can overlap. The interval algorithm counts each covered span once and tracks the first external-reference charge. Compare patch-only and delivered totals before concluding that a mixed representation wins.
 
-## Inputs and measurement
+Experiment 12 proposes variable-offset reference copies. Experiment 15 proposes local headers, constants, runs and backward copies. The interval selection from experiment 16 is extended with a state indicating whether the external reference digest has already been paid. Every record includes target offset, width, kind, recipe size and recipe. Untouched bytes remain literal. The decoder checks the reference SHA-256 whenever an external copy was selected.
 
-Inputs include a planted copy/run mixture, a matched-size random control, two actual Statico source revisions and two packaged versions of the same PNG. The new-recipient figure includes the complete raw base only when a selected record requires it.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-The following table records the original small diagnostic. The primary benchmark follows it.
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-The mixed archive needed 66 bytes on the planted update and 1,090 bytes when delivering the base as well. The formulas-only archive required 1,042 bytes and was independently decodable.
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| NumPy release given the previous one | real | 53,800,960 | 72,272,117 (`study19-mixed`) | — | 8,272,288 (xz -9e) | 8.7× larger |
 
-| Input | Profile | Raw bytes | Archive | Archive plus required base | Zstd |
-|---|---|---:|---:|---:|---:|
-| copied-and-generated | copies | 1222 | 259 | 1283 | 1046 |
-| copied-and-generated | formulas | 1222 | 1042 | 1042 | 1046 |
-| copied-and-generated | mixed | 1222 | 66 | 1090 | 1046 |
-| uniform | copies | 1222 | 1235 | 1235 | 1235 |
-| uniform | formulas | 1222 | 1235 | 1235 | 1235 |
-| uniform | mixed | 1222 | 1235 | 1235 | 1235 |
-| src | copies | 967 | 240 | 1016 | 526 |
-| src | formulas | 967 | 829 | 829 | 526 |
-| src | mixed | 967 | 233 | 1009 | 526 |
-| logo | copies | 1678 | 1691 | 1691 | 1691 |
-| logo | formulas | 1678 | 1691 | 1691 | 1691 |
-| logo | mixed | 1678 | 1691 | 1691 | 1691 |
-
-All 12 study archives reconstructed their original bytes. The [trial table](results/reference/trials.csv) includes input hashes, side-stream byte counts and single-run timings. [Study implementation](benchmark.py).
-
-## Large-file benchmark
-
-On `numpy-update` (53,800,960 raw bytes), `study19-mixed` produced 18,553,077 archive bytes. Delivering the required reference as well costs 72,272,117 bytes. Zstandard level 3 used 11,502,762 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#numpy-update) · [All project measurements](../../research/large-scale/results/by-experiment.md#reference-formula-intervals)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `numpy-update`, `study19-mixed` with candidate base `numpy-base` delivers 72,272,117 bytes, 60,769,355 bytes larger than standalone Zstandard 3 (11,502,762 bytes).
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -97,6 +76,37 @@ python3 research/large-scale/primary.py runs/replay-reference-formula-intervals 
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Conditional patches after arithmetic alignment](../../research/arithmetic-references/README.md) · [Adaptive repdigit intervals](../../research/repdigit-intervals/README.md)
+## Small-scale results
+
+Inputs include a planted copy/run mixture, a matched-size random control, two actual Statico source revisions and two packaged versions of the same PNG. The new-recipient figure includes the complete raw base only when a selected record requires it.
+
+The following table records the original small diagnostic. The primary benchmark follows it.
+
+The mixed archive needed 66 bytes on the planted update and 1,090 bytes when delivering the base as well. The formulas-only archive required 1,042 bytes and was independently decodable.
+
+| Input | Profile | Raw bytes | Archive | Archive plus required base | Zstd |
+|---|---|---:|---:|---:|---:|
+| copied-and-generated | copies | 1222 | 259 | 1283 | 1046 |
+| copied-and-generated | formulas | 1222 | 1042 | 1042 | 1046 |
+| copied-and-generated | mixed | 1222 | 66 | 1090 | 1046 |
+| uniform | copies | 1222 | 1235 | 1235 | 1235 |
+| uniform | formulas | 1222 | 1235 | 1235 | 1235 |
+| uniform | mixed | 1222 | 1235 | 1235 | 1235 |
+| src | copies | 967 | 240 | 1016 | 526 |
+| src | formulas | 967 | 829 | 829 | 526 |
+| src | mixed | 967 | 233 | 1009 | 526 |
+| logo | copies | 1678 | 1691 | 1691 | 1691 |
+| logo | formulas | 1678 | 1691 | 1691 | 1691 |
+| logo | mixed | 1678 | 1691 | 1691 | 1691 |
+
+All 12 study archives reconstructed their original bytes. The [trial table](results/reference/trials.csv) includes input hashes, side-stream byte counts and single-run timings. [Study implementation](benchmark.py).
+
+## Run it
+
+Run from the repository root on Linux with Python and the Zstd CLI.
+
+```sh
+python3 studies/run.py reference-formula-intervals runs/reference-formula-intervals
+```

@@ -1,0 +1,10 @@
+COINCIDENCE HUNT  target <repo>/research/coincidence-hunt/controls/ctl_sqrt.bin: 300 characters = 2400 bits; 12 threads
+bars: raw 2400 bits | its own letter statistics (order-0, table not counted) 2195 bits
+
+=== roots+fractions: binary digits of sqrt(n) for n<=4000, cube root of n for n<=1000, 1/q for odd q<=4095; 8192 bits each, every start
+  -> 8.08e+07 candidates (naming one costs 29.3 bits), 1.1s
+     best: 503 bits = binary digits of sqrt(1234) from bit 777, 72 wrong bits
+     longest exact run from the start: 28 bits (binary digits of sqrt(3902) from bit 5553)
+
+RANKING (best candidate of each family; raw = 2400 bits, letter statistics = 2195 bits), total 1s
+  1.     503 bits  BEATS RAW  roots+fractions: binary digits of sqrt(1234) from bit 777  [72 wrong bits]

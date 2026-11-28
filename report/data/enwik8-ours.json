@@ -1,0 +1,17 @@
+{
+  "note": "Our own systems on the full enwik8 (100,000,000 bytes, SHA-256 2b49720e...). kind = archive (a real file that decoded byte-exact) or cost (exact adaptive-coding cost, sum of -log2 p; real archives land within about 0.02% of it). status = carried over (verified on the date shown, log kept in research/context-mixer/history/logs) or re-verified (rerun for this report).",
+  "rows": [
+    {"system": "Statico M1 (grammar, our product)", "family": "grammar", "bytes": 26346968, "kind": "archive", "status": "re-verified in the benchmark rerun", "date": "2026-11-21"},
+    {"system": "Statico + GLZA-style rule choice", "family": "grammar", "bytes": 23774125, "kind": "archive", "status": "carried over", "date": "2026-11-23"},
+    {"system": "CM v1 (first context mixer)", "family": "cm", "bytes": 20783455, "kind": "cost", "status": "carried over", "date": "2026-11-24"},
+    {"system": "CM2 v3", "family": "cm", "bytes": 19158128, "kind": "cost", "status": "carried over", "date": "2026-11-24"},
+    {"system": "CM2 v5", "family": "cm", "bytes": 18990927, "kind": "cost", "status": "carried over", "date": "2026-11-24"},
+    {"system": "CM2 v8", "family": "cm", "bytes": 18632203, "kind": "cost", "status": "carried over", "date": "2026-11-24"},
+    {"system": "CM2 v9", "family": "cm", "bytes": 18524492, "kind": "cost", "status": "carried over", "date": "2026-11-24"},
+    {"system": "CM2 v10", "family": "cm", "bytes": 18454423, "kind": "archive", "status": "carried over", "date": "2026-11-24"},
+    {"system": "CM3 v5 (+ LSTM 192)", "family": "cm", "bytes": 18301523, "kind": "archive", "status": "carried over", "date": "2026-11-25"},
+    {"system": "CM3 v7 (+ LSTM learning-rate decay)", "family": "cm", "bytes": 18060601, "kind": "archive", "status": "carried over", "date": "2026-11-25"},
+    {"system": "CM3 v8 (+ 32-candidate match)", "family": "cm", "bytes": 17896981, "kind": "archive", "status": "carried over", "date": "2026-11-25"},
+    {"system": "CM3 v9 (+ 2nd mixing layer, 2nd match, stem)", "family": "cm", "bytes": 17811463, "kind": "archive", "status": "carried over; full re-run queued", "date": "2026-11-25"}
+  ]
+}

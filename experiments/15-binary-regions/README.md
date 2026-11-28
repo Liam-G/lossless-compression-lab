@@ -1,40 +1,14 @@
 # Experiment 15 · Regenerating binary regions
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Silesia mozilla (Firefox binaries), 2.6× larger vs xz -9e.
+>
+> Part of [chapter 4](../../report/4-specialised.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-How much of a binary can a versioned generator catalog recreate after every interval and recipe is counted?
+Executables contain predictable parts (headers, tables, padding). Can a catalogue of generators recreate those parts of a real binary cheaply enough to pay for listing where they are?
 
-The earlier archive9 study regenerated 187 bytes in 18 intervals and saved 107 archive bytes with an external decoder. Part of its constants catalog had been selected after inspecting archive9.
-
-### Source files and compatibility
-
-The catalog ports the square-root and FNV constants. The ELF prototype motivates reconstruction by parameters. The new header profile also handles regular multi-segment executable headers without modeling program headers. Paths below are relative to the original workspace.
-
-- `lab/hutter/catalogo-formule/RISULTATI.md`
-- `lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/elf64.py`
-- `lab/hutter/catalogo-formule/formule.py`
-
-## Run the experiment
-
-Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
-
-```sh
-python3 ../../lab.py 15 test
-python3 ../../lab.py 15 encode ../../fixtures/scanner.elf sample.lcx
-python3 ../../lab.py 15 decode sample.lcx sample.restored
-cmp ../../fixtures/scanner.elf sample.restored
-python3 ../../lab.py 15 benchmark ../../runs/recheck-15
-```
-
-## Variants and format
-
-Cross ELF header generation with local formula scanning. A little-endian ELF64 header is reconstructed from a fixed identification prefix and varint fields. Use the original integer square-root/FNV constant catalog, repeated-byte runs and backward copies for the remaining regions. Weighted interval scheduling maximizes saved bytes with absolute positions, widths, tags, recipe lengths and parameters included. Uncovered bytes stay literal. The decoder regenerates each interval in output order.
-
-The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -42,39 +16,37 @@ flowchart LR
     T --> W["Schedule profitable intervals and copy literals"]
 ```
 
+The encoder rebuilds ELF headers from the file's own structure and scans for local formula matches; everything else is stored literally.
+
+<details><summary>Technical details</summary>
+
+How much of a binary can a versioned generator catalog recreate after every interval and recipe is counted?
+
+The earlier archive9 study regenerated 187 bytes in 18 intervals and saved 107 archive bytes with an external decoder. Part of its constants catalog had been selected after inspecting archive9.
+
 **Mechanism and test.** A reproducible header saves bytes only at matching locations. Runs and backward copies can help other regions independently. The single-component profiles test whether ELF semantics add anything beyond local repetition.
 
-## Inputs and measurement
+Cross ELF header generation with local formula scanning. A little-endian ELF64 header is reconstructed from a fixed identification prefix and varint fields. Use the original integer square-root/FNV constant catalog, repeated-byte runs and backward copies for the remaining regions. Weighted interval scheduling maximizes saved bytes with absolute positions, widths, tags, recipe lengths and parameters included. Uncovered bytes stay literal. The decoder regenerates each interval in output order.
 
-The planted file contains a generated ELF header, indexed constants, runs and random gaps. Two complete held-out lab executables are the rusage wrapper with a GCC build comment and the repdigit scanner containing a Clang build comment. Treat both as byte strings. Family statistics give regenerated and record bytes. Subtract the latter for net savings.
+The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
 
-The ELF rule applies only to the frozen identification prefix. The comparison targets two program builds. The collection CSV measures an executable Python package containing both archives and a single decoder and verifies both extracted files.
+</details>
 
-The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+## Results on 20 MiB inputs
 
-## Results
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-Across the two real executables, the combined profile used 18,900 archive bytes. The runnable package with one shared decoder used 26,330 bytes and decoded both files.
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Silesia mozilla (Firefox binaries) | real | 51,220,480 | 35,313,184 (`pilot15-combined`) | — | 13,376,240 (xz -9e) | 2.6× larger |
 
-| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
-|---|---:|---|---:|---:|
-| generated-header-and-regions | 640 | combined | 461 | 488 |
-| uniform | 640 | literal | 652 | 653 |
-| rusage.elf | 16,584 | combined | 5,984 | 3,294 |
-| scanner.elf | 23,128 | combined | 12,916 | 7,647 |
-
-All 16 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json). [Collection delivery costs](results/reference/collection.csv).
-
-
-## Large-file benchmark
-
-On `mozilla` (51,220,480 raw bytes), `pilot15-combined` produced 35,313,184 archive bytes. Zstandard level 3 used 18,281,292 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#mozilla) · [All project measurements](../../research/large-scale/results/by-experiment.md#15-binary-regions)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `mozilla`, `pilot15-combined` delivers 35,313,184 bytes, 17,031,892 bytes larger than standalone Zstandard 3 (18,281,292 bytes).
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -109,6 +81,47 @@ python3 research/large-scale/primary.py runs/replay-15-binary-regions --project 
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Experiment 01 supplies arithmetic regions, experiment 12 supplies reference copies and experiment 16 compares competing intervals.
+## Small-scale results
+
+The planted file contains a generated ELF header, indexed constants, runs and random gaps. Two complete held-out lab executables are the rusage wrapper with a GCC build comment and the repdigit scanner containing a Clang build comment. Treat both as byte strings. Family statistics give regenerated and record bytes. Subtract the latter for net savings.
+
+The ELF rule applies only to the frozen identification prefix. The comparison targets two program builds. The collection CSV measures an executable Python package containing both archives and a single decoder and verifies both extracted files.
+
+The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+
+Across the two real executables, the combined profile used 18,900 archive bytes. The runnable package with one shared decoder used 26,330 bytes and decoded both files.
+
+| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
+|---|---:|---|---:|---:|
+| generated-header-and-regions | 640 | combined | 461 | 488 |
+| uniform | 640 | literal | 652 | 653 |
+| rusage.elf | 16,584 | combined | 5,984 | 3,294 |
+| scanner.elf | 23,128 | combined | 12,916 | 7,647 |
+
+All 16 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json). [Collection delivery costs](results/reference/collection.csv).
+
+## Run it
+
+Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
+
+```sh
+python3 ../../lab.py 15 test
+python3 ../../lab.py 15 encode ../../fixtures/scanner.elf sample.lcx
+python3 ../../lab.py 15 decode sample.lcx sample.restored
+cmp ../../fixtures/scanner.elf sample.restored
+python3 ../../lab.py 15 benchmark ../../runs/recheck-15
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The catalog ports the square-root and FNV constants. The ELF prototype motivates reconstruction by parameters. The new header profile also handles regular multi-segment executable headers without modeling program headers. Paths below are relative to the original workspace.
+
+- `lab/hutter/catalogo-formule/RISULTATI.md`
+- `lab/hutter/divisors/neif-2-condiviso/ricorsivi/esperimenti-per-struttura/elf64.py`
+- `lab/hutter/catalogo-formule/formule.py`
+
+</details>

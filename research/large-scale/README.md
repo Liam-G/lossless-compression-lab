@@ -1,30 +1,19 @@
 # Large-file compression benchmarks
 
-Every published row contains **at least 20 MiB (20,971,520 raw bytes)**. The runner encodes the whole named input, launches a separate decoder and compares every reconstructed byte with the source using `cmp`. It records the complete archive size and SHA-256 only after that comparison succeeds. The [full results by dataset](results/by-dataset.md) give archive sizes, reference charges, rates and timings. The [index by experiment](results/by-experiment.md) groups the same observations by implementation. The [JSONL receipts](results/archives.jsonl) also identify the archive, source, configuration, and recorded selections.
+This is the benchmark runner behind the [report](../../report/README.md). Every published row contains **at least 20 MiB (20,971,520 raw bytes)**. The runner encodes the whole named input, launches a separate decoder and compares every reconstructed byte with the source using `cmp`. It records the complete archive size and SHA-256 only after that comparison succeeds. The [full results by dataset](results/by-dataset.md) give archive sizes, reference charges, rates and timings. The [index by experiment](results/by-experiment.md) groups the same observations by implementation. The [JSONL receipts](results/archives.jsonl) also identify the archive, source, configuration, and recorded selections.
 
 ## Preprocessing and byte entropy
 
 The [paired preprocessing measurements](results/preprocessing.md) report before/after entropy on the reversible stream, followed by identical gzip, Zstandard and XZ runs on both representations. The whole-archive tables below answer the separate question of final file size for each codec.
 
-## What worked, and on which data
+## Results
 
-| Question | Complete raw input | Measured result |
-|---|---:|---|
-| Can the original whiteboard equations compress their **recorded witnesses**? | 22,630,320 bytes from the original N=26 run | Column coding gave 2,306,827 bytes, arithmetic regeneration alone 1,600,689, and the combination **1,082,142**. [Census and records](../whiteboard-census/README.md) |
-| Can the 2019 formula be useful **inside a factor tree**? | 25,165,824 generated product bytes | Factor-only and formula-only each gave 14,336,766 bytes. Nested inline formulas gave 13,286,101. Sharing recipes gave **13,097,327**, below XZ extreme at 13,309,788. The shared recipes gave no additional saving on the real numerical stream. [Experiment](../shared-factor-forest/README.md) |
-| Can a tree expose empty regions in document bitmaps? | Four complete 23–31 MiB manual rasters and two 27 MiB stamp controls | Scanline XOR plus a quadrant tree saved 32.66–38.90% with Zstandard across the manuals. [Real data, matched controls and independent inverse](../checkerboard-orbits/bitmap-trees.md) |
-| Does a **3D automaton expose matrix rank**? | 25,165,824 generated volume bytes | Rank alone gave 24,837,235, orbit alone 20,763,341, and their combination **9,632,435**. On 25,696,748 real numerical bytes, combining the two saved 153 bytes over rank alone. [Experiment](../tensor-orbits/README.md) |
-| What if the matrix is noisy and has **four axes**? | 25,165,824 generated space-time bytes | Orbit alone gave 19,601,212 bytes. Reversing the orbit and storing two binary factors plus the exact error gave **9,414,787**. The factor stage added no gain on Samba or the real numerical stream. [Experiment](../four-dimensional-factors/README.md) |
-| Can a reversible **byte-valued orbit hide a Kronecker product**? | 25,165,824 generated panel bytes | Orbit alone gave 24,560,134 bytes. Two 4 × 4 factors plus corrections after orbit reversal gave **4,471,016**. All four fixed-pivot profiles tied on the real numerical corpus. [Experiment](../modular-kronecker/README.md) |
-| Can the cellular rule and its residual matrix be **learned together**? | 29,491,200 generated video bytes | Fitting them sequentially gave 25,054,265 bytes. Joint fitting gave **11,051,733**. A second random seed reproduced the gain. Shifting error planes independently reduced it to one byte. On three real clips the two configurations tied. [Experiment](../learned-cellular-rules/README.md) |
-| Can the encoder amortize **1,000-step searches**? | 25,165,824 generated orbit bytes | Storing a time per matrix gave 13,612,025 bytes. Sharing a time across a page gave **12,415,836**. Natural numerical bytes and uniform noise kept the direct representation. [Experiment](../checkerboard-orbits/README.md) |
-| Does a grid reveal structure in **ordinary numerical data**? | 25,696,748 real Silesia bytes | Prediction plus separated integer planes and XZ gave **10,421,725** bytes. XZ extreme on the original stream gave 11,662,476. The matched blocked XZ control gave 11,846,741. [Experiment](../lattice-prediction/README.md) |
-| Can a decoder infer **distance geometry**? | 21,155,400 derived geographic bytes | Four landmark columns and exact residuals gave **3,850,014** bytes on quantized chord distances, against 16,711,344 for XZ extreme. Mapping great-circle angles to chord bins before prediction gave **4,242,861** on the angular table. A matched random triangle selected literal storage. [Experiment](../distance-geometry/README.md) |
-| Does a generic formula shorten **canonical Q**? | 96,994,187 original cofactor bytes | Sparse-prefix plus modular-square coding saved **136 bytes**. A sparse region search including the historically identified global multiplier 12 saved **3,772 bytes**. The new informed package saved **1,684 bytes including its decoder**. The earlier file-specific V15 package saved 73,220 bytes including its decoders. [Package comparison](../portable-arithmetic/README.md) [Integer formulas](../integer-formulas/README.md) · [Scale and split](../carry-trees/README.md) · [Portable replay](../evidence/portable-q-v15.json) |
-| Does the old **fax** result transfer to other documents? | 24,642,792 and 24,283,584 raw rendered bytes | Learned glyph placements with exact residuals gave **189,603** and **160,297** bytes. Wide-strip DjVu gave 191,132 and 175,164. On NASM the same DjVu configuration won by 5,613 bytes. On Valgrind the glyph archive used 394,104 bytes versus 828,622. [Glyph experiment](../glyph-residuals/README.md) [Document rows](results/by-dataset.md#manual-graphs) |
-| Does a **reference** remove the whole payload? | 96,994,187 cofactor bytes | The exact matching numerator permits a 46-byte authenticated arithmetic descriptor. Delivering its 96,994,188-byte reference as well costs **96,994,234**. Another FX2 release failed to give that relation. [Experiment](../arithmetic-references/README.md) |
-
-For each comparison, the size includes selectors, headers, lengths, literal escapes, seeds, parameters, dictionaries and residuals stored by that codec. The standard rows assume the specified decoder and libraries are installed. The reference total charges uncompressed delivery of any additional data required at the receiver. Encoding may inspect an optional reference and still choose a stream that decodes without it. CM3 needs the profile in the receipt and compatible floating-point behavior at both ends.
+The verdicts (each method against the best standard tool on the same bytes) are in the
+[report](../../report/README.md) and its [scoreboard](../../report/build_scoreboard.py). This folder holds the raw
+material: [every receipt](results/archives.jsonl), [tables by input](results/by-dataset.md),
+[tables by project](results/by-experiment.md), [paired preprocessing measurements](results/preprocessing.md),
+the [standard-tool panel](baseline_panel.py) and the [rerun script](rerun_all.py) used for this report
+([rerun outcome](../../report/data/rerun-summary.md)).
 
 ## Inputs
 

@@ -1,0 +1,3 @@
+no LSTM:                   5719469 bytes  1.5252 bits/byte  [167s]  cm3 BITS=21 (2.6 GB tables) LSTM=0 sha256 e0
+LSTM fixed lr:             5680719 bytes  1.5149 bits/byte  [2080s]  cm3 BITS=21 (2.6 GB tables) LSTM=192 sha256
+LSTM decaying lr:          5631656 bytes  1.5018 bits/byte  [2286s]  cm3 BITS=21 (2.6 GB tables) LSTM=192 sha256

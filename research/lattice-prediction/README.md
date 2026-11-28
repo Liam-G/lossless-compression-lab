@@ -1,33 +1,14 @@
 # Local integer grids and bit-plane residuals
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: wins on real data.** Best: NOAA weather records 1990, −73.0% vs zstd -3. Planted control: Distances along a random planar walk, −51.1% vs xz -9e.
+>
+> Part of [chapter 3](../../report/3-reshaping.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Can a file disclose its sample width and lag without an image or scientific-format parser? Do those predictors help once a general entropy coder sees the separated bit planes?
+Many files are secretly tables: fixed-width records or grids of numbers. Can a decoder discover the row width and predict each value from its neighbours, and does that help a standard compressor?
 
-A second experiment studies variable-width records. On NOAA weather observations, neighboring values in the same field share enough structure to cut Zstandard size by over 40% in two separate years. [Ragged rows, CSV fields and prefix coding](ragged-rows.md)
-
-### Source files and compatibility
-
-The historical `lab/shape/nested.py` measured conditional entropy from rows, byte lanes and planes of the original data. This new encoder turns the same idea into an actual inverse and compares the cost of its complete records.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/lattice-prediction/codec.py encode runs/large/raw/numerical runs/grid.ltp --profile joint-xz
-python3 research/lattice-prediction/codec.py decode runs/grid.ltp runs/grid.restored
-cmp runs/large/raw/numerical runs/grid.restored
-```
-
-## Variants and format
-
-Each 1 MiB block tries 1-, 2- and 4-byte unsigned little-endian samples. Dispersed points shortlist lags; modular first differences, XOR, second differences, or a mixed two-axis derivative predict the current value. ZigZag maps signed differences back to fixed-width integers. Whole bytes, byte lanes and bit planes share the same backend. LTP1 uses Zstandard. LTX1 reprices the three best fast candidates and the unmodified block with XZ preset 6. The original length, per-block width, lag, predictor, layout, payload and tail are all recoverable.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -35,28 +16,49 @@ flowchart LR
     T --> W["Store reversible layout, predictor and residuals"]
 ```
 
+A scan finds widths and strides where values repeat, numbers are predicted from the row above or the previous sample, bit planes are separated, and variable-length records are split into one stream per field before a standard back end.
+
+<details><summary>Technical details</summary>
+
+Can a file disclose its sample width and lag without an image or scientific-format parser? Do those predictors help once a general entropy coder sees the separated bit planes?
+
+A second experiment studies variable-width records. On NOAA weather observations, neighboring values in the same field share enough structure to cut Zstandard size by over 40% in two separate years. [Ragged rows, CSV fields and prefix coding](ragged-rows.md)
+
 **Mechanism and test.** Numeric differences can concentrate small values. Field routing can expose longer repeated strings even with nearly unchanged H0. Shuffled rows, disjoint NOAA years and non-tabular text test different assumptions about adjacency and field identity.
 
-## Inputs and measurement
+Each 1 MiB block tries 1-, 2- and 4-byte unsigned little-endian samples. Dispersed points shortlist lags; modular first differences, XOR, second differences, or a mixed two-axis derivative predict the current value. ZigZag maps signed differences back to fixed-width integers. Whole bytes, byte lanes and bit planes share the same backend. LTP1 uses Zstandard. LTX1 reprices the three best fast candidates and the unmodified block with XZ preset 6. The original length, per-block width, lag, predictor, layout, payload and tail are all recoverable.
 
-The numerical file concatenates complete Silesia mr, x-ray and sao in that order. Other files include textual Silesia members, binary software, disjoint Wikipedia text, matched noise and derived distance matrices. The 1 MiB block boundaries cross the two numerical member boundaries.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-On 25,696,748 numerical bytes, layout alone gave 13,018,122, prediction alone 13,025,639 and their joint Zstd-3 representation 11,654,765. Repricing with Zstd-19 gave 11,006,699. The matched blocked XZ control was 11,846,741 and the joint XZ archive 10,421,725. Whole-file XZ extreme gave 11,662,476. The gain disappeared on the held-out Wikipedia text. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| UCI forest-cover table | real | 25,165,824 | 2,499,177 (`lattice-rows-field-positions`) | 1,686,701 (`lattice-rows-field-positions → brotli -11`) | 2,420,012 (xz -9e) | **−30.3%** |
+| Mesa release given the previous one | real | 67,133,440 | 18,718,222 (`lattice-joint19`) | — | 16,198,184 (xz -9e) | +15.6% |
+| Silesia mozilla (Firefox binaries) | real | 51,220,480 | 14,328,741 (`lattice-joint-xz`) | — | 13,376,240 (xz -9e) | +7.1% |
+| Silesia nci (chemical database) | real | 33,553,445 | 2,493,007 (`lattice-rows-route-select`) | 1,770,432 (`lattice-rows-prefix → xz-6`) | 1,449,272 (xz -9e) | +22.2% |
+| NOAA weather records 1990 | real | 25,165,824 | 1,851,287 (`lattice-rows-field-prefix`) | 957,348 (`lattice-rows-fields → xz-6`) | 3,541,940 (zstd -3) | **−73.0%** |
+| NOAA weather records 2020 | real | 25,165,824 | 2,002,982 (`lattice-rows-field-prefix`) | 1,065,376 (`lattice-rows-fields → xz-6`) | 3,552,109 (zstd -3) | **−70.0%** |
+| Silesia numerical files (mr + x-ray + sao) | real | 25,696,748 | 10,421,725 (`lattice-joint-xz`) | 10,449,384 (`lattice-joint → xz-6`) | 11,662,476 (xz -9e) | **−10.6%** |
+| NumPy release given the previous one | real | 53,800,960 | 10,519,150 (`lattice-joint19`) | — | 8,272,288 (xz -9e) | +27.2% |
+| Silesia samba (source tarball) | real | 21,606,400 | 4,239,761 (`lattice-direct-xz`) | — | 3,739,524 (xz -9e) | +13.4% |
+| Silesia webster (dictionary) | real | 41,458,703 | 12,097,762 (`lattice-rows-select`) | — | 8,368,672 (xz -9e) | +44.6% |
+| Wikipedia text, another 24 MiB | real | 25,165,824 | 7,602,472 (`lattice-direct-xz`) | — | 6,637,336 (xz -9e) | +14.5% |
+| Distances between 4,600 real places | derived from real | 21,155,400 | 13,100,968 (`lattice-joint19`) | — | 16,711,344 (xz -9e) | **−21.6%** |
+| Distances along a random planar walk | planted | 21,155,400 | 8,773,798 (`lattice-joint19`) | — | 17,954,172 (xz -9e) | **−51.1%** |
+| nci with characters shuffled inside rows | control | 33,553,445 | 11,837,029 (`lattice-rows-columns`) | 9,958,468 (`lattice-rows-columns → xz-6`) | 11,879,367 (bzip2 -9) | **−16.2%** |
+| Uniform random bytes | control | 25,165,824 | 25,166,052 (`lattice-direct`) | — | 25,166,414 (zstd -19) | −0.0014% |
 
-## Large-file benchmark
-
-On `numerical` (25,696,748 raw bytes), `lattice-joint-xz` produced 10,421,725 archive bytes. Zstandard level 3 used 15,163,683 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#numerical) · [All project measurements](../large-scale/results/by-experiment.md#lattice-prediction)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `numerical`, `lattice-joint-xz` delivers 10,421,725 bytes, 4,741,958 bytes smaller than standalone Zstandard 3 (15,163,683 bytes).
-
-Holding `lattice-joint-xz` fixed across the 5 measured input/reference settings with a standalone Zstandard 3 control gives **5 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -662,6 +664,29 @@ python3 research/large-scale/entropy_bench.py lattice-joint runs/large/raw/numer
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Compare with [integer wavelets](../reversible-wavelets/README.md), [shape contexts](../shape-context/README.md) and the [distance geometry](../distance-geometry/README.md) model for triangular layouts.
+## Small-scale results
+
+The numerical file concatenates complete Silesia mr, x-ray and sao in that order. Other files include textual Silesia members, binary software, disjoint Wikipedia text, matched noise and derived distance matrices. The 1 MiB block boundaries cross the two numerical member boundaries.
+
+On 25,696,748 numerical bytes, layout alone gave 13,018,122, prediction alone 13,025,639 and their joint Zstd-3 representation 11,654,765. Repricing with Zstd-19 gave 11,006,699. The matched blocked XZ control was 11,846,741 and the joint XZ archive 10,421,725. Whole-file XZ extreme gave 11,662,476. The gain disappeared on the held-out Wikipedia text. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
+
+```sh
+mkdir -p runs
+python3 research/lattice-prediction/codec.py encode runs/large/raw/numerical runs/grid.ltp --profile joint-xz
+python3 research/lattice-prediction/codec.py decode runs/grid.ltp runs/grid.restored
+cmp runs/large/raw/numerical runs/grid.restored
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The historical `lab/shape/nested.py` measured conditional entropy from rows, byte lanes and planes of the original data. This new encoder turns the same idea into an actual inverse and compares the cost of its complete records.
+
+</details>

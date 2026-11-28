@@ -1,41 +1,14 @@
 # Experiment 03 · Powers, generator sums and exact residuals
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Wikipedia text, another 24 MiB, 4.0× larger vs xz -9e.
+>
+> Part of [chapter 1](../../report/1-formulas.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Which predictor family and correction operator produce the smallest exact archive for a fixed seed budget?
+Can a block be written as the output of a simple generator (a power, or a sum of seeded pseudo-random numbers) plus an exact correction?
 
-The QGS1 prototype encoded its own 4,096-byte generated control in 21 bytes using three 8-bit seeds. A separate integer-formula search tested powers, products and low-bit filters.
-
-### Source files and compatibility
-
-The QGS1 inverse supplies the domain-separated SHAKE idea. The integer search motivates powers, products and modular rejection. Paths below are relative to the original workspace.
-
-- `lab/hutter/divisors/q-somma-generatori/misure.json`
-- `lab/hutter/divisors/q-formula-intera/misure.json`
-- `lab/hutter/divisors/q-somma-generatori/decoder.py`
-- `lab/hutter/divisors/q-formula-intera/semi_brevi.py`
-
-## Run the experiment
-
-Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
-
-```sh
-python3 ../../lab.py 03 test
-python3 ../../lab.py 03 encode ../../fixtures/medical.bin sample.lcx
-python3 ../../lab.py 03 decode sample.lcx sample.restored
-cmp ../../fixtures/medical.bin sample.restored
-python3 ../../lab.py 03 benchmark ../../runs/recheck-03
-```
-
-## Variants and format
-
-Use 16-byte big-endian blocks. Generate a seventh power or the sum or product of two domain-separated SHAKE256 outputs derived from one seed. Reduce the prediction modulo the block width. Each tag carries the seed or the literal escape. Additive corrections use ZigZag LEB128. XOR corrections store a population count and the bit positions. A low-byte population bound prunes XOR candidates that already cost too much. Test seed budgets of 8, 32 and 64. The inverse requires only the profile, seed and residual.
-
-The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -43,56 +16,37 @@ flowchart LR
     T --> W["Store seed and additive or XOR correction"]
 ```
 
+The encoder tries a fixed budget of seeds or exponents, keeps the candidate closest to the block, and stores the choice plus the additive or XOR correction.
+
+<details><summary>Technical details</summary>
+
+Which predictor family and correction operator produce the smallest exact archive for a fixed seed budget?
+
+The QGS1 prototype encoded its own 4,096-byte generated control in 21 bytes using three 8-bit seeds. A separate integer-formula search tested powers, products and low-bit filters.
+
 **Mechanism and test.** The kind of error matters. A small integer offset is cheap as a signed difference, while a handful of bit flips can be cheaper as positions. The planted controls vary these independently.
 
-## Inputs and measurement
+Use 16-byte big-endian blocks. Generate a seventh power or the sum or product of two domain-separated SHAKE256 outputs derived from one seed. Reduce the prediction modulo the block width. Each tag carries the seed or the literal escape. Additive corrections use ZigZag LEB128. XOR corrections store a population count and the bit positions. A low-byte population bound prunes XOR candidates that already cost too much. Test seed budgets of 8, 32 and 64. The inverse requires only the profile, seed and residual.
 
-For each family, generate 24 words and perturb them with a small additive offset or two flipped bits. The real inputs are a cofactor window and medical-image bytes.
+The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
 
-Each bounded family has one seed. The SHAKE construction differs from the original three-independent-seed QGS1 format. Timings include generating the catalog entries used by the profile.
+</details>
 
-The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+## Results on 20 MiB inputs
 
-## Results
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-For powers with small offsets, increasing the additive search budget from 8 to 32 to 64 seeds reduced the archive from 144 to 101 to 60 bytes.
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Wikipedia text, another 24 MiB | real | 25,165,824 | 26,751,758 (`pilot03-power-add-8`) | — | 6,637,336 (xz -9e) | 4.0× larger |
 
-| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
-|---|---:|---|---:|---:|
-| power-small-offset | 384 | power-add-64 | 60 | 169 |
-| uniform | 384 | power-add-8 | 420 | 397 |
-| power-bit-flips | 384 | power-xor-64 | 108 | 181 |
-| sum-small-offset | 384 | sum-add-64 | 60 | 361 |
-| sum-bit-flips | 384 | sum-xor-64 | 108 | 361 |
-| product-small-offset | 384 | product-add-64 | 60 | 362 |
-| product-bit-flips | 384 | product-xor-64 | 108 | 362 |
-| integer.bin | 512 | power-add-8 | 556 | 525 |
-| medical.bin | 512 | power-xor-64 | 313 | 137 |
-
-All 162 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
-
-### Search budget on additive power controls
-
-| Seeds tested per word | Archive bytes | Encode time (ms) | Generated words |
-|---:|---:|---:|---:|
-| 8 | 144 | 0.208 | 24 |
-| 32 | 101 | 0.671 | 24 |
-| 64 | 60 | 1.398 | 24 |
-
-Point labels give the number of seeds tested per word.
-
-![Measured archive sizes and encoding times at three seed budgets](results/reference/seed-search.png)
-
-
-## Large-file benchmark
-
-On `wiki-transfer` (25,165,824 raw bytes), `pilot03-sum-add-8` produced 26,751,758 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../../research/large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../../research/large-scale/results/by-experiment.md#03-generator-residuals)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `wiki-transfer`, `pilot03-sum-add-8` delivers 26,751,758 bytes, 17,783,302 bytes larger than standalone Zstandard 3 (8,968,456 bytes).
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -127,6 +81,65 @@ python3 research/large-scale/primary.py runs/replay-03-generator-residuals --pro
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Experiment 14 can encode the XOR mask and experiment 16 can charge a generator seed when selecting intervals.
+## Small-scale results
+
+For each family, generate 24 words and perturb them with a small additive offset or two flipped bits. The real inputs are a cofactor window and medical-image bytes.
+
+Each bounded family has one seed. The SHAKE construction differs from the original three-independent-seed QGS1 format. Timings include generating the catalog entries used by the profile.
+
+The [benchmark driver](benchmark.py) freezes the corpus construction. The same seeded uniform control has the first planted input's length. Every profile runs once per file in a fresh worker. [Fixture provenance](../../fixtures/README.md).
+
+For powers with small offsets, increasing the additive search budget from 8 to 32 to 64 seeds reduced the archive from 144 to 101 to 60 bytes.
+
+| Input | Raw bytes | Smallest profile (first on ties) | Archive bytes | Zstd bytes |
+|---|---:|---|---:|---:|
+| power-small-offset | 384 | power-add-64 | 60 | 169 |
+| uniform | 384 | power-add-8 | 420 | 397 |
+| power-bit-flips | 384 | power-xor-64 | 108 | 181 |
+| sum-small-offset | 384 | sum-add-64 | 60 | 361 |
+| sum-bit-flips | 384 | sum-xor-64 | 108 | 361 |
+| product-small-offset | 384 | product-add-64 | 60 | 362 |
+| product-bit-flips | 384 | product-xor-64 | 108 | 362 |
+| integer.bin | 512 | power-add-8 | 556 | 525 |
+| medical.bin | 512 | power-xor-64 | 313 | 137 |
+
+All 162 profile archives decoded byte for byte. The [trial measurements](results/reference/trials.csv) give timings, peak RSS, metadata, bundle bytes and method details. The [full comparison](results/reference/comparison.csv) includes every profile and both baselines. [Environment and source hashes](results/reference/environment.json).
+
+### Search budget on additive power controls
+
+| Seeds tested per word | Archive bytes | Encode time (ms) | Generated words |
+|---:|---:|---:|---:|
+| 8 | 144 | 0.208 | 24 |
+| 32 | 101 | 0.671 | 24 |
+| 64 | 60 | 1.398 | 24 |
+
+Point labels give the number of seeds tested per word.
+
+![Measured archive sizes and encoding times at three seed budgets](results/reference/seed-search.png)
+
+## Run it
+
+Run from this folder on Linux with Python 3.10 or newer and the Zstd CLI. The codec writes new output files. Choose a fresh directory for each benchmark run.
+
+```sh
+python3 ../../lab.py 03 test
+python3 ../../lab.py 03 encode ../../fixtures/medical.bin sample.lcx
+python3 ../../lab.py 03 decode sample.lcx sample.restored
+cmp ../../fixtures/medical.bin sample.restored
+python3 ../../lab.py 03 benchmark ../../runs/recheck-03
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The QGS1 inverse supplies the domain-separated SHAKE idea. The integer search motivates powers, products and modular rejection. Paths below are relative to the original workspace.
+
+- `lab/hutter/divisors/q-somma-generatori/misure.json`
+- `lab/hutter/divisors/q-formula-intera/misure.json`
+- `lab/hutter/divisors/q-somma-generatori/decoder.py`
+- `lab/hutter/divisors/q-formula-intera/semi_brevi.py`
+
+</details>

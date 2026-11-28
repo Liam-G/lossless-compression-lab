@@ -1,31 +1,14 @@
 # Text fields, BWT and move-to-front
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Wikipedia text, another 24 MiB, +24.0% vs xz -9e.
+>
+> Part of [chapter 3](../../report/3-reshaping.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-Can normalization of spelling and XML fields make Burrows–Wheeler sorting more useful on a new slice of text?
+Does normalising spelling and XML fields before the Burrows–Wheeler transform make Wikipedia text easier to compress?
 
-### Source files and compatibility
-
-The text front end is ported from `lab/textfront/textfront.py`. BWT uses the retained libsais source and the move-to-front operation follows `lab/arena/view.cpp`. The new TVW1 format records the selected front end and backend for each 2 MiB block.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/text-views/codec.py encode runs/large/raw/wiki-transfer runs/wiki.tvw --profile joint
-python3 research/text-views/codec.py decode runs/wiki.tvw runs/wiki.restored
-cmp runs/large/raw/wiki-transfer runs/wiki.restored
-```
-
-## Variants and format
-
-The front end can fold capitals, code frequent words, split XML bodies and store header fields by column. A dictionary and unused markers travel with each selected transformed block. The encoder checks the invertibility of a text candidate before offering it. BWT stores a primary index; move-to-front needs no extra dictionary beyond its initial byte alphabet. Direct and transformed outputs all use Zstandard 3, with literal fallback.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -33,28 +16,37 @@ flowchart LR
     T --> W["Transmit chosen view and inverse metadata"]
 ```
 
+Reversible views (capital flags, field normalisation, BWT, move-to-front) are applied and the result is compressed by a standard back end.
+
+<details><summary>Technical details</summary>
+
+Can normalization of spelling and XML fields make Burrows–Wheeler sorting more useful on a new slice of text?
+
 **Mechanism and test.** BWT preserves symbol multiplicities in its payload while changing their order. That changes matches and contexts available to the backend. The same Wikipedia transformation helps gzip and Zstandard while increasing the XZ output.
 
-## Inputs and measurement
+The front end can fold capitals, code frequent words, split XML bodies and store header fields by column. A dictionary and unused markers travel with each selected transformed block. The encoder checks the invertibility of a text candidate before offering it. BWT stores a primary index; move-to-front needs no extra dictionary beyond its initial byte alphabet. Direct and transformed outputs all use Zstandard 3, with literal fallback.
 
-Two nonoverlapping 24 MiB windows start at byte zero and byte 67,108,864 of enwik8. Separate runs use the full Silesia NCI file and the complete Wikipedia corpora for the profiles tabulated there.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-On wiki-dev the best text-only archive used 8,795,530 bytes, BWT plus move-to-front used 8,613,021 and the joint archive 8,214,112. On wiki-transfer those figures were 8,804,216, 8,637,232 and 8,231,816. Whole-file XZ extreme still produced 6,637,336 on transfer. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Wikipedia text, enwik8 (100 MB) | real | 100,000,000 | 32,539,733 (`views-joint`) | — | 24,831,648 (xz -9e) | +31.0% |
+| Silesia nci (chemical database) | real | 33,553,445 | 2,280,295 (`views-joint`) | — | 1,449,272 (xz -9e) | +57.3% |
+| Wikipedia text, 24 MiB | real | 25,165,824 | 8,214,112 (`views-joint`) | — | 6,602,488 (xz -9e) | +24.4% |
+| Wikipedia text, another 24 MiB | real | 25,165,824 | 8,231,816 (`views-joint`) | 8,513,896 (`views-bwt → gzip-6`) | 6,637,336 (xz -9e) | +24.0% |
+| enwik9 | other | 1,000,000,000 | 299,270,871 (`views-mtf`) | — | 235,328,939 (zstd -19) | +27.2% |
 
-## Large-file benchmark
-
-On `wiki-transfer` (25,165,824 raw bytes), `views-joint` produced 8,231,816 archive bytes. Zstandard level 3 used 8,968,456 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#wiki-transfer) · [All project measurements](../large-scale/results/by-experiment.md#text-views)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `wiki-transfer`, `views-joint` delivers 8,231,816 bytes, 736,640 bytes smaller than standalone Zstandard 3 (8,968,456 bytes).
-
-Holding `views-joint` fixed across the 4 measured input/reference settings with a standalone Zstandard 3 control gives **4 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -179,6 +171,29 @@ python3 research/large-scale/entropy_bench.py views-bwt runs/large/raw/wiki-tran
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-Experiment 13 tests generators after BWT. [Statico](../statico/README.md) uses a grammar, and [CM3](../context-mixer/README.md) directly forecasts the original bytes.
+## Small-scale results
+
+Two nonoverlapping 24 MiB windows start at byte zero and byte 67,108,864 of enwik8. Separate runs use the full Silesia NCI file and the complete Wikipedia corpora for the profiles tabulated there.
+
+On wiki-dev the best text-only archive used 8,795,530 bytes, BWT plus move-to-front used 8,613,021 and the joint archive 8,214,112. On wiki-transfer those figures were 8,804,216, 8,637,232 and 8,231,816. Whole-file XZ extreme still produced 6,637,336 on transfer. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
+
+```sh
+mkdir -p runs
+python3 research/text-views/codec.py encode runs/large/raw/wiki-transfer runs/wiki.tvw --profile joint
+python3 research/text-views/codec.py decode runs/wiki.tvw runs/wiki.restored
+cmp runs/large/raw/wiki-transfer runs/wiki.restored
+```
+
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The text front end is ported from `lab/textfront/textfront.py`. BWT uses the retained libsais source and the move-to-front operation follows `lab/arena/view.cpp`. The new TVW1 format records the selected front end and backend for each 2 MiB block.
+
+</details>

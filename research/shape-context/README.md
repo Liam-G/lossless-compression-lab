@@ -1,37 +1,16 @@
 # Raster shape search with an actual range-coded archive
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: loses on real data.** Best real input: Silesia numerical files (mr + x-ray + sao), +38.6% vs xz -9e.
+>
+> On the complete Canterbury fax file `ptt5` (513,216 B): **28,037 B**, better than CCITT Group 4 (32,344) and xz -9e (39,868) but worse than JBIG (25,917) and lossless DjVu (22,490); cmix, published: 21,883.
+>
+> Part of [chapter 4](../../report/4-specialised.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-The old search in `lab/shapes2/shapesearch.py` found a 1,729-bit row and a useful neighborhood on the Canterbury fax. Its 29,745-byte result was an estimated description and sequential code length. SCX1 uses this observation, encodes the bits with the original Statico range coder, and decodes them from the archive alone.
+A fax page is a grid of black and white pixels. Can a model that finds the row width and predicts each pixel from its neighbours beat the fax standards?
 
-## Run the experiment
-
-The [28,037-byte archive](results/ptt5.scx) is included. With the native engine built, the following command restores the complete fax without a corpus checkout.
-
-```sh
-mkdir -p runs
-research/build/shape decode research/shape-context/results/ptt5.scx runs/canterbury-fax.bin
-```
-
-```sh
-mkdir -p runs
-research/build/shape encode "$CORPUS/canterbury/ptt5" runs/fax.scx
-research/build/shape decode runs/fax.scx runs/fax.restored
-cmp "$CORPUS/canterbury/ptt5" runs/fax.restored
-python3 research/shape-context/benchmark.py "$CORPUS" runs/raster
-python3 research/shape-context/fax_baselines.py "$CORPUS/canterbury/ptt5" runs/fax-containers.csv
-python3 research/shape-context/benchmark.py /usr/share/kbd/consolefonts runs/font-check --fonts
-```
-
-## Variants and format
-
-The history baseline sees the previous two bits. The original stencil uses the previous bit, two neighbors above and to the right, and the bit directly above two rows back. The larger stencil uses two preceding bits, five neighbors in the previous row, and one two rows back. Both sides traverse the input MSB-first, initialize each context with one count for each outcome, and update and periodically halve the counts identically.
-
-The encoder tries widths 1,728 and 1,729 and up to three additional widths selected by sample conditional entropy from widths up to 2,048. It writes the smallest actual payload among these models, the history baseline and literal bytes. Its 15-byte header records magic, length, row width and model. A selected width is a predictor parameter and can span a record or part of a row.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -39,38 +18,41 @@ flowchart LR
     T --> W["Store width and arithmetic-coded bitstream"]
 ```
 
+The coder detects the row width, then range-codes each bit with a context made of nearby pixels in the same and previous rows.
+
+<details><summary>Technical details</summary>
+
+The old search in `lab/shapes2/shapesearch.py` found a 1,729-bit row and a useful neighborhood on the Canterbury fax. Its 29,745-byte result was an estimated description and sequential code length. SCX1 uses this observation, encodes the bits with the original Statico range coder, and decodes them from the archive alone.
+
 **Mechanism and test.** The right stride puts nearby pixels into a causal context. A wrong stride feeds the coder unrelated neighbors. Manual rasters and ordinary byte streams test the importance of a meaningful row geometry.
 
-## Inputs and measurement
+The history baseline sees the previous two bits. The original stencil uses the previous bit, two neighbors above and to the right, and the bit directly above two rows back. The larger stencil uses two preceding bits, five neighbors in the previous row, and one two rows back. Both sides traverse the input MSB-first, initialize each context with one count for each outcome, and update and periodically halve the counts identically.
 
-The primary trial measures `shape` on the complete `manual-graphs` input (24,642,792 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+The encoder tries widths 1,728 and 1,729 and up to three additional widths selected by sample conditional entropy from widths up to 2,048. It writes the smallest actual payload among these models, the history baseline and literal bytes. Its 15-byte header records magic, length, row width and model. A selected width is a predictor parameter and can span a record or part of a row.
 
-## Results
+</details>
 
-| Input | History only | Shape search | Zstandard 3 | XZ extreme |
-|---|---:|---:|---:|---:|
-| Canterbury ptt5, 513,216 bytes | 61,788 | **28,037** | 54,421 | 39,860 |
-| Rule 30 at width 257, 65,792 bytes | 16,942 | **156** | 12,565 | 12,020 |
-| Canterbury kennedy.xls, 1,029,744 bytes | 625,246 | 95,150 | 111,828 | **51,868** |
-| enwik8, first MiB | 1,025,100 | 873,471 | 364,070 | **302,792** |
+## Results on 20 MiB inputs
 
-On the fax the eight-tap model chose width 1,729. Its complete archive is 11,823 bytes smaller than XZ on this file. The fax informed the design. On the Rule 30 control the width selector recovered 257. The random control selected literal bytes. [Archive rows and hashes](results/trials.csv)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
-For a fax-specific comparison, Pillow encoded the same bits as a 1,728 × 2,376 monochrome image. A CCITT Group 4 TIFF with a single white-is-zero strip used 32,344 bytes, a default Group 4 TIFF used 33,316, and a 1-bit PNG used 53,277. All decoded to the original packed bytes. SCX1 saved 4,307 bytes over the smaller TIFF. Its selected 1,729-bit predictor stride differs from the actual image width by one bit. Pillow with libtiff support is optional and used only by this baseline script. [Image-container results](results/fax-containers.csv)
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Scanned manual: Graphviz guides | real | 24,642,792 | 901,604 (`shape`) | — | 191,132 (DjVu) | 4.7× larger |
+| Scanned manual: Graphviz library | real | 24,283,584 | 1,283,911 (`shape`) | — | 175,164 (DjVu) | 7.3× larger |
+| Scanned manual: NASM | real | 31,809,024 | 1,331,683 (`shape`) | — | 189,610 (DjVu) | 7.0× larger |
+| Silesia nci (chemical database) | real | 33,553,445 | 8,743,426 (`shape`) | — | 1,449,272 (xz -9e) | 6.0× larger |
+| Silesia numerical files (mr + x-ray + sao) | real | 25,696,748 | 16,165,523 (`shape`) | — | 11,662,476 (xz -9e) | +38.6% |
+| Silesia samba (source tarball) | real | 21,606,400 | 15,955,462 (`shape`) | — | 3,739,524 (xz -9e) | 4.3× larger |
+| Wikipedia text, another 24 MiB | real | 25,165,824 | 20,974,546 (`shape`) | — | 6,637,336 (xz -9e) | 3.2× larger |
 
-After fixing the codec, a separate check took every matching gzip-compressed PSF font in the local Linux console-font directory, decompressed each in full and eliminated byte-identical duplicates by SHA-256. The 134 distinct files include headers, glyphs and Unicode tables. Each file was encoded and decoded separately. Combined input was 748,915 bytes. Summed archive sizes were 362,124 with SCX1, 324,801 with Zstandard and 267,744 with XZ. SCX1 beat Zstandard on five fonts and XZ on zero. The fax result does not generalize across this collection. [Font-by-font results](results/fonts/trials.csv)
-
-## Large-file benchmark
-
-On `manual-graphs` (24,642,792 raw bytes), `shape` produced 901,604 archive bytes. Zstandard level 3 used 1,325,134 bytes on the same input. [Input and timing](../large-scale/results/by-dataset.md#manual-graphs) · [All project measurements](../large-scale/results/by-experiment.md#shape-context)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-On the primary input `manual-graphs`, `shape` delivers 901,604 bytes, 423,530 bytes smaller than standalone Zstandard 3 (1,325,134 bytes).
-
-Holding `shape` fixed across the 6 measured input/reference settings with a standalone Zstandard 3 control gives **2 smaller, 0 equal and 4 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -176,6 +158,40 @@ python3 research/large-scale/primary.py runs/replay-shape-context --project shap
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-[Repeated glyphs and an exact bitmap residual](../glyph-residuals/README.md) · [Integer lifting and color differences](../reversible-wavelets/README.md)
+## Small-scale results
+
+The primary trial measures `shape` on the complete `manual-graphs` input (24,642,792 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
+
+| Input | History only | Shape search | Zstandard 3 | XZ extreme |
+|---|---:|---:|---:|---:|
+| Canterbury ptt5, 513,216 bytes | 61,788 | **28,037** | 54,421 | 39,860 |
+| Rule 30 at width 257, 65,792 bytes | 16,942 | **156** | 12,565 | 12,020 |
+| Canterbury kennedy.xls, 1,029,744 bytes | 625,246 | 95,150 | 111,828 | **51,868** |
+| enwik8, first MiB | 1,025,100 | 873,471 | 364,070 | **302,792** |
+
+On the fax the eight-tap model chose width 1,729. Its complete archive is 11,823 bytes smaller than XZ on this file. The fax informed the design. On the Rule 30 control the width selector recovered 257. The random control selected literal bytes. [Archive rows and hashes](results/trials.csv)
+
+For a fax-specific comparison, Pillow encoded the same bits as a 1,728 × 2,376 monochrome image. A CCITT Group 4 TIFF with a single white-is-zero strip used 32,344 bytes, a default Group 4 TIFF used 33,316, and a 1-bit PNG used 53,277. All decoded to the original packed bytes. SCX1 saved 4,307 bytes over the smaller TIFF. Its selected 1,729-bit predictor stride differs from the actual image width by one bit. Pillow with libtiff support is optional and used only by this baseline script. [Image-container results](results/fax-containers.csv)
+
+After fixing the codec, a separate check took every matching gzip-compressed PSF font in the local Linux console-font directory, decompressed each in full and eliminated byte-identical duplicates by SHA-256. The 134 distinct files include headers, glyphs and Unicode tables. Each file was encoded and decoded separately. Combined input was 748,915 bytes. Summed archive sizes were 362,124 with SCX1, 324,801 with Zstandard and 267,744 with XZ. SCX1 beat Zstandard on five fonts and XZ on zero. The fax result does not generalize across this collection. [Font-by-font results](results/fonts/trials.csv)
+
+## Run it
+
+The [28,037-byte archive](results/ptt5.scx) is included. With the native engine built, the following command restores the complete fax without a corpus checkout.
+
+```sh
+mkdir -p runs
+research/build/shape decode research/shape-context/results/ptt5.scx runs/canterbury-fax.bin
+```
+
+```sh
+mkdir -p runs
+research/build/shape encode "$CORPUS/canterbury/ptt5" runs/fax.scx
+research/build/shape decode runs/fax.scx runs/fax.restored
+cmp "$CORPUS/canterbury/ptt5" runs/fax.restored
+python3 research/shape-context/benchmark.py "$CORPUS" runs/raster
+python3 research/shape-context/fax_baselines.py "$CORPUS/canterbury/ptt5" runs/fax-containers.csv
+python3 research/shape-context/benchmark.py /usr/share/kbd/consolefonts runs/font-check --fonts
+```

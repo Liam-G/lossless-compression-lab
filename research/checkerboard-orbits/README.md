@@ -1,34 +1,14 @@
 # A shared clock for 8 × 8 checkerboard automata
 
-[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
+> **Verdict: detector only.** Best real input: Scanned manual: Valgrind, +23.8% vs DjVu. Planted control: Stamps evolved by an automaton, −92.2% vs PPMd.
+>
+> Part of [chapter 2](../../report/2-dynamics.md) of the [report](../../report/README.md). Terms: [glossary](../../report/glossary.md).
 
-## Question and prior work
+## Question
 
-If many matrices lie on an orbit, is it cheaper to choose the sparsest predecessor of each matrix or to send one time for an entire page?
+If many matrices lie on the same automaton orbit, is it cheaper to send one clock (step count) for a whole page than one per matrix? Separately: does a scanline XOR plus a tree of empty regions help scanned pages?
 
-A second experiment moves the two-phase update onto full-width document strips and splits the resulting matrix into quadrants. It compares a fixed inverse with a scanline predictor and prices a shared dictionary of 8 × 8 leaves. [Bitmap trees and the rotated-rule control](bitmap-trees.md)
-
-### Source files and compatibility
-
-The toroidal checkerboard rule follows `lab/hutter/automa-8x8-passo-byte` and its orbit reports 004–005. The native CBO1 search extends the clock to 1,000 and supports both per-word and page-wide times.
-
-## Run the experiment
-
-Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
-
-```sh
-mkdir -p runs
-python3 research/checkerboard-orbits/control.py runs/shared-clock.bin
-python3 research/checkerboard-orbits/codec.py encode runs/shared-clock.bin runs/clock.cbo --profile joint
-python3 research/checkerboard-orbits/codec.py decode runs/clock.cbo runs/clock.restored
-cmp runs/shared-clock.bin runs/clock.restored
-```
-
-## Variants and format
-
-Every 8-byte word holds one toroidal 8×8 matrix. The per-word search examines times 0 through 1,000 and sends exact 16-bit times in two lanes. The shared variant traverses the same 1,001 times on up to 192 dispersed matrices per 256 KiB page and tests the three most promising times by full compressed size. A page selects literal, direct, shared or individual coding. The inverse applies the recorded forward steps.
-
-### Method diagram
+## How it works
 
 ```mermaid
 flowchart LR
@@ -42,26 +22,44 @@ flowchart LR
     L --> B["Same backend as raw"]
 ```
 
+Matrices are evolved backwards with a shared or individual step count. For documents, each scanline is XORed with the one above and empty quadrants are skipped.
+
+<details><summary>Technical details</summary>
+
+If many matrices lie on an orbit, is it cheaper to choose the sparsest predecessor of each matrix or to send one time for an entire page?
+
+A second experiment moves the two-phase update onto full-width document strips and splits the resulting matrix into quadrants. It compares a fixed inverse with a scanline predictor and prices a shared dictionary of 8 × 8 leaves. [Bitmap trees and the rotated-rule control](bitmap-trees.md)
+
 **Mechanism and test.** The informative perturbations differ by input. Shuffling manual scanlines breaks vertical prediction. Rotating the generating rule changes which inverse reveals repeated stamps. Both controls preserve features that a simple byte histogram misses.
 
-## Inputs and measurement
+Every 8-byte word holds one toroidal 8×8 matrix. The per-word search examines times 0 through 1,000 and sends exact 16-bit times in two lanes. The shared variant traverses the same 1,001 times on up to 192 dispersed matrices per 256 KiB page and tests the three most promising times by full compressed size. A page selects literal, direct, shared or individual coding. The inverse applies the recorded forward steps.
 
-The 24 MiB synthetic stream evolves independent sparse seeds. Each page uses one of 37, 113, 509 or 997 steps. Numerical bytes and independent noise are transfer controls. The source contains fresh seeds throughout.
+</details>
 
-## Results
+## Results on 20 MiB inputs
 
-On the shared-clock control the direct archive used 21,999,209 bytes, per-matrix times 13,612,025 and one page-wide time 12,415,836. All profiles tied on the natural numerical data and on uniform noise. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+Every archive below decoded byte-exact. *Our archive* is this project's own format. *Our transform → standard tool* reshapes the bytes reversibly and hands the result to gzip, zstd or xz; it is listed only where it beats that same tool on the raw bytes. *Best standard tool* is the smallest of gzip, bzip2, xz, Zstandard, Brotli and PPMd (plus domain codecs for images, scans and video) on the raw bytes. *Difference* compares the better of our two columns with it; negative = ours is smaller.
 
+| Input | Kind | Raw bytes | Our archive | Our transform → standard tool | Best standard tool | Difference |
+|---|---|---:|---:|---:|---:|---:|
+| Scanned manual: Graphviz guides | real | 24,642,792 | 883,584 (`checker-bitmap-xor-tree`) | 612,788 (`checker-bitmap-xor-tree → xz-6`) | 191,132 (DjVu) | 3.2× larger |
+| Scanned manual: Graphviz library | real | 24,283,584 | 1,162,890 (`checker-bitmap-xor-tree`) | 717,328 (`checker-bitmap-xor-tree → xz-6`) | 175,164 (DjVu) | 4.1× larger |
+| Scanned manual: NASM | real | 31,809,024 | 1,307,015 (`checker-bitmap-xor-tree`) | 774,040 (`checker-bitmap-xor-tree → xz-6`) | 189,610 (DjVu) | 4.1× larger |
+| Scanned manual: Valgrind | real | 30,924,288 | 1,738,368 (`checker-bitmap-xor-tree`) | 1,025,524 (`checker-bitmap-xor-tree → xz-6`) | 828,622 (DjVu) | +23.8% |
+| Silesia numerical files (mr + x-ray + sao) | real | 25,696,748 | 15,272,238 (`checker-direct`) | — | 11,662,476 (xz -9e) | +31.0% |
+| Stamps evolved by an automaton | planted | 28,311,552 | 622,703 (`checker-bitmap-orbit-book`) | 560,916 (`checker-bitmap-orbit-book → xz-6`) | 7,183,888 (PPMd) | **−92.2%** |
+| Matrices 1,000 automaton steps from simple | planted | 25,165,824 | 12,415,836 (`checker-joint`) | — | — | — |
+| Graphviz pages with scanlines shuffled | control | 24,642,792 | 1,846,387 (`checker-bitmap-direct-flat`) | — | 1,202,180 (PPMd) | +53.6% |
+| Uniform random bytes | control | 25,165,824 | 25,166,508 (`checker-direct`) | — | 25,166,414 (zstd -19) | +0.0004% |
+| rotated-stamps | other | 28,311,552 | 622,587 (`checker-bitmap-rotated-book`) | 560,832 (`checker-bitmap-rotated-book → xz-6`) | 7,867,496 (zstd -3) | **−92.9%** |
 
-## Large-file benchmark
-
-On `shared-orbit-1000` (25,165,824 raw bytes), `checker-joint` produced 12,415,836 archive bytes. [Input and timing](../large-scale/results/by-dataset.md#shared-orbit-1000) · [All project measurements](../large-scale/results/by-experiment.md#checkerboard-orbits)
+<details><summary>All profiles, timings and entropy measurements</summary>
 
 <!-- BEGIN generated project measurements -->
 
-Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+Each archive passed a byte-for-byte round trip. *Bytes saved* is raw size minus archive (and any reference the decoder needs). Timings are one run on a shared desktop.
 
-Holding `checker-joint` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 2 larger** delivered archives. Each setting counts once.
+These tables list every measured profile. The comparison with the best standard tool on each input (gzip, bzip2, xz, Zstandard, Brotli, PPMd and the domain codecs) is the Results table above.
 
 ### Archive comparison across inputs
 
@@ -579,17 +577,30 @@ python3 research/large-scale/entropy_bench.py checker-bitmap-direct-book runs/la
 
 <!-- END generated project measurements -->
 
-## Connections
+</details>
 
-The [3D](../tensor-orbits/README.md) and [4D](../four-dimensional-factors/README.md) projects use different rules and look for low-rank predecessors. Experiment 06 measures two 2D rule families.
+## Small-scale results
 
-## Inspect one torus
+The 24 MiB synthetic stream evolves independent sparse seeds. Each page uses one of 37, 113, 509 or 997 steps. Numerical bytes and independent noise are transfer controls. The source contains fresh seeds throughout.
 
-The English port of the workspace's `gioca_automa.py` prints each cell in the recorded grid and compares the minimum-entropy predecessor with the smallest complete packet.
+On the shared-clock control the direct archive used 21,999,209 bytes, per-matrix times 13,612,025 and one page-wide time 12,415,836. All profiles tied on the natural numerical data and on uniform noise. [Full archive sizes, times and hashes](../large-scale/results/by-dataset.md)
+
+## Run it
+
+Run these commands from the repository root. The [large-suite instructions](../large-scale/README.md) give input preparation, dependencies and the complete benchmark command.
 
 ```sh
-python3 research/checkerboard-orbits/explore.py --recorded --steps 255 --save runs/recorded.torus
-python3 research/checkerboard-orbits/explore.py --open runs/recorded.torus
+mkdir -p runs
+python3 research/checkerboard-orbits/control.py runs/shared-clock.bin
+python3 research/checkerboard-orbits/codec.py encode runs/shared-clock.bin runs/clock.cbo --profile joint
+python3 research/checkerboard-orbits/codec.py decode runs/clock.cbo runs/clock.restored
+cmp runs/shared-clock.bin runs/clock.restored
 ```
 
-In the archived 8 × 8 crop the lowest entropy occurs at step 183, whereas the smallest packet occurs at step 35. Its bytes are `08 08 23 2c 4e 4e e5 a1 d5 32 5d`. This is a format-compatibility vector. The full corpus measurements use independent large inputs.
+## Provenance
+
+<details><summary>Where this code came from</summary>
+
+The toroidal checkerboard rule follows `lab/hutter/automa-8x8-passo-byte` and its orbit reports 004–005. The native CBO1 search extends the clock to 1,000 and supports both per-word and page-wide times.
+
+</details>

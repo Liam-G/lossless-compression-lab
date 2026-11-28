@@ -1,0 +1,8 @@
+WROTE work/full/enwik8.cm: 18454423 bytes (100000000 in); sha256 of input 2b49720e...
+    18457578 bytes  1.4766 bits/byte  [1422s]  LRD=150000 SSEM=1 CM_CTX=o1,o2,o3,o4,o5,o6,o8,w,w2,w3,brk,ind,num,fmt,ind1,indw,wc,o7,ws,h12 LIM=511 LIMLO=1023 DUAL=0 LR=0.02 SEL=1 MATCH=6 L2=0 M3=1 INH=0 APMW=1
+DECODED work/full/enwik8.back: 100000000 bytes; sha256 2b49720e...
+    18457578 bytes  1.4766 bits/byte  [1513s]  LRD=150000 SSEM=1 CM_CTX=o1,o2,o3,o4,o5,o6,o8,w,w2,w3,brk,ind,num,fmt,ind1,indw,wc,o7,ws,h12 LIM=511 LIMLO=1023 DUAL=0 LR=0.02 SEL=1 MATCH=6 L2=0 M3=1 INH=0 APMW=1
+.rw-r--r-- 18M 24 Nov 12:32 work/full/enwik8.cm
+2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8  ../../corpus/enwik8/enwik8
+2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8  work/full/enwik8.back
+FULL ENWIK8 ROUND TRIP: IDENTICAL

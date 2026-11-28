@@ -1,5 +1,7 @@
 # An atlas of the compression experiments
 
+> Historical index. For the results and verdicts, read the [report](../../report/README.md); for one line per idea, see [every idea tried](../../report/ideas.md).
+
 The project started with a question about an arithmetic expression on a whiteboard. It grew into two different practical problems. Can a large integer be regenerated more cheaply than sending its digits? Can a change of representation expose dependencies that a general compressor misses? The organized trials below preserve unsuccessful tests alongside successful ones. The [large-file measurements](../large-scale/README.md) identify which results have fresh, byte-verified archives.
 
 ## Where the evidence comes from
@@ -7,8 +9,7 @@ The project started with a question about an arithmetic expression on a whiteboa
 | Local source | What this repository preserves |
 |---|---|
 | `tesi_sperimentali_compressione.md` | Sixteen questions with working implementations and three cross-experiment studies. SHA-256 `48c7b5999966035bceb39e94f49bd6c464ee3d356734eb0814b41455289954e9`. [Experiment index](../../README.md) |
-| `esperimenti_descrizioni_tecniche.txt` | All 23 method families, 149 report abstracts, 15 supplementary measurement files, 583 historical protocol directories, and the 51 dossier topics below. SHA-256 `e4c1709e1198e1ec38580c0e9918e310b826031e3e11d02a0853317cbbde745b`. [Reports](report-index.tsv) · [Additional measurements](supplementary.tsv) · [Protocol inventory](protocol-index.tsv) |
-| Project-local conversation history | Research requests and design alternatives were matched to the register and implementations. Twenty nonempty local session records included continuations and overlapping conversations. The design questions appear below in English. |
+| `esperimenti_descrizioni_tecniche.txt` | All 23 method families, 149 report abstracts, 15 supplementary measurement files, 583 historical protocol directories, and the 51 design topics below. SHA-256 `e4c1709e1198e1ec38580c0e9918e310b826031e3e11d02a0853317cbbde745b`. [Reports](report-index.tsv) · [Additional measurements](supplementary.tsv) · [Protocol inventory](protocol-index.tsv) |
 | 2019 whiteboard image in `lab/whiteboard/lavagna-rapporto-repdigit.png` | The exact formula and the bounds on the integer and exponent are preserved below. Image SHA-256 `85d35a5bccdb66f7500eadce3ee6870ee2debf231818d8457649f330a50b934c`. |
 
 The 583 directory entries identify where a script, protocol or measurement was recorded. Some historical intermediates were removed in a prior workspace cleanup. A report abstract describes the scope of its original evidence. A fresh benchmark row requires an actual archive that decodes every byte of the target.
@@ -37,9 +38,9 @@ For each triple, the base is $b_i \ge 2$, the digit satisfies $1 \le c_i < b_i$,
 
 A testable extension puts the expression on either side of a concatenation below a product node. The decoder must know each child width, the factor, any sign or correction and whether it sees a reference or a new expression. The shared-factor experiment prices those fields together. [Whiteboard trees](../whiteboard-trees/README.md) · [Shared factor forest](../shared-factor-forest/README.md)
 
-## The 51 topics from the discussion dossier
+## The 51 design topics
 
-Numbers match the user-supplied appendix. Experiment numbers refer to the numbered folders. “Proposal” identifies a design for which the source does not establish a complete archive.
+Numbers follow the original list of design topics. Experiment numbers refer to the numbered folders. “Proposal” identifies a design for which the source does not establish a complete archive.
 
 | § | Question or construction | Concrete experiment or evidence |
 |---:|---|---|
@@ -123,7 +124,7 @@ Numbers match the user-supplied appendix. Experiment numbers refer to the number
 | 22 | Sum three independent SHAKE256 integers and store the signed residual. The sorted pair-sum search covers all 16,777,216 triples. The [generator project](../generator-sums/README.md) includes planted, noise and full-Q trials. |
 | 23 | Greedily sum squares or consecutive products, find roots modulo powers of two, and split a sparse prefix from a square suffix. A low-64-bit screen rejected the enumerated short-seed expressions. The [integer formulas](../integer-formulas/README.md) regenerate complete descriptors. |
 
-## Questions preserved from the local conversations
+## Open design questions
 
 - **Where should a factor tree branch?** Compare the divisions at a node, an initial split and a split below the multiplier. An exact product can reveal a quotient formula across a byte boundary. A downstream entropy coder can also exploit ordinary structure after an arithmetic change of representation.
 - **Can repeated mathematical work become a dictionary?** Compare direct coding, an inline recipe and a recipe referenced several times. Store the width, signed adjustment, operands, table and index stream. A more general graph search with unrestricted operations remains a proposal.

@@ -1,0 +1,11 @@
+COINCIDENCE HUNT  target <repo>/research/coincidence-hunt/controls/ctl_xorshift.bin: 300 characters = 2400 bits; 12 threads
+bars: raw 2400 bits | its own letter statistics (order-0, table not counted) 2194 bits
+
+=== random generators: xorshift32 with every seed (2^32), splitmix64 with seeds 0..2^30, 8 classic LCGs x 2^24 seeds (top byte per step)
+  xorshift32 done (206s)
+  -> 5.5e+09 candidates (naming one costs 36.4 bits), 263.0s
+     best: 48 bits = xorshift32 seed 123456789, 0 wrong bits
+     longest exact run from the start: 2400 bits (xorshift32 seed 123456789)
+
+RANKING (best candidate of each family; raw = 2400 bits, letter statistics = 2194 bits), total 263s
+  1.      48 bits  BEATS RAW  random generators: xorshift32 seed 123456789  [0 wrong bits]

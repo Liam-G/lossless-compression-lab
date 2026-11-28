@@ -1,0 +1,8 @@
+WROTE work/e10m.cm: 2033778 bytes (10000000 in); sha256 of input 5985c81c...
+     2033898 bytes  1.6271 bits/byte  [242s]  LRD=500000 SSEM=1 CM_CTX=o1,o2,o3,o4,o5,o6,o8,w,w2,w3,brk,ind,num,fmt LIM=255 LIMLO=1023 DUAL=0 LR=0.03 SEL=1 MATCH=6 L2=0 M3=1 INH=0 APMW=1
+DECODED work/e10m.back: 10000000 bytes; sha256 5985c81c...
+     2033898 bytes  1.6271 bits/byte  [231s]  LRD=500000 SSEM=1 CM_CTX=o1,o2,o3,o4,o5,o6,o8,w,w2,w3,brk,ind,num,fmt LIM=255 LIMLO=1023 DUAL=0 LR=0.03 SEL=1 MATCH=6 L2=0 M3=1 INH=0 APMW=1
+ROUND TRIP 10 MB: IDENTICAL
+5985c81c39d927ae0e169625790ca4d9e7d1531270c8b09ad73176a375bb3d97  ../textfront/work/enwik8_10m
+5985c81c39d927ae0e169625790ca4d9e7d1531270c8b09ad73176a375bb3d97  work/e10m.back
+.rw-r--r-- 2.0M 24 Nov 01:39 work/e10m.cm

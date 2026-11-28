@@ -1,0 +1,4 @@
+     2007113 bytes  1.6057 bits/byte  [278s]  LR
+   ^ v10, no LSTM
+     1977114 bytes  1.5817 bits/byte  [934s]  LR
+   ^ CM_LSTM=192 CM_LSTMLR=0.002
