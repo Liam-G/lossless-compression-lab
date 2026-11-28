@@ -1,5 +1,7 @@
 # Original compression experiments
 
+[Research findings, controlled comparisons and entropy plots](large-scale/findings.md)
+
 The original lab explored arithmetic descriptions of large integers, reversible matrix dynamics, file-specific context models, and the cost of delivering the decoder. The projects below restore those implementations and test new combinations on real files and controlled inputs. The [idea atlas](evidence/idea-atlas.md) links the original formulas and project conversations to the implementations and open proposals. The [report index](evidence/report-index.tsv) identifies each retained historical measurement by source and digest.
 
 ## Large-file research

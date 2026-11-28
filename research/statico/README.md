@@ -1,6 +1,6 @@
 # Statico M1 grammar compressor
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -21,6 +21,16 @@ python3 research/statico/bench/bench.py "$CORPUS/silesia/osdb" "$CORPUS/silesia/
 
 M1 constructs repeated substrings as grammar productions, emits their definitions inline, then codes symbol frequency classes and indices. STC1 carries the mode and original length. Its compressed modes store a SHA-256 digest. The implementation includes order-zero and stored representations. The decoder reconstructs production bodies and the top-level symbol sequence. The default production cost was used in the replay.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Repeated source substrings"] --> T["Construct grammar productions and references"]
+    T --> W["Encode definitions and symbol-frequency classes"]
+```
+
+**Mechanism and test.** A production saves bytes when later references amortize its definition. Short-lived or rare substrings can lose. The corpus results bound that tradeoff for the implemented grammar and cost model.
+
 ## Inputs and measurement
 
 The primary trial measures `statico` on the complete `enwik8` input (100,000,000 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
@@ -36,6 +46,18 @@ On `enwik8` (100,000,000 raw bytes), `statico` produced 26,346,968 archive bytes
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `enwik8`, `statico` delivers 26,346,968 bytes, 9,098,367 bytes smaller than standalone Zstandard 3 (35,445,335 bytes).
+
+Holding `statico` fixed across the 5 measured input/reference settings with a standalone Zstandard 3 control gives **5 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### enwik8 · 100,000,000 raw bytes
 
@@ -96,6 +118,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 3,739,524 · Zstandard 19 3
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-statico --project statico --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

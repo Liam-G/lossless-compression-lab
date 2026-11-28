@@ -1,22 +1,32 @@
 """Publish the canonical large-file measurements inside each project README."""
 
 import argparse
+import json
+import re
 from collections import defaultdict
 from html import escape
-import json
 from os.path import relpath
 from pathlib import Path
-import re
 
+from findings import update_findings
 from primary import CHOICES
+from project_figures import (
+    BACKENDS,
+    Figures,
+    archive_data,
+    archive_figure,
+    gain,
+    h0_cost,
+    paired_figure,
+)
 from report import experiment_pages, read_trials
 
 HERE = Path(__file__).resolve().parent
 RESULTS = HERE / "results"
 START = "<!-- BEGIN generated project measurements -->"
 END = "<!-- END generated project measurements -->"
-JUMP = "[View this project's benchmark tables](#large-file-benchmark)"
-BACKENDS = ("gzip-6", "zstd-3", "xz-6")
+OLD_JUMP = "[View this project's benchmark tables](#large-file-benchmark)"
+JUMP = "[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)"
 BASELINE_LABELS = {
     "zstd3": "Zstandard 3",
     "zstd19": "Zstandard 19",
@@ -106,19 +116,80 @@ def archive_table(rows):
     return lines
 
 
-def measurement_block(folder, datasets, preferred, pairs, baselines):
+def measurement_block(folder, datasets, primary, pairs, baselines, figures):
+    preferred, profile = primary
+    chart = folder / "figures" / "archives.svg"
+    figures.add(chart, archive_data(datasets, baselines, preferred), archive_figure)
     index = relpath(RESULTS / "by-dataset.md", folder)
     summary = [
         START,
         "",
         "Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.",
     ]
-    if any(
-        (r["dataset"], r["codec"]) in pairs for rows in datasets.values() for r in rows
-    ):
+    primary_rows = [r for r in datasets[preferred] if r["codec"] == profile]
+    for r in primary_rows:
+        controls = baselines.get((preferred, r["input_sha256"]), ())
+        zstd = next((b for b in controls if b["codec"] == "zstd3"), None)
+        total = r["archive_plus_reference_bytes"]
+        if zstd:
+            baseline = zstd["archive_bytes"]
+            diff = total - baseline
+            result = (
+                f"{abs(diff):,} bytes {'larger' if diff > 0 else 'smaller'} than"
+                if diff
+                else "the same size as"
+            )
+            base = (
+                f" with candidate base `{r['knobs']['reference']}`"
+                if "reference" in r["knobs"]
+                else ""
+            )
+            summary += [
+                "",
+                f"On the primary input `{preferred}`, `{profile}`{base} delivers {total:,} bytes, {result} standalone Zstandard 3 ({baseline:,} bytes).",
+            ]
+    comparisons = []
+    for name, entries in datasets.items():
+        for r in entries:
+            if r["codec"] != profile:
+                continue
+            controls = baselines.get((name, r["input_sha256"]), ())
+            baseline = next((b for b in controls if b["codec"] == "zstd3"), None)
+            if baseline:
+                comparisons.append(
+                    r["archive_plus_reference_bytes"] - baseline["archive_bytes"]
+                )
+    if len(comparisons) > 1:
+        wins = sum(d < 0 for d in comparisons)
+        ties = comparisons.count(0)
         summary += [
             "",
-            "H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.",
+            f"Holding `{profile}` fixed across the {len(comparisons)} measured input/reference settings with a standalone Zstandard 3 control gives **{wins} smaller, {ties} equal and {len(comparisons) - wins - ties} larger** delivered archives. Each setting counts once.",
+        ]
+    any_pairs = any(
+        (r["dataset"], r["codec"]) in pairs for rows in datasets.values() for r in rows
+    )
+    summary += [
+        "",
+        "### Archive comparison across inputs",
+        "",
+        "![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)",
+        "",
+        (
+            "Read down a column to compare methods on identical input. Lower is better. "
+            "100% is the raw file size. Where available, standard codecs appear below the dividing line. "
+            "Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured."
+        ),
+    ]
+    if any_pairs:
+        summary += [
+            "",
+            "The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.",
+        ]
+    else:
+        summary += [
+            "",
+            "This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.",
         ]
     many_rows = sum(map(len, datasets.values())) > 30
     for name in sorted(datasets, key=lambda n: (n != preferred, n)):
@@ -134,6 +205,35 @@ def measurement_block(folder, datasets, preferred, pairs, baselines):
             pairs[name, r["codec"]] for r in rows if (name, r["codec"]) in pairs
         ]
         if matching:
+            figfile = Path("figures") / f"paired-{name}.svg"
+            plot_rows = [
+                (
+                    r["profile"],
+                    r["raw"]["h0"],
+                    h0_cost(r),
+                    r["raw"]["h1"] * (r["raw"]["bytes"] - 1) / r["raw"]["bytes"],
+                    r["prepared"]["h1"]
+                    * (r["prepared"]["bytes"] - 1)
+                    / r["raw"]["bytes"],
+                    [gain(r, k) for k in BACKENDS],
+                )
+                for r in matching
+            ]
+            figures.add(folder / figfile, plot_rows, paired_figure)
+            hits = [
+                sum(
+                    r["backends"][k]["prepared"]["bytes"]
+                    < r["backends"][k]["raw"]["bytes"]
+                    for r in matching
+                )
+                for k in BACKENDS
+            ]
+            summary += [
+                f"![Normalized H0 and H1 before and after and compressed savings for each measured profile on {name}.]({figfile})",
+                "",
+                f"Of {len(matching)} measured profiles on this input, {hits[0]} reduced gzip size, {hits[1]} reduced Zstandard size and {hits[2]} reduced XZ size. Exact ties count separately from improvements.",
+                "",
+            ]
             summary += preprocessing_tables(matching) + [""]
         summary += archive_table(rows)
         if controls := baselines.get((name, raw["input_sha256"])):
@@ -149,6 +249,37 @@ def measurement_block(folder, datasets, preferred, pairs, baselines):
         summary += ["", f"[Input hash and all measured codecs]({index}#{anchor})"]
         if collapsed:
             summary += ["", "</details>"]
+    receipts = relpath(RESULTS / "archives.jsonl", folder)
+    summary += [
+        "",
+        "### Reproduce the large-file comparison",
+        "",
+        "From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.",
+        "",
+        "```sh",
+        f"python3 research/large-scale/primary.py runs/replay-{folder.name} --project {folder.name} --all-profiles",
+        "```",
+        "",
+        f"[Dataset preparation]({relpath(HERE / 'README.md', folder)}#inputs) · [Archive hashes and settings]({receipts})",
+    ]
+    if any_pairs:
+        example = next(
+            pairs[name, entry["codec"]]
+            for name in (preferred, *datasets)
+            for entry in datasets[name]
+            if (name, entry["codec"]) in pairs
+        )
+        summary += [
+            "",
+            "A separate paired run also records entropy, stream hashes and the three backend sizes.",
+            "",
+            "```sh",
+            "mkdir -p runs/paired",
+            f"python3 research/large-scale/entropy_bench.py {example['profile']} runs/large/raw/{example['dataset']} runs/paired/{folder.name}.json",
+            "```",
+            "",
+            f"[All paired stream hashes and compressor versions]({relpath(RESULTS / 'preprocessing.jsonl', folder)})",
+        ]
     return "\n".join([*summary, "", END])
 
 
@@ -169,6 +300,7 @@ def render(text, block):
         if not marker or "\n## Large-file benchmark\n" not in a:
             raise ValueError("Project README is missing its benchmark section")
         text = a.rstrip() + "\n\n" + block + "\n" + marker + b
+    text = text.replace(OLD_JUMP, JUMP, 1)
     if JUMP not in text:
         title, nl, rest = text.partition("\n")
         text = title + nl + "\n" + JUMP + "\n" + rest
@@ -177,7 +309,8 @@ def render(text, block):
 
 def refresh(check=False):
     groups = experiment_pages()
-    preferred = {groups[family]: name for family, (name, _) in CHOICES.items()}
+    preferred = {groups[family]: primary for family, primary in CHOICES.items()}
+    figures = Figures(check)
     projects = defaultdict(lambda: defaultdict(list))
     baselines = defaultdict(list)
     archives = read_trials([RESULTS / "archives.jsonl"])
@@ -208,10 +341,18 @@ def refresh(check=False):
         original = path.read_text()
         updated = render(
             original,
-            measurement_block(folder, datasets, preferred[folder], pairs, baselines),
+            measurement_block(
+                folder, datasets, preferred[folder], pairs, baselines, figures
+            ),
         )
         if updated != original:
             updates[path] = updated
+    study = HERE / "findings.md"
+    original = study.read_text()
+    updated = update_findings(original, pairs.values(), figures)
+    if updated != original:
+        updates[study] = updated
+    figures.finish()
     if check and updates:
         raise ValueError(
             "Outdated project README tables: "
@@ -225,7 +366,9 @@ def refresh(check=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--check", action="store_true", help="Check generated tables without writing"
+        "--check",
+        action="store_true",
+        help="Check figures, analysis and tables without writing",
     )
     count = refresh(parser.parse_args().check)
-    print(f"Verified benchmark tables in {count} project READMEs.")
+    print(f"Verified research figures and benchmark tables in {count} project READMEs.")

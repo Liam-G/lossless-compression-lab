@@ -1,6 +1,6 @@
 # Integer carries across tree boundaries
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -28,6 +28,16 @@ cmp "$Q" runs/q-scale.restored
 
 CRT1 uses literal, Zstandard, split and map nodes on roots up to 4 MiB. An odd multiplier is bijective modulo 2ⁿ. The power of two in a factor rotates bits, preserving those that would otherwise overflow. The inverse solves the exact carry and reverses the rotation. A map above a split carries information across its boundary. Encoder shortlist decisions cost no decoder bits. SCL1 applies a single map across the entire file and uses weighted interval scheduling over verified compressed replacements. The probe-selected `joint` profile and the `informed` profile, which adds the original lab candidate 12, are reported separately.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Whole integer or tree node"] --> T["Apply an invertible scale above or below a split"]
+    T --> W["Store map and profitable replacement intervals"]
+```
+
+**Mechanism and test.** Carries cross a boundary when scaling precedes a cut. This can expose a locally encodable span even when the rest is incompressible. The blind and informed searches test how much the answer depends on prior knowledge of the candidate.
+
 ## Inputs and measurement
 
 Inputs include full Q, full Neif, real numerical bytes, noise, and 24 MiB of distinct Wikipedia fragments deliberately scrambled by independent page-local arithmetic maps.
@@ -44,6 +54,16 @@ On `cofattore-Q.base256` (96,994,187 raw bytes), `scale-informed` produced 96,99
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `cofattore-Q.base256`, `scale-informed` delivers 96,990,415 bytes, 6,009 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### cofattore-Q.base256 · 96,994,187 raw bytes
 
@@ -124,6 +144,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 11,662,476 · Zstandard 19 
 Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 25,166,414 · Zstandard 3 25,166,414
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#uniform)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-carry-trees --project carry-trees --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

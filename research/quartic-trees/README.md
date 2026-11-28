@@ -1,6 +1,6 @@
 # Recursive fourth-power quotients
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -21,6 +21,16 @@ python3 research/benchmark_native.py "$Q" runs/native-quartics
 
 The historical engine accepted the integer width separately. The QW01 wrapper stores the original byte count and significant bit width in a 20-byte header, preserving empty input and leading zero bytes. The original engine supplies the remaining bytes. Each recursive reference or explicitly encoded pair of child descriptions contributes to the formula length.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Whole-file integer"] --> T["Decompose recursively into fourth-power operands"]
+    T --> W["Write subtree references or explicit operands"]
+```
+
+**Mechanism and test.** An exact formula can lengthen an archive when each operand requires another description. The fresh full-Q and Wikipedia runs measure how much the recursive operands cost at file scale.
+
 ## Inputs and measurement
 
 The primary trial measures `quartic` on the complete `wiki-transfer` input (25,165,824 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
@@ -36,6 +46,18 @@ On `wiki-transfer` (25,165,824 raw bytes), `quartic` produced 69,926,330 archive
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `wiki-transfer`, `quartic` delivers 69,926,330 bytes, 60,957,874 bytes larger than standalone Zstandard 3 (8,968,456 bytes).
+
+Holding `quartic` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 2 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### wiki-transfer · 25,165,824 raw bytes
 
@@ -60,6 +82,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6
 Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 96,994,649 · Zstandard 3 96,996,424
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#cofattore-qbase256)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-quartic-trees --project quartic-trees --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

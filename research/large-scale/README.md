@@ -79,7 +79,7 @@ python3 research/large-scale/bench.py runs/large/raw/numerical runs/my-grid.json
 python3 research/large-scale/report.py runs/large/measurements runs/my-tables
 ```
 
-After updating the published archive or preprocessing receipts in `research/large-scale/results/`, refresh the tables in all project READMEs. The check also runs in the benchmark audit.
+After updating the published archive or preprocessing receipts in `research/large-scale/results/`, run the generator below. It refreshes each project’s archive matrix, paired entropy and backend figures, exact tables and the [cross-project analysis](findings.md). Rendering changed SVGs requires Matplotlib and NumPy. Verification checks the receipt-derived plot data and the SHA-256 of each image against the [figure register](results/figures.json) and also runs in the benchmark audit.
 
 ```sh
 python3 research/large-scale/project_readmes.py

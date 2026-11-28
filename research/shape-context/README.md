@@ -1,6 +1,6 @@
 # Raster shape search with an actual range-coded archive
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -31,6 +31,16 @@ The history baseline sees the previous two bits. The original stencil uses the p
 
 The encoder tries widths 1,728 and 1,729 and up to three additional widths selected by sample conditional entropy from widths up to 2,048. It writes the smallest actual payload among these models, the history baseline and literal bytes. Its 15-byte header records magic, length, row width and model. A selected width is a predictor parameter and can span a record or part of a row.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Raster interpreted at candidate widths"] --> T["Condition each bit on already decoded neighbors"]
+    T --> W["Store width and arithmetic-coded bitstream"]
+```
+
+**Mechanism and test.** The right stride puts nearby pixels into a causal context. A wrong stride feeds the coder unrelated neighbors. Manual rasters and ordinary byte streams test the importance of a meaningful row geometry.
+
 ## Inputs and measurement
 
 The primary trial measures `shape` on the complete `manual-graphs` input (24,642,792 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
@@ -57,6 +67,18 @@ On `manual-graphs` (24,642,792 raw bytes), `shape` produced 901,604 archive byte
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `manual-graphs`, `shape` delivers 901,604 bytes, 423,530 bytes smaller than standalone Zstandard 3 (1,325,134 bytes).
+
+Holding `shape` fixed across the 6 measured input/reference settings with a standalone Zstandard 3 control gives **2 smaller, 0 equal and 4 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### manual-graphs · 24,642,792 raw bytes
 
@@ -141,6 +163,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 3,739,524 · Zstandard 19 3
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-shape-context --project shape-context --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

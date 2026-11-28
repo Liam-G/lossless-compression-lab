@@ -1,6 +1,6 @@
 # Shared formulas inside a factor tree
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -25,6 +25,21 @@ cmp runs/large/raw/hidden-products runs/products.restored
 
 Each 256 KiB page can store direct bytes, Zstandard 3, a split after a common factor, an inline formula, or an indexed formula dictionary. Candidate widths are 16, 32 and 64 bytes. For an exact factor of x + δ, the decoder joins the two cofactor children, multiplies, then subtracts δ. The page pays for the exceptions, recipe book, references, little integer fields, literal lanes, and tail. Formula-aware search uses sampled recipe hits to shortlist divisors. The factor-only profile ranks divisors without that signal.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    W["Word plus correction"] --> D["Extract divisor"]
+    D --> S["Split cofactor by bit width"]
+    S --> A["Formula child"]
+    S --> B["Literal child"]
+    A --> I["Inline recipe or dictionary index"]
+    I --> P["Page with divisor, widths and corrections"]
+    B --> P
+```
+
+**Mechanism and test.** The hidden-product plant contains a formula child and a random child. Factoring exposes the first, and reuse amortizes its description. Inline and shared coding tie on the numerical input, so the dictionary saving is input-dependent.
+
 ## Inputs and measurement
 
 The planted 24 MiB stream contains independently generated words. One child of a 17-fold product is an exact repunit quotient and the other has fresh random bits. The numerical stream, real affine instructions and uniform control use the same encoder.
@@ -44,9 +59,23 @@ On the generated hidden products, the full representation before a standard comp
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
-H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+On the primary input `hidden-products`, `shared-shared` delivers 13,097,327 bytes, 1,246,660 bytes smaller than standalone Zstandard 3 (14,343,987 bytes).
+
+Holding `shared-shared` fixed across the 5 measured input/reference settings with a standalone Zstandard 3 control gives **2 smaller, 0 equal and 3 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.
 
 ### hidden-products · 25,165,824 raw bytes
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on hidden-products.](figures/paired-hidden-products.svg)
+
+Of 1 measured profiles on this input, 1 reduced gzip size, 1 reduced Zstandard size and 1 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -136,6 +165,25 @@ Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 
 Same-input baseline archives (bytes) · XZ 9 extreme 2,679,352 · Zstandard 19 3,705,005 · Zstandard 3 4,602,358
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#whiteboard-witnesses)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-shared-factor-forest --project shared-factor-forest --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
+
+A separate paired run also records entropy, stream hashes and the three backend sizes.
+
+```sh
+mkdir -p runs/paired
+python3 research/large-scale/entropy_bench.py shared-shared runs/large/raw/hidden-products runs/paired/shared-factor-forest.json
+```
+
+[All paired stream hashes and compressor versions](../large-scale/results/preprocessing.jsonl)
 
 <!-- END generated project measurements -->
 

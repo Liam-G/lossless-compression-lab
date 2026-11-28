@@ -1,6 +1,6 @@
 # Motion and spatial residuals on grayscale frame sequences
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -25,6 +25,16 @@ cmp runs/large/raw/luma-jake runs/movie.restored
 
 The header supplies width, height and frame count. A frame can use literal pixels, spatial differences, the previous frame, or an integral motion vector per 32×32 tile. Coarse-to-fine search picks the vector using subsampled absolute differences. The joint profile can apply a left or median-edge predictor to temporal errors before ZigZag and Zstandard coding. The previous frame, vector field and residual determine the next frame exactly.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Video frame and decoded predecessor"] --> T["Compare spatial, temporal and motion predictors"]
+    T --> W["Encode vectors and exact residual pixels"]
+```
+
+**Mechanism and test.** Stable or translated content can be predicted from the last frame. Transmitting motion vectors pays off only if the improvement over a plain previous-frame residual exceeds the vector cost. A lossless video codec provides a separate deployment comparison.
+
 ## Inputs and measurement
 
 Each source supplies its first 128 frames, scaled once to 640×360 unsigned 8-bit luma. The raw streams are 29,491,200 bytes each. FFV1 and lossless H.264 are compared by decoding back to identical luma bytes. The experiment measures compression of these canonical frames.
@@ -41,6 +51,18 @@ On `luma-rei` (29,491,200 raw bytes), `motion-joint` produced 3,882,245 archive 
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `luma-rei`, `motion-joint` delivers 3,882,245 bytes, 1,425,041 bytes smaller than standalone Zstandard 3 (5,307,286 bytes).
+
+Holding `motion-joint` fixed across the 3 measured input/reference settings with a standalone Zstandard 3 control gives **2 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### luma-rei · 29,491,200 raw bytes
 
@@ -89,6 +111,16 @@ Same-input baseline archives (bytes) · FFV1 4,229,103 · Lossless H.264 803,426
 Same-input baseline archives (bytes) · FFV1 3,538,225 · Lossless H.264 535,126 · XZ 9 extreme 553,924 · Zstandard 19 732,848 · Zstandard 3 1,077,172
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#luma-kath)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-motion-residuals --project motion-residuals --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

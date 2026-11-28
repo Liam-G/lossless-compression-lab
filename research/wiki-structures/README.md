@@ -1,6 +1,6 @@
 # Wikipedia page order, algebraic templates and primed context mixing
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -22,6 +22,16 @@ python3 research/large-scale/bench.py runs/large/raw/wiki-transfer runs/primed.j
 - Replace a wiki link target by an index into recoverable article titles or a transmitted vocabulary. The decoder receives exact byte gaps and finds the same title list in the remaining text. This additional view pays the cost of each gap and symbol.
 - WKS1 prices these alternatives in 8 MiB banks with Zstandard 6. Its XZ profile reprices the strongest two quick candidates and the original bank. WCM1 instead applies a single specified transform and embeds C3P1, which hashes its binary and configuration. Priming encodes one 65,536-byte prefix and lets the other four CM3 members learn from it.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Wikipedia page stream"] --> T["Group similar pages or extract repeated templates"]
+    T --> W["Encode slots, ordering information and exceptions"]
+```
+
+**Mechanism and test.** Similar pages share syntax, and arithmetic slots can predict numeric fields. Partial pages and exceptions must survive reconstruction. A disjoint transfer window tests whether gains persist beyond development text.
+
 ## Inputs and measurement
 
 Two disjoint 24 MiB enwik8 slices are fixed in the input manifest. The second slice starts at byte 67,108,864 and contains partial pages at the boundaries. Every measured profile includes a separate decoder process and a complete byte comparison. See the [source and archive hashes](../large-scale/results/archives.jsonl).
@@ -39,6 +49,18 @@ On `wiki-transfer` (25,165,824 raw bytes), `wiki-joint-xz` produced 6,915,857 ar
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `wiki-transfer`, `wiki-joint-xz` delivers 6,915,857 bytes, 2,052,599 bytes smaller than standalone Zstandard 3 (8,968,456 bytes).
+
+Holding `wiki-joint-xz` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **2 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### wiki-transfer · 25,165,824 raw bytes
 
@@ -78,6 +100,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6
 Same-input baseline archives (bytes) · XZ 9 extreme 6,602,488 · Zstandard 19 6,873,848 · Zstandard 3 8,951,574
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-dev)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-wiki-structures --project wiki-structures --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

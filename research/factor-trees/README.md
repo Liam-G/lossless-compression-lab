@@ -1,6 +1,6 @@
 # Mixed-arity factor trees
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -21,6 +21,16 @@ python3 research/benchmark_native.py "$Q" runs/native-trees
 ## Variants and format
 
 At each node, divide out small prime powers. Split the remaining cofactor in binary, retaining each child's width so leading zeros can be restored. The decoder concatenates the child bit strings and multiplies the extracted factors back in. QRT4 carries the per-level arity schedule and a common cut offset. QRT5 carries a seed from which both sides derive individual boundary shifts. The seed, arities, arithmetic-coded factor descriptions, leaves and terminal padding all count.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Integer at a tree node"] --> T["Remove small factors and split the cofactor"]
+    T --> W["Store factors, split schedule and leaves"]
+```
+
+**Mechanism and test.** A boundary shift helps only when it exposes factors cheap enough to repay the description of the cut. Widths preserve leading zeros. Full-Q and text receipts test whether that saving survives an entire tree.
 
 ## Inputs and measurement
 
@@ -55,6 +65,18 @@ On `cofattore-Q.base256` (96,994,187 raw bytes), `qrt-seeded` produced 96,994,21
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `cofattore-Q.base256`, `qrt-seeded` delivers 96,994,214 bytes, 2,210 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
+
+Holding `qrt-seeded` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **1 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### cofattore-Q.base256 · 96,994,187 raw bytes
 
@@ -94,6 +116,16 @@ Same-input baseline archives (bytes) · Zstandard 3 114,336,073
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-factor-trees --project factor-trees --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

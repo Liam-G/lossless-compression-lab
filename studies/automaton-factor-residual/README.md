@@ -1,6 +1,6 @@
 # Automata, factors and residual coding
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -17,6 +17,16 @@ python3 studies/run.py automaton-factor-residual runs/automaton-factor-residual
 ## Variants and format
 
 Fit two GF(2) basis vectors per eight-row matrix using experiment 08. The orbit profiles consider up to three reverse Checkerboard steps from experiment 06. Rank from experiment 07 breaks ties after residual weight. Send the selected step, basis, coordinates and a nested experiment 14 residual archive. First compare direct and orbit prediction with enumerative coding. Then hold orbit selection fixed while switching among enumeration, Rice gaps, contexts and per-block selection.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Binary matrix"] --> T["Search predecessors and fit a two-vector basis"]
+    T --> W["Send step, factors and coded residual"]
+```
+
+**Mechanism and test.** A lower error weight can improve subset coding while leaving long or irregular gaps. Switching the residual coder with the orbit held fixed tests whether the gain comes from the fit or from the mask representation.
 
 ## Inputs and measurement
 
@@ -61,6 +71,16 @@ On `manual-graphs` (24,642,792 raw bytes), `study18-orbit-enumerative` produced 
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `manual-graphs`, `study18-orbit-enumerative` delivers 17,725,221 bytes, 16,400,087 bytes larger than standalone Zstandard 3 (1,325,134 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### manual-graphs · 24,642,792 raw bytes
 
 **Standalone archives**
@@ -83,6 +103,16 @@ Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foregrou
 | `study18-direct-enumerative` | 31,450,511 | -6,284,687 | 761.297 | 563.380 | 25,096 / 23,492 |
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#noisy-spacetime)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-automaton-factor-residual --project automaton-factor-residual --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

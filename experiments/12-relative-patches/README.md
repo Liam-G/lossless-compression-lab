@@ -1,6 +1,6 @@
 # Experiment 12 · Relative compression
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -32,6 +32,16 @@ python3 ../../lab.py 12 benchmark ../../runs/recheck-12
 Every archive stores the reference SHA-256. Fixed XOR predicts the target from the same base offset with zero extension. Copies indexes four-byte prefixes and extends variable-offset matches. Alignment recursively finds common matching blocks with SequenceMatcher. Both matching profiles send literal-gap length, base offset and copy length for every retained span. Compress the residual or literal stream with the same DEFLATE backend. The decoder validates the base hash before applying instructions.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Target and known base"] --> T["Find aligned differences or variable-offset matches"]
+    T --> W["Write hash, copy spans and literal gaps"]
+```
+
+**Mechanism and test.** Moved content remains reusable if offsets travel with copy lengths. Compare patch bytes for a receiver holding the base and total delivery for a new receiver. A disjoint base can cost more to deliver than the target.
 
 ## Inputs and measurement
 
@@ -68,6 +78,16 @@ On `wiki-transfer` (25,165,824 raw bytes), `pilot12-copies` produced 15,112,062 
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `wiki-transfer`, `pilot12-copies` with candidate base `wiki-dev` delivers 40,277,886 bytes, 31,309,430 bytes larger than standalone Zstandard 3 (8,968,456 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### wiki-transfer · 25,165,824 raw bytes
 
 **Standalone archives**
@@ -79,6 +99,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-12-relative-patches --project 12-relative-patches --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

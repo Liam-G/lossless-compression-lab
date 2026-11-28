@@ -1,6 +1,6 @@
 # Experiment 02 · Near-factorization and digit concatenation
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -35,6 +35,16 @@ Read 16-byte big-endian words. For each signed correction in {0, ±1, ±2}, try 
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["16-byte integer"] --> T["Try corrected products and split operands"]
+    T --> W["Store operands and correction or literal"]
+```
+
+**Mechanism and test.** A small factor is useful only if both operands and the signed correction are cheap to describe. Perturbed products test that condition directly. Searching more divisors can find shorter records at additional encode cost.
+
 ## Inputs and measurement
 
 The generator draws hidden small factors and decimal factors with long internal zero runs. Only serialized products reach the encoder. Exact and perturbed products share the factors. Real inputs include a cofactor window and two executable prefixes.
@@ -67,6 +77,16 @@ On `wiki-transfer` (25,165,824 raw bytes), `pilot02-first-exact` produced 26,751
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `wiki-transfer`, `pilot02-first-exact` delivers 26,751,758 bytes, 17,783,302 bytes larger than standalone Zstandard 3 (8,968,456 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### wiki-transfer · 25,165,824 raw bytes
 
 **Standalone archives**
@@ -78,6 +98,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-02-near-factorization --project 02-near-factorization --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

@@ -1,6 +1,6 @@
 # Experiment 14 · Sparse residual coding
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -33,6 +33,16 @@ python3 ../../lab.py 14 benchmark ../../runs/recheck-14
 Use 32-byte blocks. Enumerative stores the weight and colexicographic subset rank. Rice optimizes the parameter k and encodes increasing error-position gaps. Context uses a 32-bit arithmetic coder with KT counts keyed by bit position and the preceding two bits. Adaptive chooses the shortest serialized option per block, including its selector, parameters, payload size and padding. All modes restore the mask exactly.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Binary error mask"] --> T["Rank the subset, encode gaps or model bits"]
+    T --> W["Choose and serialize a lossless mask record"]
+```
+
+**Mechanism and test.** Weight, gap lengths and local bit context describe different structures. Sparse regular gaps favor different codes from dense correlated masks. Per-block switching must recover its selector and padding.
 
 ## Inputs and measurement
 
@@ -79,6 +89,16 @@ On `numerical` (25,696,748 raw bytes), `pilot14-adaptive` produced 20,503,460 ar
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `numerical`, `pilot14-adaptive` delivers 20,503,460 bytes, 5,339,777 bytes larger than standalone Zstandard 3 (15,163,683 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### numerical · 25,696,748 raw bytes
 
 **Standalone archives**
@@ -90,6 +110,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 11,662,476 · Zstandard 19 13,213,336 · Zstandard 3 15,163,683
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#numerical)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-14-sparse-residuals --project 14-sparse-residuals --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

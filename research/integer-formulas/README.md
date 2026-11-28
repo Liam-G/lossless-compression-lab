@@ -1,6 +1,6 @@
 # Whole-file square, product and modular-square formulas
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -26,6 +26,16 @@ cmp "$Q" runs/q-formula.restored
 
 QFE1 recursively describes the signed error after a floor square, a nearest square or the nearest of the allowed squares and consecutive products. QMS1 chooses a compact root modulo 2ᵇ for eligible odd integers congruent to 1 modulo 8. QFC1 transmits the width, prefix length, divisor, positions and values of sparse prefix coefficients, and the modular root of the suffix. The QMS1/QFC1 encoders require at least three significant bits and the stated congruence.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Integer or interval"] --> T["Fit square, consecutive product or modular root"]
+    T --> W["Transmit parameters and exact correction"]
+```
+
+**Mechanism and test.** A compact root helps a restricted residue class or a value near a simple product. Outliers need more correction bits. Comparing profiles on the full integer limits conclusions drawn from specially chosen mathematical examples.
+
 ## Inputs and measurement
 
 The entire 96,994,187-byte FX2 cofactor was encoded by each profile. Each independent decode was compared with canonical Q; the final archive includes all coefficients, signs and widths. Shared arithmetic software and the encoder’s temporary root are excluded.
@@ -42,6 +52,16 @@ On `cofattore-Q.base256` (96,994,187 raw bytes), `integer-composite` produced 96
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `cofattore-Q.base256`, `integer-composite` delivers 96,994,051 bytes, 2,373 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### cofattore-Q.base256 · 96,994,187 raw bytes
 
@@ -84,6 +104,16 @@ Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foregrou
 Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 25,166,414 · Zstandard 3 25,166,414
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#uniform)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-integer-formulas --project integer-formulas --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

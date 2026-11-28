@@ -1,6 +1,6 @@
 # Integer lifting and color differences
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -25,6 +25,16 @@ cmp runs/large/raw/wall2.ppm runs/image.restored.ppm
 
 Each tile can use direct, color-only, lifting-only or combined coding. The encoder tries one, two or three pyramid levels. Each subband retains signed coefficients using ZigZag mapping and low/high byte planes. Odd row and column counts reuse the nearest endpoint; the inverse reverses the predict/update steps. All variants use the same Zstandard backend.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Image samples in a tile"] --> T["Decorrelate color and apply reversible lifting"]
+    T --> W["Store signed subbands and layout"]
+```
+
+**Mechanism and test.** Neighboring pixels can yield small high-frequency coefficients. Color-only and lifting-only profiles isolate their contributions. One image selects identical outputs for every profile, so image structure matters even within the same corpus.
+
 ## Inputs and measurement
 
 The three original wallpaper PNGs were decoded to canonical 8-bit P6 RGB before benchmarking. Every method restores that complete canonical byte stream, including its header. Timings and sizes cover encoding the raster, rather than reproducing the source PNG container. Dedicated baselines include PNG, lossless WebP and lossless JPEG XL.
@@ -41,6 +51,18 @@ On `wall2.ppm` (96,560,657 raw bytes), `wavelet-joint` produced 32,392,630 archi
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `wall2.ppm`, `wavelet-joint` delivers 32,392,630 bytes, 15,192,956 bytes smaller than standalone Zstandard 3 (47,585,586 bytes).
+
+Holding `wavelet-joint` fixed across the 3 measured input/reference settings with a standalone Zstandard 3 control gives **3 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### wall2.ppm · 96,560,657 raw bytes
 
@@ -86,6 +108,16 @@ Same-input baseline archives (bytes) · Lossless JPEG XL 12,086,473 · PNG 23,52
 Same-input baseline archives (bytes) · Lossless JPEG XL 407,227 · PNG 900,638 · Lossless WebP 436,166 · Zstandard 3 733,973
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#wall1ppm)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-reversible-wavelets --project reversible-wavelets --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

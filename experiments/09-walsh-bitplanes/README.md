@@ -1,6 +1,6 @@
 # Experiment 09 · Walsh–Hadamard prediction and bit planes
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -31,6 +31,16 @@ python3 ../../lab.py 09 benchmark ../../runs/recheck-09
 Split into 32-byte blocks and optionally transpose to bit-plane order. Map bits to signed amplitudes, zero-pad to a power of two, and apply the fast Walsh–Hadamard transform. Try 0, 1, 2, 4 or 8 retained coefficients by actual record size. Transmit each coefficient index and ZigZag amplitude. Threshold the inverse transform and DEFLATE the exact XOR mask. All four profiles use the same residual backend and framing. The decoder reverses the plane layout after applying residuals.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Byte block"] --> T["Reorder planes and retain Walsh coefficients"]
+    T --> W["Send coefficients and exact XOR mask"]
+```
+
+**Mechanism and test.** A few coefficients can describe extensive regular patterns. Precision is recovered through the mask, whose size can exceed the avoided literals. Compare plane-only and predictor-only profiles to isolate the source of a change.
 
 ## Inputs and measurement
 
@@ -66,6 +76,18 @@ On `manual-library` (24,283,584 raw bytes), `pilot09-combined` produced 13,922,6
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `manual-library`, `pilot09-combined` delivers 13,922,627 bytes, 12,019,261 bytes larger than standalone Zstandard 3 (1,903,366 bytes).
+
+Holding `pilot09-combined` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 2 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### manual-library · 24,283,584 raw bytes
 
 **Standalone archives**
@@ -90,6 +112,16 @@ Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foregrou
 Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foreground) 213,732 · DjVu (wide strips) 191,132 · CCITT Group 4 1,270,850 · JBIG 707,797 · 1-bit PNG 1,418,635 · XZ 9 extreme 930,864 · Zstandard 19 1,034,431 · Zstandard 3 1,325,134
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#manual-graphs)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-09-walsh-bitplanes --project 09-walsh-bitplanes --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

@@ -1,6 +1,6 @@
 # Experiment 15 · Regenerating binary regions
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -34,6 +34,16 @@ Cross ELF header generation with local formula scanning. A little-endian ELF64 h
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Executable or other binary"] --> T["Identify ELF fields and matching local recipes"]
+    T --> W["Schedule profitable intervals and copy literals"]
+```
+
+**Mechanism and test.** A reproducible header saves bytes only at matching locations. Runs and backward copies can help other regions independently. The single-component profiles test whether ELF semantics add anything beyond local repetition.
+
 ## Inputs and measurement
 
 The planted file contains a generated ELF header, indexed constants, runs and random gaps. Two complete held-out lab executables are the rusage wrapper with a GCC build comment and the repdigit scanner containing a Clang build comment. Treat both as byte strings. Family statistics give regenerated and record bytes. Subtract the latter for net savings.
@@ -64,6 +74,16 @@ On `mozilla` (51,220,480 raw bytes), `pilot15-combined` produced 35,313,184 arch
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `mozilla`, `pilot15-combined` delivers 35,313,184 bytes, 17,031,892 bytes larger than standalone Zstandard 3 (18,281,292 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### mozilla · 51,220,480 raw bytes
 
 **Standalone archives**
@@ -76,6 +96,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 13,376,240 · Zstandard 19 15,071,672 · Zstandard 3 18,281,292
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#mozilla)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-15-binary-regions --project 15-binary-regions --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

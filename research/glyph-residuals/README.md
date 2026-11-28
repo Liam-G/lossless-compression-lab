@@ -1,6 +1,6 @@
 # Repeated glyphs and an exact bitmap residual
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -19,6 +19,16 @@ cmp runs/large/raw/manual-library runs/manual.raw
 GLR1 counts 8-connected components in 512-row strips. It takes at most 4,096 repeated bitmaps. A position can use an exact shape or a nearby shape with the same dimensions. The encoder XORs every placement out of the source and codes the residual using Zstandard or JBIG. Applying the same placements to the residual restores every pixel, including boundaries, drawings and any correction to an approximate match.
 
 The original position stream sorts placements by their top or bottom, then codes glyph IDs, row steps and signed horizontal gaps. The `position` profile also estimates a baseline offset for each shape, groups events by inferred text line, and tests causal predictors for the next symbol and character spacing. It charges the dictionary, baseline offsets, choices, positions, and residual. Dimensions and all stream lengths are in the archive. The bitmap uses MSB-first, black-one rows and accepts widths divisible by eight.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Packed document raster"] --> T["Find repeated components and model placements"]
+    T --> W["Store glyphs, positions and correction pixels"]
+```
+
+**Mechanism and test.** Typeset pages reuse shapes along baselines. Storing a glyph once helps only when reference IDs and locations are cheaper than its pixels. The residual pays for imperfect matches, diagrams and unmodeled regions.
 
 ## Inputs and measurement
 
@@ -43,6 +53,16 @@ On `manual-valgrind` (30,924,288 raw bytes), `glyph-position` produced 394,104 a
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+Holding `glyph-position` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **2 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### manual-valgrind · 30,924,288 raw bytes
 
@@ -106,6 +126,16 @@ Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foregrou
 Same-input baseline archives (bytes) · DjVu 213,659 · DjVu (separated foreground) 213,655 · DjVu (wide strips) 189,610 · JBIG 1,108,897 · XZ 9 extreme 1,354,964 · Zstandard 19 1,525,436
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#manual-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-glyph-residuals --project glyph-residuals --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

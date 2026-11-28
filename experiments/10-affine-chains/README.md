@@ -1,6 +1,6 @@
 # Experiment 10 · Affine instruction chains
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -31,6 +31,16 @@ python3 ../../lab.py 10 benchmark ../../runs/recheck-10
 Input is a sequence of big-endian signed 16-bit (a,c) pairs with a verbatim partial tail. The fixed profile ports the 240 shortcut and both escape cases. Dictionary transmits the ordered multiplier table. Conditional additionally transmits the modal c per multiplier and codes deviations from it. Both dictionary profiles encode the multiplier index and signed residual with varints. Decode the same instructions into their original bytes, and evaluate x ← a·x+c from x=0 using both sequential and balanced algorithms. Compare the exact resulting integers.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Signed multiplier and offset pairs"] --> T["Use fixed shortcuts or learned dictionaries"]
+    T --> W["Write instruction codes and escapes"]
+```
+
+**Mechanism and test.** Frequent pairs benefit when their common form has a short code. A learned table adds a delivery cost and its indexed instructions may be longer than a fixed shortcut. Reconstruction speed and instruction size answer different questions.
 
 ## Inputs and measurement
 
@@ -71,9 +81,21 @@ On `affine-pairs` (25,165,824 raw bytes), `pilot10-fixed` produced 6,304,526 arc
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
-H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+On the primary input `affine-pairs`, `pilot10-fixed` delivers 6,304,526 bytes, 2,992,766 bytes smaller than standalone Zstandard 3 (9,297,292 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.
 
 ### affine-pairs · 25,165,824 raw bytes
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on affine-pairs.](figures/paired-affine-pairs.svg)
+
+Of 2 measured profiles on this input, 2 reduced gzip size, 2 reduced Zstandard size and 1 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -100,6 +122,25 @@ H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits 
 Same-input baseline archives (bytes) · XZ 9 extreme 6,867,572 · Zstandard 19 7,421,335 · Zstandard 3 9,297,292
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#affine-pairs)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-10-affine-chains --project 10-affine-chains --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
+
+A separate paired run also records entropy, stream hashes and the three backend sizes.
+
+```sh
+mkdir -p runs/paired
+python3 research/large-scale/entropy_bench.py pilot10-conditional runs/large/raw/affine-pairs runs/paired/10-affine-chains.json
+```
+
+[All paired stream hashes and compressor versions](../../research/large-scale/results/preprocessing.jsonl)
 
 <!-- END generated project measurements -->
 

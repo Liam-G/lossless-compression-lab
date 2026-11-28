@@ -1,6 +1,6 @@
 # Experiment 04 · Irrational sums, backtracking and checkpoints
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -31,6 +31,16 @@ python3 ../../lab.py 04 benchmark ../../runs/recheck-04
 Treat each 12-byte group as a string, including the final short group. Use the first two or four roots of 2, 3, 5 and 7, with coefficients in {0,1} or {−1,0,1}. Scaled integer square-root bounds certify the entire fractional prefix in base 10 or 36. A one-byte tag gives the mode and span. Transmit raw bytes, a packed alphabet rank, or a one-byte index into the deterministic sum table. Checkpoint profiles use dynamic programming over splits and whole profiles require one segment. Alphabet and catalog settings are conveyed once by the file profile.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Digit string"] --> T["Match a root-sum prefix or split at a checkpoint"]
+    T --> W["Emit catalog index, alphabet rank or literal"]
+```
+
+**Mechanism and test.** A catalog entry replaces many digits only when the decoder can regenerate the same prefix. Checkpoints recover partial matches but introduce tags. Packed alphabet ranks provide a separate explanation for savings on random digits.
 
 ## Inputs and measurement
 
@@ -74,6 +84,16 @@ On `wiki-transfer` (25,165,824 raw bytes), `pilot04-10-2-signed-checkpoints` pro
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `wiki-transfer`, `pilot04-10-2-signed-checkpoints` delivers 27,248,340 bytes, 18,279,884 bytes larger than standalone Zstandard 3 (8,968,456 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### wiki-transfer · 25,165,824 raw bytes
 
 **Standalone archives**
@@ -85,6 +105,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-04-irrational-checkpoints --project 04-irrational-checkpoints --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

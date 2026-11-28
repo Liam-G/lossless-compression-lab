@@ -1,0 +1,334 @@
+{
+  "experiments/01-repdigit-segmentation/figures/archives.svg": [
+    "d18355e3c2681fcd41fd4737e806751c3b3ac1a17c4884b76e0ff7ff5cc25ff0",
+    "4aa7df9e92a00781fd16e0a258e082e555e3f683f0da4c5b33eba755e8455008"
+  ],
+  "experiments/01-repdigit-segmentation/figures/paired-wiki-transfer.svg": [
+    "b84736a5fbd733b8c843f59b98dcaae6fe023b879c313d9b5cc2352df8476a16",
+    "782662d74af63aaff5ca2cff74991668328f0ea0aa2850620f0cbfc43c919d39"
+  ],
+  "experiments/02-near-factorization/figures/archives.svg": [
+    "f63bee0e98ee2190300818f07fb0b2a0c13e25248bd4267c92ecededcb6dca02",
+    "36f2c6e7ee2fb798d91bc2dcf73d8188471b1d3d46ede7cbb4686f696c5ecb7a"
+  ],
+  "experiments/03-generator-residuals/figures/archives.svg": [
+    "38b16c9098a82b17bac2aab5475257721f6322d494441a2f81449ab30a960b39",
+    "b5ba228e695548ad8d9cf86ec48a5c23173a1eb51675dffa9a6da9022c98f078"
+  ],
+  "experiments/04-irrational-checkpoints/figures/archives.svg": [
+    "45cc09ab5aa4f8fe8f98426a7a113122d8794875f5d84d403d156b726f363375",
+    "32c4e5925de3fb09cebd18341d1855c3c04bf10b29e324fc82bd2a7be55cbf10"
+  ],
+  "experiments/05-local-bases/figures/archives.svg": [
+    "dfff04816f6d2ca43bbb0ec33939fd77b753209ded3c80bee3097339765cb728",
+    "b4b6aaa6955c43faf5078eebceda74d530438b7ae9af15da6bfc94f10600786e"
+  ],
+  "experiments/06-reversible-automata/figures/archives.svg": [
+    "89b81668b44198a8afbb36dbca75dbfb949a849b5b8a7185ba6e5b31d13c73c1",
+    "ac9aeaa9f31befa7071cdea72991ee8d2caf2fbd9a3ab72e75ef4923132c05fa"
+  ],
+  "experiments/06-reversible-automata/figures/paired-shared-orbit-1000.svg": [
+    "77deb9aa1128ea633b8abfbbae60b180bebd4bff5dbb42c56bb12ad28c2cfdf9",
+    "370e236f3acfa65c2ecfd0ebfd162280b8dc497ffaeb1265895cd74ab444cd25"
+  ],
+  "experiments/07-recursive-gf2/figures/archives.svg": [
+    "b48091283e52c9d84a7b045db85c23891f77c4b5e51fc9495061b2fad9aa85b5",
+    "be05268ea64248a795d517e4d0710487dc852112b8bd6d988936d91a465f3f61"
+  ],
+  "experiments/07-recursive-gf2/figures/paired-manual-graphs.svg": [
+    "0a17215502ed3b18203bee874601485f4faa8ef89fa86dc374c2b29f6f567567",
+    "6a29d92213f3bf96a28402493d86e209943d217e9185f68762fa79ebd3ca3903"
+  ],
+  "experiments/08-equivalent-factors/figures/archives.svg": [
+    "5ff58448790fad6e6800984a0cf271408983804358e0fb7b7cb206950b90c527",
+    "358a8bca0e07c1d8d66740a291fbe4747ba9529f0a580117688b80d2b9fad52e"
+  ],
+  "experiments/09-walsh-bitplanes/figures/archives.svg": [
+    "975eb6dc59c5854966024a50a0e2cf0f76b870f57f0f19eebc2dd98f3605928a",
+    "b477e8ba526f42e4b0921c991ebf787ec02ea8ed777fc509fb159c87c7ce5e1e"
+  ],
+  "experiments/10-affine-chains/figures/archives.svg": [
+    "22bdb20e24b89613d745607e1282dde35c576d6b4d69b5d38b5aca293d8a3d10",
+    "3fac62d8950a3ece9217058a703ddc513896206e4f6dda70a4e85a8377792459"
+  ],
+  "experiments/10-affine-chains/figures/paired-affine-pairs.svg": [
+    "9a72e2cda967a05a488e2068ebec56491ca9f95d0921ab18b5ee8a6bb7d72463",
+    "4734d6ca5fb521d53274f83282536984e6a9f8f5797921cf24e43c67a68f7098"
+  ],
+  "experiments/11-shared-subexpressions/figures/archives.svg": [
+    "daf916bbe6742cc505d03f41df0981d9fe8035d916220e48c0ad9236f2683941",
+    "3aa44e90c318805da9c6eb1a3b2b2e14334d6db3350b081c2a81a0e574346893"
+  ],
+  "experiments/11-shared-subexpressions/figures/paired-formula-text.svg": [
+    "1d7e8163b32514f0f9846b7723e52881832cb992dfa4a97531d3c6c83f7b37ea",
+    "f74b4c17e87a4d5b77a8fd7ba62491e2827487624c54caf52986aa274f9ebb5c"
+  ],
+  "experiments/12-relative-patches/figures/archives.svg": [
+    "2d4660ac60ad72629087fefe1c341a5e079a0a9a08cb73cbd5bc22b2be8afe77",
+    "d63cae5e2fa3e0ecade3a1f7e134365e3f3bce7c04f2e24e035eb09f54f66575"
+  ],
+  "experiments/13-bwt-prediction/figures/archives.svg": [
+    "0ec4f89c8cefb6c286bb8b989667de1a7542a45649d56d52fa219cb159f4940e",
+    "01f7ccc368a29324a6e2bf15de899b099aec154feb21b81724352b4777560dc6"
+  ],
+  "experiments/14-sparse-residuals/figures/archives.svg": [
+    "11b70f708917ea92c183bdcd01aa8c75aa67067bda840e25db7e00d22472e26d",
+    "62e0aabb31b08b4ac3eac44814b6799412b89cec13f278e750fee2334d528c99"
+  ],
+  "experiments/15-binary-regions/figures/archives.svg": [
+    "4678de0283bd7fff1f50359dff6a5cf24217c8a24e5c06e3a434740e95b7580a",
+    "45435f82d9e9180d58d0cb7a5c3d4a2760406345128b64daf3de08fd3cc87fde"
+  ],
+  "experiments/16-joint-selection/figures/archives.svg": [
+    "b5fcaafbd80726ee3fa4b86b8808b0facedf23124b204eedd29eacce4efc024a",
+    "8069878e2c04f58ee4b194ce15649a0e35ddbc8ddb3a71abbbcb0d30619a9906"
+  ],
+  "research/arithmetic-references/figures/archives.svg": [
+    "d92b88c2dce2c55a2506881ecae0509612634a077b9577d273fa2a72a5435aea",
+    "9548f4ceb1c85d10f0da4a1d1fe6bb5e96c136dc37e96966774beb87da931d35"
+  ],
+  "research/carry-trees/figures/archives.svg": [
+    "d991e41e1e84e4786227d94f439441cdeec30fcf993ed49b151d2d240b39b218",
+    "b2e4bbb5d6ab2368cc73e79263b27375cf5cc3df416d5457c2e9ba1d9893f45d"
+  ],
+  "research/checkerboard-orbits/figures/archives.svg": [
+    "24325dfa4c610e3a657078ae966acc78de756d7da08f09666b05a3b5d9d644a3",
+    "c91ed50e7addb48c02d557965117ce69b1e002e0d4024dffce8814ba20a9880d"
+  ],
+  "research/checkerboard-orbits/figures/paired-evolved-stamps.svg": [
+    "4bb4c6b0bd38c747b90bd068f01ccd99e89a90845efd894fc0ed8fd1d78b7f7c",
+    "49cb5aee211239be9103ca20be3c3bc556cb839147aa34c558e813766cab7432"
+  ],
+  "research/checkerboard-orbits/figures/paired-graphs-shuffled-lines.svg": [
+    "144d55cdea7d7029679842e89ff5ae96f375e35bb88e016becdc6f5092dc72d5",
+    "fa7110df5ee64de01b1557fffb6e964b63fa2e283cc397e938c98baec2dbaa58"
+  ],
+  "research/checkerboard-orbits/figures/paired-manual-graphs.svg": [
+    "0c4764678e696f769322803dcbc03c15d456cfd11dfe116d90501cd83839f985",
+    "bcb2985d3fa5d9d542f20b16c9722a260cb7f183dfc5a10a8620f86d53d45631"
+  ],
+  "research/checkerboard-orbits/figures/paired-manual-library.svg": [
+    "64fea7586db22adbb27bf518785d3c20acc96f1bcc24bc7afe56062fa7fa3069",
+    "899f15e9c8cdce82f0070e7c63e72489b1ee796c23eeb5305c3031d319a915c5"
+  ],
+  "research/checkerboard-orbits/figures/paired-manual-transfer.svg": [
+    "006957d7854ac8a9c4990e551b25a6ca6103c5b1517b6a0063e26c5a98c1e072",
+    "06a2af7bdf2401354145882d0d596a0262f1eb89457e962020478be1e0afd7f8"
+  ],
+  "research/checkerboard-orbits/figures/paired-manual-valgrind.svg": [
+    "695326a8b5be8f9f9f8f2e70e16af6e617d428ee163bf2dd5f744b1cc5bb4f4f",
+    "8d3fb0ed03bb9d36a4e253d7aae81861f91c03a664430a72a12547b5077140df"
+  ],
+  "research/checkerboard-orbits/figures/paired-rotated-stamps.svg": [
+    "17bb66a538ec81ef79360b2e0a422d4b4be844638114fbc3747d332ee376980a",
+    "f4bb638cece27b01804e38ebb9ff23409cf99a36fd8adf7d939c7875e5ac8589"
+  ],
+  "research/checkerboard-orbits/figures/paired-uniform.svg": [
+    "d163dda0a4dd2a1bbfbbb7d62eba0c45302af6822864966a4e3b3a09502c9573",
+    "72907ccd309e6c525f8af89c1f9214e7dc57d8f28573c449a4c02c0ebfcd2c80"
+  ],
+  "research/context-mixer/figures/archives.svg": [
+    "bb6eccb7107744a84ac393fb393ea9e90960938479441a1c32e20cb32081f9dc",
+    "ede9dfb866ca6a1b4ce7d57506a3279d2dee1e87b6e1447ce1777a797a30193a"
+  ],
+  "research/distance-geometry/figures/archives.svg": [
+    "fb503d12a4c96260764df1f6eeba5981bf7b51503590a1e5b4148fba2073ce32",
+    "1a0cfea64c78cf186e46446bfaf9f1df095452e4468476f5680de36cc49ed157"
+  ],
+  "research/factor-trees/figures/archives.svg": [
+    "6e64de1342b7d6a5c9c0a4fcb5a1bbf8e826988bb902dcd9814d6a66d7d7808e",
+    "51fe299f936d25dc7eb8e949c2979faeeeb7bd7ae8807a606170c6b913f4f45c"
+  ],
+  "research/four-dimensional-factors/figures/archives.svg": [
+    "2891e8a9a44cc380184778929ee871c651747a1acf528b14b8c7a978c0d7f17e",
+    "7ccd6f921f5a11d04fe64337412de4eb4d91260a8acb956b0e300c00ec4876a0"
+  ],
+  "research/four-dimensional-factors/figures/paired-noisy-spacetime.svg": [
+    "7690297fc8ad57397b51718217328f69c1f6495d072b16cf9326d581752325c7",
+    "645c98f39721074ee208f1e5060959d45cb35db07cafa3df86890466e4a40616"
+  ],
+  "research/four-dimensional-factors/figures/paired-numerical.svg": [
+    "e42768a653d55eb0960e894f1bf3280311d93ac29963e77f7bf4d1edd26c75b2",
+    "9249bedea3f195cf9360a3228485f642c99bf93e120f36c129ce18d09ebf8e69"
+  ],
+  "research/four-dimensional-factors/figures/paired-samba.svg": [
+    "5a0fd6a9383c390961f58bff9630a12d66fb0ed5e78f5373e828d354b5e543c8",
+    "31bc5f8606bd098d57b6286c69dac2127b0a098d85ca5685d452033a02d1d122"
+  ],
+  "research/four-dimensional-factors/figures/paired-uniform.svg": [
+    "44dbdf8f921f791a2ba1945ad3ce54dbb91286ba88bf46ca5ae83b96f630a29e",
+    "e1b31d9bbf2ffbaef3d8e4cdef78151cce8e53dbb01035934ab0eb09b1c8f5e9"
+  ],
+  "research/generator-sums/figures/archives.svg": [
+    "92e1df22075c18054922c40760d719e5434324a1b7a5fda78d731fc27a15a89c",
+    "bc754eadc7efd6de7f62a9ce876f541c4fffec5a0b1cad8be88661183f4b813f"
+  ],
+  "research/glyph-residuals/figures/archives.svg": [
+    "fa55440b03fa9d153c6f8bf6fc9c102abf407bf9094a94abb3929c85e7582264",
+    "0e1d7344fadc5837e09d8fa1a8cbb05568f0764c4e1827eca5ee7bba4fd692e9"
+  ],
+  "research/hierarchical-gf2/figures/archives.svg": [
+    "1de2674c59c5558b8748c8c8eea89b29b0cfb39bdc6e1633ae9d6552dee98725",
+    "fd462766022ca152786035579d5d13f20763363480a1d92eca008b4ee273e886"
+  ],
+  "research/integer-formulas/figures/archives.svg": [
+    "53794c397ef61a08ed05381fbb1de30a4a7bd9615e52d401849dd81330750ad4",
+    "7bb7ab9d74724b4bde5c4d5664476b286ce5151de71c6512c055f709d4ca4a20"
+  ],
+  "research/large-scale/results/entropy-agreement.svg": [
+    "05e0c3e5ec12979e28b4ad32d1158f0526780154ccc39aecfaca3545bd3f7357",
+    "cbb19244e2b762ea52689e89b1fdcd56ed9ebc35b1ae9c16f04a3885741f1446"
+  ],
+  "research/lattice-prediction/figures/archives.svg": [
+    "e82e3865703d7ba399f759f63d32a51b7d954f013aa04122d1b96b6c49a90cb5",
+    "87f2d64a1bd62ba673afd29297dbf719fbc473a3608f7e845351bcab5a62952a"
+  ],
+  "research/lattice-prediction/figures/paired-covertype-prefix.svg": [
+    "219c8e784d8f59a59fc835357dae43e08897d27da400658228d80b2f5731eb05",
+    "75c9cd4d0acba2179dc13d033b250b9c3af5d25978b3b15b3527fa0910c469d9"
+  ],
+  "research/lattice-prediction/figures/paired-nci-row-shuffled.svg": [
+    "dd4e5cff3b82dc75544eec5699692da0ef271940ecfef338097c57b337b34c9e",
+    "4977b305b0fb2bc6fe61c95dc45bfb4d3351850c6b2b238214f6a85f41d8320f"
+  ],
+  "research/lattice-prediction/figures/paired-nci.svg": [
+    "a76e53ab44a3d3340ec10b96a5d38a2cdb3025706a1070ba5bfc89e08e115122",
+    "a4e1d8c447f1a967cb1ebaddb3905bfede6f3c9f14f8057a0c31c6423f8c3c38"
+  ],
+  "research/lattice-prediction/figures/paired-noaa-1990-prefix.svg": [
+    "503ac7aa2dc80ff7fdc7e890291c8b536b45c2571c9a9c12142411c14661ac93",
+    "889beecdee4f57f4b80d31ae636249fd7fa2f4ef41728d2bd141fc40ea155493"
+  ],
+  "research/lattice-prediction/figures/paired-noaa-2020-prefix.svg": [
+    "609808eb182180adb24b845b4919f046489b770b80db3e6015104bf854ebeb89",
+    "d72d62cb2427a03a09c6064a1e086ed5d607089b3f976aa65680524da4426ecf"
+  ],
+  "research/lattice-prediction/figures/paired-numerical.svg": [
+    "f7ff4201e81b2730ea68c2ec9aec7671ba689b8494b77b5cfb5a3067acbc579c",
+    "1da3966e11abc0ceff0794db8334afbc1cc2e4876628b43a6fe32c4c09438c18"
+  ],
+  "research/lattice-prediction/figures/paired-uniform.svg": [
+    "678d07ebfb70ee56181d9854cc813521c61dfadbc2b100c036d0cf8f0b393895",
+    "518f3d2b1eadbea0c9ee42caba486ef97480895ebeaac42442ecb8a2e6a68d46"
+  ],
+  "research/lattice-prediction/figures/paired-webster.svg": [
+    "a39d3a30ec804bd6b625e75cd5457d48e373a160a90acb1ab06c167ea2f4301d",
+    "6135e942ac036f244dcb38a61f2bae4932905ed8f13d8f94d8b8f22c83b1a5ee"
+  ],
+  "research/lattice-prediction/figures/paired-wiki-transfer.svg": [
+    "8b657cba9cc54026b7adbd3d337a8f9479ae682a740986374abe5aac67ebc8c6",
+    "260aec64b39042ae9da88c25f987d1081392a9d0cfb9ef9de386d5434013ad57"
+  ],
+  "research/learned-cellular-rules/figures/archives.svg": [
+    "edfe812ad8863a5716d41ed2c4c960dcededbce3c001f928ace95e80312c254a",
+    "3532c35ff0d9368086ae94040c8cd083ddc299c34a77c965d8048286038cebd1"
+  ],
+  "research/learned-cellular-rules/figures/paired-learned-field.svg": [
+    "2aa77041cc301b02cfda61353bb12ccf1e26dc2a99fec2aeef6875500256d16b",
+    "36fa0ce2edc9037103f83a971553d3328b98dbac0e004110edaff1412b675c8c"
+  ],
+  "research/learned-cellular-rules/figures/paired-luma-jake.svg": [
+    "5deccd1462c60f9eeab512e69c702b4ac3363395502f1750ee0c57fbc92ba346",
+    "cfd4ec540e549e50a58a4ec959c18a7a90a6f172bd41ac51623a47a5c0660e41"
+  ],
+  "research/modular-kronecker/figures/archives.svg": [
+    "14bbb2b8cdd2a0e27e374e077b2c00a9cc67041c344d38c7da79863e2e552226",
+    "3e9faebd98cc0bb123524353f8294ef2c6d800fd1629e22904c8dc0c6a87006d"
+  ],
+  "research/modular-kronecker/figures/paired-modular-panels.svg": [
+    "f2863ebe9e38487a5e4a386a7833118b9b7cf3ade2b0bfacbd197bc3ce649db3",
+    "3de3334a6aeb2ef605df90934405a7445065573d84d1f3e00890ea00723f57fa"
+  ],
+  "research/modular-kronecker/figures/paired-numerical.svg": [
+    "70b56df8bef0f37d1647113a1ecd5bd764ca7aeeeb2b626883ffd65b8ece3611",
+    "fafc34907c9431934450f9db743c417658e2ba326feee6a1c53cce68e7cefc94"
+  ],
+  "research/modular-kronecker/figures/paired-uniform.svg": [
+    "9159c9270764bde7d013cf04d4bc132421cea88a218685057870970622b43152",
+    "22133866115c1be077edd06eae175c5a58a5dcef210c92e71f83bf2dc2f3e8b5"
+  ],
+  "research/motion-residuals/figures/archives.svg": [
+    "620681972ee1cc2e5a8ceb4f6350d182d5aebbc5edd7f94f6ed710fe30d052f5",
+    "71e3ad0d50392ea5959c694b925d6f11843a30d323f85bc0c47065c6081c7524"
+  ],
+  "research/portable-arithmetic/figures/archives.svg": [
+    "e74e4b768314e5e8af41f7c68cb30d555c86871492a415d206d77320aeeca918",
+    "ef77ef1596547e079eeb827404d0d89e9f4b99a3beb8e137d6e58b174fd70991"
+  ],
+  "research/prime-index-trees/figures/archives.svg": [
+    "e8a649a6a10e8b01172d48121bbdcfc7702766f2c6eac2b368f07222fd0a047e",
+    "49dee91b302c5283d93f76732620cb2c824a8b37e25db1d334b07023ef6208e4"
+  ],
+  "research/quartic-trees/figures/archives.svg": [
+    "94159df6e2285a1698b475fc49fabb5d77f843d8329b67abf36af505c2f9aee7",
+    "0df6b48b8adacfa56e9556eb685845da14c42bf83b9975464a68e73665b61a85"
+  ],
+  "research/repdigit-intervals/figures/archives.svg": [
+    "88c7ed7f284f530041b1bfd14f6e57aa8d5ec3a8d43910df66a1506d93a1cadf",
+    "3c53094486b8c09674c745dff85eda3df6d474446301c1e97c1b37875bc4e68a"
+  ],
+  "research/reversible-wavelets/figures/archives.svg": [
+    "a62bac14d975f2009c05733bdb2459dc15c339b8553fe86eb3280fe0e7291634",
+    "61731cc997f7879ffe8be792683c29ee1d11edc2a2f6ad9d62d3f5fa706de7fa"
+  ],
+  "research/shape-context/figures/archives.svg": [
+    "9bf7e4871c2005de564d7215b4fb2a170ac32fb086dd7288dc820a28083ada79",
+    "8ff302cb4b1caa9c5accfc4d63b564f7df9abf99ef07a86c98ec45f2611a7e75"
+  ],
+  "research/shared-factor-forest/figures/archives.svg": [
+    "437e5921b4932e6249277635d050c47394780df2fa48ed7b09fe22128c0a4417",
+    "a9f6ac00237fc4cf9a23d503c021084ea504da54c16b6072a81f2c7392e87195"
+  ],
+  "research/shared-factor-forest/figures/paired-hidden-products.svg": [
+    "280d77cc161d37d3cbb417f669aae04a12045d0c65e97ec38777877a44234946",
+    "59800c5e9f07ee6423d3323319b46e4d1960edfbbea20ba5ee67ef44f335e90a"
+  ],
+  "research/statico/figures/archives.svg": [
+    "f7ce1c08377841788635ae9facd8feb3dbf51f3a75602b70444006cd204ec72f",
+    "472aef464e439a863175b96d416ebb4f8cfe3facda51ac7fff96d89408abcba7"
+  ],
+  "research/tensor-orbits/figures/archives.svg": [
+    "48fb48976b9fb9fb789ff96e29cc557abbff171a6e0eeab81666fd230218da5d",
+    "7af64234d931b6303af98355976b5918bd8b3b8ef2de4b9275687272dbcc6e9e"
+  ],
+  "research/text-views/figures/archives.svg": [
+    "2a3ec98e41a42e833eaf62e55a78c4be440bab1832d609f88ce946e78f16aa95",
+    "e2427968cc2c8d4384b5c01e717064212dbb93d3144637cbab7506d91bedb7d5"
+  ],
+  "research/text-views/figures/paired-wiki-transfer.svg": [
+    "34369471eda296e8026c31b4b6ea50224a8f38a83d4ba469bab3f3649c2c50d3",
+    "25ad63aad387c1ac5e850ece336d5a276df308fd58f6102ba4c793d0f8116749"
+  ],
+  "research/whiteboard-census/figures/archives.svg": [
+    "c7c8800db2f5a0be8153dd20867a2e25b6fed1d3237410e7b612a9686f490e62",
+    "e1628a5bf8457761e4d6abcadf5574a306736269c82b55e77d4e3a94f4e275fd"
+  ],
+  "research/whiteboard-census/figures/paired-shuffled-witnesses.svg": [
+    "a608e84c6ce9682398c31b18501422694261e7407090bf65e30fb8777772c6fd",
+    "2449a861b2f0a37a96dfeb9b0352142b16641f4345891f1eaf071e880beef925"
+  ],
+  "research/whiteboard-census/figures/paired-whiteboard-witnesses.svg": [
+    "ae090635c52cb6bd87d33deae062965e06471feffe30c14ee873bd76c22c87ba",
+    "096f29c4c857c36c16ad985febe1e4dfdd29ef7235cc9a13b5e0264e3e8cde33"
+  ],
+  "research/whiteboard-trees/figures/archives.svg": [
+    "17db0df42e386b87fc10f08b0a279dd270b94c68ee3db22025fa8169426ef33e",
+    "9ac33b1e05c8816ea56c168b2a277ae1f55dadcebdd366913740fa07b55764b6"
+  ],
+  "research/wiki-structures/figures/archives.svg": [
+    "6e754fe2a4b695157145a5efa8448b54135c94767edce8c12bede54c9e09e84c",
+    "194c1c1f831602aae2a9a097089616aaccca2a251c238bd1428cac3f0f111618"
+  ],
+  "studies/automaton-factor-residual/figures/archives.svg": [
+    "6f11b793849fd0a08e02726cbea85a4ae436d5096e9be913bf7636540aaf4b6b",
+    "9ab5d430f26613d82492172ca39a7be07a5254a50d1a0a6d08fab8335b2fb149"
+  ],
+  "studies/formula-factor-grammar/figures/archives.svg": [
+    "51df54586fa4fff07f65e01dafe48e384917be8578e46f0bc5646cbeac367dd2",
+    "8515da33796ba2277701b67dc8c121010a24a3c773917861a04b093325f22c50"
+  ],
+  "studies/reference-formula-intervals/figures/archives.svg": [
+    "43a0a81fb517778f7fabeffa1edd237a6f20ea2f6ad6ef764c0b7fc3ad266591",
+    "d2ca24162243487619f52729de936c5e9d1d3cda275202dfc2b5fcdfc0132205"
+  ]
+}

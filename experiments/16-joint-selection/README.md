@@ -1,6 +1,6 @@
 # Experiment 16 · Joint selection of compression methods
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -32,6 +32,16 @@ python3 ../../lab.py 16 benchmark ../../runs/recheck-16
 Each candidate emits a method tag, regenerated width, body length and body. Compare a complete-file choice, choices on fixed 32-byte blocks and variable intervals starting at every byte. At each permitted width try DEFLATE, a direct repdigit from a frozen catalog, or an exact rank-one GF(2) row model with a basis byte and row mask. Variable search uses widths 1, 4, 8, 12, 16, 24, 32, 48 and 64, clipped at EOF, plus a complete-file edge. The regions extension additionally tests ELF headers and frozen constants. Dynamic programming charges a fresh DEFLATE stream at every literal interruption and checks the serialized record bytes against its predicted cost.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Byte intervals"] --> T["Price formula, rank-one and literal candidates"]
+    T --> W["Choose a path covering the whole input"]
+```
+
+**Mechanism and test.** A method can help on one region while interrupting a productive compressed literal stream. Comparing fixed boundaries with variable intervals tests whether moving the cuts pays for restarts and tags.
 
 ## Inputs and measurement
 
@@ -65,6 +75,16 @@ On `manual-library` (24,283,584 raw bytes), `pilot16-intervals-regions` produced
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `manual-library`, `pilot16-intervals-regions` delivers 2,157,752 bytes, 254,386 bytes larger than standalone Zstandard 3 (1,903,366 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### manual-library · 24,283,584 raw bytes
 
 **Standalone archives**
@@ -90,6 +110,16 @@ Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foregrou
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-16-joint-selection --project 16-joint-selection --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

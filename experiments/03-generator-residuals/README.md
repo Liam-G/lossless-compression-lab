@@ -1,6 +1,6 @@
 # Experiment 03 · Powers, generator sums and exact residuals
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -34,6 +34,16 @@ python3 ../../lab.py 03 benchmark ../../runs/recheck-03
 Use 16-byte big-endian blocks. Generate a seventh power or the sum or product of two domain-separated SHAKE256 outputs derived from one seed. Reduce the prediction modulo the block width. Each tag carries the seed or the literal escape. Additive corrections use ZigZag LEB128. XOR corrections store a population count and the bit positions. A low-byte population bound prunes XOR candidates that already cost too much. Test seed budgets of 8, 32 and 64. The inverse requires only the profile, seed and residual.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["16-byte word"] --> T["Generate candidate values from seeds"]
+    T --> W["Store seed and additive or XOR correction"]
+```
+
+**Mechanism and test.** The kind of error matters. A small integer offset is cheap as a signed difference, while a handful of bit flips can be cheaper as positions. The planted controls vary these independently.
 
 ## Inputs and measurement
 
@@ -82,6 +92,16 @@ On `wiki-transfer` (25,165,824 raw bytes), `pilot03-sum-add-8` produced 26,751,7
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `wiki-transfer`, `pilot03-sum-add-8` delivers 26,751,758 bytes, 17,783,302 bytes larger than standalone Zstandard 3 (8,968,456 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### wiki-transfer · 25,165,824 raw bytes
 
 **Standalone archives**
@@ -94,6 +114,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-03-generator-residuals --project 03-generator-residuals --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

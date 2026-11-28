@@ -1,6 +1,6 @@
 # Conditional patches after arithmetic alignment
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -26,6 +26,16 @@ cmp "$Q" runs/q-relative.restored
 
 The encoder compares direct Zstandard 9, Zstandard patch-from, and an XOR delta after multiplying or dividing the entire reference integer. Dispersed exact-byte probes shortlist scales. The exact profile can omit the residual when the prediction is identical. The header carries the target width, mode, scale and required reference SHA-256. Direct mode can decode without a base.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Target and candidate reference"] --> T["Scale the base, patch it or select direct coding"]
+    T --> W["Transmit mode, necessary base identity and residual"]
+```
+
+**Mechanism and test.** An exact arithmetic relationship can shrink a patch to a descriptor. A receiver missing the base must also obtain its bytes. Compare matching and unrelated releases under both delivery assumptions.
+
 ## Inputs and measurement
 
 The complete award release and the exact original FX2 numerator are separate references for Q. Two independent transfers use the decompressed package tar streams of adjacent NumPy and Mesa releases. The measurements identify both hashes and show base delivery separately.
@@ -42,6 +52,18 @@ On `numpy-update` (53,800,960 raw bytes), `relative-joint` produced 1,347,467 ar
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `numpy-update`, `relative-joint` with candidate base `numpy-base` delivers 55,066,507 bytes, 43,563,745 bytes larger than standalone Zstandard 3 (11,502,762 bytes).
+
+Holding `relative-joint` fixed across the 4 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 4 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### numpy-update · 53,800,960 raw bytes
 
@@ -92,6 +114,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 
 Same-input baseline archives (bytes) · XZ 9 extreme 16,198,184 · Zstandard 19 17,697,935 · Zstandard 3 21,668,962
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#mesa-update)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-arithmetic-references --project arithmetic-references --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

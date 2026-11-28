@@ -1,15 +1,14 @@
 """Expose the complete reversible representation before the chosen block compressor."""
 
 import argparse
-from io import BytesIO
-from pathlib import Path
 import struct
 import subprocess
 import sys
+from io import BytesIO
+from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import zstandard as zstd
-
 from bench import commands
 
 # Each specification mirrors the original decoder's record header and stored mode.
@@ -60,6 +59,10 @@ PROFILES = (
     "modular-joint",
     "views-bwt",
     "views-mtf",
+    "four-direct",
+    "four-rank",
+    "four-equivalent",
+    "four-orbit",
     "four-joint",
     "learned-coupled",
     "witness-joint",

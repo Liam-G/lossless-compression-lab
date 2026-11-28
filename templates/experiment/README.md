@@ -1,6 +1,6 @@
 # Experiment NN · Descriptive title
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -18,6 +18,10 @@ Give requirements, working directory and copyable commands for encoding, decodin
 
 Define the control, each component alone and their combination, or specify the relevant alternatives for a multiway comparison. Hold the final coder fixed when comparing transforms. Describe every transmitted field, the inverse, the decoder version and any reference or model the receiver needs.
 
+### Method diagram
+
+Draw the path from input to transmitted representation. Label the selectable stages or competing methods. State which data property should produce a gain and which control could break it.
+
 ## Inputs and measurement
 
 Use at least 20 MiB raw input per primary benchmark and verify an independent decode. Use small inputs for diagnostic tests. Specify the planted structure, equal-length random control and relevant real file family. Give seeds, hashes, parameter selection and held-out evaluation procedure. Describe the timed regions, memory units, repetitions and verification method. Report free-reference and delivered-reference costs separately where applicable.
@@ -28,7 +32,7 @@ Link to the project section in research/large-scale/results/by-experiment.md and
 
 ## Large-file benchmark
 
-Give one reproducible primary result, the exact raw and archive bytes, the delivered total for a conditional archive and the same-input Zstandard result. Link to the dataset and project sections in the shared results. Once the receipts are published, run `python3 research/large-scale/project_readmes.py` from the repository root to include the project’s full measured tables here.
+Give one reproducible primary result, the exact raw and archive bytes, the delivered total for a conditional archive and the same-input Zstandard result. Link to the dataset and project sections in the shared results. Once the receipts are published, run `python3 research/large-scale/project_readmes.py` from the repository root to include the archive comparison chart, available paired entropy and backend plots, and full measured tables here. Discuss at least one measured boundary case when the data provide one.
 
 ## Connections
 

@@ -1,6 +1,6 @@
 # Arithmetic packages that include their decoder
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -20,6 +20,16 @@ python3 research/portable-arithmetic/historical.py .. runs/v15-check.json
 The encoder prices deterministic ZIP applications with a literal payload, Zstandard, XZ, and the SCL1 whole-integer scale and sparse-interval representation. XZ is considered when its prefix screen saves at least 1%. The winning package includes Python extraction code, any arithmetic and interval decoder modules, ZIP metadata and the payload. Reproduction uses Python 3.14 with the standard compression modules. The application runs with isolated mode and site packages disabled.
 
 The historical code separately rebuilds QWX8 from the preserved QWX7 weight branch and compares the reconstructed contents using both inverse implementations. It replays the pinned complete V15 package against canonical Q. Its original top-level V14 input is absent from the workspace. The tracked V15 result therefore records a fresh branch rebuild and full decode of the retained artifact. [Original branch and package verification](historical-result.json)
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Whole input and candidate decoders"] --> T["Price literal, ordinary codec and arithmetic payloads"]
+    T --> W["Deliver a runnable extractor and its payload"]
+```
+
+**Mechanism and test.** A small arithmetic saving can disappear once extraction code is included. The end-to-end package comparison measures this overhead and makes the assumed Python runtime explicit.
 
 ## Inputs and measurement
 
@@ -43,6 +53,18 @@ On `cofattore-Q.base256` (96,994,187 raw bytes), `portable-informed` produced 96
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `cofattore-Q.base256`, `portable-informed` delivers 96,992,503 bytes, 3,921 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
+
+Holding `portable-informed` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **1 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### cofattore-Q.base256 · 96,994,187 raw bytes
 
@@ -83,6 +105,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 
 Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 25,166,414 · Zstandard 3 25,166,414
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#uniform)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-portable-arithmetic --project portable-arithmetic --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

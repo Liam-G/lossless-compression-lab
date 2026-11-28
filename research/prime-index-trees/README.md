@@ -1,6 +1,6 @@
 # Prime ordinal and product coding
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -25,6 +25,16 @@ cmp "$Q" runs/q-primes.restored
 
 Fixed, tree and exploratory profiles partition a source word, transmit the model choice, and use prime ordinals when the chosen grammar permits it. A fourth profile uses prime sums on 2-byte units. Small prime tables are deterministically rebuilt by the decoder. The mode and lengths of both arithmetic streams are in the archive.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Integer word"] --> T["Try partitions, prime ordinals and sums"]
+    T --> W["Encode grammar choices and arithmetic streams"]
+```
+
+**Mechanism and test.** A prime index can be smaller than its value, but the partition and reconstruction instructions also consume bits. The uniform control tests whether those costs erase the numerical advantage on unstructured input.
+
 ## Inputs and measurement
 
 The test includes all 96,994,187 bytes of canonical Q and a separate 24 MiB uniform control. Source and archive hashes identify the tested release.
@@ -41,6 +51,16 @@ On `cofattore-Q.base256` (96,994,187 raw bytes), `prime-tree` produced 97,006,29
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `cofattore-Q.base256`, `prime-tree` delivers 97,006,292 bytes, 9,868 bytes larger than standalone Zstandard 3 (96,996,424 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### cofattore-Q.base256 · 96,994,187 raw bytes
 
@@ -69,6 +89,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 
 Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 25,166,414 · Zstandard 3 25,166,414
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#uniform)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-prime-index-trees --project prime-index-trees --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

@@ -1,6 +1,6 @@
 # Whiteboard quotients inside factor trees
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -27,6 +27,21 @@ QBT1 stores the byte length in a 12-byte header. Each node selects a literal, a 
 
 FWF1 starts from 64-byte words, permits three levels and up to two factor nodes on a path. The encoder can apply `n = p × child − δ`, with δ in {0, +1, −1}, then split the child's bits. It tries up to two exact divisors per correction from ten small primes. Literal and leading-zero-trimmed leaves, bisecting splits and a common width rule are shared across profiles. The encoder chooses by the byte length of the actual tagged records.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    N["Integer node"] --> L["Literal"]
+    N --> C["Split by bit width"]
+    N --> Q["Exact repdigit quotient"]
+    N --> F["FWF1 factor and correction"]
+    F --> C
+    C --> K["Encode both children"]
+    Q --> P["Store operands and multiplier"]
+```
+
+**Mechanism and test.** Division can expose a formula on one side of a cut. The planted tree tests that mechanism. On complete Q the whole-file encoder selected a literal root, which identifies the limit of this bounded search.
+
 ## Inputs and measurement
 
 The primary trial measures `whiteboard` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
@@ -51,6 +66,18 @@ On `cofattore-Q.base256` (96,994,187 raw bytes), `whiteboard` produced 96,994,20
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `cofattore-Q.base256`, `whiteboard` delivers 96,994,200 bytes, 2,224 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
+
+Holding `whiteboard` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **1 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### cofattore-Q.base256 · 96,994,187 raw bytes
 
@@ -91,6 +118,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 13,309,788 · Zstandard 19 
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-whiteboard-trees --project whiteboard-trees --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

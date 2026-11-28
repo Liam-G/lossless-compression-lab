@@ -1,6 +1,6 @@
 # Reversible 3D automata before GF(2) panel coding
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -21,6 +21,16 @@ python3 research/tensor-orbits/benchmark.py "$CORPUS" runs/volumes
 Each full 8 KiB slab is a volume of 64 planes, each 16 rows by 64 bits. A step updates alternating parities along x, y and z in six half-steps with zero boundaries. A cell XORs either its preceding neighbor or the AND of its two neighbors along the axis. An individual half-step is its own inverse because its donors remain fixed. Applying the six half-steps in reverse order therefore gives a predecessor.
 
 For each candidate state, the panel coder groups a plane into eight 16 × 8 binary matrices. Rank zero needs only a tag. Rank one or two carries basis rows and binary coordinates. Higher rank escapes to literal row bytes. Tags, bases, coordinates and literal panels form separate lanes. Direct, orbit-only, rank-only and combined profiles all use DEFLATE level 6 on the candidate payload. The four-byte slab record pays for method, rule, step and compressed length. All four share a 12-byte file header. A partial slab can enter the geometry search if it contains whole planes.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Three-dimensional bit volume"] --> T["Reverse axis updates and test panel rank"]
+    T --> W["Store predecessor choice, factors and remaining data"]
+```
+
+**Mechanism and test.** Reverse evolution can restore low-rank planes when the source was mixed by the tested dynamics. Orbit-only and panel-only coding help distinguish simpler predecessor bytes from a genuine factorization gain.
 
 ## Inputs and measurement
 
@@ -44,6 +54,18 @@ On `evolved-volume` (25,165,824 raw bytes), `tensor-combined` produced 9,632,435
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `evolved-volume`, `tensor-combined` delivers 9,632,435 bytes, 15,533,979 bytes smaller than standalone Zstandard 3 (25,166,414 bytes).
+
+Holding `tensor-combined` fixed across the 5 measured input/reference settings with a standalone Zstandard 3 control gives **3 smaller, 0 equal and 2 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### evolved-volume · 25,165,824 raw bytes
 
@@ -119,6 +141,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 3,739,524 · Zstandard 19 3
 Same-input baseline archives (bytes) · XZ 9 extreme 2,203,672 · Zstandard 19 2,286,184 · Zstandard 3 3,513,689
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#whiteboard-costs)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-tensor-orbits --project tensor-orbits --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

@@ -1,6 +1,6 @@
 # Distance matrices reconstructed from landmarks
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -25,6 +25,16 @@ cmp runs/large/raw/arc-distances runs/places.restored
 
 For n vertices the file has n(n−1)/2 little-endian unsigned 16-bit entries. The encoder chooses a triangle or tetrahedron of well-spread anchors, then stores their indices and full distance columns. Differences of squared distances give dot products against the anchor simplex. An integer adjugate and a fixed-point inverse predict the remaining pairs. The decoder recovers all errors from signed residual lanes. A separate spherical profile maps angular bins to chord bins using a deterministic Q62 recurrence before predicting, and maps back before applying the residual. The archived integer table is restored exactly; the coordinates stay with the data generator.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Triangular distance table"] --> T["Reconstruct coordinates relative to landmarks"]
+    T --> W["Send landmark columns and exact distance errors"]
+```
+
+**Mechanism and test.** Low-dimensional geometry lets a few columns predict many pairwise distances. Quantization and a mismatch between chord and angular distance increase residual cost. An equal-size random triangle controls for triangular storage alone.
+
 ## Inputs and measurement
 
 The 4,600 distinct coordinate pairs come from Wikipedia coordinate templates and explicitly signed named infobox fields. One table contains rounded 3D unit-sphere chord distances and another rounded great-circle angles. A seeded planar walk extends the original control. The random control has exactly the same triangular length and row count. Each raw file contains 21,155,400 bytes.
@@ -41,6 +51,18 @@ On `place-distances` (21,155,400 raw bytes), `distance-three` produced 3,850,014
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `place-distances`, `distance-three` delivers 3,850,014 bytes, 16,338,599 bytes smaller than standalone Zstandard 3 (20,188,613 bytes).
+
+Holding `distance-three` fixed across the 4 measured input/reference settings with a standalone Zstandard 3 control gives **4 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### place-distances · 21,155,400 raw bytes
 
@@ -105,6 +127,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 21,156,512 · Zstandard 19 
 Same-input baseline archives (bytes) · XZ 9 extreme 17,954,172 · Zstandard 19 19,976,964 · Zstandard 3 20,717,883
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#walk-distances)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-distance-geometry --project distance-geometry --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

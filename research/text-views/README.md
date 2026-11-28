@@ -1,6 +1,6 @@
 # Text fields, BWT and move-to-front
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -25,6 +25,16 @@ cmp runs/large/raw/wiki-transfer runs/wiki.restored
 
 The front end can fold capitals, code frequent words, split XML bodies and store header fields by column. A dictionary and unused markers travel with each selected transformed block. The encoder checks the invertibility of a text candidate before offering it. BWT stores a primary index; move-to-front needs no extra dictionary beyond its initial byte alphabet. Direct and transformed outputs all use Zstandard 3, with literal fallback.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Text or arbitrary byte block"] --> T["Try text views or BWT with optional move-to-front"]
+    T --> W["Transmit chosen view and inverse metadata"]
+```
+
+**Mechanism and test.** BWT preserves symbol multiplicities in its payload while changing their order. That changes matches and contexts available to the backend. The same Wikipedia transformation helps gzip and Zstandard while increasing the XZ output.
+
 ## Inputs and measurement
 
 Two nonoverlapping 24 MiB windows start at byte zero and byte 67,108,864 of enwik8. Separate runs use the full Silesia NCI file and the complete Wikipedia corpora for the profiles tabulated there.
@@ -42,9 +52,23 @@ On `wiki-transfer` (25,165,824 raw bytes), `views-joint` produced 8,231,816 arch
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
-H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+On the primary input `wiki-transfer`, `views-joint` delivers 8,231,816 bytes, 736,640 bytes smaller than standalone Zstandard 3 (8,968,456 bytes).
+
+Holding `views-joint` fixed across the 4 measured input/reference settings with a standalone Zstandard 3 control gives **4 smaller, 0 equal and 0 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.
 
 ### wiki-transfer · 25,165,824 raw bytes
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on wiki-transfer.](figures/paired-wiki-transfer.svg)
+
+Of 2 measured profiles on this input, 2 reduced gzip size, 2 reduced Zstandard size and 0 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -133,6 +157,25 @@ Same-input baseline archives (bytes) · XZ 9 extreme 1,449,272 · Zstandard 19 1
 Same-input baseline archives (bytes) · XZ 9 extreme 6,602,488 · Zstandard 19 6,873,848 · Zstandard 3 8,951,574
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#wiki-dev)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-text-views --project text-views --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
+
+A separate paired run also records entropy, stream hashes and the three backend sizes.
+
+```sh
+mkdir -p runs/paired
+python3 research/large-scale/entropy_bench.py views-bwt runs/large/raw/wiki-transfer runs/paired/text-views.json
+```
+
+[All paired stream hashes and compressor versions](../large-scale/results/preprocessing.jsonl)
 
 <!-- END generated project measurements -->
 

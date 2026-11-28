@@ -1,6 +1,6 @@
 # The whiteboard census and its formula witnesses
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -24,6 +24,16 @@ python3 research/large-scale/replay.py whiteboard-costs runs/replay-census censu
 For each positive integer below 2ᴺ, F3 records the minimum sum of the bit lengths of a digit, base and exponent. F6 records the analogous minimum for a ratio of two such triples, subject to a total budget K. A value of 255 marks a missing admissible ratio. The native enumerator prunes impossible magnitude pairs and tests surviving divisions using exact 64-bit or GMP arithmetic. The checker independently builds small cases with Python integers. The historical N=24 run found 142,040 apparent savers at the sum-of-bit-lengths price. Only 171 survived its separately specified gamma price. [Historical source map](../evidence/idea-atlas.md)
 
 WCT1 compares general compression with a one-digit prediction, a lower-budget census plus XOR residuals, and a full matching census. WFW1 reads the original packed little-endian witness records. It can separate their fields, or evaluate the numerator and denominator from three or six parameters and predict the integer and its bit-length cost. The combined version also prices column differences, stores any arithmetic mismatch exactly and removes the predictable base offset when an exponent is one.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Equation witness records or cost table"] --> T["Recompute deterministic values from parameters"]
+    T --> W["Store columns, corrections or an enumerator package"]
+```
+
+**Mechanism and test.** Correctly paired parameters and values make recomputation possible. Permuting value/cost pairs preserves the column values but breaks the equations. On that control the joint selector falls back to the columns result.
 
 ## Inputs and measurement
 
@@ -62,9 +72,21 @@ On `whiteboard-witnesses` (22,630,320 raw bytes), `witness-joint` produced 1,082
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
-H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+On the primary input `whiteboard-witnesses`, `witness-joint` delivers 1,082,142 bytes, 3,520,216 bytes smaller than standalone Zstandard 3 (4,602,358 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.
 
 ### whiteboard-witnesses · 22,630,320 raw bytes
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on whiteboard-witnesses.](figures/paired-whiteboard-witnesses.svg)
+
+Of 1 measured profiles on this input, 1 reduced gzip size, 1 reduced Zstandard size and 1 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -113,6 +135,10 @@ Same-input baseline archives (bytes) · XZ 9 extreme 4,844,832 · Zstandard 19 6
 
 ### shuffled-witnesses · 22,630,320 raw bytes
 
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on shuffled-witnesses.](figures/paired-shuffled-witnesses.svg)
+
+Of 1 measured profiles on this input, 1 reduced gzip size, 1 reduced Zstandard size and 1 reduced XZ size. Exact ties count separately from improvements.
+
 **Entropy before and after preprocessing**
 
 | Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
@@ -158,6 +184,25 @@ Same-input baseline archives (bytes) · XZ 9 extreme 4,237,984 · Zstandard 19 5
 Same-input baseline archives (bytes) · XZ 9 extreme 2,203,672 · Zstandard 19 2,286,184 · Zstandard 3 3,513,689
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#whiteboard-costs)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-whiteboard-census --project whiteboard-census --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
+
+A separate paired run also records entropy, stream hashes and the three backend sizes.
+
+```sh
+mkdir -p runs/paired
+python3 research/large-scale/entropy_bench.py witness-joint runs/large/raw/whiteboard-witnesses runs/paired/whiteboard-census.json
+```
+
+[All paired stream hashes and compressor versions](../large-scale/results/preprocessing.jsonl)
 
 <!-- END generated project measurements -->
 

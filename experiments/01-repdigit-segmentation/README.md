@@ -1,6 +1,6 @@
 # Experiment 01 · Repdigit ratios and adaptive segmentation
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -46,6 +46,16 @@ For base b, digit c and repeat count r the value is c(bʳ−1)/(b−1). The cata
 
 The RPS1 header contains a four-byte magic and two unsigned 32-bit big-endian fields for original size and record count. Each record has a four-byte offset, one-byte output width, one-byte recipe length and the recipe bytes. The first two bits select a direct value (00) or an exact quotient (01). Each operand stores b−1, r−2 and c as Elias gamma integers. The final byte is zero-padded. The decoder restores leading zero bytes to the transmitted width and fills the gaps from the trailing literal stream. The encoder's size ceiling is 2³²−1 bytes and its in-memory search is intended for small research inputs.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Candidate byte interval"] --> T["Match a repdigit or exact quotient"]
+    T --> W["Store recipe and position or literals"]
+```
+
+**Mechanism and test.** Long exact matches can pay for their positions and operands. The planted width sweep below locates that crossover. On prose, isolated matches still leave the surrounding literal text to encode.
+
 ## Inputs and measurement
 
 The benchmark plants alternating direct and quotient values in a seeded 4,096-byte background and varies width and density independently. The first plant starts at byte 3. Later plants are evenly spaced, so the fixed grid can miss entire runs even on dense inputs. The random control is the same background without plants. The three real fixtures are compiled TZif time-zone tables copied from the local zoneinfo distribution labeled 2026f-dirty. Their hashes are recorded in the comparison CSV. Pass `--zoneinfo DIRECTORY` to test another distribution with the same three zone names. The search bounds and seed were fixed before measuring the evaluation inputs. No training step is required.
@@ -83,9 +93,21 @@ Both measured wiki-transfer profiles found zero profitable formula patches acros
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
-H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+On the primary input `wiki-transfer`, `pilot01-adaptive-ratios` delivers 25,178,126 bytes, 16,209,670 bytes larger than standalone Zstandard 3 (8,968,456 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.
 
 ### wiki-transfer · 25,165,824 raw bytes
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on wiki-transfer.](figures/paired-wiki-transfer.svg)
+
+Of 2 measured profiles on this input, 0 reduced gzip size, 0 reduced Zstandard size and 0 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -111,6 +133,25 @@ H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits 
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-01-repdigit-segmentation --project 01-repdigit-segmentation --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
+
+A separate paired run also records entropy, stream hashes and the three backend sizes.
+
+```sh
+mkdir -p runs/paired
+python3 research/large-scale/entropy_bench.py pilot01-adaptive-ratios runs/large/raw/wiki-transfer runs/paired/01-repdigit-segmentation.json
+```
+
+[All paired stream hashes and compressor versions](../../research/large-scale/results/preprocessing.jsonl)
 
 <!-- END generated project measurements -->
 

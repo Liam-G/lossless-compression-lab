@@ -1,6 +1,6 @@
 # Experiment 05 · Local bases and exceptional digits
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -31,6 +31,16 @@ python3 ../../lab.py 05 benchmark ../../runs/recheck-05
 Each 16-byte word has 13 candidate bases from 2 through 257. Represent it by a digit count, a dominant digit and a list of exceptional positions and values in least-significant-digit order. All fields use unsigned varints. Global profiles transmit one common base and per-word literal flags. Local profiles use one selector per word, including the raw escape. Entropy scoring uses per-digit empirical entropy. Byte scoring includes literal fallback. The decoder restores each word to its original byte width.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Fixed-width word"] --> T["Choose a base and find exceptional digits"]
+    T --> W["Transmit base, dominant digit and exceptions"]
+```
+
+**Mechanism and test.** A cheap base has few exceptions with inexpensive positions. Compare local against global selection and entropy scoring against actual record length to separate better representation from uncharged selector cost.
 
 ## Inputs and measurement
 
@@ -70,6 +80,18 @@ On `manual-graphs` (24,642,792 raw bytes), `pilot05-local-bytes` produced 8,312,
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `manual-graphs`, `pilot05-local-bytes` delivers 8,312,441 bytes, 6,987,307 bytes larger than standalone Zstandard 3 (1,325,134 bytes).
+
+Holding `pilot05-local-bytes` fixed across the 4 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 4 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### manual-graphs · 24,642,792 raw bytes
 
@@ -118,6 +140,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 6,602,488 · Zstandard 19 6
 Same-input baseline archives (bytes) · XZ 9 extreme 6,637,336 · Zstandard 19 6,891,038 · Zstandard 3 8,968,456
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#wiki-transfer)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-05-local-bases --project 05-local-bases --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

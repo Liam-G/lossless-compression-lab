@@ -1,6 +1,6 @@
 # Jointly learning a cellular rule and the matrix of its prediction errors
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -20,6 +20,16 @@ Each 16-frame bank chooses literal storage, a direct compressed stream, a tempor
 
 The triangular matrix has a unit diagonal, so an 8-byte row-mask descriptor suffices for its inverse. In the sequential `joint` profile the encoder fits each transition by majority vote and then fits a basis to its errors. In `coupled`, the encoder learns a plane's truth table conditional on the parity of already modeled error planes. A Walsh–Hadamard transform scores all eligible parities from a small contingency table. A penalty discourages spurious lookup entries in nearly balanced noise. The decoder needs only the selected tables and basis. Both profiles use the same candidate archive format, bit-plane layouts, framing and Zstandard 6.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Consecutive bit-plane frames"] --> T["Fit a local rule and model cross-plane errors"]
+    T --> W["Transmit rule tables, matrix and exact residuals"]
+```
+
+**Mechanism and test.** Learning can exploit a shared pattern in prediction errors across planes. The independent-error control tests that explanation. On video a simple temporal XOR is a competing explanation for savings.
+
 ## Inputs and measurement
 
 The primary control contains eight separately generated banks of sixteen 640 × 360 frames and independent rule tables. Two dense innovation planes mix into six sparse ones. The other controls change the seed, shift each residual bit plane to break cross-plane alignment, or supply uniform noise. Three real grayscale clips use the same geometry and byte count. See the [input manifests](../large-scale/synthetic.json) and [video sources](../large-scale/videos.json).
@@ -37,9 +47,21 @@ On `learned-field` (29,491,200 raw bytes), `learned-coupled` produced 11,051,733
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
-H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+Holding `learned-coupled` fixed across the 6 measured input/reference settings with a standalone Zstandard 3 control gives **5 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.
 
 ### learned-field · 29,491,200 raw bytes
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on learned-field.](figures/paired-learned-field.svg)
+
+Of 1 measured profiles on this input, 1 reduced gzip size, 1 reduced Zstandard size and 1 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -122,6 +144,10 @@ Same-input baseline archives (bytes) · Zstandard 3 29,491,889
 <details>
 <summary>luma-jake · 29,491,200 raw bytes</summary>
 
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on luma-jake.](figures/paired-luma-jake.svg)
+
+Of 1 measured profiles on this input, 1 reduced gzip size, 0 reduced Zstandard size and 0 reduced XZ size. Exact ties count separately from improvements.
+
 **Entropy before and after preprocessing**
 
 | Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
@@ -193,6 +219,25 @@ Same-input baseline archives (bytes) · FFV1 4,208,993 · Lossless H.264 2,666,2
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#luma-rei)
 
 </details>
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-learned-cellular-rules --project learned-cellular-rules --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
+
+A separate paired run also records entropy, stream hashes and the three backend sizes.
+
+```sh
+mkdir -p runs/paired
+python3 research/large-scale/entropy_bench.py learned-coupled runs/large/raw/learned-field runs/paired/learned-cellular-rules.json
+```
+
+[All paired stream hashes and compressor versions](../large-scale/results/preprocessing.jsonl)
 
 <!-- END generated project measurements -->
 

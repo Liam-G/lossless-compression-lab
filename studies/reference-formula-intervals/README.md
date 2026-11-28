@@ -1,6 +1,6 @@
 # Reference copies, local formulas and interval selection
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -17,6 +17,16 @@ python3 studies/run.py reference-formula-intervals runs/reference-formula-interv
 ## Variants and format
 
 Experiment 12 proposes variable-offset reference copies. Experiment 15 proposes local headers, constants, runs and backward copies. The interval selection from experiment 16 is extended with a state indicating whether the external reference digest has already been paid. Every record includes target offset, width, kind, recipe size and recipe. Untouched bytes remain literal. The decoder checks the reference SHA-256 whenever an external copy was selected.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Target plus reference"] --> T["Collect local recipes and external copies"]
+    T --> W["Choose intervals and charge the reference if used"]
+```
+
+**Mechanism and test.** Reference matches and local recipes can overlap. The interval algorithm counts each covered span once and tracks the first external-reference charge. Compare patch-only and delivered totals before concluding that a mixed representation wins.
 
 ## Inputs and measurement
 
@@ -53,6 +63,16 @@ On `numpy-update` (53,800,960 raw bytes), `study19-mixed` produced 18,553,077 ar
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `numpy-update`, `study19-mixed` with candidate base `numpy-base` delivers 72,272,117 bytes, 60,769,355 bytes larger than standalone Zstandard 3 (11,502,762 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### numpy-update · 53,800,960 raw bytes
 
 **Standalone archives**
@@ -64,6 +84,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 8,272,288 · Zstandard 19 9,104,011 · Zstandard 3 11,502,762
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#numpy-update)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-reference-formula-intervals --project reference-formula-intervals --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

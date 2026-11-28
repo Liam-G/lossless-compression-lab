@@ -1,6 +1,6 @@
 # Adaptive repdigit intervals
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -22,6 +22,16 @@ The drivers generate seeded planted and random controls and preserve the winning
 
 RPS1 caps each interval at 32 bytes and enumerates arithmetic descriptions up to 28 bits. It compares fixed 32-byte boundaries, movable intervals with direct repdigits, exact cross-base quotients and zero runs. A 12-byte header carries source size and record count. Every substitution pays for a 4-byte offset, a byte width, a recipe length and its packed recipe. Literal gaps fill the rest. QFT1 extends the maximum interval to 255 bytes and permits a small prime as a multiplier.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Byte intervals"] --> T["Match direct repdigits, quotients or products"]
+    T --> W["Store offset, width and recipe plus literal gaps"]
+```
+
+**Mechanism and test.** A match must save more than its offset and parameters. Relaxing the allowed span can uncover longer profitable matches, but sparse hits on a large file still have little effect on its total size.
+
 ## Inputs and measurement
 
 The primary trial measures `qft255` on the complete `cofattore-Q.base256` input (96,994,187 raw bytes). The runner invokes a separate decoder and compares the reconstructed file byte for byte. The earlier measurements below retain their original input sizes.
@@ -39,6 +49,16 @@ On `cofattore-Q.base256` (96,994,187 raw bytes), `qft255` produced 96,994,101 ar
 <!-- BEGIN generated project measurements -->
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
+
+On the primary input `cofattore-Q.base256`, `qft255` delivers 96,994,101 bytes, 2,323 bytes smaller than standalone Zstandard 3 (96,996,424 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
 
 ### cofattore-Q.base256 · 96,994,187 raw bytes
 
@@ -63,6 +83,16 @@ Same-input baseline archives (bytes) · XZ 9 extreme 96,998,528 · Zstandard 19 
 | `rps32` | 89,346,365 | +27 | 18.771 | 0.326 | 145,024 / 19,820 |
 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#neif-archive9)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-repdigit-intervals --project repdigit-intervals --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

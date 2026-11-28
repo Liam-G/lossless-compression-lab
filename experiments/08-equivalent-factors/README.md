@@ -1,6 +1,6 @@
 # Experiment 08 · Equivalent matrix factors and error masks
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -32,6 +32,16 @@ python3 ../../lab.py 08 benchmark ../../runs/recheck-08
 Treat 16 rows of eight bits as a matrix. Greedily choose two basis vectors from observed rows to reduce residual Hamming weight. For each row choose the nearest of four products. Test the initial basis, swaps, elementary XOR, and a search over the six invertible two-coordinate basis transforms. Apply the corresponding inverse operation to the coordinates. Serialize both coordinate columns and both basis rows as varints, and DEFLATE the unchanged E stream. Metadata gives the U and V lengths. Actual U, V and E bytes are recorded separately.
 
 The [codec](codec.py) defines the profiles in wire order. Pass a profile name with `encode --profile NAME`. The [benchmark protocol](../../PROTOCOL.md) specifies the common archive header, byte accounting and decoder delivery convention.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Rows in a binary panel"] --> T["Change basis and transform coordinates inversely"]
+    T --> W["Store both factors and unchanged XOR errors"]
+```
+
+**Mechanism and test.** Equivalent bases reconstruct the same panel and preserve the error mask. Any size change at fixed residual comes from representing the factor coordinates and basis rows.
 
 ## Inputs and measurement
 
@@ -75,6 +85,16 @@ On `numerical` (25,696,748 raw bytes), `pilot08-search` produced 24,565,555 arch
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `numerical`, `pilot08-search` delivers 24,565,555 bytes, 9,401,872 bytes larger than standalone Zstandard 3 (15,163,683 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### numerical · 25,696,748 raw bytes
 
 **Standalone archives**
@@ -86,6 +106,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 11,662,476 · Zstandard 19 13,213,336 · Zstandard 3 15,163,683
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#numerical)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-08-equivalent-factors --project 08-equivalent-factors --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

@@ -1,6 +1,6 @@
 # Formula leaves, factors and grammar references
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -17,6 +17,16 @@ python3 studies/run.py formula-factor-grammar runs/formula-factor-grammar
 ## Variants and format
 
 All four profiles use the same small-divisor search and product tree. Each 16-byte input word is represented by the first fitting divisor and its cofactor. Experiment 02 supplies literal operand coding. Experiment 01 supplies the bounded direct/ratio catalog and arithmetic inverse. The sharing profiles intern cofactor values at first occurrence using experiment 11’s reference token encoding. Each leaf has an operator tag. Only shared profiles build the dictionary, which the decoder reconstructs in order.
+
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Product word"] --> T["Extract divisor and inspect cofactor"]
+    T --> W["Encode literal or formula leaf and optional reference"]
+```
+
+**Mechanism and test.** A factor can expose a recipe hidden in the original word. Repeated cofactors can then amortize their first description. The four profiles separate the cost of formula leaves from the gain of sharing.
 
 ## Inputs and measurement
 
@@ -53,6 +63,16 @@ On `hidden-products` (25,165,824 raw bytes), `study17-combined` produced 20,296,
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
+On the primary input `hidden-products`, `study17-combined` delivers 20,296,188 bytes, 5,952,201 bytes larger than standalone Zstandard 3 (14,343,987 bytes).
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+This project's published large-file trials measure complete archives. The effect on gzip, Zstandard or XZ after an isolated preprocessing step is unmeasured here.
+
 ### hidden-products · 25,165,824 raw bytes
 
 **Standalone archives**
@@ -67,6 +87,16 @@ Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archiv
 Same-input baseline archives (bytes) · XZ 9 extreme 13,309,788 · Zstandard 19 13,318,271 · Zstandard 3 14,343,987
 
 [Input hash and all measured codecs](../../research/large-scale/results/by-dataset.md#hidden-products)
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-formula-factor-grammar --project formula-factor-grammar --all-profiles
+```
+
+[Dataset preparation](../../research/large-scale/README.md#inputs) · [Archive hashes and settings](../../research/large-scale/results/archives.jsonl)
 
 <!-- END generated project measurements -->
 

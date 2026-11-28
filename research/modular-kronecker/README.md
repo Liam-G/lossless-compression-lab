@@ -1,6 +1,6 @@
 # Byte-valued cellular automata and Kronecker factors
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -27,6 +27,16 @@ The factor model represents a 16 × 16 grid as two 4 × 4 byte matrices and a by
 
 Each 256 KiB bank pays for its mode, time, raw size and payload size. The encoder tests 0, 1, 2 and 4 reverse steps and compares whole candidate archives using the same Zstandard level. Literal and direct Zstandard modes are always available. A final partial grid travels verbatim within its bank payload.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    I["Byte-valued 16 by 16 grid"] --> T["Undo checkerboard phases and fit Kronecker factors"]
+    T --> W["Store factor matrices and modular errors"]
+```
+
+**Mechanism and test.** An aligned product lets two small matrices predict a large panel. Wrong dynamics or unsuitable pivots can leave expensive residuals. Compare the generated transfer, free and even-pivot controls with the real numerical stream.
+
 ## Inputs and measurement
 
 Each generated input has 98,304 grids and exactly **25,165,824 raw bytes**. Every grid receives independently sampled factors and approximately one corrupted cell in 128 before evolution. The first two seeds constrain the top-left pivot to be odd. A third seed removes that condition. A fourth multiplies each noisy bank by 2, 4 or 8 before evolution, making every candidate pivot even. The real numerical corpus and uniform controls use the same encoder. [Seeds and source hashes](../large-scale/synthetic.json)
@@ -47,9 +57,23 @@ On `modular-panels` (25,165,824 raw bytes), `modular-joint` produced 4,471,016 a
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
-H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+On the primary input `modular-panels`, `modular-joint` delivers 4,471,016 bytes, 20,695,398 bytes smaller than standalone Zstandard 3 (25,166,414 bytes).
+
+Holding `modular-joint` fixed across the 5 measured input/reference settings with a standalone Zstandard 3 control gives **4 smaller, 0 equal and 1 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.
 
 ### modular-panels · 25,165,824 raw bytes
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on modular-panels.](figures/paired-modular-panels.svg)
+
+Of 1 measured profiles on this input, 1 reduced gzip size, 1 reduced Zstandard size and 1 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -154,6 +178,10 @@ Same-input baseline archives (bytes) · Zstandard 3 25,166,414
 <details>
 <summary>numerical · 25,696,748 raw bytes</summary>
 
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on numerical.](figures/paired-numerical.svg)
+
+Of 1 measured profiles on this input, 1 reduced gzip size, 0 reduced Zstandard size and 0 reduced XZ size. Exact ties count separately from improvements.
+
 **Entropy before and after preprocessing**
 
 | Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
@@ -184,6 +212,10 @@ Same-input baseline archives (bytes) · XZ 9 extreme 11,662,476 · Zstandard 19 
 
 <details>
 <summary>uniform · 25,165,824 raw bytes</summary>
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on uniform.](figures/paired-uniform.svg)
+
+Of 1 measured profiles on this input, 0 reduced gzip size, 0 reduced Zstandard size and 0 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -227,6 +259,25 @@ Same-input baseline archives (bytes) · XZ 9 extreme 2,203,672 · Zstandard 19 2
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#whiteboard-costs)
 
 </details>
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-modular-kronecker --project modular-kronecker --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
+
+A separate paired run also records entropy, stream hashes and the three backend sizes.
+
+```sh
+mkdir -p runs/paired
+python3 research/large-scale/entropy_bench.py modular-joint runs/large/raw/modular-panels runs/paired/modular-kronecker.json
+```
+
+[All paired stream hashes and compressor versions](../large-scale/results/preprocessing.jsonl)
 
 <!-- END generated project measurements -->
 

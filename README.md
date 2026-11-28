@@ -2,7 +2,7 @@
 
 This English research repository contains 16 thesis experiments, three cross-experiment studies and 28 research projects recovered or extended from the original compression lab. The [large-file benchmark](research/large-scale/README.md) requires at least **20 MiB of raw input per trial** and checks exact reconstruction. The [idea atlas](research/evidence/idea-atlas.md) connects the local project conversations, the 51-topic dossier, and the original whiteboard formula to measured experiments and open proposals.
 
-Each project README includes its own benchmark tables. For an example with paired entropy measurements and all standalone archives, open the [four-dimensional factors results](research/four-dimensional-factors/README.md#large-file-benchmark).
+Every project folder includes a method diagram, an explanation of the structure the method exploits, a chart of all measured archive profiles and the exact results. The [research findings](research/large-scale/findings.md) compare successful cases with shuffled, mismatched and real-world controls. The [four-dimensional factors experiment](research/four-dimensional-factors/README.md#large-file-benchmark) shows how to read a component comparison.
 
 ## Does preprocessing help a standard compressor?
 
@@ -15,6 +15,14 @@ On two **24 MiB** samples of NOAA weather reports, simply gathering the bytes of
 On four typeset manuals, XORing adjacent scanlines and skipping empty quadrants saved **32.66–38.90%** with Zstandard. On the Graphviz library manual the prepared stream shrank from 24.28 MB to 4.31 MB even as its H0 rose from **1.090 to 3.649** bits per byte. [Bitmap trees, automata and before/after entropy](research/checkerboard-orbits/bitmap-trees.md)
 
 The BWT on Wikipedia illustrates why we also measure context. Its byte histogram barely changed, but the next-byte entropy given the preceding byte fell from **3.881 to 2.801 bits**. That helped gzip and Zstandard. XZ compressed the original ordering better. [Paired entropy, stream lengths and sizes for all three compressors](research/large-scale/results/preprocessing.md)
+
+In the **four-dimensional automaton** experiment, undoing the evolution of a planted field and then fitting matrix factors cut whole-stream Zstandard from **18,781,041 to 9,397,974 bytes** relative to undoing the evolution alone. The encoder selected factors on **384 of 384** planted blocks and on **zero** blocks of the numerical, Samba and uniform inputs. The two stages help together when reversing the dynamics exposes usable low rank. [Complete five-profile, four-input comparison](research/four-dimensional-factors/README.md#what-does-factoring-add-after-the-automaton)
+
+### Does a lower entropy estimate predict a smaller file?
+
+![All matched preprocessing trials, with normalized zero-order entropy reduction on the horizontal axis and compressed size reduction on the vertical axis for gzip, Zstandard and XZ.](research/large-scale/results/entropy-agreement.svg)
+
+Each point is one input and one method. Above zero, preprocessing saved compressed bytes. Right of zero, it lowered the estimated zero-order cost per original byte. Points in the upper left and lower right show where these two criteria disagree. [Counts for each compressor, input weighting and controlled comparisons](research/large-scale/findings.md#all-paired-trials)
 
 ## Standalone archive comparison
 

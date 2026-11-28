@@ -1,6 +1,6 @@
 # A shared clock for 8 × 8 checkerboard automata
 
-[View this project's benchmark tables](#large-file-benchmark)
+[Method diagram](#method-diagram) · [Charts and benchmark tables](#large-file-benchmark)
 
 ## Question and prior work
 
@@ -28,6 +28,22 @@ cmp runs/shared-clock.bin runs/clock.restored
 
 Every 8-byte word holds one toroidal 8×8 matrix. The per-word search examines times 0 through 1,000 and sends exact 16-bit times in two lanes. The shared variant traverses the same 1,001 times on up to 192 dispersed matrices per 256 KiB page and tests the three most promising times by full compressed size. A page selects literal, direct, shared or individual coding. The inverse applies the recorded forward steps.
 
+### Method diagram
+
+```mermaid
+flowchart LR
+    P["Packed strip"] --> D["Direct pixels"]
+    P --> X["XOR adjacent scanlines"]
+    P --> O["Reverse checkerboard rule"]
+    D --> T["Occupancy tree"]
+    X --> T
+    O --> T
+    T --> L["Nonempty tiles or dictionary IDs"]
+    L --> B["Same backend as raw"]
+```
+
+**Mechanism and test.** The informative perturbations differ by input. Shuffling manual scanlines breaks vertical prediction. Rotating the generating rule changes which inverse reveals repeated stamps. Both controls preserve features that a simple byte histogram misses.
+
 ## Inputs and measurement
 
 The 24 MiB synthetic stream evolves independent sparse seeds. Each page uses one of 37, 113, 509 or 997 steps. Numerical bytes and independent noise are transfer controls. The source contains fresh seeds throughout.
@@ -45,7 +61,15 @@ On `shared-orbit-1000` (25,165,824 raw bytes), `checker-joint` produced 12,415,8
 
 Each archive passed a byte-for-byte round trip. Bytes saved subtracts the archive and any required reference from the raw input size. Timings are seconds from one run.
 
-H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits per byte of their own stream. Post H0 per raw byte accounts for changes in stream length. In the paired compressor tables, a positive percentage means preprocessing made the compressed file smaller.
+Holding `checker-joint` fixed across the 2 measured input/reference settings with a standalone Zstandard 3 control gives **0 smaller, 0 equal and 2 larger** delivered archives. Each setting counts once.
+
+### Archive comparison across inputs
+
+![Delivered size by profile and input, expressed as a percentage of the original. Exact bytes follow in the tables.](figures/archives.svg)
+
+Read down a column to compare methods on identical input. Lower is better. 100% is the raw file size. Where available, standard codecs appear below the dividing line. Near 100%, cells give the exact byte difference from raw (+ means larger). Below 0.1%, they give the exact delivered total. A dash means the combination was unmeasured.
+
+The paired figures below measure preprocessing separately. H0 measures byte frequencies. H1 conditions on the previous byte. The tables give both in bits per byte of their own stream. The figures express model costs per original byte. H0 counts every byte. H1 counts each adjacent pair, omitting the first byte’s marginal cost. Positive compressor savings mean a smaller compressed file.
 
 ### shared-orbit-1000 · 25,165,824 raw bytes
 
@@ -62,6 +86,10 @@ H0 measures byte frequencies. H1 conditions on the previous byte. Both use bits 
 
 <details>
 <summary>evolved-stamps · 28,311,552 raw bytes</summary>
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on evolved-stamps.](figures/paired-evolved-stamps.svg)
+
+Of 14 measured profiles on this input, 12 reduced gzip size, 12 reduced Zstandard size and 13 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -129,6 +157,10 @@ Same-input baseline archives (bytes) · Zstandard 3 9,210,663
 <details>
 <summary>graphs-shuffled-lines · 24,642,792 raw bytes</summary>
 
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on graphs-shuffled-lines.](figures/paired-graphs-shuffled-lines.svg)
+
+Of 8 measured profiles on this input, 0 reduced gzip size, 0 reduced Zstandard size and 0 reduced XZ size. Exact ties count separately from improvements.
+
 **Entropy before and after preprocessing**
 
 | Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
@@ -176,6 +208,10 @@ Same-input baseline archives (bytes) · Zstandard 3 1,849,717
 
 <details>
 <summary>manual-graphs · 24,642,792 raw bytes</summary>
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on manual-graphs.](figures/paired-manual-graphs.svg)
+
+Of 16 measured profiles on this input, 12 reduced gzip size, 10 reduced Zstandard size and 7 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -249,6 +285,10 @@ Same-input baseline archives (bytes) · DjVu 214,067 · DjVu (separated foregrou
 <details>
 <summary>manual-library · 24,283,584 raw bytes</summary>
 
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on manual-library.](figures/paired-manual-library.svg)
+
+Of 10 measured profiles on this input, 9 reduced gzip size, 8 reduced Zstandard size and 4 reduced XZ size. Exact ties count separately from improvements.
+
 **Entropy before and after preprocessing**
 
 | Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
@@ -303,6 +343,10 @@ Same-input baseline archives (bytes) · DjVu 202,780 · DjVu (separated foregrou
 <details>
 <summary>manual-transfer · 31,809,024 raw bytes</summary>
 
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on manual-transfer.](figures/paired-manual-transfer.svg)
+
+Of 10 measured profiles on this input, 9 reduced gzip size, 6 reduced Zstandard size and 4 reduced XZ size. Exact ties count separately from improvements.
+
 **Entropy before and after preprocessing**
 
 | Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
@@ -356,6 +400,10 @@ Same-input baseline archives (bytes) · DjVu 213,659 · DjVu (separated foregrou
 
 <details>
 <summary>manual-valgrind · 30,924,288 raw bytes</summary>
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on manual-valgrind.](figures/paired-manual-valgrind.svg)
+
+Of 10 measured profiles on this input, 6 reduced gzip size, 5 reduced Zstandard size and 4 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -429,6 +477,10 @@ Same-input baseline archives (bytes) · XZ 9 extreme 11,662,476 · Zstandard 19 
 <details>
 <summary>rotated-stamps · 28,311,552 raw bytes</summary>
 
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on rotated-stamps.](figures/paired-rotated-stamps.svg)
+
+Of 4 measured profiles on this input, 4 reduced gzip size, 4 reduced Zstandard size and 4 reduced XZ size. Exact ties count separately from improvements.
+
 **Entropy before and after preprocessing**
 
 | Profile | Prepared bytes | H0 before → after | H1 before → after | Post H0 per raw byte |
@@ -464,6 +516,10 @@ Same-input baseline archives (bytes) · Zstandard 3 7,867,496
 
 <details>
 <summary>uniform · 25,165,824 raw bytes</summary>
+
+![Normalized H0 and H1 before and after and compressed savings for each measured profile on uniform.](figures/paired-uniform.svg)
+
+Of 4 measured profiles on this input, 0 reduced gzip size, 0 reduced Zstandard size and 0 reduced XZ size. Exact ties count separately from improvements.
 
 **Entropy before and after preprocessing**
 
@@ -501,6 +557,25 @@ Same-input baseline archives (bytes) · XZ 9 extreme 25,167,136 · Zstandard 19 
 [Input hash and all measured codecs](../large-scale/results/by-dataset.md#uniform)
 
 </details>
+
+### Reproduce the large-file comparison
+
+From the repository root, with the pinned inputs and project dependencies installed, replay all published standalone profiles for this folder into a fresh directory.
+
+```sh
+python3 research/large-scale/primary.py runs/replay-checkerboard-orbits --project checkerboard-orbits --all-profiles
+```
+
+[Dataset preparation](../large-scale/README.md#inputs) · [Archive hashes and settings](../large-scale/results/archives.jsonl)
+
+A separate paired run also records entropy, stream hashes and the three backend sizes.
+
+```sh
+mkdir -p runs/paired
+python3 research/large-scale/entropy_bench.py checker-bitmap-direct-book runs/large/raw/evolved-stamps runs/paired/checkerboard-orbits.json
+```
+
+[All paired stream hashes and compressor versions](../large-scale/results/preprocessing.jsonl)
 
 <!-- END generated project measurements -->
 
