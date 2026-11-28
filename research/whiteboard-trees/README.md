@@ -4,7 +4,19 @@
 
 ## Question and prior work
 
-The [original whiteboard](whiteboard.png) represents an integer as a ratio of repeated-digit numbers in different bases. Write a repdigit as `G(b,r,c) = c (b^r − 1)/(b − 1)`. QBT1 can describe a tree leaf as `p × (G(b,r,c) / G(d,t,e))` when the inner quotient is integral. A missing denominator means one. A second experiment asks whether extracting a factor before choosing the next split can expose a quotient that a split of the original integer misses.
+The [original whiteboard](whiteboard.png) represents an integer as an exact ratio of repeated-digit numbers in different bases.
+
+$$
+\frac{\displaystyle\sum_{k=0}^{r_1-1} c_1 b_1^k}
+     {\displaystyle\sum_{k=0}^{r_2-1} c_2 b_2^k}
+=
+\frac{c_1}{c_2}
+\cdot \frac{b_1^{r_1}-1}{b_1-1}
+\cdot \frac{b_2-1}{b_2^{r_2}-1}
+= d.
+$$
+
+In the board notation $d$ is the result. The [QBT1 decoder](tree.py#L59-L73) calls the denominator base `d` and stores seven fields `(p, b, r, c, d, t, e)`. With `G(b,r,c)` denoting `r` copies of digit `c` in base `b`, its leaf value is `p × (G(b,r,c) / G(d,t,e))`. The decoder checks that the remainder is zero before multiplying by `p`. A missing denominator means one. A second experiment asks whether extracting a factor before choosing the next split can expose a quotient that a split of the original integer misses.
 
 The QBT1 encoder and decoder come from `lab/hutter/ragc/entropy_base_tree/big_tree.py`. Its modular filters discard candidates cheaply before exact integer and width checks. It tries the root, binary splits, several asymmetric root cuts and selected deeper paths anchored at the beginning, middle and end. The new FWF1 search is in [factor_forest.py](factor_forest.py). The separate fourth-power construction lives in [quartic trees](../quartic-trees/README.md).
 

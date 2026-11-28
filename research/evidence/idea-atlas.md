@@ -15,7 +15,25 @@ The 583 directory entries identify where a script, protocol or measurement was r
 
 ## The whiteboard
 
-For a base b ≥ 2, a digit 1 ≤ c < b and a repeat count r ≥ 1, the integer with r copies of digit c is G(b,c,r) = c(bʳ−1)/(b−1). The board proposed the larger alphabet d = G(b₁,c₁,r₁) / G(b₂,c₂,r₂), with both triples supplied or deterministically reconstructed. The division must be exact. Setting c₂ = r₂ = 1 gives denominator one in every admissible base. For d < 2²⁵⁶ in this last case, r₁ ≤ 256, attained by 256 binary ones. For genuine quotients a large numerator can cancel a large denominator, so that particular exponent bound no longer follows.
+The top line of the [original photograph](../whiteboard-trees/whiteboard.png) gives the finite geometric sum
+
+$$
+\sum_{x=0}^{n-1} a^x = \frac{a^n-1}{a-1}.
+$$
+
+The central equation applies that identity to the numerator and denominator separately.
+
+$$
+\frac{\displaystyle\sum_{k=0}^{r_1-1} c_1 b_1^k}
+     {\displaystyle\sum_{k=0}^{r_2-1} c_2 b_2^k}
+=
+\frac{c_1}{c_2}
+\cdot \frac{b_1^{r_1}-1}{b_1-1}
+\cdot \frac{b_2-1}{b_2^{r_2}-1}
+= d.
+$$
+
+For each triple, the base is $b_i \ge 2$, the digit satisfies $1 \le c_i < b_i$, and $r_i \ge 1$ counts its repetitions. The term at $k=0$ is the units digit. The last term is the digit in position $r_i-1$. The decoder must receive or reconstruct both triples, and the division must be exact. Setting c₂ = r₂ = 1 gives denominator one in every admissible base. For d < 2²⁵⁶ in this last case, r₁ ≤ 256, attained by 256 binary ones. For genuine quotients a large numerator can cancel a large denominator, so that particular exponent bound no longer follows.
 
 A testable extension puts the expression on either side of a concatenation below a product node. The decoder must know each child width, the factor, any sign or correction and whether it sees a reference or a new expression. The shared-factor experiment prices those fields together. [Whiteboard trees](../whiteboard-trees/README.md) · [Shared factor forest](../shared-factor-forest/README.md)
 

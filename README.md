@@ -32,6 +32,22 @@ Each bar compares a verified experimental archive with XZ extreme on the same ra
 
 [Exact sizes and timings for all benchmark results](research/large-scale/results/by-dataset.md)
 
+## The original whiteboard formula
+
+The 2019 whiteboard asks when an integer can be written as the exact quotient of two numbers made of repeated digits. Each sum builds one such number, one digit position at a time.
+
+$$
+\frac{\displaystyle\sum_{k=0}^{r_1-1} c_1 b_1^k}
+     {\displaystyle\sum_{k=0}^{r_2-1} c_2 b_2^k}
+=
+\frac{c_1}{c_2}
+\cdot \frac{b_1^{r_1}-1}{b_1-1}
+\cdot \frac{b_2-1}{b_2^{r_2}-1}
+= d.
+$$
+
+Here $b_i$ is the base, $c_i$ is the repeated digit and $r_i$ is the number of digits. A formula saves space only when the decoder can recover its parameters for fewer bits than the value it replaces. [Original photograph](research/whiteboard-trees/whiteboard.png) · [Transcription and bounds](research/evidence/idea-atlas.md#the-whiteboard) · [Measured factor-tree experiment](research/shared-factor-forest/README.md)
+
 ## Project highlights
 
 | Start with | What you can reproduce |
